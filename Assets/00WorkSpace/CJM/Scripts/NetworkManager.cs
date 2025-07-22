@@ -7,7 +7,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] ServerData[] serverDatas;
 
-
+    private void Start()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+    }
 }
 
 
