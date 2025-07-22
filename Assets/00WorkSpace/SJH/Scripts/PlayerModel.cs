@@ -6,11 +6,12 @@ public class PlayerModel
 {
     // TODO : 포켓몬에 따라 스탯 달라짐
     public string PlayerName;
-    public float MoveSpeed;
+    public PokemonData PokeData;
 
-    public PlayerModel(string playerName, float moveSpeed)
+	public PlayerModel(string playerName, PokemonData pokemonData)
     {
         PlayerName = playerName;
-        MoveSpeed = moveSpeed;
-    }
+		PokeData = pokemonData;
+
+	}
 }
