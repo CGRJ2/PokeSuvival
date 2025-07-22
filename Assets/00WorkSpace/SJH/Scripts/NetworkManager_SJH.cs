@@ -1,11 +1,26 @@
 ﻿using Photon.Pun;
-using Photon.Pun.UtilityScripts;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class NetworkManager_SJH : NetworkManager
 {
+	public static NetworkManager_SJH Instance { get; private set; }
+
+	public CinemachineVirtualCamera PlayerFollowCam;
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("마스터 연결");

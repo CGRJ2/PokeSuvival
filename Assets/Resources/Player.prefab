@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _model:
     PlayerName: 
-    MoveSpeed: 5
+    PokeData: {fileID: 0}
   _view: {fileID: 0}
   MoveDir: {x: 0, y: 0}
 --- !u!114 &6668238674274505865

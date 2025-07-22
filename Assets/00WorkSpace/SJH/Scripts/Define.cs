@@ -15,7 +15,7 @@ public static class Define
 	{
 		if (_isInit) return;
 
-		PokemonData[] all = Resources.LoadAll<PokemonData>("PokemonData");
+		PokemonData[] all = Resources.LoadAll<PokemonData>("PokemonSO");
 
 		foreach (var data in all)
 		{
@@ -25,7 +25,7 @@ public static class Define
 			if (_nameToPokeData == null) _nameToPokeData = new();
 			if (!_nameToPokeData.ContainsKey(data.PokeName)) _nameToPokeData.Add(data.PokeName, data);
 		}
-
+		Debug.Log($"PokemonData 초기화 {_numberToPokeData.Count} / {_nameToPokeData.Count}");
 		_isInit = true;
 	}
 

@@ -8,12 +8,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 
 	public Vector2 MoveDir;
 
-	void Awake()
-	{
-		//_model = new PlayerModel("Test", 5);
-		//_view = GetComponent<PlayerView>();
-	}
-
 	void Update()
 	{
 		if (!photonView.IsMine) return;
@@ -28,8 +22,10 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 		// 시네머신 카메라
 		_model = new PlayerModel("Test", pokeData);
 		_view = GetComponent<PlayerView>();
+		_view.SetAnimator(pokeData.AnimController);
 
-		Camera.main.transform.SetParent(transform);
+		//Camera.main.transform.SetParent(transform);
+		NetworkManager_SJH.Instance.PlayerFollowCam.Follow = transform;
 	}
 
 
@@ -53,14 +49,8 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 
 		object[] data = photonView.InstantiationData;
 		PokemonData pokeData = null;
-		if (data[0] is int pokeNumber)
-		{
-			// TODO : 도감번호로 pokeData에 SO 데이터 받기
-		}
-		else if (data[0] is string pokeName)
-		{
-			// TODO : 이름으로 pokeData에 SO 데이터 받기 // 이상해씨
-		}
+		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
+		else if (data[0] is string pokeName) pokeData = Define.GetPokeData(pokeName);
 
 		PlayerInit(pokeData);
 	}

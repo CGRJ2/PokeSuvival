@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
@@ -21,4 +20,6 @@ public class PlayerView : MonoBehaviour
 
 		_sprite.flipX = dir.x < 0.1f;
 	}
+
+	public void SetAnimator(RuntimeAnimatorController anim) => _anim.runtimeAnimatorController = anim;
 }
