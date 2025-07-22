@@ -13,7 +13,7 @@ public class PlayerView : MonoBehaviour
 		_anim = GetComponent<Animator>();
 	}
 
-	public void Move(Vector2 dir, float moveSpeed)
+	public void PlayerMove(Vector2 dir, float moveSpeed)
 	{
 		Vector2 movePos = dir.normalized * moveSpeed;
 		_rigid.velocity = movePos;
