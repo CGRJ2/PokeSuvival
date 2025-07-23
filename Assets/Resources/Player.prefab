@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 4365686992617847669}
   - component: {fileID: 1916248991119624999}
   - component: {fileID: 914685384404484978}
-  - component: {fileID: 8037744439925835998}
   - component: {fileID: 8753687014485769211}
   - component: {fileID: 6668238674274505865}
   - component: {fileID: 594678277303412792}
   - component: {fileID: 3657061122933037175}
   - component: {fileID: 3236131156122469932}
+  - component: {fileID: 3247333484499435158}
+  - component: {fileID: -6199673396662207007}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -154,27 +155,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!95 &8037744439925835998
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946410855236059956}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8753687014485769211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,12 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64045b67b036ff45b86447f14588192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _model:
-    PlayerName: 
-    PokeData: {fileID: 0}
   _view: {fileID: 0}
   _input: {fileID: 0}
-  MoveDir: {x: 0, y: 0}
+  _flipX: 0
 --- !u!114 &6668238674274505865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +236,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 8753687014485769211}
   - {fileID: 3236131156122469932}
+  - {fileID: -6199673396662207007}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -278,3 +256,51 @@ MonoBehaviour:
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!95 &3247333484499435158
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946410855236059956}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5ace83ceedca0584d8560322a11cf346, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6199673396662207007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946410855236059956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 2
+    Name: IsMoving
+  - Type: 1
+    SynchronizeType: 2
+    Name: X
+  - Type: 1
+    SynchronizeType: 2
+    Name: Y
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0

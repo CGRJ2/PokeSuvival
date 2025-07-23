@@ -1,16 +1,23 @@
 ﻿using Photon.Pun;
-using System;
-using Unity.VisualScripting;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiateMagicCallback
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback
 {
     [SerializeField] private PlayerModel _model;
 	[SerializeField] private PlayerView _view;
 	[SerializeField] private PlayerInput _input;
+	[SerializeField] private bool _flipX;
 
-	public Vector2 MoveDir;
+	public Vector2 MoveDir { get; private set; }
+
+	void Awake()
+	{
+		_view = GetComponent<PlayerView>();
+		_input = GetComponent<PlayerInput>();
+	}
 
 	void Update()
 	{
@@ -23,26 +30,54 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 	{
 		Debug.Log("플레이어 초기화");
 
-		_model = new PlayerModel("Test", pokeData);
+		//ChangePokemonData(pokeData);
+		photonView.RPC("RPC_ChangePokemonData", RpcTarget.All, pokeData.PokeNumber);
 
-		_view = GetComponent<PlayerView>();
-		_view.SetAnimator(pokeData.AnimController);
-
-		_input = GetComponent<PlayerInput>();
+		// TODO : 스킬 클래스로 분리
 		SkillInit();
 
 		NetworkManager_SJH.Instance.PlayerFollowCam.Follow = transform;
+
+		// TODO : 테스트 코드
+		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
+		//GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { ChangePokemonData(Define.GetPokeData(1)); });
+		//GameObject.Find("Button4").GetComponent<Button>().onClick.AddListener(() => { ChangePokemonData(Define.GetPokeData(4)); });
 	}
 
+	public void ChangePokemonData(PokemonData pokeData)
+	{
+		if (!photonView.IsMine) return;
+
+		photonView.RPC("RPC_ChangePokemonData", RpcTarget.All, pokeData.PokeNumber);
+	}
+
+	[PunRPC]
+	public void RPC_ChangePokemonData(int pokeNumber)
+	{
+		var pokeData = Define.GetPokeData(pokeNumber);
+		_model = new PlayerModel(_model.PlayerName, pokeData);
+		//if (_view == null) _view = GetComponent<PlayerView>();
+		_view.SetAnimator(pokeData.AnimController);
+	}
 
 	void MoveInput()
 	{
-		_view.PlayerMove(MoveDir, _model.PokeData.BaseStat.GetMoveSpeed());
+		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
+		_view.PlayerMove(MoveDir, _model.GetMoveSpeed());
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
 		// 수동 동기화
+		if (stream.IsWriting)
+		{
+			stream.SendNext(_flipX);
+		}
+		else
+		{
+			_flipX = (bool)stream.ReceiveNext();
+			_view.SetFlip(_flipX);
+		}
 	}
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -75,20 +110,64 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 	{
 		if (!photonView.IsMine) return;
 		MoveDir = value.Get<Vector2>();
+		_model.SetMoving(MoveDir != Vector2.zero);
 	}
 
 	public void OnSkill(SkillSlot slot, InputAction.CallbackContext ctx)
 	{
 		if (!photonView.IsMine) return;
+
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
 				Debug.Log($"스킬 {(int)slot} 사용");
+				// TODO : 모델 처리
+				// TODO : 뷰 처리
 				break;
 			case InputActionPhase.Canceled:
 				Debug.Log($"스킬 {(int)slot} 완료 : {ctx.duration}");
+				// TODO : 모델 처리
+				// TODO : 뷰 처리
 				break;
 		}
 	}
 	#endregion
+
+	public void StartPokeEvolution()
+	{
+		if (!photonView.IsMine) return;
+
+		PokemonData nextPokeData = _model.GetNextEvoData();
+
+		if (nextPokeData != null)
+		{
+			photonView.RPC("RPC_PokemonEvolution", RpcTarget.All, nextPokeData.PokeNumber);
+		}
+	}
+
+	[PunRPC]
+	public void RPC_PokemonEvolution(int pokeNumber)
+	{
+		PokemonData pokeData = Define.GetPokeData(pokeNumber);
+		if (pokeData == null) return;
+		int currentLevel = _model.PokeLevel;
+		int currentExp = _model.PokeExp;
+
+		_model = new PlayerModel(_model.PlayerName, pokeData);
+
+		if (currentLevel > 1)
+		{
+			_model.SetLevel(currentLevel);
+			_model.SetExperience(currentExp);
+		}
+
+		_view.SetAnimator(pokeData.AnimController);
+	}
+
+	public override void OnPlayerEnteredRoom(Player newPlayer)
+	{
+		if (!photonView.IsMine) return;
+
+		photonView.RPC("RPC_ChangePokemonData", newPlayer, _model.PokeData.PokeNumber);
+	}
 }

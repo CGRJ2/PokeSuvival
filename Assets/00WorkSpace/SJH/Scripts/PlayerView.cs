@@ -2,9 +2,10 @@
 
 public class PlayerView : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D _rigid;
+	[SerializeField] private Rigidbody2D _rigid;
 	[SerializeField] private SpriteRenderer _sprite;
 	[SerializeField] private Animator _anim;
+	private Vector2 _lastDir = Vector2.down;
 
 	void Awake()
 	{
@@ -18,8 +19,13 @@ public class PlayerView : MonoBehaviour
 		Vector2 movePos = dir.normalized * moveSpeed;
 		_rigid.velocity = movePos;
 
-		_sprite.flipX = dir.x < 0.1f;
+		if (dir != Vector2.zero) _lastDir = dir;
+		if (dir.x != 0) _sprite.flipX = dir.x > 0.1f;
+
+		_anim.SetFloat("X", _lastDir.x);
+		_anim.SetFloat("Y", _lastDir.y);
 	}
 
 	public void SetAnimator(RuntimeAnimatorController anim) => _anim.runtimeAnimatorController = anim;
+	public void SetFlip(bool flip) => _sprite.flipX = flip;
 }

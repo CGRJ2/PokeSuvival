@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Bulbasaur
+  m_Name: Charmander
   m_EditorClassIdentifier: 
-  PokeNumber: 1
-  PokeName: "\uC774\uC0C1\uD574\uC528"
-  Types: 0400000005000000
+  PokeNumber: 4
+  PokeName: "\uD30C\uC774\uB9AC"
+  Types: 0200000000000000
   BaseStat:
-    Hp: 45
-    Attak: 49
-    Defense: 49
-    SpecialAttack: 65
-    SpecialDefense: 65
-    Speed: 45
-  AnimController: {fileID: 9100000, guid: e041bf78f3f439648963bd14f3d28e3e, type: 2}
+    Hp: 39
+    Attak: 52
+    Defense: 43
+    SpecialAttack: 60
+    SpecialDefense: 50
+    Speed: 65
+  AnimController: {fileID: 9100000, guid: 9ea52aca3aa229f46bf24b8020ce8526, type: 2}
   PokemonSprite: {fileID: 0}
   Desc: 
   EvoLevel: 1
-  NextEvoData: {fileID: 11400000, guid: 4753d4719fbf25446a8ce2481c24ff55, type: 2}
+  NextEvoData: {fileID: 11400000, guid: aee1c1ec787f0c244a9a9868542230c6, type: 2}
