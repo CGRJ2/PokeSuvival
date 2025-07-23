@@ -18,6 +18,7 @@ public class NetworkManager_SJH : NetworkManager
 		else
 		{
 			Destroy(gameObject);
+			return;
 		}
 	}
 

@@ -40,7 +40,7 @@ public static class Define
 		return _nameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
 	}
 }
-#region PokemonInfo
+#region SJH
 public enum PokemonType
 {
 	None,
@@ -61,5 +61,12 @@ public struct PokemonStat
 	public int Speed;
 
 	public float GetMoveSpeed() => Speed / 10f;
+}
+public enum SkillSlot
+{
+	Skill1 = 1,
+	Skill2,
+	Skill3,
+	Skill4
 }
 #endregion

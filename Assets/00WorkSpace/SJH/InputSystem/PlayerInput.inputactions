@@ -21,7 +21,7 @@
                     "id": "31ec7266-dfd9-4bee-afa3-4b72e5df4a2b",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -30,7 +30,7 @@
                     "id": "225654ac-3783-419c-ae4d-32dc319da6c5",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -39,7 +39,7 @@
                     "id": "241d60c1-9724-4cd7-a86a-3de35192a153",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 },
                 {
@@ -48,7 +48,7 @@
                     "id": "347d2ec2-3599-44ca-8cd1-46586cff3c48",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 }
             ],
@@ -59,7 +59,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "Skill1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -70,7 +70,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "Skill2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -81,7 +81,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "Skill3",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -92,7 +92,7 @@
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "Skill4",
                     "isComposite": false,
                     "isPartOfComposite": false

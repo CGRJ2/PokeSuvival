@@ -1,4 +1,6 @@
 ﻿using Photon.Pun;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,9 +24,12 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 		Debug.Log("플레이어 초기화");
 
 		_model = new PlayerModel("Test", pokeData);
+
 		_view = GetComponent<PlayerView>();
 		_view.SetAnimator(pokeData.AnimController);
+
 		_input = GetComponent<PlayerInput>();
+		SkillInit();
 
 		NetworkManager_SJH.Instance.PlayerFollowCam.Follow = transform;
 	}
@@ -32,8 +37,6 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 
 	void MoveInput()
 	{
-		//MoveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-		//MoveDir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 		_view.PlayerMove(MoveDir, _model.PokeData.BaseStat.GetMoveSpeed());
 	}
 
@@ -56,9 +59,36 @@ public class PlayerController : MonoBehaviourPun, IPunObservable, IPunInstantiat
 		PlayerInit(pokeData);
 	}
 
+	void SkillInit()
+	{
+		for (int i = 1; i <= 4; i++)
+		{
+			int slotIndex = i;
+			var action = _input.actions[$"Skill{slotIndex}"];
+			action.started += ctx => OnSkill((SkillSlot)slotIndex, ctx);
+			action.canceled += ctx => OnSkill((SkillSlot)slotIndex, ctx);
+		}
+	}
+
+	#region InputSystem Function
 	public void OnMove(InputValue value)
 	{
 		if (!photonView.IsMine) return;
 		MoveDir = value.Get<Vector2>();
 	}
+
+	public void OnSkill(SkillSlot slot, InputAction.CallbackContext ctx)
+	{
+		if (!photonView.IsMine) return;
+		switch (ctx.phase)
+		{
+			case InputActionPhase.Started:
+				Debug.Log($"스킬 {(int)slot} 사용");
+				break;
+			case InputActionPhase.Canceled:
+				Debug.Log($"스킬 {(int)slot} 완료 : {ctx.duration}");
+				break;
+		}
+	}
+	#endregion
 }
