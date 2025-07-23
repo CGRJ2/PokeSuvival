@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/00WorkSpace/CJM/Scene/LobbyScene(CJM).unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/00WorkSpace/CJM/Scene/Test_InGameScene(CJM).unity
+    guid: c8d9a78e46027da4698c4b7e2817f336
   m_configObjects: {}
