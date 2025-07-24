@@ -1,0 +1,4119 @@
+fileFormatVersion: 2
+guid: 7abd8ca3668d8d64d8911ccdfb239d3e
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 24
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 843232cba978d4b4a9482f9c470501ef
+      internalID: 1496967975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c076e00761c70d4f9f9ba1b02b18f2c
+      internalID: -1976789428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_2
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60b2de2879694884d88863354bbe2446
+      internalID: -387806756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_3
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 074b6de73a1e65b4296f391ae0972966
+      internalID: -1748477137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_4
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0578b2482301b5468290219f1c24597
+      internalID: -2006119610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_5
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bfa649dd4c3e9e48bd4afea71eb0439
+      internalID: 157821109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_6
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b102eb53c0867c4695b8f7f493569bd
+      internalID: 484602521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_7
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f61932586162f34386ab1129ad09ca1
+      internalID: 1014396839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_8
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 024e19e2700f09345a1c43d118d61c35
+      internalID: -307120569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_9
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af23c4a51ce806949ba09032e29c17f0
+      internalID: -2066849480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_10
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a37620d2b25f7f24fa13f598204bfac6
+      internalID: 174418208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_11
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdafbf6aeb891d3479b687bbff386b60
+      internalID: 1507233190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_12
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf226c7e843055644a49e4f0ae394726
+      internalID: -1027669958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_13
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c61f73387aeabb24b96440355f63828c
+      internalID: -1800991807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_14
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c631277f1ac07d64eb13eaed6e9fafbf
+      internalID: 602914365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_15
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95639b9f163492747822e0d67032b326
+      internalID: 2135812336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_16
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 433
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4aa911708ba9bae4895cfb5868c31a61
+      internalID: -1885716078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_17
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e634f03acdef344aa114b077e61046e
+      internalID: 307636367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_18
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dea1b146ab0d514aa6267b75c352351
+      internalID: 2116359291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_19
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a4d0aff92e817344b35b06729b4e398
+      internalID: -299936613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_20
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 383
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 888cfb26076d9c6459d14ad426cad4d0
+      internalID: -487941205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_21
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 358
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10a2aeeb639ec1c45ac26c49093b34f5
+      internalID: -647381758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_22
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d76c64915d070dc4b9924dcec4f8eead
+      internalID: 1571424663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_23
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b13eef6f203d12d4293b513b93a2659b
+      internalID: -1003457898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_24
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2778249b9a985b848a0da07798a88553
+      internalID: -277232278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_25
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 283
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25b3348f5a4f4254e81c016457b2853d
+      internalID: 504583708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_26
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69ad9142b0fbb4b469ef950c1871d915
+      internalID: 444987610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_27
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 795a5b17da62b1b428b8c0fdcc7c87cc
+      internalID: 615869200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_28
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 233
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dd7471fb1e93ce45b363d17afd5d63a
+      internalID: 824696177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_29
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43b37b965580323429cc3dbca28ac3e7
+      internalID: -1072309047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_30
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c925694fc0f4c0944bb361c185162d7e
+      internalID: 2087517596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_31
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc353bf66807f39409c7d929643a4cd4
+      internalID: 1891181265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_32
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3066fea74304205419152212f8d57376
+      internalID: 298727329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_33
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65dd24c7dcfc41c4a83310e7de991746
+      internalID: 1815290164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_34
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12cd64316f6dad144bad3ee14714c888
+      internalID: -1406308901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_35
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f87f1eee0e32e5346af5fde845a5d39d
+      internalID: 182695097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_36
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 777cc1bbce4d09a43856ee4a3a77dbba
+      internalID: -2144625029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_37
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e87f51a2622198b44895c6dbe050cb99
+      internalID: -1317431478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_38
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7df2eca60a938144a1b16f61aead2bd
+      internalID: -1501246356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_39
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5bb5450592555b4d9070da8e932ee7f
+      internalID: 176826729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_40
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8514002f6bb783d4386e8f544505455c
+      internalID: -687045979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_41
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3b904541228e39479957dfaba38f9a2
+      internalID: -1199592718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_42
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d20987b774af05849b679059fccda437
+      internalID: 1826721292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_43
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ade1c36f5433bf84da508a0ec1ea2407
+      internalID: -664128878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_44
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1a04f6d1296c8b43b145e0dc8314da1
+      internalID: -1166201251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_45
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11a62eeaa93f75c4aad7944c4b6468d2
+      internalID: -286389431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_46
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6debd99ac4f15d4d935c6ed42f9e879
+      internalID: -1480246890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_47
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24f6f8b50167a3049b2a4baeecc20e31
+      internalID: 1607923057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_48
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b25a3a2456fc28e4aa1a8dd7eaa387bf
+      internalID: 437703014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_49
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d711f370e808d44aadc7c11c1174403
+      internalID: 1742783569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_50
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 589b15e143de25d45ad9168a6c290f4d
+      internalID: 1005216770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_51
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f7a7374ff5ec4b4592115d7dde2ec64
+      internalID: 491276196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_52
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16af6ff6e69990841ae9c6e47b3f3a57
+      internalID: -1585917959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_53
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebe4dc432f313764d9bbf309b17ba20c
+      internalID: -610926178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_54
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c56a5bcf3f5f294681424bea8cb5223
+      internalID: 1179823648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_55
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d57dbd47333c6743912c6c7500c91e7
+      internalID: -1815197583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_56
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39494f0997dd87449a43fbd3fc16d453
+      internalID: 1854884188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_57
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f955d703b5e6e084a9d691db15beb9bd
+      internalID: 1655499099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_58
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adac36bf4248e8740a1999119e779b15
+      internalID: -1267970193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_59
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5051caaaec12833468648e16bb46f9de
+      internalID: 1294780218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_60
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3fe049e057b42f4392b6df3d180a721
+      internalID: -608388947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_61
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7df2561adbf8b124f8298bd120243559
+      internalID: 906509215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_62
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59bf4e397bc1ddd48951fc3912548b3a
+      internalID: -1797231009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_63
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 433
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32b49e7d8ca990544b49546301f4bcce
+      internalID: 1703379867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_64
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7927b8f994a1f89468d1ff316315e6ff
+      internalID: -341171846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_65
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5a8eaef98bf99d4e81bf2e7fc9210db
+      internalID: -771565537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_66
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6af0df856d21c9040a46cdf5426d4b5d
+      internalID: 1071400380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_67
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 383
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a47aa0a0507213f4486d34bd052e2ca4
+      internalID: 490156611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_68
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 358
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dff268126771c0441bb07e49cf863163
+      internalID: -1322419498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_69
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ead2ab7a767852149a69a3b863220aed
+      internalID: 719491058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_70
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0cbb53a49d0fe445896e474cf1f441b
+      internalID: 1069479075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_71
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00523ea1cb5d203418f0c8fabd5b3cb7
+      internalID: 1654000114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_72
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 283
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c308e65ac007de040aa8c62f8a1722cb
+      internalID: 1634872968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_73
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be441ff0ee566ef4d949e3d569a54272
+      internalID: 1737097926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_74
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 583d00fabab650949b8680bbe90b069f
+      internalID: 653944193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_75
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 233
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dae34b5e43ef76b4abb9720ef9e2e11b
+      internalID: -1891743464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_76
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c90071fdc524e0f48bdf2f2951744e4d
+      internalID: 1202276029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_77
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6dd9d5561f17804397e7735a01c3745
+      internalID: 1748788020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_78
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c4bad5b5c9016143b92daf0f4cf6850
+      internalID: -476669841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_79
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f1205c6974232c48a9fae05fa4aacc3
+      internalID: 2110537371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_80
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dec9679f4f7e174c84d0877c0a8c4e5
+      internalID: -1833128056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_81
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0814dc63e15453b4599fc8bba4f87b17
+      internalID: 808094397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_82
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27db526540f0434419df6ed862cf8fd4
+      internalID: -504190435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_83
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 773d7f8622f9065458f054c238b04347
+      internalID: 365744083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_84
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d08010531b9e9cc46889124a4f308986
+      internalID: -1293846574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_85
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b954bb556b123c4d9a163231c8eb212
+      internalID: 719059598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_86
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb8499ab26850624993cddafbc96ec42
+      internalID: 681522882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_87
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4f5458ec00073a4b9dba04be41675d4
+      internalID: -485218762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_88
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d4b1396e8f53714594a4cad43859d66
+      internalID: -213613692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_89
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da76915ac65deea49a638e2f21646e55
+      internalID: -1695645382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_90
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5406fe57c6162544998d3dbc0ff67524
+      internalID: -1298581088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_91
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df8ccb1f12b535845aae6d56906b5760
+      internalID: -244631024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_92
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64fa87f35056c7c4ab95951e9787fdf0
+      internalID: -683111864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_93
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05f921c9348574e43a591ffd713be3b4
+      internalID: 1551939091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_94
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4c9735f72d638a45a0e96f37a9b637b
+      internalID: 1078929454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_95
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 157582ed86105ed4bb29421c9a294ca2
+      internalID: -1104945557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_96
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3afcc270759028f479efc59493333d4f
+      internalID: 1335216290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_97
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20c537d85e401274ca2d1f6d577d428f
+      internalID: 566326950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_98
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0285d062b6762814781ceea5c9275828
+      internalID: -1441669580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_99
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc20f5b882e9c1947b4f18ef5e785625
+      internalID: -1995767721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_100
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2ad2f35fc3fe314ea85db80be861f4b
+      internalID: 460509072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_101
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2166085c6cd6465498b8e345d8523bc0
+      internalID: -2120603076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_102
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2ed38d7dea20f54a91517e95bd1856f
+      internalID: -856811500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_103
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb8cc40fea55c514cbbee6ee5002199d
+      internalID: -481662783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_104
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7b4a9d1fe87fe84590fec678eb8e5ec
+      internalID: -27636567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_105
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 150afc2a5adf7b047b5152cedb0936ea
+      internalID: -384212066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_106
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e70cadfcb88e60d468669372b05e7fca
+      internalID: -763295160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_107
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 420b62d80c82a894b90694b79d36b4ed
+      internalID: -1306889398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_108
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63df1e4b80b19d54eb86e9b9cb3de5db
+      internalID: -1153975236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_109
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 205b980ae045c8b47806dd615ab6305d
+      internalID: 761443714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_110
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b5a75b326f8fd246ac92915c02a13dd
+      internalID: -538191171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_111
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a299dbf52e8923944ab3ea02f2cfb67d
+      internalID: -170597573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_112
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82c0a75e3a4c8274d94411f73f53a81a
+      internalID: -1188571399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_113
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f542b9c23edbae34baf7be62e2d4be78
+      internalID: 1925221169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_114
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe3ab9e646aa6f349aaab949bd8387ee
+      internalID: -1359781295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_115
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67461334a3ff0ac41b5ce85fd88da8d8
+      internalID: -1100245876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_116
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0196214c2bfbd6741ae5806215169cd7
+      internalID: 1338130766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_117
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 687b348452394bf428a4ee68c11826d7
+      internalID: 1988796309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_118
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcd1426e823e9384caec8909d5f9b6d0
+      internalID: -845977862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_119
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6a0cc4ae86fa6c4f8f2b3fe20ce4382
+      internalID: -1391456756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_120
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 263d709d28d44d14ca799746a8cfac69
+      internalID: 1004726702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_121
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9942a75df73557445bbca4cf8704c698
+      internalID: 1465095779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_122
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 875a40edbc4d7ca4fa56bd66fad468f5
+      internalID: 197399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_123
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 658642733983a1c4cb2c410e8f306250
+      internalID: 766802985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_124
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d92cabe137d91f428b40bff0060d878
+      internalID: -1602464541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_125
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 133363a9014a8bf4ea20e82088d3afcb
+      internalID: 508433139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_126
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6cc5a040b6082e43b48098e062d6ff8
+      internalID: 1760198718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_127
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75c714fad59fb364e91d757647610ca5
+      internalID: -842783148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_128
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 571b0b7574da96940aad11c0f87e0db9
+      internalID: 1765989641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_129
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbae0d07e017676408788bb4715148f6
+      internalID: 822781368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_130
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad07b0ae9067cc24da7a0cd6ae86aea3
+      internalID: 876886560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_131
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eb18163c497f824c89650a64767b120
+      internalID: -1097296886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_132
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b04c980549a6edf4cb2177285de612df
+      internalID: -843021358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_133
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ab7108ec4e57ab4fa01151bf251eac2
+      internalID: -896058995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_134
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df008d351fa6d8649b7a05027e30f44b
+      internalID: 512283418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_135
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bccb6d23818cad741ab4fce27f479420
+      internalID: -1518758475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_136
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e422252fb934f44d88cbbdb854434c2
+      internalID: 1763646167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_137
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 433
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1c9f3d589a303f429733f1a4f0b2762
+      internalID: -1121913209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_138
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ce7e134de70f8844b3af0b4e2539f58
+      internalID: -966832378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_139
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4da9790819c9af4689a09f67c01d19c
+      internalID: -1746755689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_140
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99af195a987178b44bdcac464dc1c586
+      internalID: 1850646556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_141
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 383
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6514fd7f37de75047b031229c5e095a7
+      internalID: -359963334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_142
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 358
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b63d3449ac6a76b4cb0df5dc4f457d28
+      internalID: 1975189837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_143
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 018988c63b4897149a20b5f1cdca60f3
+      internalID: 1280030346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_144
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f377434677567840ac342d6f5b17eab
+      internalID: 1742094345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_145
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b21575458e2b7f48b57378e53279b2b
+      internalID: 2070667597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_146
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 283
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 205840216c638934bb62ac321a801f3f
+      internalID: 2025736074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_147
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce3f63b6e7740fa4e83e3c14a0484605
+      internalID: -358706674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_148
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bd2503b265fadb48a16aa851f36de8a
+      internalID: -1249420056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_149
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 233
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d34c1352a7a3894d95906df3fe8e1fc
+      internalID: -55914664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_150
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f86853042d96f643a2286cf25c435c7
+      internalID: -881678251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_151
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e895a8c0317efcb43bc4c53aeeee1b8e
+      internalID: -968230332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_152
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 333b0e03a89896a4582578fe00c22e68
+      internalID: 9623244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_153
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 093cb34e633cab14f8095bb62c539621
+      internalID: -1184937617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_154
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb1af906fdc7bb047958056df1e83af5
+      internalID: 1431642773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_155
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24a4c0346e8498e4f9e98aa4e21d5c4f
+      internalID: 394938201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_156
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b34ce6c7bb1e3447b0502930edb2e08
+      internalID: 26531525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_157
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81d8c2ffab9817c4e81619d66d16338c
+      internalID: 991232466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_158
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11eee648bf154194dbbd51af13aeba2b
+      internalID: -313323002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_159
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f944fb6048b20354fac556a8dc7080db
+      internalID: -247806471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_160
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f4c2dac173f77b40af9c3f68090b990
+      internalID: 67343353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_161
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ef02a8f44c7c5c40b97f0bcc5713839
+      internalID: -790694725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_162
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83c54df47fa34a842894648f3f8ce86e
+      internalID: -503733346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_163
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70ebef6bacbd78c45b62cf7f35c6fd91
+      internalID: 1411393179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_164
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 370b987b9a0127649af5e6a1b7589be7
+      internalID: 1163809784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_165
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0871301babf145346aac2b1c974ad4f3
+      internalID: -1833875651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_166
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 932f4659d0d395e4093c53a2fd09fc12
+      internalID: -2083796697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_167
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a792d293cd19ae04db01f60fda873de4
+      internalID: 1710180738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_168
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e080576a96728ff4b90fc4c0d9966b50
+      internalID: 1400973109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_169
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e3b102fb7c18ad4291f22b7a6358704
+      internalID: -861595658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_170
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53a50b578c90eec41b9f4c24223ec6c2
+      internalID: -160772954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_171
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed60d34e488540f43ada981ab27db3a6
+      internalID: -833603186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest
+        Path_172
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10e74725349808745a2bdfb1e6a7557b
+      internalID: -396167079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_0: 1496967975
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_1: -1976789428
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_10: 174418208
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_100: 460509072
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_101: -2120603076
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_102: -856811500
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_103: -481662783
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_104: -27636567
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_105: -384212066
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_106: -763295160
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_107: -1306889398
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_108: -1153975236
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_109: 761443714
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_11: 1507233190
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_110: -538191171
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_111: -170597573
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_112: -1188571399
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_113: 1925221169
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_114: -1359781295
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_115: -1100245876
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_116: 1338130766
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_117: 1988796309
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_118: -845977862
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_119: -1391456756
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_12: -1027669958
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_120: 1004726702
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_121: 1465095779
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_122: 197399
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_123: 766802985
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_124: -1602464541
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_125: 508433139
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_126: 1760198718
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_127: -842783148
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_128: 1765989641
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_129: 822781368
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_13: -1800991807
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_130: 876886560
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_131: -1097296886
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_132: -843021358
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_133: -896058995
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_134: 512283418
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_135: -1518758475
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_136: 1763646167
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_137: -1121913209
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_138: -966832378
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_139: -1746755689
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_14: 602914365
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_140: 1850646556
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_141: -359963334
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_142: 1975189837
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_143: 1280030346
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_144: 1742094345
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_145: 2070667597
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_146: 2025736074
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_147: -358706674
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_148: -1249420056
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_149: -55914664
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_15: 2135812336
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_150: -881678251
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_151: -968230332
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_152: 9623244
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_153: -1184937617
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_154: 1431642773
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_155: 394938201
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_156: 26531525
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_157: 991232466
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_158: -313323002
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_159: -247806471
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_16: -1885716078
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_160: 67343353
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_161: -790694725
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_162: -503733346
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_163: 1411393179
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_164: 1163809784
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_165: -1833875651
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_166: -2083796697
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_167: 1710180738
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_168: 1400973109
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_169: -861595658
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_17: 307636367
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_170: -160772954
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_171: -833603186
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_172: -396167079
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_18: 2116359291
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_19: -299936613
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_2: -387806756
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_20: -487941205
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_21: -647381758
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_22: 1571424663
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_23: -1003457898
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_24: -277232278
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_25: 504583708
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_26: 444987610
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_27: 615869200
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_28: 824696177
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_29: -1072309047
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_3: -1748477137
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_30: 2087517596
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_31: 1891181265
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_32: 298727329
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_33: 1815290164
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_34: -1406308901
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_35: 182695097
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_36: -2144625029
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_37: -1317431478
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_38: -1501246356
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_39: 176826729
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_4: -2006119610
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_40: -687045979
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_41: -1199592718
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_42: 1826721292
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_43: -664128878
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_44: -1166201251
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_45: -286389431
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_46: -1480246890
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_47: 1607923057
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_48: 437703014
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_49: 1742783569
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_5: 157821109
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_50: 1005216770
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_51: 491276196
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_52: -1585917959
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_53: -610926178
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_54: 1179823648
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_55: -1815197583
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_56: 1854884188
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_57: 1655499099
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_58: -1267970193
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_59: 1294780218
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_6: 484602521
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_60: -608388947
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_61: 906509215
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_62: -1797231009
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_63: 1703379867
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_64: -341171846
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_65: -771565537
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_66: 1071400380
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_67: 490156611
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_68: -1322419498
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_69: 719491058
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_7: 1014396839
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_70: 1069479075
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_71: 1654000114
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_72: 1634872968
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_73: 1737097926
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_74: 653944193
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_75: -1891743464
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_76: 1202276029
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_77: 1748788020
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_78: -476669841
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_79: 2110537371
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_8: -307120569
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_80: -1833128056
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_81: 808094397
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_82: -504190435
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_83: 365744083
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_84: -1293846574
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_85: 719059598
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_86: 681522882
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_87: -485218762
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_88: -213613692
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_89: -1695645382
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_9: -2066849480
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_90: -1298581088
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_91: -244631024
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_92: -683111864
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_93: 1551939091
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_94: 1078929454
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_95: -1104945557
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_96: 1335216290
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_97: 566326950
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_98: -1441669580
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Forest Path_99: -1995767721
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

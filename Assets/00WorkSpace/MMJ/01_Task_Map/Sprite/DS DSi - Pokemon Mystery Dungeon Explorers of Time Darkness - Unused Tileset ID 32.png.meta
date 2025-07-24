@@ -1,0 +1,3683 @@
+fileFormatVersion: 2
+guid: 97cfb96e85fd593498def95b3d77b55d
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 24
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_0
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 426cebd38cc41c74f877ca7ccfc762d5
+      internalID: -615761925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_1
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d564f9c64169bc04887915129262cd0a
+      internalID: 1881927908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ee210f2dcac61946b43a539b4edcf5b
+      internalID: 1606023862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_3
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6240334058b336429335b0c6d4a8437
+      internalID: -1407876009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_4
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e2000427c10d304080e823d41e66932
+      internalID: 736123182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_5
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 332a1c3b771802542840d3163620b785
+      internalID: 36515225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_6
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1917ec6cc3501d541aa96f34211ae1b2
+      internalID: 917473998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_7
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff26e0ad88150fb40ab81e7f193a49b1
+      internalID: 361591554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_8
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 550a4697bf98d76479d2d8f258d11bf0
+      internalID: 1440748340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_9
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5914e3e22e3c014792abe21051b511f
+      internalID: 1206341880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_10
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b543ef04d4012024ca9e9cece63e229a
+      internalID: -644467808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_11
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39999535a1fd383498f3de26287fe5c9
+      internalID: 444266114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_12
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e7220a4958117848a6e14935ff5ee7c
+      internalID: 231118642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_13
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bc724606b62d0845af3fb571aa53feb
+      internalID: -1183633612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_14
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9242fbb1a6a9bad4cb15528f7579e4bb
+      internalID: -1587852972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_15
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55e4552afe4de694cb9f12c18136b213
+      internalID: 1340251594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_16
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 433
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 882b7ee20fa23cd4e9d263992c555500
+      internalID: 118842028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_17
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f50c6ce4880e8eb43bf2239486846701
+      internalID: 465800532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_18
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bccd6911aa1b9bf43a7547a8d97661ac
+      internalID: -1544194937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_19
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03c5af8e4ff6bcd41a747e2b5c658675
+      internalID: 222242900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_20
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 383
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2e87b3cd12a05a4e8a40b4929d32f88
+      internalID: -1722561781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_21
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 358
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb2b48c87cb072d49a7101d048f524e2
+      internalID: -1849944464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_22
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5842da8d11fcd347ad969d807b7ff36
+      internalID: -568749017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_23
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05da9db94e2a8ae43883fd53e7bbe268
+      internalID: 1421096005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_24
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aff4e31080f6df4c8ccfefc6b18084d
+      internalID: -357449116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_25
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 283
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eff0d63949413044d99fe1720af9064c
+      internalID: 1766440011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_26
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1da0be431253fac47a3f11041ef7ef34
+      internalID: 1435753422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_27
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6a81903a683b4b4b9f11b8dbddb1967
+      internalID: 939960880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_28
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 233
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3fe5323ac8acdd4db7c511390167319
+      internalID: -129518424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_29
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2fd7c269577c9b4db69f5720b51b8ed
+      internalID: 1522782806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_30
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53f74ba2511139c46ab9600612b1a330
+      internalID: 140250091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_31
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53d9be5d08b3b8b40be08ac94b5aa83a
+      internalID: -1862550435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_32
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fcbd5b57f2080b40837adec749c4c26
+      internalID: -1018363619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_33
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf71ec0fad46b934f894aecfe307f3a2
+      internalID: 1316508648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_34
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4617cd07cf509d24a8eb6ad6bb100112
+      internalID: 849964513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_35
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77137f2ac5bf31b499b4fa2ad2f4903b
+      internalID: 1926467687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_36
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455e884a50af5c04fb48daef50930df0
+      internalID: -1280769841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_37
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c3b29c267cc4fc48b9a162fce605ba2
+      internalID: -1236478003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_38
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89c52f1228507744f90fc8ed40852351
+      internalID: 1438750733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_39
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ac639826ed919d4ca98701a683fb818
+      internalID: 1676159801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_40
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a16528f1a9fb1e4d80fb41df69bc579
+      internalID: 1361329064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_41
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b131822d5663eb42906a15f84fa9cd6
+      internalID: 2109854914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_42
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07f005c45b18529469bb6daeda5558b6
+      internalID: 1478208582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_43
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d45ba5ad61e6194591c28d19c7d2327
+      internalID: -538183768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_44
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d214c42431c8fda478163b1075b07acb
+      internalID: 880494406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_45
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88115b8ad33f2fb44b7be46332ac9ba2
+      internalID: -703628798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_46
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1d4fab3f686b494986e60cf87d21a65
+      internalID: -1056926552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_47
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec943c819cf003c48bc9d8ff2d168182
+      internalID: 1830614877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_48
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8d8078c14f27e647ae62e71484778ff
+      internalID: -1319840615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_49
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44504bf4f1facdd4da1ca8cc62f45fe0
+      internalID: 634760828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_50
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03821ae46508db84fb491c04474130c5
+      internalID: -1179960855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_51
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f60c1726175fddc4ea923da23c72f557
+      internalID: -1898745225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_52
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d4d257851fca82449d2a8774424d0fa
+      internalID: 1567547441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_53
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ae329ba7188b13489ccaf6638ef41e5
+      internalID: -2031614796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_54
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4be08ebbe368eb408896c7985526786
+      internalID: 1590595696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_55
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4e7d36318b04ce439295b594b09be24
+      internalID: -1647139647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_56
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: affd09c65809a7b4ba1f21289683f5e5
+      internalID: 1868758281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_57
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3393da779cc14064195d362c2e0c1c0a
+      internalID: 22396553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_58
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90ebbc19122801147aafef9d51a30e07
+      internalID: 764999314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_59
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d70a320cdebb9247a5541f9355f269a
+      internalID: 567881920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_60
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92a7a7462c907d445a714977cde2892a
+      internalID: -1078279382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_61
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ca03bf9a5975a248bc7ea076ee168a8
+      internalID: -1449291875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_62
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8077d18585a91264395359608867ed64
+      internalID: -1863018353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_63
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4964091ab34cd8a45b2413a3ac849798
+      internalID: 609551364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_64
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14475aeae7555d04297f329d3ab22cac
+      internalID: -1171716254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_65
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a72f28bd11a1c9143944c9a50193e303
+      internalID: -1725690156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_66
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76bf913cc147a5f4088ef0ba48eb0405
+      internalID: 1201742907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_67
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8709bb8ce1c8b544a753fdbdc61e508
+      internalID: -791207636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_68
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751e58de5cb377a42aacb2f216211373
+      internalID: -1980970747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_69
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8e0a994d30ff64a8ee7530825f55a1
+      internalID: -1836157165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_70
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dced14642db10ee48abacef7565fca6d
+      internalID: -477081586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_71
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a15e4870525cb245b07cc46f57ae195
+      internalID: -556033880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_72
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7ab1ac067e3a014e8f2cfa00cbe9031
+      internalID: 1896692108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_73
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 433
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4be807e5d740e6f4b967c240207e7d41
+      internalID: 917196036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_74
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea7178d29f654b1468f5475a5be7c5cb
+      internalID: 184178452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_75
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6330b2665b404b149ad7a3fdce5af1bc
+      internalID: -1149065598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_76
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 488e65ae75d20724f9a6c6c061261883
+      internalID: 1918020782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_77
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 383
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdc818f5f992b824694f8f679a9e2bb8
+      internalID: -1606618313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_78
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 358
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bb2bbd537b877f4784770d6639d4398
+      internalID: 161810060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_79
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33e619d933df4114da9518b74f6bc7c2
+      internalID: 1739706193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_80
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e30d0bacf0be9504691b0bdfcbf5fbb7
+      internalID: -1986316261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_81
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe705f71ad7da4748ab666c3bf6d4f1e
+      internalID: -429648686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_82
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 283
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 429d8b6ab8cd4b44ba9fdb8eb7cbbc79
+      internalID: 665337571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_83
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f8826fc0f90bf4a9be26cbe80d2bf0
+      internalID: -50970766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_84
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e17f109e0e64ed418ec002ade0d2413
+      internalID: -463300841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_85
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 233
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc521de4c73e5574b9b7f9606dfda20d
+      internalID: -1444771671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_86
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44422460ae128eb4a848bb703fe27bf4
+      internalID: -533474065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_87
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b4347c917d90854e949cbbcb31d5140
+      internalID: -1016706376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_88
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e393469453873314882785029bd6ee72
+      internalID: -387673398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_89
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9094057c0bbcb4247b0f4aa12ad7840c
+      internalID: -1318348900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_90
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e83196d1afdf0444daa6226053a8220d
+      internalID: -1605564536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_91
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13853c649a2232e43b6a800880118cb3
+      internalID: -713153277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_92
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6192de5a65c415640b9e64d775712315
+      internalID: 1203263343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_93
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23154e6bbfde48d4aacc79ad5703ef5d
+      internalID: -1409136546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_94
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fb894e6524b3884b9ff78c3acb96196
+      internalID: -1226799746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_95
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2b780616a79a9845a724d32f773dbaa
+      internalID: -1567367893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_96
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1fde5ff8f32fba408c974715c5801e6
+      internalID: 1466890746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_97
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ee66e1e65a390c4b858308b9d9052d8
+      internalID: -273982909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_98
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7f3795a186aa8141ba82e23a2272fa5
+      internalID: -835343467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_99
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 641a313cfb9bc694f8b7c7d672a153bb
+      internalID: -705193235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_100
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d71ae850dc7a8c5468eae3b5240b2992
+      internalID: 484985816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_101
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc0f4a8b6c25a294ca0cfaed586befa5
+      internalID: 1443385094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_102
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f5e2d7ca04a7fa428359157fbd5c195
+      internalID: -1324906309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_103
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd2ce7e4d8e43df448d92489d222a8e4
+      internalID: 1449820091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_104
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd87837575f0944097857b0aad7cc01
+      internalID: -1585457839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_105
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2555501c24148fd42abb85ea6be855fd
+      internalID: -1576082092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_106
+      rect:
+        serializedVersion: 2
+        x: 559
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c78e63360104e14a8e722ba83a05126
+      internalID: -486891500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_107
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62d6b4a287c298d419096e55f645816b
+      internalID: 1150558764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_108
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aff8ec77a243c340a67683bc6c83b4f
+      internalID: -315480106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_109
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 583
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 449f4a22a499b7a4a9a73003964921fe
+      internalID: 223671525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_110
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6361e86e838ee448b06ab00d9d75be2
+      internalID: -248898528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_111
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e7d6f0eb1becc74e8877012784d73d5
+      internalID: 904077821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_112
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 558
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 630563b6c58e76a429f4c7ab191fdc20
+      internalID: -1261940647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_113
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7f3bbc21170b0c4d9bc0469065c0d2b
+      internalID: -249617829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_114
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24de097702d1f6d46a1983808a980434
+      internalID: 2115570220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_115
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 533
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 910c501a49ce3104a880358e209caf42
+      internalID: 616621993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_116
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b72346aadfd0784496d427e66549c7a
+      internalID: -1086001959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_117
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d9b43f67da130a4b9cfcd3072c829d6
+      internalID: 228770685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_118
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 508
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18f35de45f150a44c940300bfc5fe685
+      internalID: 1444774395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_119
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4632d7e5d6f5b304d884c45fd425b257
+      internalID: -1642563515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_120
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 483
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a08d63ae456cec0489da04d74862b72a
+      internalID: 1089649418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_121
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae3222e25ee7f2f44b6e7b3b6728efe7
+      internalID: 1579391317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_122
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 458
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40321a65e5c2c56488ea9a1f88add599
+      internalID: -403880086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_123
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 433
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6871f1bce164a21438d35ed3ac22d119
+      internalID: -1147054403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_124
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89db5deb98eb9f7488772f142016231c
+      internalID: 1354733171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_125
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4693ed00bdcd94848802fd8a15797f35
+      internalID: 1309726686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_126
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 408
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7da778140b71684791dab4f8c896c21
+      internalID: -1710817187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_127
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 383
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e83ad6378e762014599d31d75a79d453
+      internalID: -1666461806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_128
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 358
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd039fab2bab151489d202a020dff415
+      internalID: -204355853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_129
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ea8b0069137b5a4cadd3b322c146d19
+      internalID: -1292141078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_130
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 333
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afa327570208f8a41bdc5455d52de416
+      internalID: -1610609726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_131
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 308
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67e424bc6a40514478ca84443395181c
+      internalID: 2126859840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_132
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 283
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c961321b8fbbf234099518a5b23ac453
+      internalID: -836594513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_133
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad54e4147c1b35b4c937b23d12781d6a
+      internalID: 1014599624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_134
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 258
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0980f5a3aa4cfa4498b1f4f579b69047
+      internalID: -1868844056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_135
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 233
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87cd03f53cd1eab41aeab201aa26c828
+      internalID: -659616116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_136
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d63f0fe6928f6c49b7c6b07104e4a7a
+      internalID: -1994544799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_137
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 208
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cce4fc4fb1bbe474db48f9887afba617
+      internalID: -252836919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_138
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63c4c5cc5e753a041b76012bda560dcb
+      internalID: -213351813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_139
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 183
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e6afb3a98de31f4ebdcec2048e1cec8
+      internalID: 1780908779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_140
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ecf8409d39481946b4a0103513a493d
+      internalID: -479262116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_141
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 158
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d67fec1928673094782404578a3c12aa
+      internalID: -1832509248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_142
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7569c88c052ca31489d8a46eb43c4a91
+      internalID: 573848304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_143
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 133
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84ccfbb389dd59146880c6f398205376
+      internalID: 1071341559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_144
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f11f0ad0312dc1e4e8f06d2e067f59f8
+      internalID: -2068734122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_145
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 108
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08ad5a85be03b8944a208aa037e1babd
+      internalID: -1906341572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_146
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5b4f59a22ce72645a668425a85f209b
+      internalID: 2010381915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_147
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 83
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8935145ce8989114ea4fd19ac190b4d6
+      internalID: -1830838324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_148
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b0a0821d511f8a42bfecea3c76671b6
+      internalID: 929663052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_149
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 58
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e04735cdf86211a48921f38de49dd7b7
+      internalID: -113626089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_150
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c66d0fd7897238a4f8152c48a6dc7cb1
+      internalID: -1706711371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_151
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 33
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2434680bb3d15ec4db524258b1292285
+      internalID: -1059718261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_152
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3258c039490bf2043a2afbca34e5fe64
+      internalID: 674659271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused
+        Tileset ID 32_153
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 8
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de3334bea7a579749a43e41260178406
+      internalID: -1023392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_0: -615761925
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_1: 1881927908
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_10: -644467808
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_100: 484985816
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_101: 1443385094
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_102: -1324906309
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_103: 1449820091
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_104: -1585457839
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_105: -1576082092
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_106: -486891500
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_107: 1150558764
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_108: -315480106
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_109: 223671525
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_11: 444266114
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_110: -248898528
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_111: 904077821
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_112: -1261940647
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_113: -249617829
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_114: 2115570220
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_115: 616621993
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_116: -1086001959
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_117: 228770685
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_118: 1444774395
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_119: -1642563515
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_12: 231118642
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_120: 1089649418
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_121: 1579391317
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_122: -403880086
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_123: -1147054403
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_124: 1354733171
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_125: 1309726686
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_126: -1710817187
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_127: -1666461806
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_128: -204355853
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_129: -1292141078
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_13: -1183633612
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_130: -1610609726
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_131: 2126859840
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_132: -836594513
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_133: 1014599624
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_134: -1868844056
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_135: -659616116
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_136: -1994544799
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_137: -252836919
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_138: -213351813
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_139: 1780908779
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_14: -1587852972
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_140: -479262116
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_141: -1832509248
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_142: 573848304
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_143: 1071341559
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_144: -2068734122
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_145: -1906341572
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_146: 2010381915
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_147: -1830838324
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_148: 929663052
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_149: -113626089
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_15: 1340251594
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_150: -1706711371
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_151: -1059718261
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_152: 674659271
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_153: -1023392
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_154: -351792871
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_16: 118842028
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_17: 465800532
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_18: -1544194937
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_19: 222242900
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_2: 1606023862
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_20: -1722561781
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_21: -1849944464
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_22: -568749017
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_23: 1421096005
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_24: -357449116
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_25: 1766440011
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_26: 1435753422
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_27: 939960880
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_28: -129518424
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_29: 1522782806
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_3: -1407876009
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_30: 140250091
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_31: -1862550435
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_32: -1018363619
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_33: 1316508648
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_34: 849964513
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_35: 1926467687
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_36: -1280769841
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_37: -1236478003
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_38: 1438750733
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_39: 1676159801
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_4: 736123182
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_40: 1361329064
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_41: 2109854914
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_42: 1478208582
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_43: -538183768
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_44: 880494406
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_45: -703628798
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_46: -1056926552
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_47: 1830614877
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_48: -1319840615
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_49: 634760828
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_5: 36515225
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_50: -1179960855
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_51: -1898745225
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_52: 1567547441
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_53: -2031614796
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_54: 1590595696
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_55: -1647139647
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_56: 1868758281
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_57: 22396553
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_58: 764999314
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_59: 567881920
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_6: 917473998
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_60: -1078279382
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_61: -1449291875
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_62: -1863018353
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_63: 609551364
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_64: -1171716254
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_65: -1725690156
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_66: 1201742907
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_67: -791207636
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_68: -1980970747
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_69: -1836157165
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_7: 361591554
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_70: -477081586
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_71: -556033880
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_72: 1896692108
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_73: 917196036
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_74: 184178452
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_75: -1149065598
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_76: 1918020782
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_77: -1606618313
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_78: 161810060
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_79: 1739706193
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_8: 1440748340
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_80: -1986316261
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_81: -429648686
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_82: 665337571
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_83: -50970766
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_84: -463300841
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_85: -1444771671
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_86: -533474065
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_87: -1016706376
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_88: -387673398
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_89: -1318348900
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_9: 1206341880
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_90: -1605564536
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_91: -713153277
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_92: 1203263343
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_93: -1409136546
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_94: -1226799746
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_95: -1567367893
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_96: 1466890746
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_97: -273982909
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_98: -835343467
+      DS DSi - Pokemon Mystery Dungeon Explorers of Time Darkness - Unused Tileset ID 32_99: -705193235
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
