@@ -8,4 +8,13 @@ public static class PokeUtils
 	public static int CalculateStat(int level, int baseStat) => (int)(((baseStat * 2) * level / 100f) + 5);
 
 
+	public static int CalculateDamage()
+	{
+		// TODO : 대미지 계산식
+		// 공격 타입
+		// 위력
+		// 공격자 스탯
+		// 방어자 스탯
+		return 1;
+	}
 }

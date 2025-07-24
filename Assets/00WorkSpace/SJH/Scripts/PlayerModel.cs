@@ -43,17 +43,15 @@ public class PlayerModel
 		PokeData = pokemonData;
 		PokeLevel = level;
 		PokeExp = exp;
-
 		AllStat = new PokemonStat
 		{
-			Hp = PokeUtils.CalculateHp(pokemonData.BaseStat.Hp, level),
+			Hp = PokeUtils.CalculateHp(level, pokemonData.BaseStat.Hp),
 			Attak = PokeUtils.CalculateStat(level, pokemonData.BaseStat.Attak),
 			Defense = PokeUtils.CalculateStat(level, pokemonData.BaseStat.Defense),
 			SpecialAttack = PokeUtils.CalculateStat(level, pokemonData.BaseStat.SpecialAttack),
 			SpecialDefense = PokeUtils.CalculateStat(level, pokemonData.BaseStat.SpecialDefense),
 			Speed = PokeUtils.CalculateStat(level, pokemonData.BaseStat.Speed),
 		};
-
 		MaxHp = AllStat.Hp;
 		if (currentHp == -1) CurrentHp = MaxHp;
 		else CurrentHp = currentHp;
@@ -63,4 +61,5 @@ public class PlayerModel
 	public void SetMoving(bool moving) => IsMoving = moving;
 	public bool IsDead() => CurrentHp <= 0;
 	public PokemonData GetNextEvoData() => PokeData.NextEvoData;
+	public void SetCurrentHp(int hp) => _currentHp = hp;
 }

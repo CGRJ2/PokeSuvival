@@ -31,13 +31,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		Debug.Log("플레이어 초기화");
 
-		//ChangePokemonData(pokeData);
 		photonView.RPC("RPC_ChangePokemonData", RpcTarget.All, pokeData.PokeNumber);
 
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
 
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
+
+		_model.OnCurrentHpChanged += (hp) => { if (photonView.IsMine) ActionRPC("RPC_CurrentHpChanged", hp); };
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
@@ -161,11 +162,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		int currentLevel = _model.PokeLevel;
 		int currentExp = _model.PokeExp;
 
-		int prevMaxHp = _model.MaxHp;
 		int prevCurHp = _model.CurrentHp;
 
 		int nextMaxHp = PokeUtils.CalculateHp(currentLevel, pokeData.BaseStat.Hp);
-		int hpGap = nextMaxHp - prevMaxHp;
+		int hpGap = nextMaxHp - _model.MaxHp;
 		int afterLevelupHp = math.min(prevCurHp + hpGap, nextMaxHp);
 
 		_model = new PlayerModel(_model.PlayerName, pokeData, currentLevel, currentExp, afterLevelupHp);
@@ -185,4 +185,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	//{
 	//	photonView.RPC(functionName, RpcTarget.All, value);
 	//}
+
+	// TODO : 체력, 레벨 등 스탯 변경시 실행할 서버 함수
+
+	void ActionRPC(string funcName, object value)
+	{
+		photonView.RPC(funcName, RpcTarget.All, value);
+	}
+
+	[PunRPC]
+	public void RPC_CurrentHpChanged(int value)
+	{
+		Debug.Log($"체력 변경 => {value}");
+		_model.SetCurrentHp(value);
+	}
+
+	// TODO : TakeDamage
+	[PunRPC]
+	public void TakeDamage()
+	{
+
+	}
+	
+
 }
