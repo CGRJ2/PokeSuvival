@@ -34,3 +34,12 @@ public class MonsterPool : IPunPrefabPool
         pool[gameObject.name].Enqueue(gameObject); // 풀에 다시 넣음
     }
 }
+//PhotonNetwork.PrefabPool에 할당
+/*
+ * void Awake() // 게임 오브젝트가 생성될 때 호출
+{
+    PhotonNetwork.PrefabPool = new MonsterPool(); // 커스텀 풀 할당
+}
+PhotonNetwork.Instantiate("MonsterPrefab", position, rotation); // 생성
+PhotonNetwork.Destroy(monsterObject); // 삭제(풀로 반환)
+ * */
