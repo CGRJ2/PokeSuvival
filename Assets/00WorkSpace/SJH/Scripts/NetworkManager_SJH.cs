@@ -1,18 +1,18 @@
-﻿using Photon.Pun;
+﻿using Cinemachine;
+using Photon.Pun;
 using UnityEngine;
-using Cinemachine;
 
-public class NetworkManager_SJH : NetworkManager
+public class NetworkManager_SJH : MonoBehaviourPunCallbacks
 {
-	public static NetworkManager_SJH Instance { get; private set; }
+	public static NetworkManager_SJH InstanceTest { get; private set; }
 
 	public CinemachineVirtualCamera PlayerFollowCam;
 
 	void Awake()
 	{
-		if (Instance == null)
+		if (InstanceTest == null)
 		{
-			Instance = this;
+			InstanceTest = this;
 			DontDestroyOnLoad(gameObject);
 		}
 		else
@@ -20,11 +20,15 @@ public class NetworkManager_SJH : NetworkManager
 			Destroy(gameObject);
 			return;
 		}
+
+		PhotonNetwork.ConnectUsingSettings(); // 
 	}
+
+
 
 	public override void OnConnectedToMaster()
 	{
-		Debug.Log("마스터 연결");
+		Debug.Log("SJH_마스터 연결");
 		PhotonNetwork.JoinRandomOrCreateRoom();
 	}
 
