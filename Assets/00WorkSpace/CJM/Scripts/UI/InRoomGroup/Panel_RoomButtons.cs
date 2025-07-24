@@ -34,13 +34,15 @@ public class Panel_RoomButtons : MonoBehaviour
             btn_Start.interactable = false;
             btn_Start.gameObject.SetActive(false);
         }
+
+        // 이거 그냥 모든 인원이 Ready 상태일 때, 방장만 Start 버튼이 활성화 되도록 하자.
     }
 
     public void ExitRoom()
     {
         PhotonNetwork.LeaveRoom();
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.RoomGroup.gameObject);
+        um.ClosePanel(um.LobbyGroup.panel_RoomInside.gameObject);
     }
 
     public void Ready()
@@ -48,7 +50,7 @@ public class Panel_RoomButtons : MonoBehaviour
         //// 룸 커스텀 프로퍼티 설정
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
-            RoomMemberSlot localPlayerSlot = UIManager.Instance.RoomGroup.assignedSlots[PhotonNetwork.LocalPlayer];
+            RoomMemberSlot localPlayerSlot = UIManager.Instance.LobbyGroup.panel_RoomInside.assignedSlots[PhotonNetwork.LocalPlayer];
             // 이미 레디 상태라면 레디 false
             if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["Ready"])
             {

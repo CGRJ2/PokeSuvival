@@ -6,15 +6,16 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class UIGroup_Room : MonoBehaviour
+public class Panel_RoomInside : MonoBehaviour
 {
+    [SerializeField] TMP_Text tmp_RoomName;
     RoomMemberSlot[] roomMemberSlots;
     [SerializeField] Transform roomMemberSlotsParent;
-    [SerializeField] TMP_Text tmp_PlayerCount;
+    //[SerializeField] TMP_Text tmp_PlayerCount;
     public Dictionary<Player, RoomMemberSlot> assignedSlots = new Dictionary<Player, RoomMemberSlot>();
 
 
-    public Panel_RoomSettings panel_RoomSettings;
+    public Panel_MapSettings panel_MapSettings;
     public Panel_RoomButtons panel_RoomButtons;
 
 
@@ -32,26 +33,28 @@ public class UIGroup_Room : MonoBehaviour
     {
         roomMemberSlots = roomMemberSlotsParent.GetComponentsInChildren<RoomMemberSlot>();
 
-        panel_RoomSettings.Init();
+        panel_MapSettings.Init();
         panel_RoomButtons.Init();
     }
 
 
     public void InitRoomView()
     {
-        UIManager.Instance.OpenPanel(gameObject);
+        // 기본 방 설정(생성 시 설정된 데이터로 View 업데이트)
+        tmp_RoomName.text = PhotonNetwork.CurrentRoom.Name;
 
-        panel_RoomSettings.InitRoomSettings(PhotonNetwork.IsMasterClient);
+        panel_MapSettings.InitRoomSettings(PhotonNetwork.IsMasterClient);
         panel_RoomButtons.InitButtons(PhotonNetwork.IsMasterClient);
-        panel_RoomSettings.UpdateRoomProperty();
+        panel_MapSettings.UpdateRoomProperty();
 
+        UIManager.Instance.OpenPanel(gameObject);
     }
 
     public void UpdatePlayerList()
     {
         List<Player> playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
         int maxPlayerCount = PhotonNetwork.CurrentRoom.MaxPlayers;
-        tmp_PlayerCount.text = $"{playerList.Count} / {maxPlayerCount}"; // 현재 방에 들어온 플레이어 수 표기
+        //tmp_PlayerCount.text = $"{playerList.Count} / {maxPlayerCount}"; // 현재 방에 들어온 플레이어 수 표기
 
         Dictionary<Player, RoomMemberSlot> instanceDic = new Dictionary<Player, RoomMemberSlot>();
 

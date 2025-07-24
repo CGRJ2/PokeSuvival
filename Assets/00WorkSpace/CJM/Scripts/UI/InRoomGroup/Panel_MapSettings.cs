@@ -6,9 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class Panel_RoomSettings : MonoBehaviour
+public class Panel_MapSettings : MonoBehaviour
 {
-    [SerializeField] TMP_Text tmp_RoomName;
     [SerializeField] TMP_Text tmp_MapName;
     [SerializeField] Image image_Map;
     [SerializeField] Button btn_MapLeft;
@@ -30,9 +29,6 @@ public class Panel_RoomSettings : MonoBehaviour
 
     public void InitRoomSettings(bool isMaster)
     {
-        // 기본 방 설정(생성 시 설정된 데이터로 View 업데이트)
-        tmp_RoomName.text = PhotonNetwork.CurrentRoom.Name;
-
         // 처음 입장한 사람이라면 Ready상태 false
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
         playerProperty["Ready"] = false;

@@ -79,7 +79,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         {
             um.LobbyGroup.gameObject.SetActive(true);
             um.InitializeGroup.gameObject.SetActive(false);
-            um.RoomGroup.gameObject.SetActive(false);
             um.InGameGroup.gameObject.SetActive(false);
         }
     }
@@ -100,24 +99,35 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnJoinedRoom();
         Debug.Log("방 입장");
 
-        um.RoomGroup.InitRoomView();
-        um.RoomGroup.UpdatePlayerList();
+        if (um != null)
+        {
+            um.LobbyGroup.panel_RoomInside.InitRoomView();
+            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
+            um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+        }
     }
 
-    //public override void OnLeftRoom() { }       // 방 퇴장시 호출됨
+    // 방 퇴장시 호출됨
+    public override void OnLeftRoom() 
+    {
+        if (um != null)
+        {
+            um.LobbyGroup.panel_RoomInside.gameObject.SetActive(false);
+        }
+    }       
 
     // 새로운 플레이어가 방 입장시 호출됨
     public override void OnPlayerEnteredRoom(Player newPlayer) 
     {
         if (um != null)
-            um.RoomGroup.UpdatePlayerList(); 
+            um.LobbyGroup.panel_RoomInside.UpdatePlayerList(); 
     }
 
     // 다른 플레이어가 방 퇴장시 호출됨
     public override void OnPlayerLeftRoom(Player otherPlayer) 
     {
         if (um != null)
-            um.RoomGroup.UpdatePlayerList(); 
+            um.LobbyGroup.panel_RoomInside.UpdatePlayerList(); 
     }
 
 
@@ -155,7 +165,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
 
         if (um != null)
-            um.RoomGroup.panel_RoomSettings.UpdateRoomProperty();
+            um.LobbyGroup.panel_RoomInside.panel_MapSettings.UpdateRoomProperty();
     }
 
     // 방안의 플레이어가 커스텀 프로퍼티가 변경될 때 호출 (다른 사람이 변경해도 호출됨)
@@ -164,7 +174,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
 
         if (um != null)
-            um.RoomGroup.UpdatePlayerList();
+            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
     }
 
     #endregion
