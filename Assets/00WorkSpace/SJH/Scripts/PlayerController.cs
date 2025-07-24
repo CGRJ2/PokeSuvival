@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
 
-		NetworkManager_SJH.InstanceTest.PlayerFollowCam.Follow = transform;
+		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
@@ -56,8 +57,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);
 		_model = new PlayerModel(_model.PlayerName, pokeData);
-		//if (_view == null) _view = GetComponent<PlayerView>();
-		_view.SetAnimator(pokeData.AnimController);
+		_view?.SetAnimator(pokeData.AnimController);
 	}
 
 	void MoveInput()
@@ -72,20 +72,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (stream.IsWriting)
 		{
 			stream.SendNext(_flipX);
+
 		}
 		else
 		{
-			_flipX = (bool)stream.ReceiveNext();
-			_view.SetFlip(_flipX);
+			_view.SetFlip(_flipX = (bool)stream.ReceiveNext());
+
 		}
 	}
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
 	{
-		if (!photonView.IsMine) return;
+		if (!photonView.IsMine)
+		{
+			gameObject.tag = "Enemy";
+			return;
+		}
 
 		Debug.Log("플레이어 인스턴스화");
 
+		gameObject.tag = "Player";
 		object[] data = photonView.InstantiationData;
 		PokemonData pokeData = null;
 		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
@@ -149,25 +155,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RPC_PokemonEvolution(int pokeNumber)
 	{
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
+
 		if (pokeData == null) return;
+
 		int currentLevel = _model.PokeLevel;
 		int currentExp = _model.PokeExp;
 
-		_model = new PlayerModel(_model.PlayerName, pokeData);
+		int prevMaxHp = _model.MaxHp;
+		int prevCurHp = _model.CurrentHp;
 
-		if (currentLevel > 1)
-		{
-			_model.SetLevel(currentLevel);
-			_model.SetExperience(currentExp);
-		}
-		
+		int nextMaxHp = PokeUtils.CalculateHp(currentLevel, pokeData.BaseStat.Hp);
+		int hpGap = nextMaxHp - prevMaxHp;
+		int afterLevelupHp = math.min(prevCurHp + hpGap, nextMaxHp);
+
+		_model = new PlayerModel(_model.PlayerName, pokeData, currentLevel, currentExp, afterLevelupHp);
+
 		_view.SetAnimator(pokeData.AnimController);
 	}
 
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-
 		photonView.RPC("RPC_ChangePokemonData", newPlayer, _model.PokeData.PokeNumber);
 	}
 

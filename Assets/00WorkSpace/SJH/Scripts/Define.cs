@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using UnityEditor.iOS;
 using UnityEngine;
 
 public static class Define
