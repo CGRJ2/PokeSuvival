@@ -24,15 +24,18 @@ public class Panel_SelectStarting : MonoBehaviour
 
         // 스타팅 포켓몬 설정해주기
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
-        playerProperty["StartingPokemon"] = selectedPokemon;
+        playerProperty["StartingPokemon"] = selectedPokemon.name;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
         // 디버그용
-        PokemonData debugTest = (PokemonData)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-        Debug.Log($"스타팅 포켓몬 설정됨: {debugTest.PokeName}");
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+        {
+            string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+            PokemonData debugTest = Resources.Load<PokemonData>($"PokemonSO/{pokemonDataSO_Name}");
+            Debug.Log($"스타팅 포켓몬 설정됨: {debugTest.PokeName}");
+        }
 
         // LobbyDefault에 스타팅 포켓몬 View 업데이트
-
         UIManager.Instance.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
 
         // 패널 닫기
