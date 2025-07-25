@@ -13,9 +13,11 @@ public class Panel_SelectStarting : MonoBehaviour
     {
         panel_PokemonList.Init();
         panel_PokemonInfo.Init();
-
         btn_Confirm.onClick.AddListener(SelectConfirm);
         btn_Cancel.onClick.AddListener(CloseSelectPanel);
+
+        // 맨 처음 보여줄 몬스터 (일단 1번인 이상해씨를 넣었습니다)
+        panel_PokemonInfo.UpdateView(Resources.Load<PokemonData>("PokemonSO/Bulbasaur"));
     }
 
     void SelectConfirm()
