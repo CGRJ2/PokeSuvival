@@ -25,15 +25,15 @@ public class Panel_RoomMaking : MonoBehaviour
         }
         btn_RoomCreate.interactable = false;
 
-        RoomOptions options = new RoomOptions { MaxPlayers = 8 };
+        RoomOptions options = new RoomOptions { MaxPlayers = 4 };
         
         // 로비에서 RoomInfo에서 Room 커스텀프로퍼티 접근을 위함
         options.CustomRoomPropertiesForLobby = new string[] { "Map" };
 
         PhotonNetwork.CreateRoom(tmp_RoomName.text, options);
-        tmp_RoomName.text = null;
 
         UIManager.Instance.ClosePanel(gameObject);
+        tmp_RoomName.text = null;
         btn_RoomCreate.interactable = true;
     }
 }
