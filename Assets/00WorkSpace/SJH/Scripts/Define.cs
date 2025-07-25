@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using UnityEditor.iOS;
 using UnityEngine;
 
 public static class Define
@@ -64,9 +63,20 @@ public struct PokemonStat
 }
 public enum SkillSlot
 {
-	Skill1 = 1,
+	Skill1,
 	Skill2,
 	Skill3,
-	Skill4
+	Skill4,
+}
+public enum SkillType
+{
+	Physical,
+	Special,
+	Status,
+}
+public enum AttackType
+{
+	Melee,
+	Ranged,
 }
 #endregion

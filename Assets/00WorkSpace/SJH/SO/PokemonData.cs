@@ -9,9 +9,9 @@ public class PokemonData : ScriptableObject
 	public PokemonStat BaseStat;
 	public RuntimeAnimatorController AnimController;
 	public Sprite PokemonSprite;
-	// TODO : 스킬 리스트
+	public PokemonSkill[] Skills;
 	public string Desc;
-	public int EvoLevel; // TODO : 진화 기준 변경
+	public int EvoLevel;
 	public PokemonData NextEvoData;
 	public bool IsCanEvo => NextEvoData != null;
 	// TODO : 패시브
