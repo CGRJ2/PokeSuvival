@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviourPun, IPunObservable
 {
+    [Header("기본 스탯")]
+    public PokemonData pokemonData; // PokemonData ScriptableObject 참조 (Inspector에서 할당)
+    [SerializeField] public int level = 1; // 몬스터 레벨 (Inspector에서 수정 가능)
+    [SerializeField] public int maxHealth = 100; // 최대 체력 (Inspector에서 수정 가능)
+    [SerializeField] public int currentHealth = 100; // 현재 체력 (Inspector에서 수정 가능)
+
+    [Header("AI 설정")]
     public float detectRange = 10f;      // 플레이어를 감지할 수 있는 거리
     public float moveSpeed = 3f;         // 몬스터의 이동 속도
     public float attackRange = 2f;       // 플레이어를 공격할 수 있는 거리
     public float attackCooldown = 1.5f;  // 공격 후 다시 공격할 때까지의 대기 시간
-    public int maxHealth = 100;          // 몬스터의 최대 체력
-
-    private int currentHealth;           // 현재 체력
+    
     private Transform player;            // 플레이어의 Transform 참조
     private float lastAttackTime;        // 마지막 공격 시각
 
@@ -20,13 +26,23 @@ public class Monster : MonoBehaviour
 
     void Start() // 게임 시작 시 호출되는 함수
     {
-        currentHealth = maxHealth; // 현재 체력을 최대 체력으로 초기화
+        if (pokemonData != null) // PokemonData가 할당되어 있으면
+        {
+            currentHealth = maxHealth; // 현재 체력 초기화
+            // 필요하다면 다른 스탯도 pokemonData에서 가져와서 초기화
+        }
+        else
+        {
+            currentHealth = maxHealth; // PokemonData가 없으면 Inspector 값 사용
+        }
         player = GameObject.FindGameObjectWithTag("Player")?.transform; // "Player" 태그를 가진 오브젝트의 Transform을 찾음
         SetRandomWanderDirection(); // 시작할 때 랜덤 방향을 한 번 설정
     }
 
     void Update() // 매 프레임마다 호출되는 함수
     {
+        if (!PhotonNetwork.IsMasterClient) return; // 마스터 클라이언트만 몬스터 AI를 제어
+
         if (player == null) return; // 플레이어가 없으면 아무것도 하지 않음
 
         float distance = Vector3.Distance(transform.position, player.position); // 몬스터와 플레이어 사이의 거리 계산
@@ -97,6 +113,23 @@ public class Monster : MonoBehaviour
         // TODO: 아이템 프리팹 생성 및 드롭
         // 예시: Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
-        Destroy(gameObject); // 몬스터 오브젝트 삭제
+        PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
+    }
+
+    // Photon 네트워크를 통한 동기화 함수
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // 네트워크 동기화 함수
+    {
+        if (stream.IsWriting) // 마스터 클라이언트에서 데이터를 보낼 때
+        {
+            stream.SendNext(transform.position); // 위치 정보 전송
+            stream.SendNext(currentHealth); // 체력 정보 전송
+            stream.SendNext(level); // 레벨 정보 전송
+        }
+        else // 다른 클라이언트에서 데이터를 받을 때
+        {
+            transform.position = (Vector3)stream.ReceiveNext(); // 위치 정보 수신
+            currentHealth = (int)stream.ReceiveNext(); // 체력 정보 수신
+            level = (int)stream.ReceiveNext(); // 레벨 정보 수신
+        }
     }
 }
