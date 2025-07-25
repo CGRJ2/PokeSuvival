@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private PlayerView _view;
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
-
+	
 	public Vector2 MoveDir { get; private set; }
 
 	void Awake()
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
 
-		NetworkManager_SJH.Instance.PlayerFollowCam.Follow = transform;
+		NetworkManager_SJH.InstanceTest.PlayerFollowCam.Follow = transform;
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			_model.SetLevel(currentLevel);
 			_model.SetExperience(currentExp);
 		}
-
+		
 		_view.SetAnimator(pokeData.AnimController);
 	}
 
@@ -170,4 +170,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		photonView.RPC("RPC_ChangePokemonData", newPlayer, _model.PokeData.PokeNumber);
 	}
+
+	//public float Health { get => health; set => ActionPRC("", health); }
+
+	//private void ActionPRC(string functionName, object value)
+	//{
+	//	photonView.RPC(functionName, RpcTarget.All, value);
+	//}
 }

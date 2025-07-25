@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64045b67b036ff45b86447f14588192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _model:
+    _currentHp: 0
   _view: {fileID: 0}
   _input: {fileID: 0}
   _flipX: 0
