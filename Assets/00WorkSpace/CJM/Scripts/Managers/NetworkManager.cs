@@ -8,9 +8,14 @@ using UnityEngine;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
+    [Header("테스터 서버 연결 여부")]
+    [SerializeField] bool isTestServer;
+    [SerializeField] int testServerIndex;
+
     [Header("디버깅 용도")]
     [SerializeField] TMP_Text tmp_State;
     ServerData curServer;
+    [SerializeField] ServerData[] testServerDatas;
     [SerializeField] ServerData[] lobbyServerDatas;
     [SerializeField] ServerData[] inGameServerDatas;
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
@@ -25,12 +30,16 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         um = UIManager.Instance;
 
         // 서버 관리 R&D 진행 후 수정하자
-        //MoveToLobby();
-        
         curServer = lobbyServerDatas[0];
-        ChangeServer(lobbyServerDatas[1]);
-        PhotonNetwork.ConnectUsingSettings();
-
+        if (isTestServer)
+        {
+            ChangeServer(testServerDatas[testServerIndex]);
+        }
+        else
+        {
+            ChangeServer(lobbyServerDatas[0]);
+        }
+        //PhotonNetwork.ConnectUsingSettings();
 
         // 연결 시도와 동시에 로딩창으로 가리기
         if (um != null)
@@ -79,7 +88,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         {
             if (um != null)
             {
-                Debug.Log(PhotonNetwork.LocalPlayer.NickName);
                 // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
                 if (PhotonNetwork.LocalPlayer.NickName == "") // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
                     um.InitializeGroup.InitView();
@@ -163,14 +171,14 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
-        Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
+        //Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
 
         // 변화한 애들 현재 방 해시테이블에 갱신
         foreach (RoomInfo info in roomList)
         {
             if (info.RemovedFromList)
             {
-                Debug.Log($"방 삭제 {info.Name}");
+                //Debug.Log($"방 삭제 {info.Name}");
                 cachedRoomList.Remove(info.Name);
             }
             else
@@ -179,7 +187,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             }
         }
 
-        Debug.Log($"현재 존재하는 방 개수{cachedRoomList.Count}");
+        //Debug.Log($"현재 존재하는 방 개수{cachedRoomList.Count}");
 
         // 해시테이블을 리스트로 변환
         List<RoomInfo> activedRoomList = cachedRoomList.Values.ToList();
@@ -316,5 +324,5 @@ public class ServerData
     public string name;
     public string id;
 }
-public enum ServerType { Lobby, InGame };
+public enum ServerType { Lobby, InGame, TestServer };
 

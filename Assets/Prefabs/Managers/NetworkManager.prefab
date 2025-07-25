@@ -45,7 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04a13c7873eecd448164323e6394791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTestServer: 1
+  testServerIndex: 0
   tmp_State: {fileID: 3219345820266472805}
+  testServerDatas:
+  - type: 2
+    name: Test Server 01
+    id: 48eca52a-aeec-4db0-aa8a-8196654f94c8
+  - type: 2
+    name: "\uBCC4\uB3C4\uB85C \uC11C\uBC84\uB97C \uBD84\uB9AC\uD574 \uD14C\uC2A4\uD2B8\uB97C
+      \uC9C4\uD589\uD558\uACE0 \uC2F6\uB2E4\uBA74"
+    id: "\uC774\uACF3\uC5D0 \uBCF8\uC778 \uACC4\uC815\uC73C\uB85C \uB9CC\uB4E0 \uC11C\uBC84
+      ID \uB123\uACE0 \uC778\uB371\uC2A4 \uC801\uC6A9"
   lobbyServerDatas:
   - type: 0
     name: Lobby Server 01 (KR)
