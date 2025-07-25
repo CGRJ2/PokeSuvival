@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Pokemon/PokemonData")]
 public class PokemonData : ScriptableObject
@@ -8,7 +9,8 @@ public class PokemonData : ScriptableObject
 	public PokemonType[] Types;
 	public PokemonStat BaseStat;
 	public RuntimeAnimatorController AnimController;
-	public Sprite PokemonSprite;
+	public Sprite PokemonIconSprite;
+	public Sprite PokemonInfoSprite;
 	public PokemonSkill[] Skills;
 	public string Desc;
 	public int EvoLevel;
