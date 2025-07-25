@@ -127,11 +127,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
-				Debug.Log($"스킬 {slot} 사용");
+				//Debug.Log($"스킬 {slot} 키다운");
 				var skill = _model.GetSkill((int)slot);
 				if (skill == null)
 				{
 					Debug.Log("사용할 수 있는 스킬이 없습니다.");
+					return;
+				}
+				if (_model.IsSkillCooldown(slot, skill.Cooldown))
+				{
+					Debug.Log("스킬이 쿨타임입니다.");
 					return;
 				}
 				IAttack attack = null;
@@ -146,14 +151,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 					return;
 				}
 
-				// TODO : 공격 실행
-				attack.Attack();
+				attack.Attack(transform, skill);
+				_model.SetSkillCooldown(slot);
 
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
 			case InputActionPhase.Canceled:
-				Debug.Log($"스킬 {slot} 완료 : {ctx.duration}");
+				//Debug.Log($"스킬 {slot} 키업 : {ctx.duration}");
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -32,8 +33,9 @@ public class PlayerModel
 	}
 	public event Action<int> OnCurrentHpChanged;
 	
-
 	public bool IsMoving { get; private set; }
+
+	private Dictionary<SkillSlot, float> _skillCooldownDic;
 
 	// TODO : 패시브 아이템 리스트
 
@@ -55,6 +57,13 @@ public class PlayerModel
 		MaxHp = AllStat.Hp;
 		if (currentHp == -1) CurrentHp = MaxHp;
 		else CurrentHp = currentHp;
+		_skillCooldownDic = new()
+		{
+			[SkillSlot.Skill1] = 0,
+			[SkillSlot.Skill2] = 0,
+			[SkillSlot.Skill3] = 0,
+			[SkillSlot.Skill4] = 0,
+		};
 	}
 
 	public float GetMoveSpeed() => PokeData.BaseStat.GetMoveSpeed();
@@ -69,5 +78,10 @@ public class PlayerModel
 		if (skills == null || skills.Length == 0 || index < 0 || index >= skills.Length) return null;
 
 		return skills[index];
+	}
+	public bool IsSkillCooldown(SkillSlot slot, float cooldown) => _skillCooldownDic.TryGetValue(slot, out var lastCooldown) && Time.time - lastCooldown < cooldown;
+	public void SetSkillCooldown(SkillSlot slot)
+	{
+		_skillCooldownDic[slot] = Time.time;
 	}
 }
