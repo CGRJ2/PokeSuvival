@@ -86,7 +86,7 @@ public class MonsterBallPoolManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC("RPC_SpawnMonsterBall", RpcTarget.AllBuffered, position);
+            photonView.RPC(nameof(RPC_SpawnMonsterBall), RpcTarget.AllBuffered, position);
         }
     }
 
@@ -110,7 +110,7 @@ public class MonsterBallPoolManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient) // 방장만
         {
-            photonView.RPC("RPC_ReturnToPool", RpcTarget.AllBuffered, obj.GetComponent<PhotonView>().ViewID); // 도로 풀에 넣으라고 모두 전달
+            photonView.RPC(nameof(RPC_ReturnToPool), RpcTarget.AllBuffered, obj.GetComponent<PhotonView>().ViewID); // 도로 풀에 넣으라고 모두 전달
         }
     }
 

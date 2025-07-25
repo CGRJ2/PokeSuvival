@@ -16,7 +16,7 @@ public class MonsterBall : MonoBehaviourPunCallbacks
             Vector3 spawnPosition = transform.position;
 
             // 아이템 드롭 로직
-            photonView.RPC("RPC_DropItem", RpcTarget.All);
+            photonView.RPC(nameof(RPC_DropItem), RpcTarget.All);
 
             // 풀로 반환
             MonsterBallPoolManager.Instance.ReturnToPool(gameObject);
