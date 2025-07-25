@@ -7,7 +7,7 @@ public class RangedAttack : IAttack
 
 	}
 
-	public void Attack(Transform attacker, PokemonSkill skill)
+	public void Attack(Transform attacker, Vector2 attackDir, PokemonSkill skill)
 	{
 		// TODO : 원거리 공격
 		// 불꽃세례, 물대포같이 원거리 공격

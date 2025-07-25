@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private PlayerView _view;
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
-	
-	public Vector2 MoveDir { get; private set; }
+
+	[field: SerializeField] public Vector2 MoveDir { get; private set; }
 
 	void Awake()
 	{
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		Debug.Log("플레이어 초기화");
 
-		photonView.RPC("RPC_ChangePokemonData", RpcTarget.All, pokeData.PokeNumber);
+		photonView.RPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
 
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		if (!photonView.IsMine) return;
 
-		photonView.RPC("RPC_ChangePokemonData", RpcTarget.All, pokeData.PokeNumber);
+		photonView.RPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
 	}
 
 	[PunRPC]
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 					return;
 				}
 
-				attack.Attack(transform, skill);
+				attack.Attack(transform, _view.LastDir, skill);
 				_model.SetSkillCooldown(slot);
 
 				// TODO : 모델 처리
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		if (nextPokeData != null)
 		{
-			photonView.RPC("RPC_PokemonEvolution", RpcTarget.All, nextPokeData.PokeNumber);
+			photonView.RPC(nameof(RPC_PokemonEvolution), RpcTarget.All, nextPokeData.PokeNumber);
 		}
 	}
 
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		photonView.RPC("RPC_ChangePokemonData", newPlayer, _model.PokeData.PokeNumber);
+		photonView.RPC(nameof(RPC_ChangePokemonData), newPlayer, _model.PokeData.PokeNumber);
 	}
 
 	//public float Health { get => health; set => ActionPRC("", health); }
