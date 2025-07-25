@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviourPun, IPunObservable
 {
     public float detectRange = 10f;      // 플레이어를 감지할 수 있는 거리
     public float moveSpeed = 3f;         // 몬스터의 이동 속도
@@ -27,6 +28,8 @@ public class Monster : MonoBehaviour
 
     void Update() // 매 프레임마다 호출되는 함수
     {
+        if (!PhotonNetwork.IsMasterClient) return; // 마스터 클라이언트만 몬스터 AI를 제어
+
         if (player == null) return; // 플레이어가 없으면 아무것도 하지 않음
 
         float distance = Vector3.Distance(transform.position, player.position); // 몬스터와 플레이어 사이의 거리 계산
@@ -97,6 +100,21 @@ public class Monster : MonoBehaviour
         // TODO: 아이템 프리팹 생성 및 드롭
         // 예시: Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
-        Destroy(gameObject); // 몬스터 오브젝트 삭제
+        PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
+    }
+
+    // Photon 네트워크를 통한 동기화 함수
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // 네트워크 동기화 함수
+    {
+        if (stream.IsWriting) // 마스터 클라이언트에서 데이터를 보낼 때
+        {
+            stream.SendNext(transform.position); // 위치 정보 전송
+            stream.SendNext(currentHealth); // 체력 정보 전송
+        }
+        else // 다른 클라이언트에서 데이터를 받을 때
+        {
+            transform.position = (Vector3)stream.ReceiveNext(); // 위치 정보 수신
+            currentHealth = (int)stream.ReceiveNext(); // 체력 정보 수신
+        }
     }
 }
