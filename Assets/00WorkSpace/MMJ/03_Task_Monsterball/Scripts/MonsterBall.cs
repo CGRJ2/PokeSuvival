@@ -15,8 +15,8 @@ public class MonsterBall : MonoBehaviourPunCallbacks
             // 몬스터볼의 현재 위치 저장
             Vector3 spawnPosition = transform.position;
 
-            // 아이템 드롭 로직
-            photonView.RPC(nameof(RPC_DropItem), RpcTarget.All);
+            // 아이템 드롭 로직 - 위치 정보를 함께 전달
+            photonView.RPC(nameof(RPC_DropItem), RpcTarget.AllBuffered, spawnPosition);
 
             // 풀로 반환
             MonsterBallPoolManager.Instance.ReturnToPool(gameObject);

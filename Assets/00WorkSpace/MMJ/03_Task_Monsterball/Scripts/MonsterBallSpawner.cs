@@ -37,7 +37,7 @@ public class MonsterBallSpawner : MonoBehaviourPunCallbacks
         // 랜덤 위치 생성 (-50,50)
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
-        Vector3 spawnPosition = new Vector3(randomX, randomY, spawnHeight); // 2D 게임은 Z=0
+        Vector3 spawnPosition = new Vector3(randomX, randomY, 0f); // 2D 게임은 Z=0
 
         // 풀 매니저에 스폰 요청
         MonsterBallPoolManager.Instance.SpawnMonsterBall(spawnPosition);
