@@ -1,5 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,10 +19,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	public int Test_Level;
 
+	private int _maxLogCount = 10;
+	[SerializeField] private Queue<Vector2> _moveHistory = new();
+	[SerializeField] private Vector2 _lastDir = Vector2.down;
+
+
 	void Awake()
 	{
 		_view = GetComponent<PlayerView>();
 		_input = GetComponent<PlayerInput>();
+
+		_moveHistory = new(_maxLogCount);
 	}
 
 	void Update()
@@ -51,12 +60,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
-	}
-
-	void MoveInput()
-	{
-		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
-		_view.PlayerMove(MoveDir, _model.GetMoveSpeed());
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -104,12 +107,53 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		}
 	}
 
+	void MoveInput()
+	{
+		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
+
+		if (MoveDir != Vector2.zero)
+		{
+			_moveHistory.Enqueue(MoveDir);
+			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
+		}
+
+		//_view.PlayerMove(MoveDir, _model.GetMoveSpeed());
+		_view.PlayerMove(MoveDir, _lastDir, _model.GetMoveSpeed());
+	}
+
 	#region InputSystem Function
 	public void OnMove(InputValue value)
 	{
 		if (!photonView.IsMine) return;
 		MoveDir = value.Get<Vector2>();
 		_model.SetMoving(MoveDir != Vector2.zero);
+
+		if (MoveDir != Vector2.zero) _lastDir = MoveDir;
+
+		// 두 키를 뗐을 때
+		if (MoveDir == Vector2.zero)
+		{
+			bool isFound = false;
+			foreach (var dir in _moveHistory.Reverse())
+			{
+				if (math.abs(dir.x) > 0.1f && math.abs(dir.y) > 0.1f)
+				{
+					_lastDir = dir;
+					isFound = true;
+					break;
+				}
+			}
+			if (isFound) return;
+			foreach (var dir in _moveHistory.Reverse())
+			{
+				if (dir != Vector2.zero)
+				{
+					_lastDir = dir;
+					break;
+				}
+			}
+			_moveHistory.Clear();
+		}
 	}
 
 	public void OnSkill(SkillSlot slot, InputAction.CallbackContext ctx)
@@ -153,7 +197,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		Debug.Log("새로운 플레이어 입장");
 		photonView.RPC(nameof(RPC_SyncToNewPlayer), newPlayer, _model.PokeData.PokeNumber, _model.PokeLevel, _model.CurrentHp);
 	}
 
@@ -232,15 +275,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		Debug.Log($"{value} 대미지 입음");
 		_model.SetCurrentHp(_model.CurrentHp - value);
+		// TODO : RPC All View 피격 연출
 	}
 	[PunRPC]
 	public void RPC_SyncToNewPlayer(int pokeNumber, int level, int currentHp)
 	{
+		Debug.Log("새로운 플레이어 입장");
 		var pokeData = Define.GetPokeData(pokeNumber);
-		_model = new PlayerModel(_model.PlayerName, pokeData);
+		_model = new PlayerModel(_model.PlayerName, pokeData, level, 0, currentHp);
 		_view?.SetAnimator(pokeData.AnimController);
-
-		_model.SetLevel(level);
-		_model.SetCurrentHp(currentHp);
 	}
 }

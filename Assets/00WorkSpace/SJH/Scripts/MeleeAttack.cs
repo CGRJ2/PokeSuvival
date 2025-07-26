@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class MeleeAttack : IAttack
 {
@@ -29,9 +30,10 @@ public class MeleeAttack : IAttack
 			if (Vector2.Dot(attackDir, dir) >= 0.707f) // 45
 			{
 				var iD = enemy.GetComponent<IDamagable>();
-				if (iD == null) return;
+				var pv = enemy.GetComponent<PhotonView>();
+				if (iD == null || pv == null) return;
 				int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
-				iD.TakeDamage(damage);
+				pv.RPC("RPC_TakeDamage", pv.Owner, damage);
 				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
 		}
@@ -51,10 +53,11 @@ public class MeleeAttack : IAttack
 			if (Vector2.Dot(attackDir, dir) >= 0.707f) // 45
 			{
 				var iD = enemy.GetComponent<IDamagable>();
-				if (iD == null) return;
+				var pv = enemy.GetComponent<PhotonView>();
+				if (iD == null || pv == null) return;
 				int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
-				iD.TakeDamage(damage);
-				Debug.Log($"{attackerData.PokeData.PokeName} 이/가 {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
+				pv.RPC("RPC_TakeDamage", pv.Owner, damage);
+				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");

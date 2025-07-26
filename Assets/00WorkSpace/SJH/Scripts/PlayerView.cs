@@ -25,6 +25,16 @@ public class PlayerView : MonoBehaviour
 		_anim.SetFloat("X", LastDir.x);
 		_anim.SetFloat("Y", LastDir.y);
 	}
+	public void PlayerMove(Vector2 dir, Vector2 lastDir, float moveSpeed)
+	{
+		Vector2 movePos = dir * moveSpeed;
+		_rigid.velocity = movePos;
+
+		if (dir.x != 0) _sprite.flipX = lastDir.x > 0.1f;
+
+		_anim.SetFloat("X", lastDir.x);
+		_anim.SetFloat("Y", lastDir.y);
+	}
 
 	public void SetAnimator(RuntimeAnimatorController anim) => _anim.runtimeAnimatorController = anim;
 	public void SetFlip(bool flip) => _sprite.flipX = flip;
