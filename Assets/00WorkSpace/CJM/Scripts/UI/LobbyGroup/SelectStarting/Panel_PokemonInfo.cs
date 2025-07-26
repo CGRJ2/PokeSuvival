@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,20 +33,20 @@ public class Panel_PokemonInfo : MonoBehaviour
         tmp_SpDef.text = $"{selectedPokemonData.BaseStat.SpecialDefense}";
         tmp_Speed.text = $"{selectedPokemonData.BaseStat.Speed}";
 
-        // Å¸ÀÔÀÌ 1°³ÀÏ ¶§¿Í 2°³ÀÏ ¶§ ¿¹¿ÜÃ³¸®
+        // íƒ€ì…ì´ 1ê°œì¼ ë•Œì™€ 2ê°œì¼ ë•Œ ì˜ˆì™¸ì²˜ë¦¬
         TypeSpritesDB typeSpriteDB = Resources.Load<TypeSpritesDB>("Type Icon DB/PokemonTypeSpritesDB");
-        if (selectedPokemonData.Types.Length > 1)
+        if (selectedPokemonData.PokeTypes.Length > 1)
         {
             images_Type[0].gameObject.SetActive(true);
             images_Type[1].gameObject.SetActive(true);
-            images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.Types[0]];
-            images_Type[1].sprite = typeSpriteDB.dic[selectedPokemonData.Types[1]];
+            images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[0]];
+            images_Type[1].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[1]];
         }
         else
         {
             images_Type[0].gameObject.SetActive(true);
             images_Type[1].gameObject.SetActive(false);
-            images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.Types[0]];
+            images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[0]];
         }
     }
 }

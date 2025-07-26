@@ -6,7 +6,7 @@ public class PokemonData : ScriptableObject
 {
 	public int PokeNumber;
 	public string PokeName;
-	public PokemonType[] Types;
+	public PokemonType[] PokeTypes;
 	public PokemonStat BaseStat;
 	public RuntimeAnimatorController AnimController;
 	public Sprite PokemonIconSprite; // 슬롯

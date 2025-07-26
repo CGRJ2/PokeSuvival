@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable
 {
     [SerializeField] private PlayerModel _model;
 	[SerializeField] private PlayerView _view;
@@ -13,6 +13,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private bool _flipX;
 
 	[field: SerializeField] public Vector2 MoveDir { get; private set; }
+
+	PokemonData IDamagable.DefenderPokeData => _model.PokeData;
+	PokemonStat IDamagable.DefenderPokeStat => _model.AllStat;
+	int IDamagable.DefenderLevel => _model.PokeLevel;
+	int IDamagable.DefenderMaxHp => _model.MaxHp;
+	int IDamagable.DefenderCurrentHp => _model.CurrentHp;
 
 	void Awake()
 	{
@@ -150,8 +156,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 					Debug.Log("정의되지 않은 스킬입니다.");
 					return;
 				}
-
-				attack.Attack(transform, _view.LastDir, skill);
+				BattleDataTable attackerData = new(_model.PokeLevel, _model.PokeData, _model.AllStat, _model.MaxHp, _model.CurrentHp);
+				attack.Attack(transform, _view.LastDir, attackerData, skill);
 				_model.SetSkillCooldown(slot);
 
 				// TODO : 모델 처리
@@ -226,12 +232,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		_model.SetCurrentHp(value);
 	}
 
-	// TODO : TakeDamage
-	[PunRPC]
-	public void TakeDamage()
+	public void TakeDamage(int value)
 	{
-
+		
 	}
-	
-
 }
