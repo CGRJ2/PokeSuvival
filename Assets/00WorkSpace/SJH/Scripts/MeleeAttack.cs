@@ -28,11 +28,13 @@ public class MeleeAttack : IAttack
 			Vector2 dir = (enemy.transform.position - attacker.position).normalized;
 			if (Vector2.Dot(attackDir, dir) >= 0.707f) // 45
 			{
-				Debug.Log($"{enemy.gameObject.name} 공격!");
 				// TODO : 대미지
 				var iD = enemy.GetComponent<IDamagable>();
+				if (iD == null) return;
 				BattleDataTable defenderData = new(iD.DefenderLevel, iD.DefenderPokeData, iD.DefenderPokeStat, iD.DefenderMaxHp, iD.DefenderCurrentHp);
 				int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+				iD.TakeDamage(damage);
+				Debug.Log($"{enemy.gameObject.name} 공격! 대미지 : {damage}");
 			}
 		}
 
@@ -49,7 +51,16 @@ public class MeleeAttack : IAttack
 			if (attacker == enemy.transform) continue;
 
 			Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-			Debug.Log(Vector2.Dot(attackDir, dir));
+			if (Vector2.Dot(attackDir, dir) >= 0.707f) // 45
+			{
+				// TODO : 대미지
+				var iD = enemy.GetComponent<IDamagable>();
+				if (iD == null) return;
+				BattleDataTable defenderData = new(iD.DefenderLevel, iD.DefenderPokeData, iD.DefenderPokeStat, iD.DefenderMaxHp, iD.DefenderCurrentHp);
+				int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+				iD.TakeDamage(damage);
+				Debug.Log($"{enemy.gameObject.name} 공격! 대미지 : {damage}");
+			}
 		}
 
 		Debug.Log($"{skill.SkillName} 공격!");

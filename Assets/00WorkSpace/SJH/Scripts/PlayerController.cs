@@ -234,6 +234,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	public void TakeDamage(int value)
 	{
-		
+		Debug.Log($"{value} 대미지 입음");
 	}
 }
