@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1112e63e6bdd4ed468d8ee0a2538a42a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6bc736521ab63ab44898bbbac42e8959, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -138,6 +138,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd7acc007ce5c24ca7fcd61a22be31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthValue: 20
-  isMagnetItem: 0
   itemPrefab: {fileID: 2789175277776295433, guid: c109b425b432d5048b47269ac9655b7d, type: 3}
