@@ -21,10 +21,15 @@ public class Panel_SelectedPokemonView : MonoBehaviour
 
     public void UpdateView()
     {
-        PokemonData selectedPokemonData = (PokemonData)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+        // 스타팅 포켓몬 설정해주기
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+        {
+            string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+            PokemonData selectedPokemonData = Resources.Load<PokemonData>($"PokemonSO/{pokemonDataSO_Name}");
 
-        tmp_Name.text = selectedPokemonData.PokeName;
-        image_Sprite.sprite = selectedPokemonData.PokemonSprite; // <= 여기 스탠딩 스프라이트로 바꿔줘야함
+            tmp_Name.text = selectedPokemonData.PokeName;
+            image_Sprite.sprite = selectedPokemonData.PokemonInfoSprite;
+        }
     }
 
     void OpenPokemonListPanel()

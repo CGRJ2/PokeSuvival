@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -30,13 +31,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		Debug.Log("플레이어 초기화");
 
-		//ChangePokemonData(pokeData);
 		photonView.RPC("RPC_ChangePokemonData", RpcTarget.All, pokeData.PokeNumber);
 
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
 
-		NetworkManager_SJH.InstanceTest.PlayerFollowCam.Follow = transform;
+		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
+
+		_model.OnCurrentHpChanged += (hp) => { if (photonView.IsMine) ActionRPC("RPC_CurrentHpChanged", hp); };
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
@@ -56,8 +58,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);
 		_model = new PlayerModel(_model.PlayerName, pokeData);
-		//if (_view == null) _view = GetComponent<PlayerView>();
-		_view.SetAnimator(pokeData.AnimController);
+		_view?.SetAnimator(pokeData.AnimController);
 	}
 
 	void MoveInput()
@@ -72,20 +73,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (stream.IsWriting)
 		{
 			stream.SendNext(_flipX);
+
 		}
 		else
 		{
-			_flipX = (bool)stream.ReceiveNext();
-			_view.SetFlip(_flipX);
+			_view.SetFlip(_flipX = (bool)stream.ReceiveNext());
+
 		}
 	}
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
 	{
-		if (!photonView.IsMine) return;
+		if (!photonView.IsMine)
+		{
+			gameObject.tag = "Enemy";
+			return;
+		}
 
 		Debug.Log("플레이어 인스턴스화");
 
+		gameObject.tag = "Player";
 		object[] data = photonView.InstantiationData;
 		PokemonData pokeData = null;
 		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
@@ -100,8 +107,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			int slotIndex = i;
 			var action = _input.actions[$"Skill{slotIndex}"];
-			action.started += ctx => OnSkill((SkillSlot)slotIndex, ctx);
-			action.canceled += ctx => OnSkill((SkillSlot)slotIndex, ctx);
+			action.started += ctx => OnSkill((SkillSlot)slotIndex - 1, ctx);
+			action.canceled += ctx => OnSkill((SkillSlot)slotIndex - 1, ctx);
 		}
 	}
 
@@ -120,12 +127,33 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
-				Debug.Log($"스킬 {(int)slot} 사용");
+				Debug.Log($"스킬 {slot} 사용");
+				var skill = _model.GetSkill((int)slot);
+				if (skill == null)
+				{
+					Debug.Log("사용할 수 있는 스킬이 없습니다.");
+					return;
+				}
+				IAttack attack = null;
+				switch (skill.AttackType)
+				{
+					case AttackType.Melee: attack = new MeleeAttack(); break;
+					case AttackType.Ranged: attack = new RangedAttack(); break;
+				}
+				if (attack == null)
+				{
+					Debug.Log("정의되지 않은 스킬입니다.");
+					return;
+				}
+
+				// TODO : 공격 실행
+				attack.Attack();
+
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
 			case InputActionPhase.Canceled:
-				Debug.Log($"스킬 {(int)slot} 완료 : {ctx.duration}");
+				Debug.Log($"스킬 {slot} 완료 : {ctx.duration}");
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
@@ -149,25 +177,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RPC_PokemonEvolution(int pokeNumber)
 	{
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
+
 		if (pokeData == null) return;
+
 		int currentLevel = _model.PokeLevel;
 		int currentExp = _model.PokeExp;
 
-		_model = new PlayerModel(_model.PlayerName, pokeData);
+		int prevCurHp = _model.CurrentHp;
 
-		if (currentLevel > 1)
-		{
-			_model.SetLevel(currentLevel);
-			_model.SetExperience(currentExp);
-		}
-		
+		int nextMaxHp = PokeUtils.CalculateHp(currentLevel, pokeData.BaseStat.Hp);
+		int hpGap = nextMaxHp - _model.MaxHp;
+		int afterLevelupHp = math.min(prevCurHp + hpGap, nextMaxHp);
+
+		_model = new PlayerModel(_model.PlayerName, pokeData, currentLevel, currentExp, afterLevelupHp);
+
 		_view.SetAnimator(pokeData.AnimController);
 	}
 
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-
 		photonView.RPC("RPC_ChangePokemonData", newPlayer, _model.PokeData.PokeNumber);
 	}
 
@@ -177,4 +206,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	//{
 	//	photonView.RPC(functionName, RpcTarget.All, value);
 	//}
+
+	// TODO : 체력, 레벨 등 스탯 변경시 실행할 서버 함수
+
+	void ActionRPC(string funcName, object value)
+	{
+		photonView.RPC(funcName, RpcTarget.All, value);
+	}
+
+	[PunRPC]
+	public void RPC_CurrentHpChanged(int value)
+	{
+		Debug.Log($"체력 변경 => {value}");
+		_model.SetCurrentHp(value);
+	}
+
+	// TODO : TakeDamage
+	[PunRPC]
+	public void TakeDamage()
+	{
+
+	}
+	
+
 }

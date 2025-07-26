@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: RandomTile
+  m_Name: Forest_random_Left
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 0}
   m_DefaultGameObject: {fileID: 0}
@@ -18,20 +18,13 @@ MonoBehaviour:
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: -1912845307, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -1912845307, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -2113480504, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -2113480504, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -1856667254, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -1856667254, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -600714314, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -600714314, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: 1760469659, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
-    - {fileID: -783485310, guid: 978771021f86af745b35c9168edb3fbb, type: 3}
+    - {fileID: 566326950, guid: 7abd8ca3668d8d64d8911ccdfb239d3e, type: 3}
+    - {fileID: -1585917959, guid: 7abd8ca3668d8d64d8911ccdfb239d3e, type: 3}
+    - {fileID: 566326950, guid: 7abd8ca3668d8d64d8911ccdfb239d3e, type: 3}
     m_GameObject: {fileID: 0}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
-    m_PerlinScale: 0.5
+    m_PerlinScale: 0.59
     m_Output: 1
     m_ColliderType: 1
     m_RandomTransform: 0

@@ -20,7 +20,7 @@ public class Slot_StartingPokemon : MonoBehaviour
         
         if (pokemonData != null)
         {
-            image.sprite = pokemonData.PokemonSprite;
+            image.sprite = pokemonData.PokemonIconSprite;
             
             if (!gameObject.activeSelf)
                 gameObject.SetActive(true);

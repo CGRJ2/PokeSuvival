@@ -15,6 +15,7 @@ public class Panel_MatchMaking : MonoBehaviour
 
     [SerializeField] Button btn_EnterRoom;
     [SerializeField] Button btn_CreateRoom;
+    [SerializeField] Button btn_Esc;
 
 
     int roomInfoListIndex = 0;
@@ -26,6 +27,7 @@ public class Panel_MatchMaking : MonoBehaviour
     {
         roomInfoSlots = roomInfoSlotsParent.GetComponentsInChildren<Slot_RoomInfo>();
         btn_CreateRoom.onClick.AddListener(OpenCreateRoomPanel);
+        btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
 
     public void UpdateRoomListView(List<RoomInfo> roomList)
@@ -43,13 +45,10 @@ public class Panel_MatchMaking : MonoBehaviour
             // 불러올 방 정보가 더 이상 없다면
             if (roomList.Count - 1 < i)
             {
-                //roomInfoSlots[i].gameObject.SetActive(false);
                 roomInfoSlots[i].UpdateSlotView(null);
             }
             else
             {
-                
-                //roomInfoSlots[i].gameObject.SetActive(true);
                 roomInfoSlots[i].UpdateSlotView(roomList[i + roomInfoListIndex * roomInfoSlots.Length]);
             }
         }

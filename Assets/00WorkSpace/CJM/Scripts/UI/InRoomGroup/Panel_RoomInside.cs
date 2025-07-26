@@ -32,6 +32,10 @@ public class Panel_RoomInside : MonoBehaviour
     public void Init()
     {
         roomMemberSlots = roomMemberSlotsParent.GetComponentsInChildren<RoomMemberSlot>();
+        foreach (RoomMemberSlot slot in roomMemberSlots)
+        {
+            slot.Init();
+        }
 
         panel_MapSettings.Init();
         panel_RoomButtons.Init();
@@ -44,7 +48,7 @@ public class Panel_RoomInside : MonoBehaviour
         tmp_RoomName.text = PhotonNetwork.CurrentRoom.Name;
 
         panel_MapSettings.InitRoomSettings(PhotonNetwork.IsMasterClient);
-        panel_RoomButtons.InitButtons(PhotonNetwork.IsMasterClient);
+        //panel_RoomButtons.InitButtons(PhotonNetwork.IsMasterClient);
         panel_MapSettings.UpdateRoomProperty();
 
         UIManager.Instance.OpenPanel(gameObject);
@@ -70,34 +74,41 @@ public class Panel_RoomInside : MonoBehaviour
                     StartCoroutine(DelayedLoadCustomProperties(playerList[i], roomMemberSlots[i]));
                 }
                 // 현재 플레이어 수가 슬롯보다 적으면 빈슬롯으로 만들기
-                else
-                    roomMemberSlots[i].UpdateSlotView(null);
+                else roomMemberSlots[i].UpdateSlotView(null);
             }
 
             // 최대 인원보다 많은 슬롯이 있으면 슬롯 비활성화
-            else
-                roomMemberSlots[i].BlockSlot();
+            else roomMemberSlots[i].BlockSlot();
         }
 
+        // UI 갱신을 위한 assignedSlots 딕셔너리 할당
         assignedSlots = instanceDic;
+
+        // 전원 Ready 상태라면 => MasterClient에 Start버튼 활성화
+        if (!PhotonNetwork.IsMasterClient) { panel_RoomButtons.SetActiveStartButton(false); return; }
+
+        foreach (Player player in playerList)
+        {
+            // 하나라도 Ready 상태가 아니면 비활성화
+            if (!(player.CustomProperties.ContainsKey("Ready") && (bool)player.CustomProperties["Ready"]))
+            {
+                panel_RoomButtons.SetActiveStartButton(false);
+                return;
+            }
+            // 모두 Ready 상태면 활성화
+            else panel_RoomButtons.SetActiveStartButton(true);
+        }
     }
 
-    // 커스텀 프로퍼티 설정 직 후에 바로 불러오면, 딜레이에 의해 설정 전의 값이 불러와지므로. 해당 프로퍼티 값 설정될 때 까지 대기
+    // 방 입장 직 후에 바로 불러오면, 딜레이에 의해 설정 전의 값이 불러와지므로. 해당 프로퍼티 값 설정될 때 까지 대기
     IEnumerator DelayedLoadCustomProperties(Player player, RoomMemberSlot roomMemberSlot)
     {
         yield return new WaitUntil(() => player.CustomProperties["Ready"] != null);
-        Debug.Log(player.CustomProperties["Ready"]);
-        Debug.Log($"{player.NickName}의 커스텀 프로퍼티:{player.CustomProperties["Ready"]}");
 
         bool ready = (bool)player.CustomProperties["Ready"];
         roomMemberSlot.UpdateReadyStateView(ready);
     }
 
-
-    //// 룸 커스텀 프로퍼티 설정
-    //ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtabl> ();
-    //roomProperty["Map"] = "Select Map";
-    //room.SetCustomProperties(roomProperty);
 
 }
 
