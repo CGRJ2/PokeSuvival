@@ -1,19 +1,19 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEditor.iOS;
 using UnityEngine;
 
 public static class Define
 {
 	// TODO : 임시 데이터베이스
-	private static bool _isInit;
+	private static bool _isDataInit;
 	private static Dictionary<int, PokemonData> _numberToPokeData = new();
 	private static Dictionary<string, PokemonData> _nameToPokeData = new();
+	private static bool _isTypeInit;
+	private static Dictionary<PokemonType, Dictionary<PokemonType, float>> _pokeTypeChart = new();
 
 	public static void PokeDataInit()
 	{
-		if (_isInit) return;
+		if (_isDataInit) return;
 
 		PokemonData[] all = Resources.LoadAll<PokemonData>("PokemonSO");
 
@@ -26,9 +26,8 @@ public static class Define
 			if (!_nameToPokeData.ContainsKey(data.PokeName)) _nameToPokeData.Add(data.PokeName, data);
 		}
 		Debug.Log($"PokemonData 초기화 {_numberToPokeData.Count} / {_nameToPokeData.Count}");
-		_isInit = true;
+		_isDataInit = true;
 	}
-
 	public static PokemonData GetPokeData(int pokeNumber)
 	{
 		PokeDataInit();
@@ -38,6 +37,17 @@ public static class Define
 	{
 		PokeDataInit();
 		return _nameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
+	}
+
+	public static void PokeTypeInit()
+	{
+		_pokeTypeChart = new()
+		{
+			[PokemonType.Normal] = new()
+			{
+				[PokemonType.Normal] = 1f,
+			}
+		};
 	}
 }
 #region SJH
@@ -49,6 +59,19 @@ public enum PokemonType
 	Water,
 	Grass,
 	Poison,
+	Fighting,
+	Electric,
+	Ice,
+	Ground,
+	Flying,
+	Psychic,
+	Bug,
+	Rock,
+	Ghost,
+	Dragon,
+	Dark,
+	Steel,
+	Fairy,
 }
 [Serializable]
 public struct PokemonStat
@@ -64,9 +87,40 @@ public struct PokemonStat
 }
 public enum SkillSlot
 {
-	Skill1 = 1,
+	Skill1,
 	Skill2,
 	Skill3,
-	Skill4
+	Skill4,
+}
+public enum SkillType
+{
+	Physical,
+	Special,
+	Status,
+}
+public enum AttackType
+{
+	Melee,
+	Ranged,
+}
+public struct BattleDataTable
+{
+	public int Level;
+	public PokemonData PokeData;
+	public PokemonStat AllStat;
+	public int MaxHp;
+	public int CurrentHp;
+
+	// TODO : 상태이상
+	// TODO : 아이템 장착
+
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp)
+	{
+		Level = level;
+		PokeData = pokeData;
+		AllStat = pokeStat;
+		MaxHp = maxHp;
+		CurrentHp = currentHp;
+	}
 }
 #endregion

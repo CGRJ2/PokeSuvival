@@ -1,11 +1,11 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// ·Îºñ¿¡¼­ ÇöÀç ¼±ÅÃµÇ¾îÀÖ´Â Æ÷ÄÏ¸óÀ» º¸¿©ÁÖ´Â ¿ëµµ. (1. ÀÌ¸§ / 2. ½ºÇÁ¶óÀÌÆ® ÀÌ µÑ ¸¸ Ç¥±â)
+// ë¡œë¹„ì—ì„œ í˜„ì¬ ì„ íƒë˜ì–´ìˆëŠ” í¬ì¼“ëª¬ì„ ë³´ì—¬ì£¼ëŠ” ìš©ë„. (1. ì´ë¦„ / 2. ìŠ¤í”„ë¼ì´íŠ¸ ì´ ë‘˜ ë§Œ í‘œê¸°)
 public class Panel_SelectedPokemonView : MonoBehaviour
 {
     
@@ -24,7 +24,7 @@ public class Panel_SelectedPokemonView : MonoBehaviour
         PokemonData selectedPokemonData = (PokemonData)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 
         tmp_Name.text = selectedPokemonData.PokeName;
-        image_Sprite.sprite = selectedPokemonData.PokemonSprite; // <= ¿©±â ½ºÅÄµù ½ºÇÁ¶óÀÌÆ®·Î ¹Ù²ãÁà¾ßÇÔ
+        image_Sprite.sprite = selectedPokemonData.PokemonIconSprite; // <= ì—¬ê¸° ìŠ¤íƒ ë”© ìŠ¤í”„ë¼ì´íŠ¸ë¡œ ë°”ê¿”ì¤˜ì•¼í•¨
     }
 
     void OpenPokemonListPanel()
