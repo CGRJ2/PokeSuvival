@@ -2,7 +2,8 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UIElements;
 
-public class MonsterBall : MonoBehaviourPunCallbacks
+
+public class MonsterBall : MonoBehaviourPun, IPunObservable
 {
     [Header("아이템 설정")]
     [SerializeField] private GameObject itemPrefab; // 생성할 아이템 프리팹
@@ -23,6 +24,23 @@ public class MonsterBall : MonoBehaviourPunCallbacks
         }
     }
 
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // 내 데이터를 보냄
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            // 상대방의 데이터를 받음
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+        }
+    }
+
     [PunRPC]
     private void RPC_DropItem(Vector3 position)
     {
@@ -33,7 +51,8 @@ public class MonsterBall : MonoBehaviourPunCallbacks
         }
 
         // 몬스터볼이 있던 위치에 아이템 생성
-        GameObject newItem = Instantiate(itemPrefab, position, Quaternion.identity);
+        // [[버그 해결을 위한 주석처리333]]GameObject newItem = Instantiate(itemPrefab, position, Quaternion.identity);
+        GameObject newItem = PhotonNetwork.Instantiate("ItemPrefab", position, Quaternion.identity);
 
         Debug.Log("아이템이 생성되었습니다!");
     }

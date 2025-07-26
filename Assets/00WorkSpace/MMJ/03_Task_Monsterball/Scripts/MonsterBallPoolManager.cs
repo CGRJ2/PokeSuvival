@@ -53,7 +53,8 @@ public class MonsterBallPoolManager : MonoBehaviourPunCallbacks
             return null;
         }
 
-        GameObject obj = PhotonNetwork.InstantiateRoomObject(monsterBallPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
+        // [[버그수정을 위한 주석처리]] GameObject obj = PhotonNetwork.InstantiateRoomObject(monsterBallPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
+        GameObject obj = PhotonNetwork.Instantiate("MonsterBall", new Vector3(0, -100, 0), Quaternion.identity);
         obj.SetActive(false);
 
         // 하이어라키 정리를 위해 부모 설정
@@ -86,22 +87,32 @@ public class MonsterBallPoolManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("SpawnMonsterBall: RPC 호출 시작");
             photonView.RPC(nameof(RPC_SpawnMonsterBall), RpcTarget.AllBuffered, position);
         }
     }
 
     [PunRPC]
-    private void RPC_SpawnMonsterBall(Vector3 position)
+    private void RPC_SpawnMonsterBall(int viewID, Vector3 position)
     {
+        Debug.Log("RPC_SpawnMonsterBall 호출됨!");
         GameObject monsterBall = GetPooledObject();
         if (monsterBall != null)
         {
+            Debug.Log("풀에서 오브젝트 가져옴. 위치 지정 후 활성화.");
             monsterBall.transform.position = position;
             monsterBall.SetActive(true);
         }
         else
         {
             Debug.LogWarning("몬스터볼을 스폰할 수 없습니다. 사용 가능한 오브젝트가 없습니다.");
+        }
+        PhotonView pv = PhotonView.Find(viewID);
+        if (pv != null)
+        {
+            GameObject obj = pv.gameObject;
+            obj.transform.position = position;
+            obj.SetActive(true);
         }
     }
 
