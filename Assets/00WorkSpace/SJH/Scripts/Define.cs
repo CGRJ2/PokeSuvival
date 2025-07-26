@@ -9,9 +9,12 @@ public static class Define
 	private static Dictionary<int, PokemonData> _numberToPokeData = new();
 	private static Dictionary<string, PokemonData> _nameToPokeData = new();
 	private static bool _isTypeInit;
+	private const float Weak = 0.5f;
+	private const float Strong = 2f;
+	private const float NoDamage = 0f;
 	private static Dictionary<PokemonType, Dictionary<PokemonType, float>> _pokeTypeChart = new();
 
-	public static void PokeDataInit()
+	static void PokeDataInit()
 	{
 		if (_isDataInit) return;
 
@@ -39,15 +42,192 @@ public static class Define
 		return _nameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
 	}
 
-	public static void PokeTypeInit()
+	static void PokeTypeInit()
 	{
+		if (_isTypeInit) return;
 		_pokeTypeChart = new()
 		{
 			[PokemonType.Normal] = new()
 			{
-				[PokemonType.Normal] = 1f,
-			}
+				[PokemonType.Rock] = Weak,
+				[PokemonType.Ghost] = NoDamage,
+				[PokemonType.Steel] = Weak,
+			},
+			[PokemonType.Fire] = new()
+			{
+				[PokemonType.Fire] = Weak,
+				[PokemonType.Water] = Weak,
+				[PokemonType.Grass] = Strong,
+				[PokemonType.Ice] = Strong,
+				[PokemonType.Bug] = Strong,
+				[PokemonType.Rock] = Weak,
+				[PokemonType.Dragon] = Weak,
+				[PokemonType.Steel] = Strong,
+			},
+			[PokemonType.Water] = new()
+			{
+				[PokemonType.Fire] = Strong,
+				[PokemonType.Water] = Weak,
+				[PokemonType.Grass] = Weak,
+				[PokemonType.Ground] = Strong,
+				[PokemonType.Rock] = Strong,
+				[PokemonType.Dragon] = Weak,
+			},
+			[PokemonType.Grass] = new()
+			{
+				[PokemonType.Fire] = Weak,
+				[PokemonType.Water] = Strong,
+				[PokemonType.Grass] = Weak,
+				[PokemonType.Poison] = Weak,
+				[PokemonType.Ground] = Strong,
+				[PokemonType.Flying] = Weak,
+				[PokemonType.Bug] = Weak,
+				[PokemonType.Rock] = Strong,
+				[PokemonType.Dragon] = Weak,
+				[PokemonType.Steel] = Weak,
+			},
+			[PokemonType.Electric] = new()
+			{
+				[PokemonType.Water] = Strong,
+				[PokemonType.Grass] = Weak,
+				[PokemonType.Electric] = Weak,
+				[PokemonType.Ground] = NoDamage,
+				[PokemonType.Flying] = Strong,
+				[PokemonType.Dragon] = Weak,
+			},
+			[PokemonType.Ice] = new()
+			{
+				[PokemonType.Fire] = Weak,
+				[PokemonType.Water] = Weak,
+				[PokemonType.Grass] = Strong,
+				[PokemonType.Ice] = Weak,
+				[PokemonType.Ground] = Strong,
+				[PokemonType.Flying] = Strong,
+				[PokemonType.Dragon] = Strong,
+				[PokemonType.Steel] = Weak,
+			},
+			[PokemonType.Fighting] = new()
+			{
+				[PokemonType.Normal] = Strong,
+				[PokemonType.Ice] = Strong,
+				[PokemonType.Poison] = Weak,
+				[PokemonType.Flying] = Weak,
+				[PokemonType.Psychic] = Weak,
+				[PokemonType.Bug] = Weak,
+				[PokemonType.Rock] = Strong,
+				[PokemonType.Ghost] = NoDamage,
+				[PokemonType.Dark] = Strong,
+				[PokemonType.Steel] = Strong,
+				[PokemonType.Fairy] = Weak,
+			},
+			[PokemonType.Poison] = new()
+			{
+				[PokemonType.Grass] = Strong,
+				[PokemonType.Poison] = Weak,
+				[PokemonType.Ground] = Weak,
+				[PokemonType.Rock] = Weak,
+				[PokemonType.Ghost] = Weak,
+				[PokemonType.Steel] = NoDamage,
+				[PokemonType.Fairy] = Strong,
+			},
+			[PokemonType.Ground] = new()
+			{
+				[PokemonType.Fire] = Strong,
+				[PokemonType.Grass] = Weak,
+				[PokemonType.Electric] = Strong,
+				[PokemonType.Poison] = Strong,
+				[PokemonType.Flying] = NoDamage,
+				[PokemonType.Bug] = Weak,
+				[PokemonType.Rock] = Strong,
+				[PokemonType.Steel] = Strong,
+			},
+			[PokemonType.Flying] = new()
+			{
+				[PokemonType.Grass] = Strong,
+				[PokemonType.Electric] = Weak,
+				[PokemonType.Fighting] = Strong,
+				[PokemonType.Bug] = Strong,
+				[PokemonType.Rock] = Weak,
+				[PokemonType.Steel] = Weak,
+			},
+			[PokemonType.Psychic] = new()
+			{
+				[PokemonType.Fighting] = Strong,
+				[PokemonType.Poison] = Strong,
+				[PokemonType.Psychic] = Weak,
+				[PokemonType.Dark] = NoDamage,
+				[PokemonType.Steel] = Weak,
+			},
+			[PokemonType.Bug] = new()
+			{
+				[PokemonType.Fire] = Weak,
+				[PokemonType.Grass] = Strong,
+				[PokemonType.Fighting] = Weak,
+				[PokemonType.Poison] = Weak,
+				[PokemonType.Flying] = Weak,
+				[PokemonType.Psychic] = Strong,
+				[PokemonType.Ghost] = Weak,
+				[PokemonType.Dark] = Strong,
+				[PokemonType.Steel] = Weak,
+				[PokemonType.Fairy] = Weak,
+			},
+			[PokemonType.Rock] = new()
+			{
+				[PokemonType.Fire] = Strong,
+				[PokemonType.Ice] = Strong,
+				[PokemonType.Fighting] = Weak,
+				[PokemonType.Ground] = Weak,
+				[PokemonType.Flying] = Strong,
+				[PokemonType.Bug] = Strong,
+				[PokemonType.Steel] = Weak,
+			},
+			[PokemonType.Ghost] = new()
+			{
+				[PokemonType.Normal] = NoDamage,
+				[PokemonType.Psychic] = Strong,
+				[PokemonType.Ghost] = Strong,
+				[PokemonType.Dark] = Weak,
+			},
+			[PokemonType.Dragon] = new()
+			{
+				[PokemonType.Dragon] = Strong,
+				[PokemonType.Steel] = Weak,
+				[PokemonType.Fairy] = NoDamage,
+			},
+			[PokemonType.Dark] = new()
+			{
+				[PokemonType.Fighting] = Weak,
+				[PokemonType.Psychic] = Strong,
+				[PokemonType.Ghost] = Strong,
+				[PokemonType.Dark] = Weak,
+				[PokemonType.Fairy] = Weak,
+			},
+			[PokemonType.Steel] = new()
+			{
+				[PokemonType.Fire] = Weak,
+				[PokemonType.Water] = Weak,
+				[PokemonType.Electric] = Weak,
+				[PokemonType.Ice] = Strong,
+				[PokemonType.Rock] = Strong,
+				[PokemonType.Steel] = Weak,
+				[PokemonType.Fairy] = Strong,
+			},
+			[PokemonType.Fairy] = new()
+			{
+				[PokemonType.Fire] = Weak,
+				[PokemonType.Fighting] = Strong,
+				[PokemonType.Poison] = Weak,
+				[PokemonType.Dragon] = Strong,
+				[PokemonType.Dark] = Strong,
+				[PokemonType.Steel] = Weak,
+			},
 		};
+		_isTypeInit = true;
+	}
+	public static float GetTypeDamageValue(PokemonType attackType, PokemonType defenderType)
+	{
+		PokeTypeInit();
+		return _pokeTypeChart.TryGetValue(attackType, out var chart) && chart.TryGetValue(defenderType, out float result) ? result : 1f;
 	}
 }
 #region SJH
