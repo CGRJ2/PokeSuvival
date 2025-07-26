@@ -48,6 +48,19 @@ public enum PokemonType
 	Water,
 	Grass,
 	Poison,
+	Fighting,
+	Electric,
+	Ice,
+	Ground,
+	Flying,
+	Psychic,
+	Bug,
+	Rock,
+	Ghost,
+	Dragon,
+	Dark,
+	Steel,
+	Fairy,
 }
 [Serializable]
 public struct PokemonStat
