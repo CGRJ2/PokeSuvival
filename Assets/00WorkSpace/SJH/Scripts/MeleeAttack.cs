@@ -30,9 +30,9 @@ public class MeleeAttack : IAttack
 			{
 				var iD = enemy.GetComponent<IDamagable>();
 				if (iD == null) return;
-				BattleDataTable defenderData = new(iD.DefenderLevel, iD.DefenderPokeData, iD.DefenderPokeStat, iD.DefenderMaxHp, iD.DefenderCurrentHp);
-				int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+				int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
 				iD.TakeDamage(damage);
+				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");
@@ -52,9 +52,9 @@ public class MeleeAttack : IAttack
 			{
 				var iD = enemy.GetComponent<IDamagable>();
 				if (iD == null) return;
-				BattleDataTable defenderData = new(iD.DefenderLevel, iD.DefenderPokeData, iD.DefenderPokeStat, iD.DefenderMaxHp, iD.DefenderCurrentHp);
-				int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+				int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
 				iD.TakeDamage(damage);
+				Debug.Log($"{attackerData.PokeData.PokeName} 이/가 {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");

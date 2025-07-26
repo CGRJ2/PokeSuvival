@@ -185,6 +185,7 @@ MonoBehaviour:
   _input: {fileID: 0}
   _flipX: 0
   <MoveDir>k__BackingField: {x: 0, y: 0}
+  Test_Level: 0
 --- !u!114 &6668238674274505865
 MonoBehaviour:
   m_ObjectHideFlags: 0

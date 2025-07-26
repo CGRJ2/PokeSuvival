@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
 
 [Serializable]
 public class PlayerModel
@@ -14,8 +15,10 @@ public class PlayerModel
 		get => _pokeLevel;
 		private set
 		{
+			if (_pokeLevel == value) return;
 			_pokeLevel = value;
 			OnPokeLevelChanged?.Invoke(value);
+			ReCalculateAllStat();
 		}
 	}
 	public event Action<int> OnPokeLevelChanged;
@@ -27,6 +30,7 @@ public class PlayerModel
 		get => _currentHp;
 		private set
 		{
+			if (_currentHp == value) return;
 			_currentHp = value;
 			OnCurrentHpChanged?.Invoke(value);
 		}
@@ -45,15 +49,7 @@ public class PlayerModel
 		PokeData = pokemonData;
 		PokeLevel = level;
 		PokeExp = exp;
-		AllStat = new PokemonStat
-		{
-			Hp = PokeUtils.CalculateHp(level, pokemonData.BaseStat.Hp),
-			Attak = PokeUtils.CalculateStat(level, pokemonData.BaseStat.Attak),
-			Defense = PokeUtils.CalculateStat(level, pokemonData.BaseStat.Defense),
-			SpecialAttack = PokeUtils.CalculateStat(level, pokemonData.BaseStat.SpecialAttack),
-			SpecialDefense = PokeUtils.CalculateStat(level, pokemonData.BaseStat.SpecialDefense),
-			Speed = PokeUtils.CalculateStat(level, pokemonData.BaseStat.Speed),
-		};
+		AllStat = PokeUtils.CalculateAllStat(level, pokemonData.BaseStat);
 		MaxHp = AllStat.Hp;
 		if (currentHp == -1) CurrentHp = MaxHp;
 		else CurrentHp = currentHp;
@@ -70,7 +66,8 @@ public class PlayerModel
 	public void SetMoving(bool moving) => IsMoving = moving;
 	public bool IsDead() => CurrentHp <= 0;
 	public PokemonData GetNextEvoData() => PokeData.NextEvoData;
-	public void SetCurrentHp(int hp) => _currentHp = hp;
+	public void SetCurrentHp(int hp) => CurrentHp = hp;
+	public void SetLevel(int level) => PokeLevel = level;
 	public PokemonSkill GetSkill(int index)
 	{
 		var skills = PokeData.Skills;
@@ -80,8 +77,12 @@ public class PlayerModel
 		return skills[index];
 	}
 	public bool IsSkillCooldown(SkillSlot slot, float cooldown) => _skillCooldownDic.TryGetValue(slot, out var lastCooldown) && Time.time - lastCooldown < cooldown;
-	public void SetSkillCooldown(SkillSlot slot)
+	public void SetSkillCooldown(SkillSlot slot) => _skillCooldownDic[slot] = Time.time;
+	public void ReCalculateAllStat()
 	{
-		_skillCooldownDic[slot] = Time.time;
+		int hpGap = MaxHp - _currentHp;
+		AllStat = PokeUtils.CalculateAllStat(_pokeLevel, PokeData.BaseStat);
+		MaxHp = AllStat.Hp;
+		_currentHp = Mathf.Clamp(MaxHp - hpGap, 0, MaxHp);
 	}
 }

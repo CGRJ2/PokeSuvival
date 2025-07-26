@@ -13,12 +13,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private bool _flipX;
 
 	[field: SerializeField] public Vector2 MoveDir { get; private set; }
+	BattleDataTable IDamagable.BattleData { get => new BattleDataTable(_model.PokeLevel, _model.PokeData, _model.AllStat, _model.MaxHp, _model.CurrentHp); }
 
-	PokemonData IDamagable.DefenderPokeData => _model.PokeData;
-	PokemonStat IDamagable.DefenderPokeStat => _model.AllStat;
-	int IDamagable.DefenderLevel => _model.PokeLevel;
-	int IDamagable.DefenderMaxHp => _model.MaxHp;
-	int IDamagable.DefenderCurrentHp => _model.CurrentHp;
+	public int Test_Level;
 
 	void Awake()
 	{
@@ -31,6 +28,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (!photonView.IsMine) return;
 
 		MoveInput();
+
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			_model.SetLevel(Test_Level);
+		}
 	}
 
 	public void PlayerInit(PokemonData pokeData)
@@ -44,7 +46,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 
-		_model.OnCurrentHpChanged += (hp) => { if (photonView.IsMine) ActionRPC("RPC_CurrentHpChanged", hp); };
+		_model.OnCurrentHpChanged += (hp) => { ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp); };
+		_model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
@@ -79,12 +82,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (stream.IsWriting)
 		{
 			stream.SendNext(_flipX);
-
+			// TODO : 실시간 동기화
 		}
 		else
 		{
 			_view.SetFlip(_flipX = (bool)stream.ReceiveNext());
-
+			// TODO : 실시간 동기화
 		}
 	}
 
@@ -134,30 +137,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			case InputActionPhase.Started:
 				//Debug.Log($"스킬 {slot} 키다운");
-				var skill = _model.GetSkill((int)slot);
-				if (skill == null)
-				{
-					Debug.Log("사용할 수 있는 스킬이 없습니다.");
-					return;
-				}
-				if (_model.IsSkillCooldown(slot, skill.Cooldown))
-				{
-					Debug.Log("스킬이 쿨타임입니다.");
-					return;
-				}
-				IAttack attack = null;
-				switch (skill.AttackType)
-				{
-					case AttackType.Melee: attack = new MeleeAttack(); break;
-					case AttackType.Ranged: attack = new RangedAttack(); break;
-				}
-				if (attack == null)
-				{
-					Debug.Log("정의되지 않은 스킬입니다.");
-					return;
-				}
-				BattleDataTable attackerData = new(_model.PokeLevel, _model.PokeData, _model.AllStat, _model.MaxHp, _model.CurrentHp);
-				attack.Attack(transform, _view.LastDir, attackerData, skill);
+				IAttack attack = SkillCheck(slot, out var skill);
+				if (attack == null) return;
+				IDamagable damagable = this;
+				attack.Attack(transform, _view.LastDir, damagable.BattleData, skill);
 				_model.SetSkillCooldown(slot);
 
 				// TODO : 모델 처리
@@ -220,10 +203,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	// TODO : 체력, 레벨 등 스탯 변경시 실행할 서버 함수
 
-	void ActionRPC(string funcName, object value)
-	{
-		photonView.RPC(funcName, RpcTarget.All, value);
-	}
+	void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
 
 	[PunRPC]
 	public void RPC_CurrentHpChanged(int value)
@@ -231,9 +211,43 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Debug.Log($"체력 변경 => {value}");
 		_model.SetCurrentHp(value);
 	}
+	[PunRPC]
+	public void RPC_LevelChanged(int value)
+	{
+		Debug.Log($"레벨 변경 => {value}");
+		_model.SetLevel(value);
+	}
 
 	public void TakeDamage(int value)
 	{
 		Debug.Log($"{value} 대미지 입음");
+		_model.SetCurrentHp(_model.CurrentHp - value);
+	}
+
+	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)
+	{
+		skill = _model.GetSkill((int)slot);
+		if (skill == null)
+		{
+			Debug.Log("사용할 수 있는 스킬이 없습니다.");
+			return null;
+		}
+		if (_model.IsSkillCooldown(slot, skill.Cooldown))
+		{
+			Debug.Log("스킬이 쿨타임입니다.");
+			return null;
+		}
+		IAttack attack = null;
+		switch (skill.AttackType)
+		{
+			case AttackType.Melee: attack = new MeleeAttack(); break;
+			case AttackType.Ranged: attack = new RangedAttack(); break;
+		}
+		if (attack == null)
+		{
+			Debug.Log("정의되지 않은 스킬입니다.");
+			return null;
+		}
+		return attack;
 	}
 }

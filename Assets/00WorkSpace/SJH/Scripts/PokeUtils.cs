@@ -9,7 +9,6 @@ public static class PokeUtils
 	// 공방특공특방스피드 = [ { (종족값a x 2)} x 레벨 / 100 + 5(저레벨 보정)] x 성격보정
 	public static int CalculateStat(int level, int baseStat) => (int)(((baseStat * 2) * level / 100f) + 5);
 
-
 	public static int CalculateDamage(BattleDataTable attackerData, BattleDataTable defenderData, PokemonSkill skill)
 	{
 		// 대미지 계산식
@@ -70,5 +69,19 @@ public static class PokeUtils
 			if (pokeType == skillType) return 1.5f;
 		}
 		return 1f;
+	}
+
+	public static PokemonStat CalculateAllStat(int level, PokemonStat baseStat)
+	{
+		PokemonStat stat = new PokemonStat
+		{
+			Hp = CalculateHp(level, baseStat.Hp),
+			Attak = CalculateStat(level, baseStat.Attak),
+			Defense = CalculateStat(level, baseStat.Defense),
+			SpecialAttack = CalculateStat(level, baseStat.SpecialAttack),
+			SpecialDefense = CalculateStat(level, baseStat.SpecialDefense),
+			Speed = CalculateStat(level, baseStat.Speed),
+		};
+		return stat;
 	}
 }
