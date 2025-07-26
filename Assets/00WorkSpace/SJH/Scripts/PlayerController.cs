@@ -51,23 +51,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
-		//GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { ChangePokemonData(Define.GetPokeData(1)); });
-		//GameObject.Find("Button4").GetComponent<Button>().onClick.AddListener(() => { ChangePokemonData(Define.GetPokeData(4)); });
-	}
-
-	public void ChangePokemonData(PokemonData pokeData)
-	{
-		if (!photonView.IsMine) return;
-
-		photonView.RPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
-	}
-
-	[PunRPC]
-	public void RPC_ChangePokemonData(int pokeNumber)
-	{
-		var pokeData = Define.GetPokeData(pokeNumber);
-		_model = new PlayerModel(_model.PlayerName, pokeData);
-		_view?.SetAnimator(pokeData.AnimController);
 	}
 
 	void MoveInput()
@@ -167,62 +150,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		}
 	}
 
-	[PunRPC]
-	public void RPC_PokemonEvolution(int pokeNumber)
-	{
-		PokemonData pokeData = Define.GetPokeData(pokeNumber);
-
-		if (pokeData == null) return;
-
-		int currentLevel = _model.PokeLevel;
-		int currentExp = _model.PokeExp;
-
-		int prevCurHp = _model.CurrentHp;
-
-		int nextMaxHp = PokeUtils.CalculateHp(currentLevel, pokeData.BaseStat.Hp);
-		int hpGap = nextMaxHp - _model.MaxHp;
-		int afterLevelupHp = math.min(prevCurHp + hpGap, nextMaxHp);
-
-		_model = new PlayerModel(_model.PlayerName, pokeData, currentLevel, currentExp, afterLevelupHp);
-
-		_view.SetAnimator(pokeData.AnimController);
-	}
-
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		photonView.RPC(nameof(RPC_ChangePokemonData), newPlayer, _model.PokeData.PokeNumber);
+		Debug.Log("새로운 플레이어 입장");
+		photonView.RPC(nameof(RPC_SyncToNewPlayer), newPlayer, _model.PokeData.PokeNumber, _model.PokeLevel, _model.CurrentHp);
 	}
 
-	//public float Health { get => health; set => ActionPRC("", health); }
-
-	//private void ActionPRC(string functionName, object value)
-	//{
-	//	photonView.RPC(functionName, RpcTarget.All, value);
-	//}
-
-	// TODO : 체력, 레벨 등 스탯 변경시 실행할 서버 함수
-
-	void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
-
-	[PunRPC]
-	public void RPC_CurrentHpChanged(int value)
-	{
-		Debug.Log($"체력 변경 => {value}");
-		_model.SetCurrentHp(value);
-	}
-	[PunRPC]
-	public void RPC_LevelChanged(int value)
-	{
-		Debug.Log($"레벨 변경 => {value}");
-		_model.SetLevel(value);
-	}
-
-	public void TakeDamage(int value)
-	{
-		Debug.Log($"{value} 대미지 입음");
-		_model.SetCurrentHp(_model.CurrentHp - value);
-	}
+	public void TakeDamage(int value) => ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, value);
 
 	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)
 	{
@@ -249,5 +184,63 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			return null;
 		}
 		return attack;
+	}
+
+	void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
+
+	[PunRPC]
+	public void RPC_PokemonEvolution(int pokeNumber)
+	{
+		PokemonData pokeData = Define.GetPokeData(pokeNumber);
+
+		if (pokeData == null) return;
+
+		int currentLevel = _model.PokeLevel;
+		int currentExp = _model.PokeExp;
+
+		int prevCurHp = _model.CurrentHp;
+
+		int nextMaxHp = PokeUtils.CalculateHp(currentLevel, pokeData.BaseStat.Hp);
+		int hpGap = nextMaxHp - _model.MaxHp;
+		int afterLevelupHp = math.min(prevCurHp + hpGap, nextMaxHp);
+
+		_model = new PlayerModel(_model.PlayerName, pokeData, currentLevel, currentExp, afterLevelupHp);
+
+		_view.SetAnimator(pokeData.AnimController);
+	}
+	[PunRPC]
+	public void RPC_ChangePokemonData(int pokeNumber)
+	{
+		var pokeData = Define.GetPokeData(pokeNumber);
+		_model = new PlayerModel(_model.PlayerName, pokeData);
+		_view?.SetAnimator(pokeData.AnimController);
+	}
+	[PunRPC]
+	public void RPC_CurrentHpChanged(int value)
+	{
+		Debug.Log($"체력 변경 => {value}");
+		_model.SetCurrentHp(value);
+	}
+	[PunRPC]
+	public void RPC_LevelChanged(int value)
+	{
+		Debug.Log($"레벨 변경 => {value}");
+		_model.SetLevel(value);
+	}
+	[PunRPC]
+	public void RPC_TakeDamage(int value)
+	{
+		Debug.Log($"{value} 대미지 입음");
+		_model.SetCurrentHp(_model.CurrentHp - value);
+	}
+	[PunRPC]
+	public void RPC_SyncToNewPlayer(int pokeNumber, int level, int currentHp)
+	{
+		var pokeData = Define.GetPokeData(pokeNumber);
+		_model = new PlayerModel(_model.PlayerName, pokeData);
+		_view?.SetAnimator(pokeData.AnimController);
+
+		_model.SetLevel(level);
+		_model.SetCurrentHp(currentHp);
 	}
 }

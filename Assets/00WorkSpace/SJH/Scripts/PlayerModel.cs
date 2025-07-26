@@ -83,6 +83,6 @@ public class PlayerModel
 		int hpGap = MaxHp - _currentHp;
 		AllStat = PokeUtils.CalculateAllStat(_pokeLevel, PokeData.BaseStat);
 		MaxHp = AllStat.Hp;
-		_currentHp = Mathf.Clamp(MaxHp - hpGap, 0, MaxHp);
+		_currentHp = Mathf.Min(MaxHp - hpGap, MaxHp);
 	}
 }
