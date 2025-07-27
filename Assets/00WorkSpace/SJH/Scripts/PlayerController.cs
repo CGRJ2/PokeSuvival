@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private Queue<Vector2> _moveHistory = new();
 	[SerializeField] private Vector2 _lastDir = Vector2.down;
 
-
 	void Awake()
 	{
 		_view = GetComponent<PlayerView>();
@@ -276,7 +275,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RPC_TakeDamage(int value)
 	{
 		Debug.Log($"{value} 대미지 입음");
-		_model.SetCurrentHp(_model.CurrentHp - value);
+		if (photonView.IsMine)
+		{
+			_model.SetCurrentHp(_model.CurrentHp - value);
+		}
+		PlayerManager.Instance.ShowDamageText(transform, value, Color.red);
 		// TODO : RPC All View 피격 연출
 	}
 	[PunRPC]

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MeleeAttack : IAttack
 {
+
 	public MeleeAttack()
 	{
 
@@ -23,19 +24,21 @@ public class MeleeAttack : IAttack
 	{
 		var enemies = Physics2D.OverlapCircleAll((Vector2)attacker.position, skill.Range);
 		if (enemies.Length <= 0) return;
-		
+
 		foreach (var enemy in enemies)
 		{
 			if (attacker == enemy.transform) continue;
 
 			Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-			if (Vector2.Dot(attackDir, dir) >= 0.707f) // 45
+			if (Vector2.Dot(attackDir, dir) >= 0.7f) // 45
 			{
 				var iD = enemy.GetComponent<IDamagable>();
 				var pv = enemy.GetComponent<PhotonView>();
-				if (iD == null || pv == null) return;
+				if (iD == null || pv == null) continue;
 				int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
-				pv.RPC("RPC_TakeDamage", pv.Owner, damage);
+				//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
+				iD.TakeDamage(damage);
+				PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
 				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
 		}
@@ -51,11 +54,10 @@ public class MeleeAttack : IAttack
 	{
 		float duration = 0.2f;
 		float time = 0f;
+		float radius = skill.Range / 2;
 
 		Vector2 startPos = attacker.position;
 		Vector2 targetPos = startPos + attackDir * skill.Range;
-		Debug.Log($"시작 위치 : {startPos}");
-		Debug.Log($"도착 위치 : {targetPos}");
 		List<Transform> hitTargets = new();
 
 		while (time < duration)
@@ -65,24 +67,24 @@ public class MeleeAttack : IAttack
 			attacker.position = Vector2.Lerp(startPos, targetPos, t);
 
 			// 충돌 감지
-			var enemies = Physics2D.OverlapCircleAll(attacker.position, 0.5f);
+			var enemies = Physics2D.OverlapCircleAll(attacker.position, radius);
 			foreach (var enemy in enemies)
 			{
 				if (attacker == enemy.transform || hitTargets.Contains(enemy.transform)) continue;
 
 				Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-				if (Vector2.Dot(attackDir, dir) >= 0.707f)
+				if (Vector2.Dot(attackDir, dir) >= 0.7f)
 				{
 					var iD = enemy.GetComponent<IDamagable>();
 					var pv = enemy.GetComponent<PhotonView>();
-					if (iD != null && pv != null)
-					{
-						int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
-						pv.RPC("RPC_TakeDamage", pv.Owner, damage);
-						hitTargets.Add(enemy.transform);
+					if (iD == null || pv == null) continue;
+					int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
+					//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
+					iD.TakeDamage(damage);
+					PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
+					hitTargets.Add(enemy.transform);
 
-						Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
-					}
+					Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 				}
 			}
 

@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private CinemachineVirtualCamera _playerFollowCam;
+	[SerializeField] private GameObject _floatingTextPrefab;
+
 	public CinemachineVirtualCamera PlayerFollowCam
 	{
 		get
@@ -69,5 +71,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 					/*or 이름*/
 				});
 		}
+	}
+	public void ShowDamageText(Transform spawnPos, int damage, Color color)
+	{
+		if (_floatingTextPrefab.Equals(null)) return;
+
+		var go = Instantiate(_floatingTextPrefab, spawnPos.position, Quaternion.identity);
+		go.GetComponent<FloatingText>()?.InitFloatingDamage($"{damage}", color);
 	}
 }

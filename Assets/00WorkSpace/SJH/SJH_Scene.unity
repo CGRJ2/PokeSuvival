@@ -1221,6 +1221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerFollowCam: {fileID: 0}
+  _floatingTextPrefab: {fileID: 8788888280356170791, guid: b90e9e28c36941843a4b0ee7d1a8f758, type: 3}
 --- !u!4 &1890215686
 Transform:
   m_ObjectHideFlags: 0
