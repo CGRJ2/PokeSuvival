@@ -327,6 +327,9 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 1
     Name: IsHit
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsSpeAttack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
