@@ -51,14 +51,30 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
-
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
-
-		_model.OnCurrentHpChanged += (hp) => { ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp); };
-		_model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
+		ConnectEvent();
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
+	}
+
+	public void ConnectEvent()
+	{
+		DisconnectEvent();
+
+		_model.OnCurrentHpChanged += (hp) => { ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp); };
+		_model.OnDied += () =>
+		{
+
+		};
+		_model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
+	}
+
+	public void DisconnectEvent()
+	{
+		_model.OnCurrentHpChanged = null;
+		_model.OnDied = null;
+		_model.OnPokeLevelChanged = null;
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -233,7 +249,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[PunRPC]
 	public void RPC_PokemonEvolution(int pokeNumber, PhotonMessageInfo info)
 	{
-		Debug.Log("RPC_PokemonEvolution");
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
 		_model.PokemonEvolution(pokeData);
 		_view.SetAnimator(pokeData.AnimController);
@@ -254,11 +269,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[PunRPC]
 	public void RPC_LevelChanged(int value, PhotonMessageInfo info)
 	{
-		Debug.Log($"RPC_LevelChanged");
 		if (!photonView.IsMine)
 		{
 			_model.SetLevel(value);
-
 		}
 		else
 		{

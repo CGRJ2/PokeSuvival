@@ -8,7 +8,6 @@ public class FloatingText : MonoBehaviour
 	[SerializeField] private float _speed;
 	[SerializeField] private float _duration;
 	[SerializeField] private float _offset;
-
 	public void InitFloatingDamage(string dmgText)
 	{
 		_text.text = dmgText;
@@ -21,6 +20,10 @@ public class FloatingText : MonoBehaviour
 		_text.text = dmgText;
 		_text.color = color;
 		transform.position += Vector3.up * _offset;
+
+		Vector2 randomOffset = Random.insideUnitCircle * 0.5f;
+		transform.position += (Vector3)randomOffset;
+
 		StartCoroutine(DamageTextRoutine());
 	}
 

@@ -66,7 +66,6 @@ public class MeleeAttack : IAttack
 			float t = time / duration;
 			attacker.position = Vector2.Lerp(startPos, targetPos, t);
 
-			// 충돌 감지
 			var enemies = Physics2D.OverlapCircleAll(attacker.position, radius);
 			foreach (var enemy in enemies)
 			{

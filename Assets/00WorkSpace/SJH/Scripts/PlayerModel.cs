@@ -21,7 +21,7 @@ public class PlayerModel
 			ReCalculateAllStat();
 		}
 	}
-	public event Action<int> OnPokeLevelChanged;
+	public Action<int> OnPokeLevelChanged;
 	[field: SerializeField] public int PokeExp { get; private set; } = 0;
 	[field: SerializeField] public int MaxHp { get; private set; }
 	[SerializeField] private int _currentHp;
@@ -34,11 +34,19 @@ public class PlayerModel
 			Debug.Log($"체력 변경 {_currentHp} => {value}");
 			_currentHp = value;
 			OnCurrentHpChanged?.Invoke(value);
+
+			if (_currentHp <= 0 && !IsDead)
+			{
+				IsDead = true;
+				OnDied?.Invoke();
+			}
 		}
 	}
-	public event Action<int> OnCurrentHpChanged;
+	public Action<int> OnCurrentHpChanged;
+	public Action OnDied;
 	
 	public bool IsMoving { get; private set; }
+	public bool IsDead { get; private set; }
 
 	private Dictionary<SkillSlot, float> _skillCooldownDic;
 
@@ -65,7 +73,6 @@ public class PlayerModel
 
 	public float GetMoveSpeed() => PokeData.BaseStat.GetMoveSpeed();
 	public void SetMoving(bool moving) => IsMoving = moving;
-	public bool IsDead() => CurrentHp <= 0;
 	public PokemonData GetNextEvoData() => PokeData.NextEvoData;
 	public void SetCurrentHp(int hp) => CurrentHp = hp;
 	public void SetLevel(int level) => PokeLevel = level;
