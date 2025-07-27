@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Cinemachine.DocumentationSortingAttribute;
@@ -16,6 +17,7 @@ public class PlayerModel
 		private set
 		{
 			if (_pokeLevel == value) return;
+			Debug.Log($"레벨 변경 {_pokeLevel} => {value}");
 			_pokeLevel = value;
 			OnPokeLevelChanged?.Invoke(value);
 			ReCalculateAllStat();
@@ -31,6 +33,7 @@ public class PlayerModel
 		private set
 		{
 			if (_currentHp == value) return;
+			Debug.Log($"체력 변경 {_currentHp} => {value}");
 			_currentHp = value;
 			OnCurrentHpChanged?.Invoke(value);
 		}
@@ -68,6 +71,7 @@ public class PlayerModel
 	public PokemonData GetNextEvoData() => PokeData.NextEvoData;
 	public void SetCurrentHp(int hp) => CurrentHp = hp;
 	public void SetLevel(int level) => PokeLevel = level;
+	public void SetLocalLevel(int level) => _pokeLevel = level;
 	public PokemonSkill GetSkill(int index)
 	{
 		var skills = PokeData.Skills;
@@ -85,4 +89,15 @@ public class PlayerModel
 		MaxHp = AllStat.Hp;
 		_currentHp = Mathf.Min(MaxHp - hpGap, MaxHp);
 	}
+	public void PokemonEvolution(PokemonData nextData)
+	{
+		string prevName = PokeData.PokeName;
+		int hpGap = MaxHp - _currentHp;
+		PokeData = nextData;
+		AllStat = PokeUtils.CalculateAllStat(PokeLevel, PokeData.BaseStat);
+		MaxHp = AllStat.Hp;
+		_currentHp = Mathf.Min(MaxHp - hpGap, MaxHp);
+		Debug.Log($"포켓몬 진화 : {prevName} -> {PokeData.PokeName}");
+	}
+
 }

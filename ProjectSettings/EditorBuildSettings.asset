@@ -11,4 +11,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00WorkSpace/CJM/Scene/Test_InGameScene(CJM).unity
     guid: c8d9a78e46027da4698c4b7e2817f336
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 61ef2b17c67d4cf4fa150ae02e7c7606, type: 2}

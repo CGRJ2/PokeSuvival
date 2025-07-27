@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable
 {
-    [SerializeField] private PlayerModel _model;
+	[SerializeField] private PlayerModel _model;
 	[SerializeField] private PlayerView _view;
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		MoveInput();
 
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			_model.SetLevel(Test_Level);
 		}
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		Debug.Log("플레이어 초기화");
 
-		photonView.RPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
 
 		// TODO : 스킬 클래스로 분리
 		SkillInit();
@@ -232,24 +232,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
 
 	[PunRPC]
-	public void RPC_PokemonEvolution(int pokeNumber)
+	public void RPC_PokemonEvolution(int pokeNumber, PhotonMessageInfo info)
 	{
+		Debug.Log("RPC_PokemonEvolution");
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
-
-		if (pokeData == null) return;
-
-		int currentLevel = _model.PokeLevel;
-		int currentExp = _model.PokeExp;
-
-		int prevCurHp = _model.CurrentHp;
-
-		int nextMaxHp = PokeUtils.CalculateHp(currentLevel, pokeData.BaseStat.Hp);
-		int hpGap = nextMaxHp - _model.MaxHp;
-		int afterLevelupHp = math.min(prevCurHp + hpGap, nextMaxHp);
-
-		_model = new PlayerModel(_model.PlayerName, pokeData, currentLevel, currentExp, afterLevelupHp);
-
+		_model.PokemonEvolution(pokeData);
 		_view.SetAnimator(pokeData.AnimController);
+		// TODO : 진화 연출
 	}
 	[PunRPC]
 	public void RPC_ChangePokemonData(int pokeNumber)
@@ -261,14 +250,27 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[PunRPC]
 	public void RPC_CurrentHpChanged(int value)
 	{
-		Debug.Log($"체력 변경 => {value}");
-		_model.SetCurrentHp(value);
+		if (!photonView.IsMine) _model.SetCurrentHp(value);
 	}
 	[PunRPC]
-	public void RPC_LevelChanged(int value)
+	public void RPC_LevelChanged(int value, PhotonMessageInfo info)
 	{
-		Debug.Log($"레벨 변경 => {value}");
-		_model.SetLevel(value);
+		Debug.Log($"RPC_LevelChanged");
+		if (!photonView.IsMine)
+		{
+			_model.SetLevel(value);
+
+		}
+		else
+		{
+			var currentData = _model.PokeData;
+			var nextData = _model.PokeData.NextEvoData;
+			if (nextData != null && value >= currentData.EvoLevel)
+			{
+				Debug.Log($"{value} >= {currentData.EvoLevel}");
+				ActionRPC(nameof(RPC_PokemonEvolution), RpcTarget.All, nextData.PokeNumber);
+			}
+		}
 	}
 	[PunRPC]
 	public void RPC_TakeDamage(int value)
