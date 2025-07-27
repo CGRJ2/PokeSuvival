@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Charizard
+  m_EditorClassIdentifier: 
+  PokeNumber: 6
+  PokeName: "\uB9AC\uC790\uBABD"
+  PokeTypes: 020000000a000000
+  BaseStat:
+    Hp: 78
+    Attak: 84
+    Defense: 78
+    SpecialAttack: 109
+    SpecialDefense: 85
+    Speed: 100
+  AnimController: {fileID: 9100000, guid: 52437c663baba1f48be9b1aca40fce89, type: 2}
+  PokemonIconSprite: {fileID: 0}
+  PokemonInfoSprite: {fileID: 0}
+  Skills:
+  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  Desc: 
+  EvoLevel: 0
+  NextEvoData: {fileID: 0}
