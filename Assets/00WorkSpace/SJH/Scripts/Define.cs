@@ -278,11 +278,6 @@ public enum SkillType
 	Special,
 	Status,
 }
-public enum AttackType
-{
-	Melee,
-	Ranged,
-}
 public struct BattleDataTable
 {
 	public int Level;

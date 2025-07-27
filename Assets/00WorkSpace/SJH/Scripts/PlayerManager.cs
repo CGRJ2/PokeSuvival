@@ -50,7 +50,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("방 입장");
-		int ran = Random.Range(0, 2);
+		int ran = Random.Range(0, 1); // 2
 		if (ran == 0)
 		{
 			Debug.Log("이상해씨 생성");

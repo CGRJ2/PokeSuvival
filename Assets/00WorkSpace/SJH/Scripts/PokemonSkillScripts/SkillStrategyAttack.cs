@@ -20,9 +20,8 @@ public class SkillStrategyAttack : IAttack
 		{
 			case "할퀴기": return new Scratch();
 			case "몸통박치기": return new Tackle();
-			case "잎날가르기": break;
+			case "잎날가르기": return new RazorLeaf();
 			default: return null;
 		}
-		return null;
 	}
 }

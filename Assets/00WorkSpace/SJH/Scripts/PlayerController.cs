@@ -221,7 +221,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	public void TakeDamage(int value)
 	{
-		if (value > 0) _view.SetIsHit();
 		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, value);
 	}
 
@@ -290,6 +289,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[PunRPC]
 	public void RPC_TakeDamage(int value)
 	{
+		if (value > 0) _view.SetIsHit();
 		Debug.Log($"{value} 대미지 입음");
 		if (photonView.IsMine)
 		{

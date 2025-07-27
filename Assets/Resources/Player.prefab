@@ -322,10 +322,10 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsDead
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsAttack
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsHit
   m_SynchronizeLayers:
   - SynchronizeType: 0
