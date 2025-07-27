@@ -29,6 +29,7 @@ public class PlayerView : MonoBehaviour
 	public void SetFlip(bool flip) => _sprite.flipX = flip;
 	public void SetIsMoving(Vector2 dir) => _anim.SetBool("IsMoving", dir != Vector2.zero);
 	public void SetIsAttack() => _anim.SetTrigger("IsAttack");
+	public void SetIsSpeAttack() => _anim.SetTrigger("IsSpeAttack");
 	public void SetIsHit() => _anim.SetTrigger("IsHit");
 	public void SetIsDead(bool isDead) => _anim.SetBool("IsDead", isDead);
 }

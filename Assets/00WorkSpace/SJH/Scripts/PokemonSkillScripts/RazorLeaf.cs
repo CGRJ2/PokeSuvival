@@ -9,15 +9,7 @@ public class RazorLeaf : IAttack
 		Quaternion rot = Quaternion.FromToRotation(Vector2.up, attackDir.normalized);
 		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, rot);
 		Projectile projectile = go.GetComponent<Projectile>();
-		if (projectile != null)
-		{
-			//var rigid = projectile.GetComponent<Rigidbody2D>();
-			projectile.Init(attacker, attackDir, attackerData, skill);
-			//rigid.velocity = attackDir * 3f;
-		}
-		else
-		{
-			PhotonNetwork.Destroy(go);
-		}
+		if (projectile != null) projectile.Init(attacker, attackDir, attackerData, skill);
+		else PhotonNetwork.Destroy(go);
 	}
 }

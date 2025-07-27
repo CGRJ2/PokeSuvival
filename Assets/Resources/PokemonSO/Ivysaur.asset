@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Bulbasaur
+  m_Name: Ivysaur
   m_EditorClassIdentifier: 
-  PokeNumber: 1
-  PokeName: "\uC774\uC0C1\uD574\uC528"
+  PokeNumber: 2
+  PokeName: "\uC774\uC0C1\uD574\uD480"
   PokeTypes: 0400000005000000
   BaseStat:
-    Hp: 45
-    Attak: 49
-    Defense: 49
-    SpecialAttack: 65
-    SpecialDefense: 65
-    Speed: 45
-  AnimController: {fileID: 9100000, guid: e041bf78f3f439648963bd14f3d28e3e, type: 2}
+    Hp: 60
+    Attak: 62
+    Defense: 63
+    SpecialAttack: 80
+    SpecialDefense: 80
+    Speed: 60
+  AnimController: {fileID: 9100000, guid: 09d95ec6e7a1b424f9f68a7c07fc4cef, type: 2}
   PokemonIconSprite: {fileID: 0}
   PokemonInfoSprite: {fileID: 0}
   Skills:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
   Desc: 
-  EvoLevel: 16
-  NextEvoData: {fileID: 11400000, guid: d6bf954266d64c64f96fde0803954130, type: 2}
+  EvoLevel: 32
+  NextEvoData: {fileID: 0}

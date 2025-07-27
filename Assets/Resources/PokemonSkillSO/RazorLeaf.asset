@@ -19,5 +19,6 @@ MonoBehaviour:
   Range: 10
   PokeType: 4
   SkillType: 0
+  SkillAnimType: 1
   EffectPrefab: {fileID: 8073694639771686605, guid: 59456400cacbd374aa0f435059c01c78, type: 3}
   SFX: {fileID: 0}

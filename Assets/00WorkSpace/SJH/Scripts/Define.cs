@@ -298,4 +298,9 @@ public struct BattleDataTable
 		CurrentHp = currentHp;
 	}
 }
+public enum SkillAnimType
+{
+	Attack,
+	SpeAttack,
+}
 #endregion
