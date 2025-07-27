@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Squirtle
+  m_Name: Wartortle
   m_EditorClassIdentifier: 
-  PokeNumber: 7
-  PokeName: "\uAF2C\uBD80\uAE30"
+  PokeNumber: 8
+  PokeName: "\uC5B4\uB2C8\uBD80\uAE30"
   PokeTypes: 0300000000000000
   BaseStat:
-    Hp: 44
-    Attak: 48
-    Defense: 65
-    SpecialAttack: 50
-    SpecialDefense: 64
-    Speed: 43
-  AnimController: {fileID: 9100000, guid: b09cad885aeaef64699204f4830ac57d, type: 2}
+    Hp: 59
+    Attak: 63
+    Defense: 80
+    SpecialAttack: 65
+    SpecialDefense: 80
+    Speed: 58
+  AnimController: {fileID: 9100000, guid: f230e19a66542f64a8a26f5903c21990, type: 2}
   PokemonIconSprite: {fileID: 0}
   PokemonInfoSprite: {fileID: 0}
   Skills:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   Desc: 
-  EvoLevel: 16
-  NextEvoData: {fileID: 11400000, guid: 09f8c4aac11a5b74286eb7212bb61b87, type: 2}
+  EvoLevel: 6
+  NextEvoData: {fileID: 0}
