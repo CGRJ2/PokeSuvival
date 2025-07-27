@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Scratch
   m_EditorClassIdentifier: 
   SkillName: "\uD560\uD034\uAE30"
-  Desc: 
+  Desc: "\uB2E8\uB2E8\uD558\uACE0 \uBFB0\uC871\uD55C \uB0A0\uCE74\uB85C\uC6B4 \uC190\uD1B1\uC73C\uB85C
+    \uC0C1\uB300\uB97C \uD560\uD034\uC5B4\uC11C \uACF5\uACA9\uD55C\uB2E4."
   Damage: 40
   Cooldown: 0.1
   Range: 2

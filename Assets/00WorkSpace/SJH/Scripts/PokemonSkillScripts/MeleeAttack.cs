@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class MeleeAttack : IAttack
 {
-
-	public MeleeAttack()
-	{
-
-	}
-
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
 		switch (skill.SkillName)
@@ -35,11 +29,13 @@ public class MeleeAttack : IAttack
 				var iD = enemy.GetComponent<IDamagable>();
 				var pv = enemy.GetComponent<PhotonView>();
 				if (iD == null || pv == null) continue;
-				int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
+				var defenderData = iD.BattleData;
+				if (defenderData.CurrentHp <= 0) continue;
+				int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 				//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
 				iD.TakeDamage(damage);
 				PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
-				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
+				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");
@@ -77,13 +73,15 @@ public class MeleeAttack : IAttack
 					var iD = enemy.GetComponent<IDamagable>();
 					var pv = enemy.GetComponent<PhotonView>();
 					if (iD == null || pv == null) continue;
-					int damage = PokeUtils.CalculateDamage(attackerData, iD.BattleData, skill);
+					var defenderData = iD.BattleData;
+					if (defenderData.CurrentHp <= 0) continue;
+					int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 					//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
 					iD.TakeDamage(damage);
 					PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
 					hitTargets.Add(enemy.transform);
 
-					Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{iD.BattleData.Level} {iD.BattleData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
+					Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 				}
 			}
 

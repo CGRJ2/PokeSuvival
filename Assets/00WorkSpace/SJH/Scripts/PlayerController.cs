@@ -62,7 +62,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		DisconnectEvent();
 
-		_model.OnCurrentHpChanged += (hp) => { ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp); };
+		_model.OnCurrentHpChanged += (hp) =>
+		{
+			ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp);
+		};
 		_model.OnDied += () =>
 		{
 			_input.enabled = false;
@@ -181,11 +184,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			case InputActionPhase.Started:
 				//Debug.Log($"스킬 {slot} 키다운");
 				IAttack attack = SkillCheck(slot, out var skill);
-				if (attack == null) return;
+				if (attack == null || skill == null) return;
 				IDamagable damagable = this;
-				attack.Attack(transform, _lastDir, damagable.BattleData, skill);
-				_model.SetSkillCooldown(slot);
 				_view.SetIsAttack();
+				_model.SetSkillCooldown(slot);
+				attack.Attack(transform, _lastDir, damagable.BattleData, skill);
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
@@ -218,7 +221,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	public void TakeDamage(int value)
 	{
-		_view.SetIsHit();
+		if (value > 0) _view.SetIsHit();
 		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, value);
 	}
 
@@ -227,23 +230,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		skill = _model.GetSkill((int)slot);
 		if (skill == null)
 		{
-			Debug.Log("사용할 수 있는 스킬이 없습니다.");
+			Debug.LogWarning("사용할 수 있는 스킬이 없습니다.");
 			return null;
 		}
 		if (_model.IsSkillCooldown(slot, skill.Cooldown))
 		{
-			Debug.Log("스킬이 쿨타임입니다.");
+			Debug.LogWarning("스킬이 쿨타임입니다.");
 			return null;
 		}
-		IAttack attack = null;
-		switch (skill.AttackType)
-		{
-			case AttackType.Melee: attack = new MeleeAttack(); break;
-			case AttackType.Ranged: attack = new RangedAttack(); break;
-		}
+		IAttack attack = new SkillStrategyAttack(skill.SkillName);
 		if (attack == null)
 		{
-			Debug.Log("정의되지 않은 스킬입니다.");
+			Debug.LogWarning("정의되지 않은 스킬입니다.");
 			return null;
 		}
 		return attack;
@@ -298,7 +296,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			_model.SetCurrentHp(_model.CurrentHp - value);
 		}
 		PlayerManager.Instance.ShowDamageText(transform, value, Color.red);
-		// TODO : RPC All View 피격 연출
 	}
 	[PunRPC]
 	public void RPC_SyncToNewPlayer(int pokeNumber, int level, int currentHp)
