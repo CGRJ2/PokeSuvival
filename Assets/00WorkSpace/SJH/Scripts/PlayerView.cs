@@ -15,6 +15,7 @@ public class PlayerView : MonoBehaviour
 
 	public void PlayerMove(Vector2 dir, Vector2 lastDir, float moveSpeed)
 	{
+		SetIsMoving(dir);
 		Vector2 movePos = dir * moveSpeed;
 		_rigid.velocity = movePos;
 
@@ -26,4 +27,8 @@ public class PlayerView : MonoBehaviour
 
 	public void SetAnimator(RuntimeAnimatorController anim) => _anim.runtimeAnimatorController = anim;
 	public void SetFlip(bool flip) => _sprite.flipX = flip;
+	public void SetIsMoving(Vector2 dir) => _anim.SetBool("IsMoving", dir != Vector2.zero);
+	public void SetIsAttack() => _anim.SetTrigger("IsAttack");
+	public void SetIsHit() => _anim.SetTrigger("IsHit");
+	public void SetIsDead(bool isDead) => _anim.SetBool("IsDead", isDead);
 }

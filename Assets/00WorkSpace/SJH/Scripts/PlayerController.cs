@@ -65,7 +65,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		_model.OnCurrentHpChanged += (hp) => { ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp); };
 		_model.OnDied += () =>
 		{
-
+			_input.enabled = false;
+			_view.SetIsDead(true);
 		};
 		_model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
 	}
@@ -184,7 +185,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				IDamagable damagable = this;
 				attack.Attack(transform, _lastDir, damagable.BattleData, skill);
 				_model.SetSkillCooldown(slot);
-
+				_view.SetIsAttack();
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
@@ -215,7 +216,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		photonView.RPC(nameof(RPC_SyncToNewPlayer), newPlayer, _model.PokeData.PokeNumber, _model.PokeLevel, _model.CurrentHp);
 	}
 
-	public void TakeDamage(int value) => ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, value);
+	public void TakeDamage(int value)
+	{
+		_view.SetIsHit();
+		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, value);
+	}
 
 	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)
 	{
