@@ -22,11 +22,12 @@ MonoBehaviour:
     SpecialAttack: 60
     SpecialDefense: 50
     Speed: 65
-  AnimController: {fileID: 9100000, guid: 9ea52aca3aa229f46bf24b8020ce8526, type: 2}
+  AnimController: {fileID: 9100000, guid: b5cb612f681272849b59c0de50ba87fc, type: 2}
   PokemonIconSprite: {fileID: 0}
   PokemonInfoSprite: {fileID: 0}
   Skills:
   - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
   Desc: 
   EvoLevel: 3
   NextEvoData: {fileID: 11400000, guid: aee1c1ec787f0c244a9a9868542230c6, type: 2}
