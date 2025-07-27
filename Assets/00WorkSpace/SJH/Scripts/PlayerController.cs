@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				IAttack attack = SkillCheck(slot, out var skill);
 				if (attack == null) return;
 				IDamagable damagable = this;
-				attack.Attack(transform, _view.LastDir, damagable.BattleData, skill);
+				attack.Attack(transform, _lastDir, damagable.BattleData, skill);
 				_model.SetSkillCooldown(slot);
 
 				// TODO : 모델 처리

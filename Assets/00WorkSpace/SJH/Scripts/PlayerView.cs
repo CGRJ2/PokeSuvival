@@ -5,7 +5,6 @@ public class PlayerView : MonoBehaviour
 	[SerializeField] private Rigidbody2D _rigid;
 	[SerializeField] private SpriteRenderer _sprite;
 	[SerializeField] private Animator _anim;
-	public Vector2 LastDir = Vector2.down;
 
 	void Awake()
 	{
@@ -14,17 +13,6 @@ public class PlayerView : MonoBehaviour
 		_anim = GetComponent<Animator>();
 	}
 
-	public void PlayerMove(Vector2 dir, float moveSpeed)
-	{
-		Vector2 movePos = dir * moveSpeed;
-		_rigid.velocity = movePos;
-
-		if (dir != Vector2.zero) LastDir = dir;
-		if (dir.x != 0) _sprite.flipX = dir.x > 0.1f;
-
-		_anim.SetFloat("X", LastDir.x);
-		_anim.SetFloat("Y", LastDir.y);
-	}
 	public void PlayerMove(Vector2 dir, Vector2 lastDir, float moveSpeed)
 	{
 		Vector2 movePos = dir * moveSpeed;
