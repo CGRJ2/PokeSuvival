@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class MonsterBallPoolManager : MonoBehaviourPunCallbacks
+public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject monsterBallPrefab;
     [SerializeField] private int initialPoolSize = 20;
     [SerializeField] private int maxPoolSize = 30; // 최대 풀 크기 제한
 
     private List<GameObject> pooledObjects = new List<GameObject>();
-    private static MonsterBallPoolManager instance;
+    private static ItemBoxPoolManager instance;
 
-    public static MonsterBallPoolManager Instance
+    public static ItemBoxPoolManager Instance
     {
         get { return instance; }
     }
@@ -54,13 +54,13 @@ public class MonsterBallPoolManager : MonoBehaviourPunCallbacks
         }
 
         // [[버그수정을 위한 주석처리]] GameObject obj = PhotonNetwork.InstantiateRoomObject(monsterBallPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
-        GameObject obj = PhotonNetwork.Instantiate("MonsterBall", new Vector3(0, -100, 0), Quaternion.identity);
+        GameObject obj = PhotonNetwork.Instantiate("ItemBox", new Vector3(0, -100, 0), Quaternion.identity);
         obj.SetActive(false);
 
         // 하이어라키 정리를 위해 부모 설정
         obj.transform.SetParent(this.transform);
 
-        MonsterBall monsterBall = obj.GetComponent<MonsterBall>();
+        ItemBox monsterBall = obj.GetComponent<ItemBox>();
 
         pooledObjects.Add(obj);
         return obj;

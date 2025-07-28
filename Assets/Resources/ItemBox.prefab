@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7196080236050714526}
   - component: {fileID: 5156314202595591977}
   m_Layer: 0
-  m_Name: MonsterBall
+  m_Name: ItemBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

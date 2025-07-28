@@ -3,7 +3,7 @@ using Photon.Pun;
 using UnityEngine.UIElements;
 
 
-public class MonsterBall : MonoBehaviourPun, IPunObservable
+public class ItemBox : MonoBehaviourPun, IPunObservable
 {
     [Header("아이템 설정")]
     [SerializeField] private GameObject itemPrefab; // 생성할 아이템 프리팹
@@ -20,7 +20,7 @@ public class MonsterBall : MonoBehaviourPun, IPunObservable
             photonView.RPC(nameof(RPC_DropItem), RpcTarget.AllBuffered, spawnPosition);
 
             // 풀로 반환
-            MonsterBallPoolManager.Instance.ReturnToPool(gameObject);
+            ItemBoxPoolManager.Instance.ReturnToPool(gameObject);
         }
     }
 

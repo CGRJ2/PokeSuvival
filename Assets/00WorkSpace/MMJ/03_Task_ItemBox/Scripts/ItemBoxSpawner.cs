@@ -2,7 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
-public class MonsterBallSpawner : MonoBehaviourPunCallbacks
+public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 {
     [Header("스폰 설정")]
     [SerializeField] private float spawnInterval = 5f;
@@ -15,8 +15,6 @@ public class MonsterBallSpawner : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-
-        Debug.Log("Awake 호출됨");  // 이건 찍혔다고 했죠?
         Debug.Log("enabled 상태는? " + enabled);  // 여기에 true인지 false인지 출력
 
         // 타일맵이 인스펙터에서 할당되었는지 확인합니다.
@@ -107,7 +105,7 @@ public class MonsterBallSpawner : MonoBehaviourPunCallbacks
         Vector3 spawnPosition = validSpawnPositions[randomIndex];
 
         // 풀 매니저에 스폰 요청
-        MonsterBallPoolManager.Instance.SpawnMonsterBall(spawnPosition);
+        ItemBoxPoolManager.Instance.SpawnMonsterBall(spawnPosition);
         Debug.Log($"몬스터볼이 타일맵의 유효한 위치에 스폰되었습니다: {spawnPosition}");
     }
 }

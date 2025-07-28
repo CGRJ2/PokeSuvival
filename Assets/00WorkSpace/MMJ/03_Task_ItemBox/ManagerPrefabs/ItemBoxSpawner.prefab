@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8352939673893450475
+--- !u!1 &2968140109791649239
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1700466244110140338}
-  - component: {fileID: 1093782482295465659}
-  - component: {fileID: 227582950902726008}
+  - component: {fileID: 8154990212726005198}
+  - component: {fileID: 1608317382599787995}
+  - component: {fileID: 8110664866577649931}
   m_Layer: 0
-  m_Name: MonsterBallPoolManager
+  m_Name: ItemBoxSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1700466244110140338
+--- !u!4 &8154990212726005198
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8352939673893450475}
+  m_GameObject: {fileID: 2968140109791649239}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.0868268, y: 2.0493562, z: -13.123197}
@@ -33,28 +33,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1093782482295465659
+--- !u!114 &1608317382599787995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8352939673893450475}
+  m_GameObject: {fileID: 2968140109791649239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b423bbdd3de54c640a60a12071b0fa3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fcd91d74fb1b2a4cb6d4253eb3a2660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterBallPrefab: {fileID: 8830956752785147760, guid: 9e8d37a5035a7af4da67a0a62efb76af, type: 3}
-  initialPoolSize: 20
-  maxPoolSize: 30
---- !u!114 &227582950902726008
+  spawnInterval: 5
+  minX: -50
+  maxX: 50
+  minY: -50
+  maxY: 50
+  spawnHeight: 1
+--- !u!114 &8110664866577649931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8352939673893450475}
+  m_GameObject: {fileID: 2968140109791649239}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
