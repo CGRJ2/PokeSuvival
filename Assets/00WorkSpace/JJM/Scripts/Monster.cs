@@ -36,7 +36,7 @@ public class Monster : MonoBehaviourPun, IPunObservable
 
     private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
 
-
+    [SerializeField] private int attackDamage = 10; // 몬스터 공격력
     void Start() // 게임 시작 시 호출되는 함수
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
@@ -119,8 +119,16 @@ public class Monster : MonoBehaviourPun, IPunObservable
 
     void AttackPlayer() // 플레이어를 공격하는 함수
     {
-        
+
         // 플레이어에게 데미지 주기
+        if (player == null) return;
+
+        // IDamageable 인터페이스를 가진 컴포넌트 찾기
+        IDamageable damageable = player.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(attackDamage);
+        }
         // 예시: player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
     }
 

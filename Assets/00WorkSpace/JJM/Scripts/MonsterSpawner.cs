@@ -32,8 +32,17 @@ public class MonsterSpawner : MonoBehaviourPunCallbacks
 
     void TrySpawnMonsters() // 몬스터 개수 유지 함수
     {
-        int currentCount = GameObject.FindGameObjectsWithTag("Monster").Length; // 현재 몬스터 수(태그 필요)
-        int toSpawn = monsterCount - currentCount; // 생성해야 할 몬스터 수 계산
+        //int currentCount = GameObject.FindGameObjectsWithTag("Monster").Length; // 현재 몬스터 수(태그 필요)
+        //int toSpawn = monsterCount - currentCount; // 생성해야 할 몬스터 수 계산
+        // 활성화된(씬에 실제로 존재하는) 몬스터만 카운트
+        int currentCount = 0;
+        var monsters = GameObject.FindGameObjectsWithTag("Monster");
+        foreach (var m in monsters)
+        {
+            if (m.activeSelf) currentCount++;
+        }
+
+        int toSpawn = monsterCount - currentCount;
 
         for (int i = 0; i < toSpawn; i++) // 부족한 만큼만 생성
         {
