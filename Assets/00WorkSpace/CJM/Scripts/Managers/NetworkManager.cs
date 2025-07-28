@@ -128,7 +128,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     {
         if (curServer.type == ServerType.TestServer)
         {
-            PhotonNetwork.JoinRandomOrCreateRoom();
             return;
         }
 
@@ -159,7 +158,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         Debug.Log("πÊ ¿‘¿Â");
 
         if (curServer.type == ServerType.TestServer) { return; }
-
 
         if (curServer.type == ServerType.InGame)
         {
