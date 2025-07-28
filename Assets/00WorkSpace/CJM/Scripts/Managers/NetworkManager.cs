@@ -92,7 +92,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             if (um != null)
             {
                 // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
-                if (PhotonNetwork.LocalPlayer.NickName == "") // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
+                if (PhotonNetwork.LocalPlayer.CustomProperties == null) // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
                     um.InitializeGroup.InitView();
                 else
                     PhotonNetwork.JoinLobby();
@@ -139,11 +139,19 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnJoinedRoom();
         Debug.Log("방 입장");
 
-        if (um != null)
+        if (curServer.type == ServerType.InGame)
         {
-            um.LobbyGroup.panel_RoomInside.InitRoomView();
-            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
-            um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+            if (um != null)
+                um.LobbyGroup.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (um != null)
+            {
+                um.LobbyGroup.panel_RoomInside.InitRoomView();
+                um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
+                um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -257,6 +265,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         ChangeServer(inGameServerDatas[0]);
 
         PhotonNetwork.LoadLevel(sceneName);
+
+        
+
+        
     }
 
 

@@ -1,4 +1,4 @@
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,20 +34,20 @@ public class Panel_PokemonInfo : MonoBehaviour
 
         image_StandingSprite.sprite = selectedPokemonData.PokemonInfoSprite;
 
-        // Å¸ÀÔÀÌ 1°³ÀÏ ¶§¿Í 2°³ÀÏ ¶§ ¿¹¿ÜÃ³¸®
+        // íƒ€ì…ì´ 1ê°œì¼ ë•Œì™€ 2ê°œì¼ ë•Œ ì˜ˆì™¸ì²˜ë¦¬
         TypeSpritesDB typeSpriteDB = Resources.Load<TypeSpritesDB>("Type Icon DB/PokemonTypeSpritesDB");
 
-        // Å¸ÀÔ sprite ¾÷µ¥ÀÌÆ®
+        // íƒ€ì… sprite ì—…ë°ì´íŠ¸
         images_Type[0].gameObject.SetActive(true);
-        images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.Types[0]];
+        images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[0]];
 
-        // º¸Á¶Å¸ÀÔ sprite ¾÷µ¥ÀÌÆ®
-        if (selectedPokemonData.Types[1] == PokemonType.None) // º¸Á¶ Å¸ÀÔÀÌ ¾ø´Ù¸é
+        // ë³´ì¡°íƒ€ì… sprite ì—…ë°ì´íŠ¸
+        if (selectedPokemonData.PokeTypes[1] == PokemonType.None) // ë³´ì¡° íƒ€ì…ì´ ì—†ë‹¤ë©´
             images_Type[1].gameObject.SetActive(false);
         else
         {
             images_Type[1].gameObject.SetActive(true);
-            images_Type[1].sprite = typeSpriteDB.dic[selectedPokemonData.Types[1]];
+            images_Type[1].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[1]];
         }
     }
 }

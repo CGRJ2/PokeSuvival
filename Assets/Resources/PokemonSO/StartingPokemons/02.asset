@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Squirtle
+  m_Name: 02
   m_EditorClassIdentifier: 
-  PokeNumber: 7
-  PokeName: "\uAF2C\uBD80\uAE30"
-  PokeTypes: 0300000000000000
+  PokeNumber: 4
+  PokeName: "\uD30C\uC774\uB9AC"
+  PokeTypes: 0200000000000000
   BaseStat:
-    Hp: 44
-    Attak: 48
-    Defense: 65
-    SpecialAttack: 50
-    SpecialDefense: 64
-    Speed: 43
-  AnimController: {fileID: 9100000, guid: b09cad885aeaef64699204f4830ac57d, type: 2}
-  PokemonIconSprite: {fileID: 21300000, guid: 93a723532de10d148849eeb2e96beb36, type: 3}
-  PokemonInfoSprite: {fileID: 21300000, guid: 67c62ca5548b5be4fadb105eb0b603e8, type: 3}
+    Hp: 39
+    Attak: 52
+    Defense: 43
+    SpecialAttack: 60
+    SpecialDefense: 50
+    Speed: 65
+  AnimController: {fileID: 9100000, guid: b5cb612f681272849b59c0de50ba87fc, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 6bb701d54cc09a743a71c1f9f4fd23f2, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 0b7fc9d7773c92f4fb449e187794e7ea, type: 3}
   Skills:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
   - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
   Desc: 
   EvoLevel: 16
-  NextEvoData: {fileID: 11400000, guid: 09f8c4aac11a5b74286eb7212bb61b87, type: 2}
+  NextEvoData: {fileID: 11400000, guid: ea032df30ac82b6478258b05994b605b, type: 2}

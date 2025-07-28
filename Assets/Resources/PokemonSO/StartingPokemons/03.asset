@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Squirtle
+  m_Name: 03
   m_EditorClassIdentifier: 
   PokeNumber: 7
   PokeName: "\uAF2C\uBD80\uAE30"

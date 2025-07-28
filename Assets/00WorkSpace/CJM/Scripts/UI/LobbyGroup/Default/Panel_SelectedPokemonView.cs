@@ -25,8 +25,8 @@ public class Panel_SelectedPokemonView : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
         {
             string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-            PokemonData selectedPokemonData = Resources.Load<PokemonData>($"PokemonSO/{pokemonDataSO_Name}");
-
+            PokemonData selectedPokemonData = Define.GetPokeData(pokemonDataSO_Name);
+                
             tmp_Name.text = selectedPokemonData.PokeName;
             image_Sprite.sprite = selectedPokemonData.PokemonInfoSprite;
         }

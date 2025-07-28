@@ -17,7 +17,7 @@ public class Panel_SelectStarting : MonoBehaviour
         btn_Cancel.onClick.AddListener(CloseSelectPanel);
 
         // 맨 처음 보여줄 몬스터 (일단 1번인 이상해씨를 넣었습니다)
-        panel_PokemonInfo.UpdateView(Resources.Load<PokemonData>("PokemonSO/Bulbasaur"));
+        panel_PokemonInfo.UpdateView(Define.GetPokeData("이상해씨"));
     }
 
     void SelectConfirm()
@@ -26,16 +26,16 @@ public class Panel_SelectStarting : MonoBehaviour
 
         // 스타팅 포켓몬 설정해주기
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
-        playerProperty["StartingPokemon"] = selectedPokemon.name;
+        playerProperty["StartingPokemon"] = selectedPokemon.PokeName;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
         // 디버그용
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+        /*if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
         {
             string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-            PokemonData debugTest = Resources.Load<PokemonData>($"PokemonSO/{pokemonDataSO_Name}");
+            PokemonData debugTest = Define.GetPokeData(pokemonDataSO_Name);
             Debug.Log($"스타팅 포켓몬 설정됨: {debugTest.PokeName}");
-        }
+        }*/
 
         // LobbyDefault에 스타팅 포켓몬 View 업데이트
         UIManager.Instance.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
