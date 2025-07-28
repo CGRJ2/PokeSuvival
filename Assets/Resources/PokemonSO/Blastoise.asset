@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Wartortle
+  m_Name: Blastoise
   m_EditorClassIdentifier: 
-  PokeNumber: 8
-  PokeName: "\uC5B4\uB2C8\uBD80\uAE30"
+  PokeNumber: 9
+  PokeName: "\uAC70\uBD81\uC655"
   PokeTypes: 0300000000000000
   BaseStat:
-    Hp: 59
-    Attak: 63
-    Defense: 80
-    SpecialAttack: 65
-    SpecialDefense: 80
-    Speed: 58
-  AnimController: {fileID: 9100000, guid: f230e19a66542f64a8a26f5903c21990, type: 2}
+    Hp: 79
+    Attak: 83
+    Defense: 100
+    SpecialAttack: 85
+    SpecialDefense: 105
+    Speed: 78
+  AnimController: {fileID: 9100000, guid: 11a5f6966e4fd244ebf89870ed91ef1a, type: 2}
   PokemonIconSprite: {fileID: 0}
   PokemonInfoSprite: {fileID: 0}
   Skills:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   Desc: 
-  EvoLevel: 36
-  NextEvoData: {fileID: 11400000, guid: 6222c2db2be91f5499be6c49b5c5ae81, type: 2}
+  EvoLevel: 0
+  NextEvoData: {fileID: 11400000, guid: aee1c1ec787f0c244a9a9868542230c6, type: 2}
