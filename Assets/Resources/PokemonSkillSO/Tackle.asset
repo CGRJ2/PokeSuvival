@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: Tackle
+  m_EditorClassIdentifier: 
+  SkillName: "\uBAB8\uD1B5\uBC15\uCE58\uAE30"
+  Desc: "\uC0C1\uB300\uB97C \uD5A5\uD574\uC11C \uBAB8 \uC804\uCCB4\uB97C \uBD80\uB52A\uCCD0\uAC00\uBA70
+    \uACF5\uACA9\uD55C\uB2E4."
+  Damage: 40
+  Cooldown: 0.1
+  Range: 2
+  PokeType: 1
+  SkillType: 0
+  AttackType: 0
+  EffectPrefab: {fileID: 0}
+  SFX: {fileID: 0}

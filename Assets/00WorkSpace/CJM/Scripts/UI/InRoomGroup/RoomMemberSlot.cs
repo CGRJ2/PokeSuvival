@@ -57,7 +57,7 @@ public class RoomMemberSlot : MonoBehaviour, IPointerClickHandler
                 }
                 else
                 {
-                    PokemonData pokemonData = Resources.Load<PokemonData>($"PokemonSO/{pokemonDataSO_Name}");
+                    PokemonData pokemonData = Define.GetPokeData(pokemonDataSO_Name);
                     image_Pokemon.sprite = pokemonData.PokemonInfoSprite;
                 }
             }

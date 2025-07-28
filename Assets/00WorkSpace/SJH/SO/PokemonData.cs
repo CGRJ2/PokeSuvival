@@ -6,11 +6,11 @@ public class PokemonData : ScriptableObject
 {
 	public int PokeNumber;
 	public string PokeName;
-	public PokemonType[] Types;
+	public PokemonType[] PokeTypes;
 	public PokemonStat BaseStat;
 	public RuntimeAnimatorController AnimController;
-	public Sprite PokemonIconSprite;
-	public Sprite PokemonInfoSprite;
+	public Sprite PokemonIconSprite; // 슬롯
+	public Sprite PokemonInfoSprite; // 도감
 	public PokemonSkill[] Skills;
 	public string Desc;
 	public int EvoLevel;

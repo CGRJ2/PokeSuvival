@@ -8,7 +8,7 @@ public class Panel_LobbyDefault : MonoBehaviour
 {
     [SerializeField] Button btn_QuickMatch;
     [SerializeField] Button btn_MatchMaking;
-
+    
     public Panel_SelectedPokemonView panel_PokemonView;
 
     public void Init()
@@ -35,7 +35,8 @@ public class Panel_LobbyDefault : MonoBehaviour
         // 임시
         // 인게임 서버 중 비어있는 곳을 찾아 접속해야함.
         // 인게임 서버들의 인원 상태를 저장해두는 중계자 필요 => firebase DB 설계 진행하자
-        nm.MoveToInGameScene("Test_InGameScene(CJM)");
+        string inGameSceneName = NetworkManager.Instance.temp_InGameSceneName;
+        nm.MoveToInGameScene(inGameSceneName);
     }
 
     public void OpenMatchMakingPanel()

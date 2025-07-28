@@ -1,10 +1,15 @@
 ﻿using Cinemachine;
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private CinemachineVirtualCamera _playerFollowCam;
+	[SerializeField] private GameObject _floatingTextPrefab;
+
+
+
 	public CinemachineVirtualCamera PlayerFollowCam
 	{
 		get
@@ -36,27 +41,55 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 			return;
 		}
 
-		PhotonNetwork.ConnectUsingSettings();
+		//PhotonNetwork.ConnectUsingSettings();
 	}
 
-	public override void OnConnectedToMaster()
-	{
-		Debug.Log("SJH_마스터 연결");
-		PhotonNetwork.JoinRandomOrCreateRoom();
-	}
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+        Debug.Log("마스터 연결 후 로비 상태로 변경");
 
-	public override void OnJoinedRoom()
+		StartCoroutine(DelayedInit());
+    }
+
+	IEnumerator DelayedInit()
 	{
-		Debug.Log("방 입장");
-		int ran = Random.Range(0, 2);
+		yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+        Debug.Log("로비 상태에서 룸 생성 or 입장 시도");
+        PhotonNetwork.JoinRandomOrCreateRoom();
+    }
+
+    public override void OnJoinedRoom()
+	{
+
+		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+		Debug.Log(pokemonName);
+
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
+				new object[]
+				{
+					pokemonName
+				});
+		/*
+        Debug.Log("방 입장");
+		int ran = Random.Range(0, 1); // 2
+
+
 		if (ran == 0)
 		{
 			Debug.Log("이상해씨 생성");
 			var player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
 				new object[]
 				{
-					/*도감번호*/1
-					/*or 이름*/
+					*//*도감번호*//*1
+					*//*or 이름*//*
 				});
 		}
 		else
@@ -65,9 +98,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 			var player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
 				new object[]
 				{
-					/*도감번호*/4
-					/*or 이름*/
+					*//*도감번호*//*4
+					*//*or 이름*//*
 				});
-		}
+		}*/
+	}
+	public void ShowDamageText(Transform spawnPos, int damage, Color color)
+	{
+		if (_floatingTextPrefab.Equals(null)) return;
+
+		var go = Instantiate(_floatingTextPrefab, spawnPos.position, Quaternion.identity);
+		go.GetComponent<FloatingText>()?.InitFloatingDamage($"{damage}", color);
 	}
 }

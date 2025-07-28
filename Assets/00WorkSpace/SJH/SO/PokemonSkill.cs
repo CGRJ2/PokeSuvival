@@ -11,8 +11,8 @@ public class PokemonSkill : ScriptableObject
     public float Range;
     public PokemonType PokeType;
     public SkillType SkillType;
-    public AttackType AttackType;
+    public SkillAnimType SkillAnimType;
 
-    public GameObject EffectPrefab;
+	public GameObject EffectPrefab;
     public AudioClip SFX;
 }

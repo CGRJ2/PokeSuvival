@@ -8,9 +8,17 @@ using UnityEngine;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
+    [Header("테스트용 인게임 씬 이름")] // 나중에 DB로 관리할 예정
+    public string temp_InGameSceneName;
+
+    [Header("테스터 서버 연결 여부")]
+    [SerializeField] bool isTestServer;
+    [SerializeField] int testServerIndex;
+
     [Header("디버깅 용도")]
     [SerializeField] TMP_Text tmp_State;
     ServerData curServer;
+    [SerializeField] ServerData[] testServerDatas;
     [SerializeField] ServerData[] lobbyServerDatas;
     [SerializeField] ServerData[] inGameServerDatas;
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
@@ -25,12 +33,16 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         um = UIManager.Instance;
 
         // 서버 관리 R&D 진행 후 수정하자
-        //MoveToLobby();
-        
         curServer = lobbyServerDatas[0];
-        ChangeServer(lobbyServerDatas[1]);
-        PhotonNetwork.ConnectUsingSettings();
-
+        if (isTestServer)
+        {
+            ChangeServer(testServerDatas[testServerIndex]);
+        }
+        else
+        {
+            ChangeServer(lobbyServerDatas[0]);
+        }
+        //PhotonNetwork.ConnectUsingSettings();
 
         // 연결 시도와 동시에 로딩창으로 가리기
         if (um != null)
@@ -79,15 +91,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         {
             if (um != null)
             {
-                Debug.Log(PhotonNetwork.LocalPlayer.NickName);
                 // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
-                if (PhotonNetwork.LocalPlayer.NickName == "") // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
+                // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
+                if (PhotonNetwork.LocalPlayer.NickName == "")
                     um.InitializeGroup.InitView();
                 else
                     PhotonNetwork.JoinLobby();
-
-                // 로딩창 비활성화
-                um.LoadingGroup.fullScreen.gameObject.SetActive(false);
             }
         }
         // 현재 접속한 서버가 인게임 서버라면
@@ -96,11 +105,33 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             // 서버 이동 전에 설정된 값 동기화. Room 설정
             PhotonNetwork.JoinRoom("서버 이동 전에 선택한 맵 key");
         }
+        else if (curServer.type == ServerType.TestServer)
+        {
+            StartCoroutine(DelayedInit());
+        }
+
+        // 로딩창 비활성화
+        if (um.LoadingGroup != null)
+            um.LoadingGroup.fullScreen.gameObject.SetActive(false);
     }
+
+    System.Collections.IEnumerator DelayedInit()
+    {
+        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
+    }
+
 
     // 로비 입장시 호출됨
     public override void OnJoinedLobby()
     {
+        if (curServer.type == ServerType.TestServer)
+        {
+            PhotonNetwork.JoinRandomOrCreateRoom();
+            return;
+        }
+
         if (um != null)
         {
             um.LobbyGroup.gameObject.SetActive(true);
@@ -127,17 +158,33 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnJoinedRoom();
         Debug.Log("방 입장");
 
-        if (um != null)
+        if (curServer.type == ServerType.TestServer) { return; }
+
+
+        if (curServer.type == ServerType.InGame)
         {
-            um.LobbyGroup.panel_RoomInside.InitRoomView();
-            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
-            um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+            if (um != null)
+                um.LobbyGroup.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (um != null)
+            {
+                um.LobbyGroup.panel_RoomInside.InitRoomView();
+                um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
+                um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+            }
         }
     }
 
     // 방 퇴장시 호출됨
     public override void OnLeftRoom()
     {
+        if (curServer.type == ServerType.TestServer)
+        {
+            return;
+        }
+
         if (um != null)
         {
             um.LobbyGroup.panel_RoomInside.gameObject.SetActive(false);
@@ -147,6 +194,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 새로운 플레이어가 방 입장시 호출됨
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        if (curServer.type == ServerType.TestServer) { return; }
+            
+
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
     }
@@ -154,6 +204,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 다른 플레이어가 방 퇴장시 호출됨
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        if (curServer.type == ServerType.TestServer) { return; }
+
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
     }
@@ -163,14 +215,14 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
-        Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
+        //Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
 
         // 변화한 애들 현재 방 해시테이블에 갱신
         foreach (RoomInfo info in roomList)
         {
             if (info.RemovedFromList)
             {
-                Debug.Log($"방 삭제 {info.Name}");
+                //Debug.Log($"방 삭제 {info.Name}");
                 cachedRoomList.Remove(info.Name);
             }
             else
@@ -179,7 +231,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             }
         }
 
-        Debug.Log($"현재 존재하는 방 개수{cachedRoomList.Count}");
+        //Debug.Log($"현재 존재하는 방 개수{cachedRoomList.Count}");
 
         // 해시테이블을 리스트로 변환
         List<RoomInfo> activedRoomList = cachedRoomList.Values.ToList();
@@ -245,6 +297,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         ChangeServer(inGameServerDatas[0]);
 
         PhotonNetwork.LoadLevel(sceneName);
+
+        
+
+        
     }
 
 
@@ -316,5 +372,5 @@ public class ServerData
     public string name;
     public string id;
 }
-public enum ServerType { Lobby, InGame };
+public enum ServerType { Lobby, InGame, TestServer };
 
