@@ -17,6 +17,8 @@ public class PlayerEvolution : MonoBehaviour
     public float baseSpeed = 5f;// 기본 이동 속도
     public float baseDamage = 10f;// 기본 공격력
     public float growthFactor = 1.3f;// 레벨업 시 능력치 상승 비율
+    public float damageGrowth = 2f;        // 레벨업 시 데미지 증가량
+    public float sizeGrowth = 0.2f;        // 레벨업 시 크기 증가량
 
     private void Start()
     {
@@ -73,5 +75,10 @@ public class PlayerEvolution : MonoBehaviour
         baseDamage *= growthFactor;
 
         Debug.Log($"레벨업! 현재 레벨: {currentLevel}");
+
+        currentLevel++;
+        baseDamage += damageGrowth; // 데미지 증가
+        transform.localScale += Vector3.one * sizeGrowth; // 플레이어 몸집 커짐
+        Debug.Log($"레벨업! 현재 레벨: {currentLevel}, 데미지: {baseDamage}");
     }
 }
