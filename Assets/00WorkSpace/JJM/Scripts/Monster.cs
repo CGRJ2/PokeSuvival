@@ -43,7 +43,11 @@ public class Monster : MonoBehaviourPun, IPunObservable
     {
         if (!PhotonNetwork.IsMasterClient) return; // 마스터 클라이언트만 몬스터 AI를 제어
 
-        if (player == null) return; // 플레이어가 없으면 아무것도 하지 않음
+        if (player == null) // 플레이어가 없으면
+        {
+            Wander(); // 자유롭게 이동
+            return; // 아래 로직은 실행하지 않음
+        }
 
         float distance = Vector3.Distance(transform.position, player.position); // 몬스터와 플레이어 사이의 거리 계산
 
@@ -84,7 +88,7 @@ public class Monster : MonoBehaviourPun, IPunObservable
     void SetRandomWanderDirection() // 새로운 랜덤 방향을 설정하는 함수
     {
         float angle = Random.Range(0f, 360f); // 0~360도 중에서 랜덤 각도를 선택
-        wanderDirection = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized; // 평면상 랜덤 방향 벡터 계산
+        wanderDirection = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)).normalized; // 평면상 랜덤 방향 벡터 계산
         wanderTimer = wanderChangeInterval; // 타이머를 다시 초기화
     }
 
