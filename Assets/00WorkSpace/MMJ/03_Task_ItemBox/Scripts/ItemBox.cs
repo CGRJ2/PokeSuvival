@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 using System.Runtime.Serialization;
 
 
-public class ItemBox : MonoBehaviourPun, IPunObservable , IDamagable
+public class ItemBox : MonoBehaviourPun, IPunObservable
 {
     [Header("아이템 설정")]
-    [SerializeField] private GameObject itemPrefab; // 생성할 아이템 프리팹
+    [SerializeField] private GameObject itemPrefab;
 
-    public BattleDataTable BattleData => throw new System.NotImplementedException();
+
 
     // 플레이어 공격에 의해 파괴될 때 호출
     public void OnHit()
@@ -54,11 +54,6 @@ public class ItemBox : MonoBehaviourPun, IPunObservable , IDamagable
         }
     }
 
-    public void TakeDamage(int value)
-    {
-        throw new System.NotImplementedException();
-    }
-
     [PunRPC]
     private void RPC_DropItem(Vector3 position)
     {
@@ -68,8 +63,6 @@ public class ItemBox : MonoBehaviourPun, IPunObservable , IDamagable
             return;
         }
 
-        // 몬스터볼이 있던 위치에 아이템 생성
-        // [[버그 해결을 위한 주석처리333]]GameObject newItem = Instantiate(itemPrefab, position, Quaternion.identity);
         GameObject newItem = PhotonNetwork.Instantiate("ItemPrefab", position, Quaternion.identity);
 
         Debug.Log("아이템이 생성되었습니다!");
