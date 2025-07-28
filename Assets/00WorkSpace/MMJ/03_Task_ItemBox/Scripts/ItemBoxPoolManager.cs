@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 {
@@ -44,7 +45,14 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        PhotonNetwork.CreateRoom("ItemBoxTest");
+
+        // 방 이름 설정
+        string roomName = "ItemBoxTest";
+
+        // 해당 이름의 방이 있으면 참가하고, 없으면 생성하는 방식으로 수정
+        PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
+
+        Debug.Log($"방 '{roomName}'에 참가 시도 중... 이미 존재하면 참가하고, 없으면 생성합니다.");
     }
 
     public override void OnJoinedRoom()
@@ -100,37 +108,31 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     }
 
     // 마스터 클라이언트에서 몬스터볼 스폰 요청
-    public void SpawnMonsterBall(Vector3 position)
+    public void SpawnItemBox(Vector3 position)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("SpawnMonsterBall: RPC 호출 시작");
-            photonView.RPC(nameof(RPC_SpawnMonsterBall), RpcTarget.AllBuffered, position);
+            photonView.RPC(nameof(RPC_SpawnItemBox), RpcTarget.AllBuffered, position);
         }
     }
 
     [PunRPC]
-    private void RPC_SpawnMonsterBall(int viewID, Vector3 position)
+    private void RPC_SpawnItemBox(Vector3 position)
     {
-        Debug.Log("RPC_SpawnMonsterBall 호출됨!");
-        GameObject monsterBall = GetPooledObject();
-        if (monsterBall != null)
+        Debug.Log("RPC_SpawnItemBox 호출됨!");
+        GameObject itemBox = GetPooledObject();
+        if (itemBox != null)
         {
             Debug.Log("풀에서 오브젝트 가져옴. 위치 지정 후 활성화.");
-            monsterBall.transform.position = position;
-            monsterBall.SetActive(true);
+            itemBox.transform.position = position;
+            itemBox.SetActive(true);
         }
         else
         {
             Debug.LogWarning("몬스터볼을 스폰할 수 없습니다. 사용 가능한 오브젝트가 없습니다.");
         }
-        PhotonView pv = PhotonView.Find(viewID);
-        if (pv != null)
-        {
-            GameObject obj = pv.gameObject;
-            obj.transform.position = position;
-            obj.SetActive(true);
-        }
+
     }
 
     // 몬스터볼 파괴 (풀로 반환)

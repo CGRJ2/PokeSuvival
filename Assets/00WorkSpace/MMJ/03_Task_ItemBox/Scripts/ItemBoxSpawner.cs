@@ -107,7 +107,7 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         Vector3 spawnPosition = validSpawnPositions[randomIndex];
 
         // 풀 매니저에 스폰 요청
-        ItemBoxPoolManager.Instance.SpawnMonsterBall(spawnPosition);
+        ItemBoxPoolManager.Instance.SpawnItemBox(spawnPosition);
         Debug.Log($"몬스터볼이 타일맵의 유효한 위치에 스폰되었습니다: {spawnPosition}");
     }
 }

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2968140109791649239}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.0868268, y: 2.0493562, z: -13.123197}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,10 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnInterval: 5
-  minX: -50
-  maxX: 50
-  minY: -50
-  maxY: 50
+  targetTilemap: {fileID: 0}
   spawnHeight: 1
 --- !u!114 &8110664866577649931
 MonoBehaviour:
