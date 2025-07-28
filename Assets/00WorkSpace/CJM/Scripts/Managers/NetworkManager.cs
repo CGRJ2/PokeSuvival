@@ -92,7 +92,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             if (um != null)
             {
                 // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
-                if (PhotonNetwork.LocalPlayer.CustomProperties == null) // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
+                // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
+                if (PhotonNetwork.LocalPlayer.NickName == "")
                     um.InitializeGroup.InitView();
                 else
                     PhotonNetwork.JoinLobby();
@@ -104,15 +105,33 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             // 서버 이동 전에 설정된 값 동기화. Room 설정
             PhotonNetwork.JoinRoom("서버 이동 전에 선택한 맵 key");
         }
+        else if (curServer.type == ServerType.TestServer)
+        {
+            StartCoroutine(DelayedInit());
+        }
 
         // 로딩창 비활성화
         if (um.LoadingGroup != null)
             um.LoadingGroup.fullScreen.gameObject.SetActive(false);
     }
 
+    System.Collections.IEnumerator DelayedInit()
+    {
+        yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
+    }
+
+
     // 로비 입장시 호출됨
     public override void OnJoinedLobby()
     {
+        if (curServer.type == ServerType.TestServer)
+        {
+            PhotonNetwork.JoinRandomOrCreateRoom();
+            return;
+        }
+
         if (um != null)
         {
             um.LobbyGroup.gameObject.SetActive(true);
@@ -139,6 +158,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnJoinedRoom();
         Debug.Log("방 입장");
 
+        if (curServer.type == ServerType.TestServer) { return; }
+
+
         if (curServer.type == ServerType.InGame)
         {
             if (um != null)
@@ -158,6 +180,11 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 방 퇴장시 호출됨
     public override void OnLeftRoom()
     {
+        if (curServer.type == ServerType.TestServer)
+        {
+            return;
+        }
+
         if (um != null)
         {
             um.LobbyGroup.panel_RoomInside.gameObject.SetActive(false);
@@ -167,6 +194,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 새로운 플레이어가 방 입장시 호출됨
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        if (curServer.type == ServerType.TestServer) { return; }
+            
+
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
     }
@@ -174,6 +204,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 다른 플레이어가 방 퇴장시 호출됨
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        if (curServer.type == ServerType.TestServer) { return; }
+
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
     }
