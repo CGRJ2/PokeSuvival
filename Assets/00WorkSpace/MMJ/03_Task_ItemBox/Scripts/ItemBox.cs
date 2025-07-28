@@ -1,12 +1,15 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UIElements;
+using System.Runtime.Serialization;
 
 
-public class ItemBox : MonoBehaviourPun, IPunObservable
+public class ItemBox : MonoBehaviourPun, IPunObservable , IDamagable
 {
     [Header("아이템 설정")]
     [SerializeField] private GameObject itemPrefab; // 생성할 아이템 프리팹
+
+    public BattleDataTable BattleData => throw new System.NotImplementedException();
 
     // 플레이어 공격에 의해 파괴될 때 호출
     public void OnHit()
@@ -39,6 +42,21 @@ public class ItemBox : MonoBehaviourPun, IPunObservable
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        // 플레이어에 닿으면 아이템이 먹힘
+        if (collider.CompareTag("Player"))
+        {
+            // 자기 자신(아이템)을 비활성화
+            ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
+        }
+    }
+
+    public void TakeDamage(int value)
+    {
+        throw new System.NotImplementedException();
     }
 
     [PunRPC]
