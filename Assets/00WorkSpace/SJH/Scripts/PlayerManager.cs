@@ -1,18 +1,113 @@
+﻿using Cinemachine;
+using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
+	[SerializeField] private CinemachineVirtualCamera _playerFollowCam;
+	[SerializeField] private GameObject _floatingTextPrefab;
+
+
+
+	public CinemachineVirtualCamera PlayerFollowCam
+	{
+		get
+		{
+			if (_playerFollowCam == null)
+			{
+				_playerFollowCam = FindObjectOfType<CinemachineVirtualCamera>();
+			}
+			return _playerFollowCam;
+		}
+		private set
+		{
+			_playerFollowCam = value;
+		}
+	}
+
+	public static PlayerManager Instance { get; private set; }
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+		else
+		{
+			Destroy(gameObject);
+			return;
+		}
+
+		//PhotonNetwork.ConnectUsingSettings();
+	}
+
+    public override void OnConnectedToMaster()
     {
-        
+        base.OnConnectedToMaster();
+        Debug.Log("마스터 연결 후 로비 상태로 변경");
+
+		StartCoroutine(DelayedInit());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+	IEnumerator DelayedInit()
+	{
+		yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
+        if (!PhotonNetwork.InLobby)
+            PhotonNetwork.JoinLobby();
     }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+        Debug.Log("로비 상태에서 룸 생성 or 입장 시도");
+        PhotonNetwork.JoinRandomOrCreateRoom();
+    }
+
+    public override void OnJoinedRoom()
+	{
+
+		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+		Debug.Log(pokemonName);
+
+        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
+				new object[]
+				{
+					pokemonName
+				});
+		/*
+        Debug.Log("방 입장");
+		int ran = Random.Range(0, 1); // 2
+
+
+		if (ran == 0)
+		{
+			Debug.Log("이상해씨 생성");
+			var player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
+				new object[]
+				{
+					*//*도감번호*//*1
+					*//*or 이름*//*
+				});
+		}
+		else
+		{
+			Debug.Log("파이리 생성");
+			var player = PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
+				new object[]
+				{
+					*//*도감번호*//*4
+					*//*or 이름*//*
+				});
+		}*/
+	}
+	public void ShowDamageText(Transform spawnPos, int damage, Color color)
+	{
+		if (_floatingTextPrefab.Equals(null)) return;
+
+		var go = Instantiate(_floatingTextPrefab, spawnPos.position, Quaternion.identity);
+		go.GetComponent<FloatingText>()?.InitFloatingDamage($"{damage}", color);
+	}
 }

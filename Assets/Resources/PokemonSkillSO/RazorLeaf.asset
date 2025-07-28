@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: RazorLeaf
+  m_EditorClassIdentifier: 
+  SkillName: "\uC78E\uB0A0\uAC00\uB974\uAE30"
+  Desc: "\uC78E\uC0AC\uADC0\uB97C \uB0A0\uB824 \uC0C1\uB300\uB97C \uBCA0\uC5B4 \uACF5\uACA9\uD55C\uB2E4."
+  Damage: 55
+  Cooldown: 0.5
+  Range: 10
+  PokeType: 4
+  SkillType: 0
+  SkillAnimType: 1
+  EffectPrefab: {fileID: 8073694639771686605, guid: 59456400cacbd374aa0f435059c01c78, type: 3}
+  SFX: {fileID: 0}

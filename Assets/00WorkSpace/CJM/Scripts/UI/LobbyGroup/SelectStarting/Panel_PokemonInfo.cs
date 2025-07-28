@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Panel_PokemonInfo : MonoBehaviour
 {
+    [SerializeField] Image image_StandingSprite;
     [SerializeField] TMP_Text tmp_Number;
     [SerializeField] TMP_Text tmp_Name;
     [SerializeField] TMP_Text tmp_Hp;
@@ -24,7 +23,7 @@ public class Panel_PokemonInfo : MonoBehaviour
 
     public void UpdateView(PokemonData selectedPokemonData)
     {
-        tmp_Number.text = $"{selectedPokemonData.PokeNumber}";
+        tmp_Number.text = selectedPokemonData.PokeNumber.ToString("D4");
         tmp_Name.text = selectedPokemonData.PokeName;
         tmp_Hp.text = $"{selectedPokemonData.BaseStat.Hp}";
         tmp_Atk.text = $"{selectedPokemonData.BaseStat.Attak}";
@@ -33,20 +32,22 @@ public class Panel_PokemonInfo : MonoBehaviour
         tmp_SpDef.text = $"{selectedPokemonData.BaseStat.SpecialDefense}";
         tmp_Speed.text = $"{selectedPokemonData.BaseStat.Speed}";
 
-        // Å¸ÀÔÀÌ 1°³ÀÏ ¶§¿Í 2°³ÀÏ ¶§ ¿¹¿ÜÃ³¸®
+        image_StandingSprite.sprite = selectedPokemonData.PokemonInfoSprite;
+
+        // íƒ€ì…ì´ 1ê°œì¼ ë•Œì™€ 2ê°œì¼ ë•Œ ì˜ˆì™¸ì²˜ë¦¬
         TypeSpritesDB typeSpriteDB = Resources.Load<TypeSpritesDB>("Type Icon DB/PokemonTypeSpritesDB");
-        if (selectedPokemonData.Types.Length > 1)
-        {
-            images_Type[0].gameObject.SetActive(true);
-            images_Type[1].gameObject.SetActive(true);
-            images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.Types[0]];
-            images_Type[1].sprite = typeSpriteDB.dic[selectedPokemonData.Types[1]];
-        }
+
+        // íƒ€ì… sprite ì—…ë°ì´íŠ¸
+        images_Type[0].gameObject.SetActive(true);
+        images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[0]];
+
+        // ë³´ì¡°íƒ€ì… sprite ì—…ë°ì´íŠ¸
+        if (selectedPokemonData.PokeTypes[1] == PokemonType.None) // ë³´ì¡° íƒ€ì…ì´ ì—†ë‹¤ë©´
+            images_Type[1].gameObject.SetActive(false);
         else
         {
-            images_Type[0].gameObject.SetActive(true);
-            images_Type[1].gameObject.SetActive(false);
-            images_Type[0].sprite = typeSpriteDB.dic[selectedPokemonData.Types[0]];
+            images_Type[1].gameObject.SetActive(true);
+            images_Type[1].sprite = typeSpriteDB.dic[selectedPokemonData.PokeTypes[1]];
         }
     }
 }
