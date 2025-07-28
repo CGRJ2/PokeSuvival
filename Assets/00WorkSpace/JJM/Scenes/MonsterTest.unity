@@ -288,7 +288,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterPrefabName: Prefabs/Monster
-  spawnPosition: {x: 0, y: 0, z: 0}
+  monsterCount: 5
+  spawnMin: {x: -10, y: -10}
+  spawnMax: {x: 10, y: 10}
   spawnRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!4 &1985489984
 Transform:

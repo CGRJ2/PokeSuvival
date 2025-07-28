@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4537410476699160490}
   m_Layer: 0
   m_Name: Monster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9c604f5b5d84d94b835a9d359ed5be5, type: 3}
+  m_SortingOrder: 16
+  m_Sprite: {fileID: -1575903829, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,6 +107,15 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 1.5
   wanderChangeInterval: 2
+  idleSprite: {fileID: -1575903829, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveLeftSprite: {fileID: 485977054, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveRightSprite: {fileID: -116690577, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveUpSprite: {fileID: 1663020999, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveDownSprite: {fileID: -1575903829, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveUpLeftSprite: {fileID: 569702494, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveUpRightSprite: {fileID: -116690577, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveDownLeftSprite: {fileID: 2120117814, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
+  moveDownRightSprite: {fileID: -116690577, guid: e09fdb1e80eb29248ace92a52dfa5a50, type: 3}
 --- !u!114 &-4537410476699160490
 MonoBehaviour:
   m_ObjectHideFlags: 0

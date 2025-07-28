@@ -24,8 +24,24 @@ public class Monster : MonoBehaviourPun, IPunObservable
     private float wanderTimer; // 방향을 바꿀 때까지 남은 시간을 저장하는 변수
     public float wanderChangeInterval = 2f; // 방향을 바꿀 시간 간격(초)
 
+    [SerializeField] private Sprite idleSprite;           // 대기(멈춤) 상태 스프라이트
+    [SerializeField] private Sprite moveLeftSprite;       // 왼쪽 이동 스프라이트
+    [SerializeField] private Sprite moveRightSprite;      // 오른쪽 이동 스프라이트
+    [SerializeField] private Sprite moveUpSprite;         // 위쪽 이동 스프라이트
+    [SerializeField] private Sprite moveDownSprite;       // 아래쪽 이동 스프라이트
+    [SerializeField] private Sprite moveUpLeftSprite;     // 왼쪽 위 대각선 이동 스프라이트
+    [SerializeField] private Sprite moveUpRightSprite;    // 오른쪽 위 대각선 이동 스프라이트
+    [SerializeField] private Sprite moveDownLeftSprite;   // 왼쪽 아래 대각선 이동 스프라이트
+    [SerializeField] private Sprite moveDownRightSprite;  // 오른쪽 아래 대각선
+
+    private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
+
+
     void Start() // 게임 시작 시 호출되는 함수
     {
+        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
+
+
         if (pokemonData != null) // PokemonData가 할당되어 있으면
         {
             currentHealth = maxHealth; // 현재 체력 초기화
@@ -65,13 +81,20 @@ public class Monster : MonoBehaviourPun, IPunObservable
         {
             Wander(); // 자유롭게 이동
         }
+        // 멈췄을 때 idle 스프라이트로 변경
+        if (spriteRenderer != null)
+            spriteRenderer.sprite = idleSprite;
+
     }
 
     void MoveTowards(Vector3 target) // 지정한 위치로 이동하는 함수
     {
         Vector3 direction = (target - transform.position).normalized; // 목표 위치까지의 방향 벡터 계산 및 정규화
         transform.position += direction * moveSpeed * Time.deltaTime; // 해당 방향으로 이동
-        // 필요시 회전 추가
+                                                                      // 필요시 회전 추가
+
+        SetSpriteByDirection(direction); // 방향에 따라 스프라이트 설정
+
     }
 
     void Wander() // 자유 이동(랜덤 이동 등) 함수
@@ -82,6 +105,8 @@ public class Monster : MonoBehaviourPun, IPunObservable
             SetRandomWanderDirection(); // 새로운 랜덤 방향을 설정
         }
         transform.position += wanderDirection * moveSpeed * Time.deltaTime; // 현재 방향으로 이동
+
+        SetSpriteByDirection(wanderDirection); // 방향에 따라 스프라이트 설정
     }
 
     // 랜덤 방향을 설정하는 함수
@@ -94,6 +119,7 @@ public class Monster : MonoBehaviourPun, IPunObservable
 
     void AttackPlayer() // 플레이어를 공격하는 함수
     {
+        
         // 플레이어에게 데미지 주기
         // 예시: player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
     }
@@ -118,6 +144,38 @@ public class Monster : MonoBehaviourPun, IPunObservable
         // 예시: Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
         PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
+    }
+
+    void SetSpriteByDirection(Vector2 dir) // 방향에 따라 스프라이트를 설정하는 함수
+    {
+        if (spriteRenderer == null) return; // SpriteRenderer가 없으면 리턴
+
+        // 방향이 거의 0이면 idle 처리
+        if (dir.magnitude < 0.01f)
+        {
+            spriteRenderer.sprite = idleSprite;
+            return;
+        }
+
+        // 대각선 우선 판별 (45도 단위)
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // 방향 각도 계산
+
+        if (angle >= -22.5f && angle < 22.5f)
+            spriteRenderer.sprite = moveRightSprite; // 오른쪽
+        else if (angle >= 22.5f && angle < 67.5f)
+            spriteRenderer.sprite = moveUpRightSprite; // 오른쪽 위
+        else if (angle >= 67.5f && angle < 112.5f)
+            spriteRenderer.sprite = moveUpSprite; // 위
+        else if (angle >= 112.5f && angle < 157.5f)
+            spriteRenderer.sprite = moveUpLeftSprite; // 왼쪽 위
+        else if (angle >= 157.5f || angle < -157.5f)
+            spriteRenderer.sprite = moveLeftSprite; // 왼쪽
+        else if (angle >= -157.5f && angle < -112.5f)
+            spriteRenderer.sprite = moveDownLeftSprite; // 왼쪽 아래
+        else if (angle >= -112.5f && angle < -67.5f)
+            spriteRenderer.sprite = moveDownSprite; // 아래
+        else if (angle >= -67.5f && angle < -22.5f)
+            spriteRenderer.sprite = moveDownRightSprite; // 오른쪽 아래
     }
 
     // Photon 네트워크를 통한 동기화 함수
