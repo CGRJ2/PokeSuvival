@@ -12,8 +12,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             {
                 _instance = FindObjectOfType<T>();
 
-                // 해당 로그는 테스트 진행을 위한 예외처리로, 테스트 중일 땐 무시하고 진행하셔도 됩니다.
-                if (_instance == null) { Debug.LogError($"씬 상에 싱글톤 인스턴스 객체가 없음."); } 
+                if (_instance == null) { Debug.LogError($"씬 상에 싱글톤 인스턴스 객체가 없음.\n(해당 로그는 테스트 진행을 위한 예외처리로, 테스트 중일 땐 무시하고 진행하셔도 됩니다)"); } 
                 else DontDestroyOnLoad(_instance);
             }
             return _instance;
