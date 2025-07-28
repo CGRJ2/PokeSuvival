@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private CinemachineVirtualCamera _playerFollowCam;
+	[SerializeField] private GameObject _floatingTextPrefab;
+
 	public CinemachineVirtualCamera PlayerFollowCam
 	{
 		get
@@ -48,7 +50,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("방 입장");
-		int ran = Random.Range(0, 2);
+		int ran = Random.Range(0, 1); // 2
 		if (ran == 0)
 		{
 			Debug.Log("이상해씨 생성");
@@ -69,5 +71,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 					/*or 이름*/
 				});
 		}
+	}
+	public void ShowDamageText(Transform spawnPos, int damage, Color color)
+	{
+		if (_floatingTextPrefab.Equals(null)) return;
+
+		var go = Instantiate(_floatingTextPrefab, spawnPos.position, Quaternion.identity);
+		go.GetComponent<FloatingText>()?.InitFloatingDamage($"{damage}", color);
 	}
 }

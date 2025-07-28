@@ -1,11 +1,11 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// ·Îºñ¿¡¼­ ÇöÀç ¼±ÅÃµÇ¾îÀÖ´Â Æ÷ÄÏ¸óÀ» º¸¿©ÁÖ´Â ¿ëµµ. (1. ÀÌ¸§ / 2. ½ºÇÁ¶óÀÌÆ® ÀÌ µÑ ¸¸ Ç¥±â)
+// ë¡œë¹„ì—ì„œ í˜„ì¬ ì„ íƒë˜ì–´ìˆëŠ” í¬ì¼“ëª¬ì„ ë³´ì—¬ì£¼ëŠ” ìš©ë„. (1. ì´ë¦„ / 2. ìŠ¤í”„ë¼ì´íŠ¸ ì´ ë‘˜ ë§Œ í‘œê¸°)
 public class Panel_SelectedPokemonView : MonoBehaviour
 {
     
@@ -21,7 +21,7 @@ public class Panel_SelectedPokemonView : MonoBehaviour
 
     public void UpdateView()
     {
-        // ½ºÅ¸ÆÃ Æ÷ÄÏ¸ó ¼³Á¤ÇØÁÖ±â
+        // ìŠ¤íƒ€íŒ… í¬ì¼“ëª¬ ì„¤ì •í•´ì£¼ê¸°
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
         {
             string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
