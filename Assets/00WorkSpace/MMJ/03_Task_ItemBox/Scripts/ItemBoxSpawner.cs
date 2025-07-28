@@ -1,56 +1,56 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 {
-    [Header("½ºÆù ¼³Á¤")]
+    [Header("ìŠ¤í° ì„¤ì •")]
     [SerializeField] private float spawnInterval = 5f;
 
-    [Header("Å¸ÀÏ¸Ê ¼³Á¤")]
-    [SerializeField] private Tilemap targetTilemap; // ½ºÆùÇÒ Å¸ÀÏ¸Ê ÂüÁ¶
-    [SerializeField] private float spawnHeight = 0f; // 2D °ÔÀÓ¿¡¼­ ¾ÆÀÌÅÛÀÌ »ı¼ºµÉ ZÃà ³ôÀÌ
-    private float spawnTimer;
-    private List<Vector3> validSpawnPositions = new List<Vector3>(); // À¯È¿ÇÑ ½ºÆù À§Ä¡µéÀ» ÀúÀåÇÒ ¸®½ºÆ®
+    [Header("íƒ€ì¼ë§µ ì„¤ì •")]
+    [SerializeField] private Tilemap targetTilemap; // ìŠ¤í°í•  íƒ€ì¼ë§µ ì°¸ì¡°
+    [SerializeField] private float spawnHeight = 0f; // 2D ê²Œì„ì—ì„œ ì•„ì´í…œì´ ìƒì„±ë  Zì¶• ë†’ì´
+    [SerializeField] private float spawnTimer;
+    private List<Vector3> validSpawnPositions = new List<Vector3>(); // ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ë“¤ì„ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
 
     void Awake()
     {
-        Debug.Log("enabled »óÅÂ´Â? " + enabled);  // ¿©±â¿¡ trueÀÎÁö falseÀÎÁö Ãâ·Â
+        Debug.Log("enabled ìƒíƒœëŠ”? " + enabled);  // ì—¬ê¸°ì— trueì¸ì§€ falseì¸ì§€ ì¶œë ¥
 
-        // Å¸ÀÏ¸ÊÀÌ ÀÎ½ºÆåÅÍ¿¡¼­ ÇÒ´çµÇ¾ú´ÂÁö È®ÀÎÇÕ´Ï´Ù.
+        // íƒ€ì¼ë§µì´ ì¸ìŠ¤í™í„°ì—ì„œ í• ë‹¹ë˜ì—ˆëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
         if (targetTilemap == null)
         {
-            Debug.LogError("MonsterBallSpawner: ½ºÆùÇÒ Å¸ÀÏ¸Ê(Target Tilemap)ÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù! ÀÎ½ºÆåÅÍ¿¡¼­ ¼³Á¤ÇØÁÖ¼¼¿ä.");
-            enabled = false; // ½ºÅ©¸³Æ® ºñÈ°¼ºÈ­
+            Debug.LogError("MonsterBallSpawner: ìŠ¤í°í•  íƒ€ì¼ë§µ(Target Tilemap)ì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤! ì¸ìŠ¤í™í„°ì—ì„œ ì„¤ì •í•´ì£¼ì„¸ìš”.");
+            enabled = false; // ìŠ¤í¬ë¦½íŠ¸ ë¹„í™œì„±í™”
             return;
         }
 
-        // °ÔÀÓ ½ÃÀÛ ½Ã (¶Ç´Â ¾À ·Îµù ½Ã) À¯È¿ÇÑ ½ºÆù À§Ä¡µéÀ» ¹Ì¸® Ã£¾Æ ÀúÀåÇÕ´Ï´Ù.
+        // ê²Œì„ ì‹œì‘ ì‹œ (ë˜ëŠ” ì”¬ ë¡œë”© ì‹œ) ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ë“¤ì„ ë¯¸ë¦¬ ì°¾ì•„ ì €ì¥í•©ë‹ˆë‹¤.
         CollectValidTileSpawnPositions();
     }
 
     private void CollectValidTileSpawnPositions()
     {
-        validSpawnPositions.Clear(); // ±âÁ¸ ¸®½ºÆ®¸¦ ºñ¿ó´Ï´Ù.
+        validSpawnPositions.Clear(); // ê¸°ì¡´ ë¦¬ìŠ¤íŠ¸ë¥¼ ë¹„ì›ë‹ˆë‹¤.
 
-        // Å¸ÀÏ¸ÊÀÇ ÇöÀç ¼¿ °æ°è¸¦ °¡Á®¿É´Ï´Ù. (Å¸ÀÏÀÌ ±×·ÁÁø ÃÖ¼Ò/ÃÖ´ë X, Y ¹üÀ§)
+        // íƒ€ì¼ë§µì˜ í˜„ì¬ ì…€ ê²½ê³„ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤. (íƒ€ì¼ì´ ê·¸ë ¤ì§„ ìµœì†Œ/ìµœëŒ€ X, Y ë²”ìœ„)
         BoundsInt bounds = targetTilemap.cellBounds;
 
-        // Å¸ÀÏ¸Ê °æ°è ³»ÀÇ ¸ğµç ¼¿À» ¹İº¹ÇÏ¸ç °Ë»çÇÕ´Ï´Ù.
+        // íƒ€ì¼ë§µ ê²½ê³„ ë‚´ì˜ ëª¨ë“  ì…€ì„ ë°˜ë³µí•˜ë©° ê²€ì‚¬í•©ë‹ˆë‹¤.
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
-                // ÇöÀç °Ë»çÇÒ ¼¿ÀÇ ÁÂÇ¥ (2D Å¸ÀÏ¸ÊÀº Z=0)
+                // í˜„ì¬ ê²€ì‚¬í•  ì…€ì˜ ì¢Œí‘œ (2D íƒ€ì¼ë§µì€ Z=0)
                 Vector3Int cellPosition = new Vector3Int(x, y, 0);
 
-                // ÇØ´ç ¼¿¿¡ ½ÇÁ¦·Î Å¸ÀÏÀÌ ±×·ÁÁ® ÀÖ´ÂÁö È®ÀÎÇÕ´Ï´Ù
+                // í•´ë‹¹ ì…€ì— ì‹¤ì œë¡œ íƒ€ì¼ì´ ê·¸ë ¤ì ¸ ìˆëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤
                 if (targetTilemap.HasTile(cellPosition))
                 {
-                    // ¼¿ ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯ÇÕ´Ï´Ù
+                    // ì…€ ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜í•©ë‹ˆë‹¤
                     Vector3 worldPosition = targetTilemap.CellToWorld(cellPosition);
 
-                    // 2D °ÔÀÓÀÌ¹Ç·Î ZÃà(±íÀÌ) °ªÀº º¸Åë 0À¸·Î °íÁ¤ÇÏ°Å³ª, ¼³Á¤µÈ spawnHeight °ªÀ» »ç¿ëÇÕ´Ï´Ù.
+                    // 2D ê²Œì„ì´ë¯€ë¡œ Zì¶•(ê¹Šì´) ê°’ì€ ë³´í†µ 0ìœ¼ë¡œ ê³ ì •í•˜ê±°ë‚˜, ì„¤ì •ëœ spawnHeight ê°’ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
                     worldPosition.z = spawnHeight;
 
                     validSpawnPositions.Add(worldPosition);
@@ -61,11 +61,11 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 
         if (validSpawnPositions.Count == 0)
         {
-            Debug.LogWarning("Å¸ÀÏ¸Ê¿¡¼­ ½ºÆùÇÒ ¼ö ÀÖ´Â À¯È¿ÇÑ Å¸ÀÏÀ» Ã£Áö ¸øÇß½À´Ï´Ù! Å¸ÀÏ¸ÊÀÌ ºñ¾îÀÖ°Å³ª ½ºÆù Á¶°Ç¿¡ ¸Â´Â Å¸ÀÏÀÌ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("íƒ€ì¼ë§µì—ì„œ ìŠ¤í°í•  ìˆ˜ ìˆëŠ” ìœ íš¨í•œ íƒ€ì¼ì„ ì°¾ì§€ ëª»í–ˆìŠµë‹ˆë‹¤! íƒ€ì¼ë§µì´ ë¹„ì–´ìˆê±°ë‚˜ ìŠ¤í° ì¡°ê±´ì— ë§ëŠ” íƒ€ì¼ì´ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {
-            Debug.Log($"Å¸ÀÏ¸Ê¿¡¼­ {validSpawnPositions.Count}°³ÀÇ À¯È¿ÇÑ ½ºÆù À§Ä¡¸¦ Ã£¾Ò½À´Ï´Ù.");
+            Debug.Log($"íƒ€ì¼ë§µì—ì„œ {validSpawnPositions.Count}ê°œì˜ ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ë¥¼ ì°¾ì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -76,16 +76,16 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        Debug.Log("Update È£ÃâµÊ / ¸¶½ºÅÍÀÎ°¡? " + PhotonNetwork.IsMasterClient);
-        // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ ½ºÆù ·ÎÁ÷ ½ÇÇà
+        //Debug.Log("Update í˜¸ì¶œë¨ / ë§ˆìŠ¤í„°ì¸ê°€? " + PhotonNetwork.IsMasterClient);
+        // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ìŠ¤í° ë¡œì§ ì‹¤í–‰
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("³ª´Â ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®´Ù! ½ºÆùÀ» ½ÃµµÇÑ´Ù.");
+            //Debug.Log("ë‚˜ëŠ” ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë‹¤! ìŠ¤í°ì„ ì‹œë„í•œë‹¤.");
             spawnTimer -= Time.deltaTime;
 
             if (spawnTimer <= 0)
             {
-                Debug.Log("Å¸ÀÌ¸Ó ¿Ï·á. SpawnMonsterBall È£Ãâ!");
+                Debug.Log("íƒ€ì´ë¨¸ ì™„ë£Œ. SpawnMonsterBall í˜¸ì¶œ!");
                 SpawnMonsterBall();
                 spawnTimer = spawnInterval;
             }
@@ -96,16 +96,16 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
     {
         if (validSpawnPositions.Count == 0)
         {
-            Debug.LogWarning("½ºÆù °¡´ÉÇÑ Å¸ÀÏ À§Ä¡°¡ ¾ø½À´Ï´Ù. ¸ó½ºÅÍº¼À» ½ºÆùÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("ìŠ¤í° ê°€ëŠ¥í•œ íƒ€ì¼ ìœ„ì¹˜ê°€ ì—†ìŠµë‹ˆë‹¤. ëª¬ìŠ¤í„°ë³¼ì„ ìŠ¤í°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        // À¯È¿ÇÑ ½ºÆù À§Ä¡ ¸®½ºÆ®¿¡¼­ ·£´ıÇÏ°Ô ÇÏ³ª¸¦ ¼±ÅÃÇÕ´Ï´Ù.
+        // ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ ë¦¬ìŠ¤íŠ¸ì—ì„œ ëœë¤í•˜ê²Œ í•˜ë‚˜ë¥¼ ì„ íƒí•©ë‹ˆë‹¤.
         int randomIndex = Random.Range(0, validSpawnPositions.Count);
         Vector3 spawnPosition = validSpawnPositions[randomIndex];
 
-        // Ç® ¸Å´ÏÀú¿¡ ½ºÆù ¿äÃ»
+        // í’€ ë§¤ë‹ˆì €ì— ìŠ¤í° ìš”ì²­
         ItemBoxPoolManager.Instance.SpawnMonsterBall(spawnPosition);
-        Debug.Log($"¸ó½ºÅÍº¼ÀÌ Å¸ÀÏ¸ÊÀÇ À¯È¿ÇÑ À§Ä¡¿¡ ½ºÆùµÇ¾ú½À´Ï´Ù: {spawnPosition}");
+        Debug.Log($"ëª¬ìŠ¤í„°ë³¼ì´ íƒ€ì¼ë§µì˜ ìœ íš¨í•œ ìœ„ì¹˜ì— ìŠ¤í°ë˜ì—ˆìŠµë‹ˆë‹¤: {spawnPosition}");
     }
 }

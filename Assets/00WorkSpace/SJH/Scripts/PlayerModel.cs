@@ -22,7 +22,29 @@ public class PlayerModel
 		}
 	}
 	public Action<int> OnPokeLevelChanged;
-	[field: SerializeField] public int PokeExp { get; private set; } = 0;
+	[SerializeField] private int _pokeExp;
+	public int PokeExp
+	{
+		get => _pokeExp;
+		set
+		{
+			Debug.Log($"{_pokeExp} + {value} = {_pokeExp + value}");
+			_pokeExp += value;
+			while (true)
+			{
+				int requiredExp = PokeUtils.GetNextLevelExp(PokeLevel);
+				if (_pokeExp >= requiredExp)
+				{
+					_pokeExp -= requiredExp;
+					PokeLevel++;
+					Debug.Log($"레벨업! 현재 레벨: {PokeLevel}");
+				}
+				else break;
+			}
+			_nextExp = PokeUtils.GetNextLevelExp(PokeLevel);
+		}
+	}
+	[SerializeField] private int _nextExp;
 	[field: SerializeField] public int MaxHp { get; private set; }
 	[SerializeField] private int _currentHp;
 	public int CurrentHp
@@ -77,6 +99,7 @@ public class PlayerModel
 	public void SetCurrentHp(int hp) => CurrentHp = hp;
 	public void SetLevel(int level) => PokeLevel = level;
 	public void SetLocalLevel(int level) => _pokeLevel = level;
+	public void AddExp(int exp) => PokeExp = _pokeExp + exp;
 	public PokemonSkill GetSkill(int index)
 	{
 		var skills = PokeData.Skills;
