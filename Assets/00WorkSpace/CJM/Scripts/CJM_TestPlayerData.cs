@@ -11,7 +11,7 @@ public class CJM_TestPlayerData : MonoBehaviour
         {
             // TODO
             string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-            PokemonData pokemonData = Resources.Load<PokemonData>($"PokemonSO/{pokemonDataSO_Name}");
+            PokemonData pokemonData = Define.GetPokeData("pokemonDataSO_Name");
             Debug.Log($"인게임 플레이어의 포켓몬: {pokemonData.PokeName}");
         }
     }

@@ -1229,10 +1229,10 @@ RectTransform:
   - {fileID: 6426873717933186155}
   m_Father: {fileID: 1245106034915559359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 146, y: -66}
+  m_SizeDelta: {x: 84, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9115602758433879666
 CanvasRenderer:
@@ -13416,10 +13416,10 @@ RectTransform:
   - {fileID: 2760226064406040933}
   m_Father: {fileID: 1245106034915559359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 146, y: -182}
+  m_SizeDelta: {x: 84, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8846598048901395779
 CanvasRenderer:
@@ -24951,10 +24951,10 @@ RectTransform:
   - {fileID: 626055643150989417}
   m_Father: {fileID: 1245106034915559359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 54, y: -66}
+  m_SizeDelta: {x: 84, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4485474275567908244
 CanvasRenderer:
@@ -35644,10 +35644,10 @@ RectTransform:
   - {fileID: 235800651531380958}
   m_Father: {fileID: 1245106034915559359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 54, y: -182}
+  m_SizeDelta: {x: 84, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &414634851219396524
 CanvasRenderer:
@@ -40268,7 +40268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4739680036904972758
 RectTransform:
   m_ObjectHideFlags: 0

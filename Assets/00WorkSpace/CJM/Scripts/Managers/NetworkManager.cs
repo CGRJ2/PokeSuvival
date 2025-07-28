@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
+    [Header("테스트용 인게임 씬 이름")] // 나중에 DB로 관리할 예정
+    public string temp_InGameSceneName;
+
     [Header("테스터 서버 연결 여부")]
     [SerializeField] bool isTestServer;
     [SerializeField] int testServerIndex;
@@ -93,9 +96,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                     um.InitializeGroup.InitView();
                 else
                     PhotonNetwork.JoinLobby();
-
-                // 로딩창 비활성화
-                um.LoadingGroup.fullScreen.gameObject.SetActive(false);
             }
         }
         // 현재 접속한 서버가 인게임 서버라면
@@ -104,6 +104,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             // 서버 이동 전에 설정된 값 동기화. Room 설정
             PhotonNetwork.JoinRoom("서버 이동 전에 선택한 맵 key");
         }
+
+        // 로딩창 비활성화
+        if (um.LoadingGroup != null)
+            um.LoadingGroup.fullScreen.gameObject.SetActive(false);
     }
 
     // 로비 입장시 호출됨

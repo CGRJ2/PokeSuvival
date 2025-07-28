@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04a13c7873eecd448164323e6394791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  temp_InGameSceneName: Test_InGameScene(CJM)
   isTestServer: 1
   testServerIndex: 0
   tmp_State: {fileID: 3219345820266472805}
