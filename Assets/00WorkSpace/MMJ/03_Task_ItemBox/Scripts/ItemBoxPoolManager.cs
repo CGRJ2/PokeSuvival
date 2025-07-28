@@ -30,11 +30,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // 마스터 클라이언트만 초기 풀 생성
-        if (PhotonNetwork.IsMasterClient)
-        {
-            InitializePool();
-        }
+
     }
 
     private void InitializePool()
@@ -43,6 +39,27 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         {
             CreateNewPooledObject();
         }
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+        PhotonNetwork.CreateRoom("ItemBoxTest");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        Debug.Log("Update 호출됨 / 마스터인가? " + PhotonNetwork.IsMasterClient);
+        // 마스터 클라이언트만 스폰 로직 실행
+
+        // 마스터 클라이언트만 초기 풀 생성
+        if (PhotonNetwork.IsMasterClient)
+        {
+            InitializePool();
+        }
+
     }
 
     private GameObject CreateNewPooledObject()

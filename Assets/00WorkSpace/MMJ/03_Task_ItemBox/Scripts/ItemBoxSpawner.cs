@@ -74,18 +74,20 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         spawnTimer = spawnInterval;
     }
 
+
+    
+
     private void Update()
     {
-        Debug.Log("Update 호출됨 / 마스터인가? " + PhotonNetwork.IsMasterClient);
-        // 마스터 클라이언트만 스폰 로직 실행
+
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("나는 마스터 클라이언트다! 스폰을 시도한다.");
+            // Debug.Log("나는 마스터 클라이언트다! 스폰을 시도한다.");
             spawnTimer -= Time.deltaTime;
 
             if (spawnTimer <= 0)
             {
-                Debug.Log("타이머 완료. SpawnMonsterBall 호출!");
+                // Debug.Log("타이머 완료. SpawnMonsterBall 호출!");
                 SpawnMonsterBall();
                 spawnTimer = spawnInterval;
             }
