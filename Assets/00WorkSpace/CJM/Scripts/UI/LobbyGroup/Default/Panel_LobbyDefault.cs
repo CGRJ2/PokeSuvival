@@ -10,10 +10,12 @@ public class Panel_LobbyDefault : MonoBehaviour
     [SerializeField] Button btn_MatchMaking;
     
     public Panel_SelectedPokemonView panel_PokemonView;
+    public Panel_PlayerInfo panel_PlayerInfo;
 
     public void Init()
     {
         panel_PokemonView.Init();
+        panel_PlayerInfo.Init();
 
         btn_QuickMatch.onClick.AddListener(QuickMatch);
         btn_MatchMaking.onClick.AddListener(OpenMatchMakingPanel);

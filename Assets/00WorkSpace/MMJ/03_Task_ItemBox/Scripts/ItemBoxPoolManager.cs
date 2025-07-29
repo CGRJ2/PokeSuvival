@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -8,7 +8,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject itemBoxPrefab;
     [SerializeField] private int initialPoolSize = 20;
-    [SerializeField] private int maxPoolSize = 30; // ÃÖ´ë Ç® Å©±â Á¦ÇÑ
+    [SerializeField] private int maxPoolSize = 30; // ìµœëŒ€ í’€ í¬ê¸° ì œí•œ
 
     private List<GameObject> pooledObjects = new List<GameObject>();
     private static ItemBoxPoolManager instance;
@@ -18,7 +18,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         get { return instance; }
     }
 
-    private void Awake() //½Ì±ÛÅæ
+    private void Awake() //ì‹±ê¸€í†¤
     {
         if (instance == null)
         {
@@ -42,29 +42,28 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
-        // ¹æ ÀÌ¸§ ¼³Á¤
+        // ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         string roomName = "ItemBoxTest";
 
-        // ÇØ´ç ÀÌ¸§ÀÇ ¹æÀÌ ÀÖÀ¸¸é Âü°¡ÇÏ°í, ¾øÀ¸¸é »ı¼ºÇÏ´Â ¹æ½ÄÀ¸·Î ¼öÁ¤
+        // ï¿½Ø´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
 
-        Debug.Log($"¹æ '{roomName}'¿¡ Âü°¡ ½Ãµµ Áß... ÀÌ¹Ì Á¸ÀçÇÏ¸é Âü°¡ÇÏ°í, ¾øÀ¸¸é »ı¼ºÇÕ´Ï´Ù.");
+        Debug.Log($"ï¿½ï¿½ '{roomName}'ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½... ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
 
-        Debug.Log("Update È£ÃâµÊ / ¸¶½ºÅÍÀÎ°¡? " + PhotonNetwork.IsMasterClient);
-
+        Debug.Log("Update È£ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½? " + PhotonNetwork.IsMasterClient);
         if (PhotonNetwork.IsMasterClient)
         {
             InitializePool();
         }
         else
         {
-            // ¸¶½ºÅÍ°¡ ¾Æ´Ñ Å¬¶óÀÌ¾ğÆ®´Â ÇöÀç È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Á¤º¸¸¦ ¿äÃ»
-            Debug.Log("¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¿¡°Ô È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Á¤º¸ ¿äÃ»");
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Æ´ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»");
             photonView.RPC(nameof(RequestActiveObjectsInfo), RpcTarget.MasterClient);
         }
 
@@ -73,12 +72,12 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RequestActiveObjectsInfo()
     {
-        // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ ÀÀ´ä
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Á¤º¸ ¿äÃ» ¹ŞÀ½. Á¤º¸ ¼öÁı ½ÃÀÛ...");
+            Debug.Log("È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...");
 
-            // ÇöÀç È°¼ºÈ­µÈ ¸ğµç ¿ÀºêÁ§Æ®ÀÇ ViewID¸¦ ¼öÁı
+            // ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ViewIDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             List<int> activeViewIDs = new List<int>();
             List<Vector3> activePositions = new List<Vector3>();
 
@@ -91,20 +90,20 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
                     {
                         activeViewIDs.Add(pv.ViewID);
                         activePositions.Add(obj.transform.position);
-                        Debug.Log($"È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® ¹ß°ß: ViewID {pv.ViewID}, À§Ä¡: {obj.transform.position}");
+                        Debug.Log($"È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½: ViewID {pv.ViewID}, ï¿½ï¿½Ä¡: {obj.transform.position}");
                     }
                 }
             }
 
-            // ´Ê°Ô Âü°¡ÇÑ Å¬¶óÀÌ¾ğÆ®¿¡°Ô È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Á¤º¸ Àü¼Û
+            // ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (activeViewIDs.Count > 0)
             {
-                Debug.Log($"È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® {activeViewIDs.Count}°³ Á¤º¸ Àü¼Û");
+                Debug.Log($"È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® {activeViewIDs.Count}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 photonView.RPC(nameof(SyncActiveObjects), RpcTarget.Others, activeViewIDs.ToArray(), activePositions.ToArray());
             }
             else
             {
-                Debug.Log("È°¼ºÈ­µÈ ¿ÀºêÁ§Æ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.Log("È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             }
         }
     }
@@ -112,18 +111,18 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncActiveObjects(int[] activeViewIDs, Vector3[] positions)
     {
-        Debug.Log($"¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®·ÎºÎÅÍ {activeViewIDs.Length}°³ÀÇ È°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Á¤º¸ ¼ö½Å");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½Îºï¿½ï¿½ï¿½ {activeViewIDs.Length}ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 
-        // ¾à°£ÀÇ Áö¿¬ ÈÄ ¿ÀºêÁ§Æ® È°¼ºÈ­ (¸ğµç ¿ÀºêÁ§Æ®°¡ »ı¼ºµÉ ½Ã°£À» ÁÖ±â À§ÇÔ)
+        // ï¿½à°£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­ (ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½)
         StartCoroutine(ActivateObjectsAfterDelay(activeViewIDs, positions));
     }
 
     private IEnumerator ActivateObjectsAfterDelay(int[] activeViewIDs, Vector3[] positions)
     {
-        Debug.Log("¿ÀºêÁ§Æ® È°¼ºÈ­ ÁØºñ Áß... Àá½Ã ´ë±â");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­ ï¿½Øºï¿½ ï¿½ï¿½... ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½");
 
-        // ¸ğµç ¿ÀºêÁ§Æ®°¡ »ı¼ºµÉ ¶§±îÁö ¾à°£ ´ë±â
-        // ÀÌ ½Ã°£Àº °ÔÀÓÀÇ º¹Àâ¼º°ú ¿ÀºêÁ§Æ® ¼ö¿¡ µû¶ó Á¶Á¤ ÇÊ¿ä
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½à°£ ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
         yield return new WaitForSeconds(0.5f);
 
         int activatedCount = 0;
@@ -136,20 +135,20 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             PhotonView pv = PhotonView.Find(viewID);
             if (pv != null)
             {
-                // À§Ä¡ ¼³Á¤ ¹× È°¼ºÈ­
+                // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È°ï¿½ï¿½È­
                 pv.transform.position = position;
                 pv.gameObject.SetActive(true);
                 activatedCount++;
 
-                Debug.Log($"¿ÀºêÁ§Æ® È°¼ºÈ­ ¼º°ø: ViewID {viewID}, À§Ä¡: {position}");
+                Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½: ViewID {viewID}, ï¿½ï¿½Ä¡: {position}");
             }
             else
             {
-                Debug.LogWarning($"ViewID {viewID}¸¦ °¡Áø PhotonView¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogWarning($"ViewID {viewID}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ PhotonViewï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             }
         }
 
-        Debug.Log($"´Ê°Ô Âü°¡: ÃÑ {activatedCount}°³ÀÇ ¿ÀºêÁ§Æ® È°¼ºÈ­ ¿Ï·á");
+        Debug.Log($"ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ {activatedCount}ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­ ï¿½Ï·ï¿½");
     }
 
 
@@ -157,14 +156,14 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     {
         if (pooledObjects.Count >= maxPoolSize)
         {
-            Debug.LogWarning("ÃÖ´ë Ç® Å©±â¿¡ µµ´Ş");
+            Debug.LogWarning("ìµœëŒ€ í’€ í¬ê¸°ì— ë„ë‹¬");
             return null;
         }
 
         GameObject obj = PhotonNetwork.InstantiateRoomObject(itemBoxPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
-        obj.SetActive(false); // ·ÎÄÃ¿¡¼­¸¸ ºñÈ°¼ºÈ­µÊ
+        obj.SetActive(false); // ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½ï¿½
 
-        // ÇÏÀÌ¾î¶óÅ° Á¤¸®¸¦ À§ÇØ ºÎ¸ğ ¼³Á¤ (·ÎÄÃ¿¡¼­¸¸ Àû¿ëµÊ)
+        // ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½)
         obj.transform.SetParent(this.transform);
 
         pooledObjects.Add(obj);
@@ -173,7 +172,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 
     public GameObject GetPooledObject()
     {
-        // ºñÈ°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Ã£±â
+        // ë¹„í™œì„±í™”ëœ ì˜¤ë¸Œì íŠ¸ ì°¾ê¸°
         for (int i = 0; i < pooledObjects.Count; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)
@@ -182,11 +181,11 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Debug.Log("»ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾øÀ½");
+        Debug.Log("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         return null;
     }
 
-    // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¸ó½ºÅÍº¼ ½ºÆù ¿äÃ»
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Íºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
     public void SpawnItemBox(Vector3 position)
     {
         if (PhotonNetwork.IsMasterClient)
@@ -194,21 +193,21 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             GameObject itemBox = GetPooledObject();
             if (itemBox != null)
             {
-                // À§Ä¡ ¼³Á¤
+                // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
                 itemBox.transform.position = position;
 
-                // ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô È°¼ºÈ­ ¿äÃ» (ViewID·Î ½Äº°)
+                // ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½Ã» (ViewIDï¿½ï¿½ ï¿½Äºï¿½)
                 int viewID = itemBox.GetComponent<PhotonView>().ViewID;
                 photonView.RPC(nameof(RPC_SetActiveObject), RpcTarget.AllBuffered, viewID, true, position);
             }
             else
             {
-                Debug.LogWarning("¸ó½ºÅÍº¼À» ½ºÆùÇÒ ¼ö ¾ø½À´Ï´Ù. »ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogWarning("ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             }
         }
     }
 
-    // ¸ó½ºÅÍº¼ ÆÄ±« (Ç®·Î ¹İÈ¯)
+    // ï¿½ï¿½ï¿½Íºï¿½ ï¿½Ä±ï¿½ (Ç®ï¿½ï¿½ ï¿½ï¿½È¯)
     public void ReturnToPool(GameObject obj)
     {
         if (PhotonNetwork.IsMasterClient)
@@ -226,14 +225,14 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         {
             if (active)
             {
-                pv.transform.position = position; // À§Ä¡ ¼³Á¤
+                pv.transform.position = position; // ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
             }
             pv.gameObject.SetActive(active);
-            Debug.Log($"¿ÀºêÁ§Æ® {viewID}¸¦ {(active ? "È°¼ºÈ­" : "ºñÈ°¼ºÈ­")}Çß½À´Ï´Ù.");
+            Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® {viewID}ï¿½ï¿½ {(active ? "È°ï¿½ï¿½È­" : "ï¿½ï¿½È°ï¿½ï¿½È­")}ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
         }
         else
         {
-            Debug.LogError($"ViewID {viewID}¸¦ °¡Áø PhotonView¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError($"ViewID {viewID}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ PhotonViewï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
@@ -242,7 +241,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         if (obj.GetComponent<PhotonView>() != null)
         {
             int viewID = obj.GetComponent<PhotonView>().ViewID;
-            // ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô ºñÈ°¼ºÈ­ ¿äÃ» Àü¼Û (¹öÆÛ¸µ Æ÷ÇÔ)
+            // ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½)
             photonView.RPC(nameof(RPC_DeactivateObject), RpcTarget.AllBuffered, viewID);
         }
     }
@@ -254,11 +253,11 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         if (pv != null)
         {
             pv.gameObject.SetActive(false);
-            Debug.Log($"¿ÀºêÁ§Æ® {viewID}°¡ ºñÈ°¼ºÈ­µÇ¾ú½À´Ï´Ù.");
+            Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® {viewID}ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
         else
         {
-            Debug.LogWarning($"ViewID {viewID}¸¦ °¡Áø PhotonView¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"ViewID {viewID}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ PhotonViewï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 

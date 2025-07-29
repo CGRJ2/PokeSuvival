@@ -84,4 +84,9 @@ public static class PokeUtils
 		};
 		return stat;
 	}
+
+	public static int GetNextLevelExp(int currentLevel)
+	{
+		return (int)(5 * Mathf.Pow(currentLevel + 1, 3) / 4);
+	}
 }
