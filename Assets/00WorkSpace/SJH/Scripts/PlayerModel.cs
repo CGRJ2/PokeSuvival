@@ -41,10 +41,10 @@ public class PlayerModel
 				}
 				else break;
 			}
-			_nextExp = PokeUtils.GetNextLevelExp(PokeLevel);
+			NextExp = PokeUtils.GetNextLevelExp(PokeLevel);
 		}
 	}
-	[SerializeField] private int _nextExp;
+	[field: SerializeField] public int NextExp { get; private set; }
 	[field: SerializeField] public int MaxHp { get; private set; }
 	[SerializeField] private int _currentHp;
 	public int CurrentHp
