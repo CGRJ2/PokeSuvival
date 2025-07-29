@@ -222,9 +222,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		photonView.RPC(nameof(RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 
-	public void TakeDamage(int value)
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
 	{
-		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, value);
+		if (Model.CurrentHp <= 0 || Model.IsDead) return false;
+
+		//IDamagable iD = this;
+		BattleDataTable defenderData = ((IDamagable)this).BattleData;
+		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
+		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
+		return true;
 	}
 
 	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)

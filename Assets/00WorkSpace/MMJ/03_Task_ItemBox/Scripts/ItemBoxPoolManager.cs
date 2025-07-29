@@ -181,7 +181,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Debug.Log("��� ������ ������Ʈ�� ����");
+        //Debug.Log("��� ������ ������Ʈ�� ����");
         return null;
     }
 
@@ -202,7 +202,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                Debug.LogWarning("���ͺ��� ������ �� �����ϴ�. ��� ������ ������Ʈ�� �����ϴ�.");
+                //Debug.LogWarning("���ͺ��� ������ �� �����ϴ�. ��� ������ ������Ʈ�� �����ϴ�.");
             }
         }
     }

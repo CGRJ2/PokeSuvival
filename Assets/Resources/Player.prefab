@@ -179,7 +179,7 @@ MonoBehaviour:
       Speed: 0
     _pokeLevel: 0
     _pokeExp: 0
-    _nextExp: 0
+    <NextExp>k__BackingField: 0
     <MaxHp>k__BackingField: 0
     _currentHp: 0
   <View>k__BackingField: {fileID: 0}
