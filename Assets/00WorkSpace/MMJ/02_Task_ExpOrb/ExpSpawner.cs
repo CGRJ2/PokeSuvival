@@ -1,57 +1,61 @@
+ï»¿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class ExpOrbSpawner : MonoBehaviour
+public class ExpOrbSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private ExpOrbPool orbPool;
     [SerializeField] private int maxOrbs = 50;
     [SerializeField] private float spawnInterval = 1f;
     [SerializeField] private int spawnAmountPerInterval = 5;
 
-    [Header("Å¸ÀÏ¸Ê ¼³Á¤")]
-    [SerializeField] private Tilemap targetTilemap; // ½ºÆùÇÒ Å¸ÀÏ¸Ê ÂüÁ¶
+    [Header("íƒ€ì¼ë§µ ì„¤ì •")]
+    [SerializeField] private Tilemap targetTilemap; // ìŠ¤í°í•  íƒ€ì¼ë§µ ì°¸ì¡°
 
-    private List<Vector3> validSpawnPositions = new List<Vector3>(); // À¯È¿ÇÑ ½ºÆù À§Ä¡µéÀ» ÀúÀåÇÒ ¸®½ºÆ®
+    private List<Vector3> validSpawnPositions = new List<Vector3>(); // ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ë“¤ì„ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
     private List<ExpOrb> activeOrbs = new List<ExpOrb>();
+
+    [SerializeField] private int _orbMinExp;
+    [SerializeField] private int _orbMaxExp;
 
     private void Awake()
     {
-        // Å¸ÀÏ¸ÊÀÌ ÀÎ½ºÆåÅÍ¿¡¼­ ÇÒ´çµÇ¾ú´ÂÁö È®ÀÎ
+        // íƒ€ì¼ë§µì´ ì¸ìŠ¤í™í„°ì—ì„œ í• ë‹¹ë˜ì—ˆëŠ”ì§€ í™•ì¸
         if (targetTilemap == null)
         {
-            Debug.LogError("ExpOrbSpawner: ½ºÆùÇÒ Å¸ÀÏ¸Ê(Target Tilemap)ÀÌ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù! ÀÎ½ºÆåÅÍ¿¡¼­ ¼³Á¤ÇØÁÖ¼¼¿ä.");
-            enabled = false; // ½ºÅ©¸³Æ® ºñÈ°¼ºÈ­
+            Debug.LogError("ExpOrbSpawner: ìŠ¤í°í•  íƒ€ì¼ë§µ(Target Tilemap)ì´ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤! ì¸ìŠ¤í™í„°ì—ì„œ ì„¤ì •í•´ì£¼ì„¸ìš”.");
+            enabled = false; // ìŠ¤í¬ë¦½íŠ¸ ë¹„í™œì„±í™”
             return;
         }
 
-        // °ÔÀÓ ½ÃÀÛ ½Ã À¯È¿ÇÑ ½ºÆù À§Ä¡µéÀ» ¹Ì¸® Ã£¾Æ ÀúÀå
+        // ê²Œì„ ì‹œì‘ ì‹œ ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ë“¤ì„ ë¯¸ë¦¬ ì°¾ì•„ ì €ì¥
         CollectValidTileSpawnPositions();
     }
 
     private void CollectValidTileSpawnPositions()
     {
-        validSpawnPositions.Clear(); // ±âÁ¸ ¸®½ºÆ®¸¦ ºñ¿ó´Ï´Ù
+        validSpawnPositions.Clear(); // ê¸°ì¡´ ë¦¬ìŠ¤íŠ¸ë¥¼ ë¹„ì›ë‹ˆë‹¤
 
-        // Å¸ÀÏ¸ÊÀÇ ÇöÀç ¼¿ °æ°è¸¦ °¡Á®¿É´Ï´Ù
+        // íƒ€ì¼ë§µì˜ í˜„ì¬ ì…€ ê²½ê³„ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤
         BoundsInt bounds = targetTilemap.cellBounds;
-        Debug.Log($"Å¸ÀÏ¸Ê °æ°è: {bounds.min} ~ {bounds.max}");
+        Debug.Log($"íƒ€ì¼ë§µ ê²½ê³„: {bounds.min} ~ {bounds.max}");
 
-        // Å¸ÀÏ¸Ê °æ°è ³»ÀÇ ¸ğµç ¼¿À» ¹İº¹ÇÏ¸ç °Ë»ç
+        // íƒ€ì¼ë§µ ê²½ê³„ ë‚´ì˜ ëª¨ë“  ì…€ì„ ë°˜ë³µí•˜ë©° ê²€ì‚¬
         for (int x = bounds.xMin; x < bounds.xMax; x++)
         {
             for (int y = bounds.yMin; y < bounds.yMax; y++)
             {
-                // ÇöÀç °Ë»çÇÒ ¼¿ÀÇ ÁÂÇ¥ (2D Å¸ÀÏ¸ÊÀº Z=0)
+                // í˜„ì¬ ê²€ì‚¬í•  ì…€ì˜ ì¢Œí‘œ (2D íƒ€ì¼ë§µì€ Z=0)
                 Vector3Int cellPosition = new Vector3Int(x, y, 0);
 
-                // ÇØ´ç ¼¿¿¡ ½ÇÁ¦·Î Å¸ÀÏÀÌ ±×·ÁÁ® ÀÖ´ÂÁö È®ÀÎ
+                // í•´ë‹¹ ì…€ì— ì‹¤ì œë¡œ íƒ€ì¼ì´ ê·¸ë ¤ì ¸ ìˆëŠ”ì§€ í™•ì¸
                 if (targetTilemap.HasTile(cellPosition))
                 {
-                    // ¼¿ ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯
+                    // ì…€ ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜
                     Vector3 worldPosition = targetTilemap.CellToWorld(cellPosition);
 
-                    // Å¸ÀÏÀÇ Áß¾Ó¿¡ À§Ä¡ÇÏµµ·Ï Á¶Á¤ (Å¸ÀÏ¸Ê ¼³Á¤¿¡ µû¶ó Á¶Á¤ ÇÊ¿äÇÒ ¼ö ÀÖÀ½)
+                    // íƒ€ì¼ì˜ ì¤‘ì•™ì— ìœ„ì¹˜í•˜ë„ë¡ ì¡°ì • (íƒ€ì¼ë§µ ì„¤ì •ì— ë”°ë¼ ì¡°ì • í•„ìš”í•  ìˆ˜ ìˆìŒ)
                     worldPosition += new Vector3(0.5f, 0.5f, 0);
 
                     validSpawnPositions.Add(worldPosition);
@@ -61,26 +65,35 @@ public class ExpOrbSpawner : MonoBehaviour
 
         if (validSpawnPositions.Count == 0)
         {
-            Debug.LogWarning("Å¸ÀÏ¸Ê¿¡¼­ ½ºÆùÇÒ ¼ö ÀÖ´Â À¯È¿ÇÑ Å¸ÀÏÀ» Ã£Áö ¸øÇß½À´Ï´Ù!");
+            Debug.LogWarning("íƒ€ì¼ë§µì—ì„œ ìŠ¤í°í•  ìˆ˜ ìˆëŠ” ìœ íš¨í•œ íƒ€ì¼ì„ ì°¾ì§€ ëª»í–ˆìŠµë‹ˆë‹¤!");
         }
         else
         {
-            Debug.Log($"Å¸ÀÏ¸Ê¿¡¼­ {validSpawnPositions.Count}°³ÀÇ À¯È¿ÇÑ ½ºÆù À§Ä¡¸¦ Ã£¾Ò½À´Ï´Ù.");
+            Debug.Log($"íƒ€ì¼ë§µì—ì„œ {validSpawnPositions.Count}ê°œì˜ ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ë¥¼ ì°¾ì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 
     private void Start()
     {
-        // À¯È¿ÇÑ ½ºÆù À§Ä¡°¡ ¾øÀ¸¸é ½ºÆùÇÏÁö ¾ÊÀ½
+        // ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ê°€ ì—†ìœ¼ë©´ ìŠ¤í°í•˜ì§€ ì•ŠìŒ
         if (validSpawnPositions.Count == 0)
         {
-            Debug.LogError("À¯È¿ÇÑ ½ºÆù À§Ä¡°¡ ¾ø¾î °æÇèÄ¡ ±¸½½À» ½ºÆùÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("ìœ íš¨í•œ ìŠ¤í° ìœ„ì¹˜ê°€ ì—†ì–´ ê²½í—˜ì¹˜ êµ¬ìŠ¬ì„ ìŠ¤í°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        SpawnOrbsImmediate(); // Ã³À½¿¡ ÇÑ¹æ¿¡ »Ñ¸®°Ô ÇÏ´Â µğ¹ö±×¿ë
-        InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
+        //SpawnOrbsImmediate(); // ì²˜ìŒì— í•œë°©ì— ë¿Œë¦¬ê²Œ í•˜ëŠ” ë””ë²„ê·¸ìš©
+        //InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
     }
+
+	public override void OnJoinedRoom()
+	{
+        if (!PhotonNetwork.IsMasterClient) return;
+        orbPool.NetworkInit();
+
+		SpawnOrbsImmediate(); // ì²˜ìŒì— í•œë°©ì— ë¿Œë¦¬ê²Œ í•˜ëŠ” ë””ë²„ê·¸ìš©
+		InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
+	}
 
     private void SpawnOrbsImmediate()
     {
@@ -90,11 +103,11 @@ public class ExpOrbSpawner : MonoBehaviour
         {
             ExpOrb orb = orbPool.GetOrb();
             orb.transform.position = GetRandomTilePosition();
-            orb.Init(Random.Range(1f, 3f));
+            orb.Init(Random.Range(_orbMinExp, _orbMaxExp));
             orb.gameObject.SetActive(true);
             activeOrbs.Add(orb);
 
-            // Áßº¹ ±¸µ¶ ¹æÁö
+            // ì¤‘ë³µ êµ¬ë… ë°©ì§€
             orb.OnDespawned -= HandleOrbDespawned;
             orb.OnDespawned += HandleOrbDespawned;
         }
@@ -113,14 +126,14 @@ public class ExpOrbSpawner : MonoBehaviour
         {
             ExpOrb orb = orbPool.GetOrb();
             orb.transform.position = GetRandomTilePosition();
-            orb.Init(Random.Range(1f, 3f));
-            orb.gameObject.SetActive(true);
+			orb.Init(Random.Range(_orbMinExp, _orbMaxExp));
+			orb.gameObject.SetActive(true);
             activeOrbs.Add(orb);
             orb.OnDespawned += HandleOrbDespawned;
         }
     }
 
-    // Å¸ÀÏ¸ÊÀÇ À¯È¿ÇÑ À§Ä¡ Áß ·£´ıÇÑ À§Ä¡ ¹İÈ¯
+    // íƒ€ì¼ë§µì˜ ìœ íš¨í•œ ìœ„ì¹˜ ì¤‘ ëœë¤í•œ ìœ„ì¹˜ ë°˜í™˜
     private Vector3 GetRandomTilePosition()
     {
         if (validSpawnPositions.Count == 0)
@@ -136,7 +149,7 @@ public class ExpOrbSpawner : MonoBehaviour
         {
             activeOrbs.Remove(orb);
             orb.OnDespawned -= HandleOrbDespawned;
-            orbPool.ReturnOrb(orb); // Ãß°¡·Î ¹İÈ¯±îÁö
+            orbPool.ReturnOrb(orb); // ì¶”ê°€ë¡œ ë°˜í™˜ê¹Œì§€
         }
     }
 }
