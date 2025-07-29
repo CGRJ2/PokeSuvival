@@ -48,14 +48,14 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         // �ش� �̸��� ���� ������ �����ϰ�, ������ �����ϴ� ������� ����
         //PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
 
-        Debug.Log($"�� '{roomName}'�� ���� �õ� ��... �̹� �����ϸ� �����ϰ�, ������ �����մϴ�.");
+        //Debug.Log($"�� '{roomName}'�� ���� �õ� ��... �̹� �����ϸ� �����ϰ�, ������ �����մϴ�.");
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
 
-        Debug.Log("Update ȣ��� / �������ΰ�? " + PhotonNetwork.IsMasterClient);
+        //Debug.Log("Update ȣ��� / �������ΰ�? " + PhotonNetwork.IsMasterClient);
         if (PhotonNetwork.IsMasterClient)
         {
             InitializePool();
@@ -228,11 +228,11 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
                 pv.transform.position = position; // ��ġ ����
             }
             pv.gameObject.SetActive(active);
-            Debug.Log($"������Ʈ {viewID}�� {(active ? "Ȱ��ȭ" : "��Ȱ��ȭ")}�߽��ϴ�.");
+            //Debug.Log($"������Ʈ {viewID}�� {(active ? "Ȱ��ȭ" : "��Ȱ��ȭ")}�߽��ϴ�.");
         }
         else
         {
-            Debug.LogError($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
+            //Debug.LogError($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
         }
     }
 
@@ -253,11 +253,11 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         if (pv != null)
         {
             pv.gameObject.SetActive(false);
-            Debug.Log($"������Ʈ {viewID}�� ��Ȱ��ȭ�Ǿ����ϴ�.");
+            //Debug.Log($"������Ʈ {viewID}�� ��Ȱ��ȭ�Ǿ����ϴ�.");
         }
         else
         {
-            Debug.LogWarning($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
+            //Debug.LogWarning($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
         }
     }
 

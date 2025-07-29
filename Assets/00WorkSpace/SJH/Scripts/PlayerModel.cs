@@ -26,7 +26,7 @@ public class PlayerModel
 	public int PokeExp
 	{
 		get => _pokeExp;
-		set
+		private set
 		{
 			Debug.Log($"{_pokeExp} + {value} = {_pokeExp + value}");
 			_pokeExp += value;
@@ -70,7 +70,7 @@ public class PlayerModel
 	public bool IsMoving { get; private set; }
 	public bool IsDead { get; private set; }
 
-	private Dictionary<SkillSlot, float> _skillCooldownDic;
+	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
 
 	// TODO : 패시브 아이템 리스트
 
@@ -84,7 +84,7 @@ public class PlayerModel
 		MaxHp = AllStat.Hp;
 		if (currentHp == -1) CurrentHp = MaxHp;
 		else CurrentHp = currentHp;
-		_skillCooldownDic = new()
+		SkillCooldownDic = new()
 		{
 			[SkillSlot.Skill1] = 0,
 			[SkillSlot.Skill2] = 0,
@@ -98,7 +98,6 @@ public class PlayerModel
 	public PokemonData GetNextEvoData() => PokeData.NextEvoData;
 	public void SetCurrentHp(int hp) => CurrentHp = hp;
 	public void SetLevel(int level) => PokeLevel = level;
-	public void SetLocalLevel(int level) => _pokeLevel = level;
 	public void AddExp(int exp) => PokeExp = _pokeExp + exp;
 	public PokemonSkill GetSkill(int index)
 	{
@@ -108,8 +107,8 @@ public class PlayerModel
 
 		return skills[index];
 	}
-	public bool IsSkillCooldown(SkillSlot slot, float cooldown) => _skillCooldownDic.TryGetValue(slot, out var lastCooldown) && Time.time - lastCooldown < cooldown;
-	public void SetSkillCooldown(SkillSlot slot) => _skillCooldownDic[slot] = Time.time;
+	public bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
+	public void SetSkillCooldown(SkillSlot slot, float cooldown) => SkillCooldownDic[slot] = Time.time + cooldown;
 	public void ReCalculateAllStat()
 	{
 		int hpGap = MaxHp - _currentHp;

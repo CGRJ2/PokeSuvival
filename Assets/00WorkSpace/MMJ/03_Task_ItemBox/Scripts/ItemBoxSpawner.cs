@@ -108,6 +108,6 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 
         // Ǯ �Ŵ����� ���� ��û
         ItemBoxPoolManager.Instance.SpawnItemBox(spawnPosition);
-        Debug.Log($"���ͺ��� Ÿ�ϸ��� ��ȿ�� ��ġ�� �����Ǿ����ϴ�: {spawnPosition}");
+        //Debug.Log($"���ͺ��� Ÿ�ϸ��� ��ȿ�� ��ġ�� �����Ǿ����ϴ�: {spawnPosition}");
     }
 }
