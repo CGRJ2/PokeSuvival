@@ -1,4 +1,3 @@
-using Firebase;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -26,7 +25,7 @@ public class Panel_PlayerInit : MonoBehaviour
         }
 
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
-        if (BackendManager.Auth.CurrentUser.IsValid())
+        if (BackendManager.Auth.CurrentUser != null)
         {
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
         }

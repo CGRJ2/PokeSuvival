@@ -127,7 +127,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             um.InGameGroup.gameObject.SetActive(false);
 
             // 플레이어 정보 업데이트
-            um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateView();
+            if (BackendManager.Auth.CurrentUser != null)
+                um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateView();
+            else
+            {
+                // 게스트로그인이면 플레이어 정보 패널 위치에 로그인 버튼 활성화
+            }
         }
     }
 
