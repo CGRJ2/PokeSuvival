@@ -74,6 +74,8 @@ namespace NTJ
                 spriteRenderer.sprite = pokemonData.levelSprites[level - 1];
 
             Debug.Log($"레벨업! 현재 레벨: {level}");
+
+            ReapplyBuffs();
         }
 
         private void ApplyBuff(StatType stat, float multiplier, float duration)
@@ -130,6 +132,17 @@ namespace NTJ
                 case StatType.SpA: spA *= multiplier; break;
                 case StatType.SpD: spD *= multiplier; break;
                 case StatType.Spe: spe *= multiplier; break;
+            }
+        }
+        private void ReapplyBuffs()
+        {
+            foreach (var buffEntry in activeBuffs)
+            {
+                StatType stat = buffEntry.Key;
+                float multiplier = buffEntry.Value;
+
+                ApplyMultiplier(stat, multiplier);
+                Debug.Log($"{stat} 버프 재적용 (x{multiplier})");
             }
         }
     }
