@@ -76,7 +76,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (curServer.type == ServerType.Lobby)
         {
             // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
-            // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
             if (PhotonNetwork.LocalPlayer.NickName.IsNullOrEmpty())
             {
                 um.InitializeGroup.InitView();
