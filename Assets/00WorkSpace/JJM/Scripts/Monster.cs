@@ -124,10 +124,10 @@ public class Monster : MonoBehaviourPun, IPunObservable
         if (player == null) return;
 
         // IDamageable 인터페이스를 가진 컴포넌트 찾기
-        IDamagable damageable = player.GetComponent<IDamagable>();
-        if (damageable != null)
+        IDamagable damagable = player.GetComponent<IDamagable>();
+        if (damagable != null)
         {
-            damageable.TakeDamage(attackDamage);
+            damagable.TakeDamage(attackDamage);
         }
         
     }
