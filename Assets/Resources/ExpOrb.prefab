@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7722462110579748298}
   - component: {fileID: 7687408331737148578}
+  - component: {fileID: -7094763337456171068}
   - component: {fileID: 6781790628706291217}
   - component: {fileID: 8868402063865904813}
   - component: {fileID: -4953762780263609239}
@@ -88,6 +89,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &-7094763337456171068
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5173554257059946341}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &6781790628706291217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +130,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amount: 0
   isActive: 0
+  magnetRadius: 3.5
+  moveSpeed: 10
+  accelerationRate: 3
+  isAttracted: 0
+  playerTransform: {fileID: 0}
+  currentSpeed: 0
 --- !u!58 &8868402063865904813
 CircleCollider2D:
   m_ObjectHideFlags: 0

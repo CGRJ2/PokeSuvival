@@ -113767,7 +113767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 338655186269275624, guid: 6421115935afe85499f83422c01153bf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.06
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 338655186269275624, guid: 6421115935afe85499f83422c01153bf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -113799,7 +113799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 464925586732267960, guid: 6421115935afe85499f83422c01153bf, type: 3}
       propertyPath: moveSpeed
-      value: 30
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 554652661566469124, guid: 6421115935afe85499f83422c01153bf, type: 3}
       propertyPath: m_Constraints
@@ -113808,6 +113808,14 @@ PrefabInstance:
     - target: {fileID: 1093167905142069170, guid: 6421115935afe85499f83422c01153bf, type: 3}
       propertyPath: m_Name
       value: Test_Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093167905142069170, guid: 6421115935afe85499f83422c01153bf, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644153035934640669, guid: 6421115935afe85499f83422c01153bf, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
