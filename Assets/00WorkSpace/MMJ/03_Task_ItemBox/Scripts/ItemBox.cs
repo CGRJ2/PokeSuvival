@@ -1,12 +1,15 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UIElements;
+using System.Runtime.Serialization;
 
 
 public class ItemBox : MonoBehaviourPun, IPunObservable
 {
     [Header("아이템 설정")]
-    [SerializeField] private GameObject itemPrefab; // 생성할 아이템 프리팹
+    [SerializeField] private GameObject itemPrefab;
+
+
 
     // 플레이어 공격에 의해 파괴될 때 호출
     public void OnHit()
@@ -41,6 +44,16 @@ public class ItemBox : MonoBehaviourPun, IPunObservable
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        // 플레이어에 닿으면 아이템이 먹힘
+        if (collider.CompareTag("Player"))
+        {
+            // 자기 자신(아이템)을 비활성화
+            ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
+        }
+    }
+
     [PunRPC]
     private void RPC_DropItem(Vector3 position)
     {
@@ -50,8 +63,6 @@ public class ItemBox : MonoBehaviourPun, IPunObservable
             return;
         }
 
-        // 몬스터볼이 있던 위치에 아이템 생성
-        // [[버그 해결을 위한 주석처리333]]GameObject newItem = Instantiate(itemPrefab, position, Quaternion.identity);
         GameObject newItem = PhotonNetwork.Instantiate("ItemPrefab", position, Quaternion.identity);
 
         Debug.Log("아이템이 생성되었습니다!");

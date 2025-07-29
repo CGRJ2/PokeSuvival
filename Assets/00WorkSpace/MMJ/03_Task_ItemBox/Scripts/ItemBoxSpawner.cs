@@ -74,18 +74,20 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         spawnTimer = spawnInterval;
     }
 
+
+    
+
     private void Update()
     {
-        //Debug.Log("Update 호출됨 / 마스터인가? " + PhotonNetwork.IsMasterClient);
-        // 마스터 클라이언트만 스폰 로직 실행
+
         if (PhotonNetwork.IsMasterClient)
         {
-            //Debug.Log("나는 마스터 클라이언트다! 스폰을 시도한다.");
+            // Debug.Log("���� ������ Ŭ���̾�Ʈ��! ������ �õ��Ѵ�.");
             spawnTimer -= Time.deltaTime;
 
             if (spawnTimer <= 0)
             {
-                Debug.Log("타이머 완료. SpawnMonsterBall 호출!");
+                // Debug.Log("Ÿ�̸� �Ϸ�. SpawnMonsterBall ȣ��!");
                 SpawnMonsterBall();
                 spawnTimer = spawnInterval;
             }
@@ -104,8 +106,8 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         int randomIndex = Random.Range(0, validSpawnPositions.Count);
         Vector3 spawnPosition = validSpawnPositions[randomIndex];
 
-        // 풀 매니저에 스폰 요청
-        ItemBoxPoolManager.Instance.SpawnMonsterBall(spawnPosition);
-        Debug.Log($"몬스터볼이 타일맵의 유효한 위치에 스폰되었습니다: {spawnPosition}");
+        // Ǯ �Ŵ����� ���� ��û
+        ItemBoxPoolManager.Instance.SpawnItemBox(spawnPosition);
+        Debug.Log($"���ͺ��� Ÿ�ϸ��� ��ȿ�� ��ġ�� �����Ǿ����ϴ�: {spawnPosition}");
     }
 }
