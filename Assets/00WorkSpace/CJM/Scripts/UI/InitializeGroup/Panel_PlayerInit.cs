@@ -1,4 +1,4 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,19 +20,17 @@ public class Panel_PlayerInit : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(inputField_Name.text))
         {
-            Debug.LogError("´Ğ³×ÀÓÀ» Á¦´ë·Î ¼³Á¤ÇØÁÖ¼¼¿ä");
+            Debug.LogError("ë‹‰ë„¤ì„ì„ ì œëŒ€ë¡œ ì„¤ì •í•´ì£¼ì„¸ìš”");
             return;
         }
 
-        // ·Î±×ÀÎÇÑ »óÅÂ¶ó¸é => Auth »ç¿ëÀÚ ÇÁ·ÎÇÊ¿¡ ¾÷µ¥ÀÌÆ®
-        Debug.Log($"1¹ø: {BackendManager.Auth}");
-        Debug.Log($"2¹ø: {BackendManager.Auth.CurrentUser}");
+        // ë¡œê·¸ì¸í•œ ìƒíƒœë¼ë©´ => Auth ì‚¬ìš©ì í”„ë¡œí•„ì— ì—…ë°ì´íŠ¸
         if (BackendManager.Auth.CurrentUser != null)
         {
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
         }
 
-        // Æ÷Åæ¿¡ ´Ğ³×ÀÓ ¼³Á¤
+        // í¬í†¤ì— ë‹‰ë„¤ì„ ì„¤ì •
         PhotonNetwork.NickName = inputField_Name.text;
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);

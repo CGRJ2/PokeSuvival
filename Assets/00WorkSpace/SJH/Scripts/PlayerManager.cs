@@ -68,7 +68,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
 	{
-
+		Debug.Log("룸 입장");
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 		Debug.Log(pokemonName);
 

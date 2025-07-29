@@ -13,6 +13,14 @@ public class ExpOrb : MonoBehaviourPun
     {
         this.amount = amount;
         isActive = true;
+        photonView.RPC(nameof(RPC_Init), RpcTarget.OthersBuffered, amount);
+    }
+
+    [PunRPC]
+    public void RPC_Init(int amount)
+    {
+        this.amount = amount;
+        isActive = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
