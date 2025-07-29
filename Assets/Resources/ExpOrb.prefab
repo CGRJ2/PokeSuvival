@@ -131,8 +131,8 @@ MonoBehaviour:
   amount: 0
   isActive: 0
   magnetRadius: 3.5
-  moveSpeed: 10
-  accelerationRate: 3
+  moveSpeed: 3
+  accelerationRate: 33
   isAttracted: 0
   playerTransform: {fileID: 0}
   currentSpeed: 0
