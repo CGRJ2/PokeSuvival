@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class Monster : MonoBehaviourPun, IPunObservable
+public class Monster : MonoBehaviourPun, IDamagable
 {
     [Header("기본 스탯")]
     public PokemonData pokemonData; // PokemonData ScriptableObject 참조 (Inspector에서 할당)
@@ -33,12 +33,24 @@ public class Monster : MonoBehaviourPun, IPunObservable
     [SerializeField] private Sprite moveUpRightSprite;    // 오른쪽 위 대각선 이동 스프라이트
     [SerializeField] private Sprite moveDownLeftSprite;   // 왼쪽 아래 대각선 이동 스프라이트
     [SerializeField] private Sprite moveDownRightSprite;  // 오른쪽 아래 대각선
+    [SerializeField] private Sprite deadSprite; // 몬스터가 죽었을 때 사용할 스프라이트
 
     private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
 
     [SerializeField] private int attackDamage = 10; // 몬스터 공격력
+
+    private Rigidbody2D rb; // Rigidbody2D 컴포넌트 참조 변수
+
+    [SerializeField] private float corpseDuration = 2f; // 시체가 남아있을 시간(초) (Inspector에서 조정 가능)
+
+
+
+    public BattleDataTable BattleData => throw new System.NotImplementedException();
+
     void Start() // 게임 시작 시 호출되는 함수
     {
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
+
         spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
 
 
@@ -81,20 +93,16 @@ public class Monster : MonoBehaviourPun, IPunObservable
         {
             Wander(); // 자유롭게 이동
         }
-        // 멈췄을 때 idle 스프라이트로 변경
-        if (spriteRenderer != null)
-            spriteRenderer.sprite = idleSprite;
+        
 
     }
 
     void MoveTowards(Vector3 target) // 지정한 위치로 이동하는 함수
     {
-        Vector3 direction = (target - transform.position).normalized; // 목표 위치까지의 방향 벡터 계산 및 정규화
-        transform.position += direction * moveSpeed * Time.deltaTime; // 해당 방향으로 이동
-                                                                      // 필요시 회전 추가
-
-        SetSpriteByDirection(direction); // 방향에 따라 스프라이트 설정
-
+        Vector2 direction = (target - transform.position).normalized; // 목표 방향 계산
+        Vector2 newPos = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime; // 이동할 위치 계산
+        rb.MovePosition(newPos); // Rigidbody2D를 이용해 이동(충돌 자동 처리)
+        SetSpriteByDirection(direction); // 스프라이트 변경
     }
 
     void Wander() // 자유 이동(랜덤 이동 등) 함수
@@ -151,6 +159,26 @@ public class Monster : MonoBehaviourPun, IPunObservable
         // TODO: 아이템 프리팹 생성 및 드롭
         // 예시: Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
+        StartCoroutine(CorpseAndDestroy()); // 시체 유지 후 삭제 코루틴 시작
+
+    }
+
+    IEnumerator CorpseAndDestroy() // 시체를 일정 시간 남겼다가 삭제하는 코루틴
+    {
+        // 죽은 상태 연출(스프라이트 변경, 반투명 등)
+        if (spriteRenderer != null)
+        {
+            if (deadSprite != null)
+                spriteRenderer.sprite = deadSprite; // 죽음 스프라이트로 변경
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // 반투명 처리(예시)
+        }
+        // 콜라이더/AI 비활성화 (움직임, 충돌 방지)
+        Collider2D col = GetComponent<Collider2D>(); // Collider2D 컴포넌트 가져오기
+        if (col != null) col.enabled = false; // 콜라이더 비활성화
+        this.enabled = false; // 몬스터 스크립트 비활성화(추가 동작 방지)
+
+        yield return new WaitForSeconds(corpseDuration); // 지정한 시간만큼 대기
+
         PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
     }
 
@@ -184,6 +212,17 @@ public class Monster : MonoBehaviourPun, IPunObservable
             spriteRenderer.sprite = moveDownSprite; // 아래
         else if (angle >= -67.5f && angle < -22.5f)
             spriteRenderer.sprite = moveDownRightSprite; // 오른쪽 아래
+    }
+
+    public void ResetMonster() // 몬스터 상태 초기화 함수
+    {
+        currentHealth = maxHealth; // 체력 초기화
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.white; // 색상(투명도) 초기화
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = true; // 콜라이더 활성화
+        this.enabled = true; // 스크립트 활성화
+                             // 필요하다면 추가로 상태/애니메이션/AI 등도 초기화
     }
 
     // Photon 네트워크를 통한 동기화 함수
