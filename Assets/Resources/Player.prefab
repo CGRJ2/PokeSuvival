@@ -178,7 +178,7 @@ MonoBehaviour:
       SpecialDefense: 0
       Speed: 0
     _pokeLevel: 0
-    <PokeExp>k__BackingField: 0
+    _pokeExp: 0
     <MaxHp>k__BackingField: 0
     _currentHp: 0
   _view: {fileID: 0}

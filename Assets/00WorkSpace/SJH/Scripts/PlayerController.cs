@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		ConnectEvent();
 
 		// TODO : 테스트 코드
-		GameObject.Find("Button1").GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
+		GameObject.Find("Button1")?.GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
 	}
 
 	public void ConnectEvent()
@@ -247,6 +247,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		return attack;
 	}
 
+	public void AddExp(int value)
+	{
+		_model.AddExp(value);
+	}
 	void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
 
 	[PunRPC]

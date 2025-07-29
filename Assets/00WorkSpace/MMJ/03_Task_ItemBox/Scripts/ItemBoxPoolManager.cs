@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -6,7 +6,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject monsterBallPrefab;
     [SerializeField] private int initialPoolSize = 20;
-    [SerializeField] private int maxPoolSize = 30; // ÃÖ´ë Ç® Å©±â Á¦ÇÑ
+    [SerializeField] private int maxPoolSize = 30; // ìµœëŒ€ í’€ í¬ê¸° ì œí•œ
 
     private List<GameObject> pooledObjects = new List<GameObject>();
     private static ItemBoxPoolManager instance;
@@ -16,7 +16,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         get { return instance; }
     }
 
-    private void Awake() //½Ì±ÛÅæ
+    private void Awake() //ì‹±ê¸€í†¤
     {
         if (instance == null)
         {
@@ -30,7 +30,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¸¸ ÃÊ±â Ç® »ı¼º
+        // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ì´ˆê¸° í’€ ìƒì„±
         if (PhotonNetwork.IsMasterClient)
         {
             InitializePool();
@@ -49,15 +49,15 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     {
         if (pooledObjects.Count >= maxPoolSize)
         {
-            Debug.LogWarning("ÃÖ´ë Ç® Å©±â¿¡ µµ´Ş");
+            Debug.LogWarning("ìµœëŒ€ í’€ í¬ê¸°ì— ë„ë‹¬");
             return null;
         }
 
-        // [[¹ö±×¼öÁ¤À» À§ÇÑ ÁÖ¼®Ã³¸®]] GameObject obj = PhotonNetwork.InstantiateRoomObject(monsterBallPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
+        // [[ë²„ê·¸ìˆ˜ì •ì„ ìœ„í•œ ì£¼ì„ì²˜ë¦¬]] GameObject obj = PhotonNetwork.InstantiateRoomObject(monsterBallPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
         GameObject obj = PhotonNetwork.Instantiate("ItemBox", new Vector3(0, -100, 0), Quaternion.identity);
         obj.SetActive(false);
 
-        // ÇÏÀÌ¾î¶óÅ° Á¤¸®¸¦ À§ÇØ ºÎ¸ğ ¼³Á¤
+        // í•˜ì´ì–´ë¼í‚¤ ì •ë¦¬ë¥¼ ìœ„í•´ ë¶€ëª¨ ì„¤ì •
         obj.transform.SetParent(this.transform);
 
         ItemBox monsterBall = obj.GetComponent<ItemBox>();
@@ -68,7 +68,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 
     public GameObject GetPooledObject()
     {
-        // ºñÈ°¼ºÈ­µÈ ¿ÀºêÁ§Æ® Ã£±â
+        // ë¹„í™œì„±í™”ëœ ì˜¤ë¸Œì íŠ¸ ì°¾ê¸°
         for (int i = 0; i < pooledObjects.Count; i++)
         {
             if (!pooledObjects[i].activeInHierarchy)
@@ -77,35 +77,35 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             }
         }
 
-        // ¸ğµç ¿ÀºêÁ§Æ®°¡ »ç¿ë ÁßÀÌ¸é »õ·Î »ı¼ºÇÏÁö ¾ÊÀ½
-        Debug.Log("»ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾øÀ½");
+        // ëª¨ë“  ì˜¤ë¸Œì íŠ¸ê°€ ì‚¬ìš© ì¤‘ì´ë©´ ìƒˆë¡œ ìƒì„±í•˜ì§€ ì•ŠìŒ
+        Debug.Log("ì‚¬ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ìŒ");
         return null;
     }
 
-    // ¸¶½ºÅÍ Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¸ó½ºÅÍº¼ ½ºÆù ¿äÃ»
+    // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ì—ì„œ ëª¬ìŠ¤í„°ë³¼ ìŠ¤í° ìš”ì²­
     public void SpawnMonsterBall(Vector3 position)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("SpawnMonsterBall: RPC È£Ãâ ½ÃÀÛ");
-            photonView.RPC(nameof(RPC_SpawnMonsterBall), RpcTarget.AllBuffered, position);
+            Debug.Log("SpawnMonsterBall: RPC í˜¸ì¶œ ì‹œì‘");
+            //photonView.RPC(nameof(RPC_SpawnMonsterBall), RpcTarget.AllBuffered, position);
         }
     }
 
     [PunRPC]
     private void RPC_SpawnMonsterBall(int viewID, Vector3 position)
     {
-        Debug.Log("RPC_SpawnMonsterBall È£ÃâµÊ!");
+        Debug.Log("RPC_SpawnMonsterBall í˜¸ì¶œë¨!");
         GameObject monsterBall = GetPooledObject();
         if (monsterBall != null)
         {
-            Debug.Log("Ç®¿¡¼­ ¿ÀºêÁ§Æ® °¡Á®¿È. À§Ä¡ ÁöÁ¤ ÈÄ È°¼ºÈ­.");
+            Debug.Log("í’€ì—ì„œ ì˜¤ë¸Œì íŠ¸ ê°€ì ¸ì˜´. ìœ„ì¹˜ ì§€ì • í›„ í™œì„±í™”.");
             monsterBall.transform.position = position;
             monsterBall.SetActive(true);
         }
         else
         {
-            Debug.LogWarning("¸ó½ºÅÍº¼À» ½ºÆùÇÒ ¼ö ¾ø½À´Ï´Ù. »ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("ëª¬ìŠ¤í„°ë³¼ì„ ìŠ¤í°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ì‚¬ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
         }
         PhotonView pv = PhotonView.Find(viewID);
         if (pv != null)
@@ -116,17 +116,17 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         }
     }
 
-    // ¸ó½ºÅÍº¼ ÆÄ±« (Ç®·Î ¹İÈ¯)
+    // ëª¬ìŠ¤í„°ë³¼ íŒŒê´´ (í’€ë¡œ ë°˜í™˜)
     public void ReturnToPool(GameObject obj)
     {
-        if (PhotonNetwork.IsMasterClient) // ¹æÀå¸¸
+        if (PhotonNetwork.IsMasterClient) // ë°©ì¥ë§Œ
         {
-            photonView.RPC(nameof(RPC_ReturnToPool), RpcTarget.AllBuffered, obj.GetComponent<PhotonView>().ViewID); // µµ·Î Ç®¿¡ ³ÖÀ¸¶ó°í ¸ğµÎ Àü´Ş
+            photonView.RPC(nameof(RPC_ReturnToPool), RpcTarget.AllBuffered, obj.GetComponent<PhotonView>().ViewID); // ë„ë¡œ í’€ì— ë„£ìœ¼ë¼ê³  ëª¨ë‘ ì „ë‹¬
         }
     }
 
     [PunRPC]
-    private void RPC_ReturnToPool(int viewID) //ºä ¾ÆÀÌµğ¿¡ ÇØ´çÇÏ´Â ¿ÀºêÁ§Æ® ºñÈ°¼ºÈ­
+    private void RPC_ReturnToPool(int viewID) //ë·° ì•„ì´ë””ì— í•´ë‹¹í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ ë¹„í™œì„±í™”
     {
         PhotonView pv = PhotonView.Find(viewID);
         if (pv != null)
