@@ -43,7 +43,7 @@ public class Monster : MonoBehaviourPun, IDamagable
 
     [SerializeField] private float corpseDuration = 2f; // 시체가 남아있을 시간(초) (Inspector에서 조정 가능)
 
-
+    [SerializeField] private GameObject expOrbPrefab; // Inspector에서 경험치 구슬 프리팹 할당
 
     public BattleDataTable BattleData => throw new System.NotImplementedException();
 
@@ -151,13 +151,17 @@ public class Monster : MonoBehaviourPun, IDamagable
 
     void Die() // 몬스터가 죽었을 때 호출되는 함수
     {
-        // 경험치 구슬 생성 위치
-        // TODO: 경험치 구슬 프리팹 생성 및 드롭
-        // 예시: Instantiate(expOrbPrefab, transform.position, Quaternion.identity);
-
-        // 아이템 드롭 위치
-        // TODO: 아이템 프리팹 생성 및 드롭
-        // 예시: Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        // 경험치 구슬 생성
+        if (expOrbPrefab != null)
+        {
+            // 경험치 양은 몬스터 레벨이나 기타 값으로 결정
+            int expAmount = level * 10; // 예시: 레벨 x 10
+            GameObject orbObj = PhotonNetwork.Instantiate(expOrbPrefab.name, transform.position, Quaternion.identity);
+            ExpOrb orb = orbObj.GetComponent<ExpOrb>();
+            if (orb != null)
+                orb.Init(expAmount);
+        }
+        
 
         StartCoroutine(CorpseAndDestroy()); // 시체 유지 후 삭제 코루틴 시작
 
