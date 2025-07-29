@@ -25,8 +25,6 @@ public class Panel_PlayerInit : MonoBehaviour
         }
 
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
-        Debug.Log($"1번: {BackendManager.Auth}");
-        Debug.Log($"2번: {BackendManager.Auth.CurrentUser}");
         if (BackendManager.Auth.CurrentUser != null)
         {
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
