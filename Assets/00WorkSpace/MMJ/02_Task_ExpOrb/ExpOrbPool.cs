@@ -13,7 +13,7 @@ public class ExpOrbPool : MonoBehaviourPun
     private Queue<ExpOrb> pool = new Queue<ExpOrb>();
 
     // SJH
-    [SerializeField] private Queue<ExpOrb> _networkPool = new();
+    private Queue<ExpOrb> _networkPool = new();
 
     private void Awake()
     {

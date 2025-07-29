@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
 
+		PlayerManager.Instance.LocalPlayerController = this;
+
 		// TODO : 테스트 코드
 		GameObject.Find("Button1")?.GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
 	}
