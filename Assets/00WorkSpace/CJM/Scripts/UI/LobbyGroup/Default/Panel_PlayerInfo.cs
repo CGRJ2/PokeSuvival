@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class Panel_PlayerInfo : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class Panel_PlayerInfo : MonoBehaviour
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         panel_Loading.SetActive(true);
-        yield return new WaitUntil(() => user.DisplayName != "");
+        yield return new WaitUntil(() => !user.DisplayName.IsNullOrEmpty());
 
         tmp_Name.text = user.DisplayName;
         tmp_Email.text = user.Email;
