@@ -82,23 +82,22 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            // Debug.Log("���� ������ Ŭ���̾�Ʈ��! ������ �õ��Ѵ�.");
             spawnTimer -= Time.deltaTime;
 
             if (spawnTimer <= 0)
             {
-                // Debug.Log("Ÿ�̸� �Ϸ�. SpawnMonsterBall ȣ��!");
-                SpawnMonsterBall();
+
+                SpawnItemBox();
                 spawnTimer = spawnInterval;
             }
         }
     }
 
-    private void SpawnMonsterBall()
+    private void SpawnItemBox()
     {
         if (validSpawnPositions.Count == 0)
         {
-            Debug.LogWarning("스폰 가능한 타일 위치가 없습니다. 몬스터볼을 스폰할 수 없습니다.");
+            Debug.LogWarning("스폰 가능한 타일 위치가 없습니다. 아이템박스를 스폰할 수 없습니다.");
             return;
         }
 
@@ -106,8 +105,7 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         int randomIndex = Random.Range(0, validSpawnPositions.Count);
         Vector3 spawnPosition = validSpawnPositions[randomIndex];
 
-        // Ǯ �Ŵ����� ���� ��û
         ItemBoxPoolManager.Instance.SpawnItemBox(spawnPosition);
-        Debug.Log($"���ͺ��� Ÿ�ϸ��� ��ȿ�� ��ġ�� �����Ǿ����ϴ�: {spawnPosition}");
+
     }
 }
