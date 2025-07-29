@@ -1,14 +1,15 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System;
+using Photon.Pun;
 
-public class ExpOrb : MonoBehaviour
+public class ExpOrb : MonoBehaviourPun
 {
-    public float amount;
+    public int amount;
     public bool isActive;
 
     public event Action<ExpOrb> OnDespawned;
 
-    public void Init(float amount)
+    public void Init(int amount)
     {
         this.amount = amount;
         isActive = true;
@@ -16,18 +17,25 @@ public class ExpOrb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        // ÇÃ·¹ÀÌ¾î¿¡ ´êÀ¸¸é ¸ÔÈû
-        if (collider.CompareTag("Player"))
+		// í”Œë ˆì´ì–´ì— ë‹¿ìœ¼ë©´ ë¨¹í˜
+		if (collider.CompareTag("Player"))
         {
-            // °æÇèÄ¡ Àü´ŞÇÏ´Â ·ÎÁ÷ Ãß°¡ °¡´É
-            Despawn();
+            // ê²½í—˜ì¹˜ ì „ë‹¬í•˜ëŠ” ë¡œì§ ì¶”ê°€ ê°€ëŠ¥
+            Debug.Log($"í”Œë ˆì´ì–´ ê²½í—˜ì¹˜ íšë“ : {amount}");
+            var pc = collider.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.AddExp(amount);
+            }
+            photonView.RPC(nameof(RPC_Despawn), RpcTarget.AllBuffered);
         }
     }
 
-    public void Despawn()
-    {
-        isActive = false;
-        OnDespawned?.Invoke(this);
-        gameObject.SetActive(false);
-    }
+    [PunRPC]
+	public void RPC_Despawn()
+	{
+		isActive = false;
+        if (PhotonNetwork.IsMasterClient) OnDespawned?.Invoke(this);
+		gameObject.SetActive(false);
+	}
 }

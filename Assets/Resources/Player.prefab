@@ -168,10 +168,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _model:
+    <PlayerName>k__BackingField: 
+    <PokeData>k__BackingField: {fileID: 0}
+    AllStat:
+      Hp: 0
+      Attak: 0
+      Defense: 0
+      SpecialAttack: 0
+      SpecialDefense: 0
+      Speed: 0
+    _pokeLevel: 0
+    _pokeExp: 0
+    <MaxHp>k__BackingField: 0
     _currentHp: 0
   _view: {fileID: 0}
   _input: {fileID: 0}
   _flipX: 0
+  <MoveDir>k__BackingField: {x: 0, y: 0}
+  Test_Level: 0
+  _lastDir: {x: 0, y: -1}
 --- !u!114 &6668238674274505865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +310,7 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 2
+    SynchronizeType: 1
     Name: IsMoving
   - Type: 1
     SynchronizeType: 2
@@ -303,6 +318,18 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 2
     Name: Y
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsDead
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsAttack
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsHit
+  - Type: 9
+    SynchronizeType: 1
+    Name: IsSpeAttack
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

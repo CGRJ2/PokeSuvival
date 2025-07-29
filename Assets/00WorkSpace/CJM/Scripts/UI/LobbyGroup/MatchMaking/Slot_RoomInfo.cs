@@ -48,7 +48,7 @@ public class Slot_RoomInfo : MonoBehaviour
             tmp_RoomIndex.text = roomIndex.ToString();
             tmp_RoomName.text = roomInfo.Name;
             tmp_PlayerCount.text = $"{roomInfo.PlayerCount} / {roomInfo.MaxPlayers}";
-            gameObject.SetActive(false);
+            gameObject.SetActive(true);
         }
     }
 }

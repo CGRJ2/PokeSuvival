@@ -11,4 +11,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00WorkSpace/CJM/Scene/Test_InGameScene(CJM).unity
     guid: c8d9a78e46027da4698c4b7e2817f336
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/00WorkSpace/SJH/SJH_LobbyScene.unity
+    guid: c60cf0fc3a143ad47832052e3619b1ca
+  - enabled: 1
+    path: Assets/00WorkSpace/SJH/SJH_Scene.unity
+    guid: d88a2bfdc7ed85b4a86ff2f799939f1b
+  - enabled: 1
+    path: Assets/00WorkSpace/SJH/SJH_ExpScene.unity
+    guid: 4de1df31f34b9ce479e5d6f69ed343db
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 61ef2b17c67d4cf4fa150ae02e7c7606, type: 2}
