@@ -35,5 +35,4 @@ public class Panel_PlayerInit : MonoBehaviour
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);
     }
-
 }

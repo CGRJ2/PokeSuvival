@@ -173,10 +173,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 방 퇴장시 호출됨
     public override void OnLeftRoom()
     {
-        if (curServer.type == ServerType.TestServer)
-        {
-            return;
-        }
+        if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
         {
@@ -188,6 +187,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
@@ -197,6 +198,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
@@ -207,6 +210,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         base.OnRoomListUpdate(roomList);
         //Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
@@ -237,6 +242,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+        if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.panel_MapSettings.UpdateRoomProperty();
@@ -246,6 +254,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
