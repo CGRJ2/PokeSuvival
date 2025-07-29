@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace NTJ
 {
-    [CreateAssetMenu(fileName = "PokemonData", menuName = "ScriptableObjects/PokemonData")]
     public class TestState : MonoBehaviourPun, IStatReceiver
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -24,6 +23,7 @@ namespace NTJ
 
         // 버프 관리용 (중첩 적용 방지 & RemoveStat 때 필요)
         private Dictionary<StatType, float> activeBuffs = new();
+        private Dictionary<StatType, Coroutine> buffCoroutines = new();
 
         public void ApplyStat(ItemData item)
         {
@@ -76,55 +76,60 @@ namespace NTJ
             Debug.Log($"레벨업! 현재 레벨: {level}");
         }
 
-        private void ApplyBuff(StatType stat, float value, float duration)
+        private void ApplyBuff(StatType stat, float multiplier, float duration)
         {
+            if (Mathf.Approximately(multiplier, 1f) || multiplier <= 0f)
+            {
+                Debug.LogWarning($"{stat} 비정상 배율 방지 : {multiplier}");
+                return;
+            }
+
             if (activeBuffs.ContainsKey(stat))
             {
-                Debug.Log($"{stat} 중첩 불가");
-                return; // 중첩 제한
+                Debug.Log($"{stat} 버프 지속시간 초기화");
+
+                if (buffCoroutines.TryGetValue(stat, out Coroutine coroutine))
+                {
+                    StopCoroutine(coroutine);
+                }
+
+                buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
+                return;
             }
 
-            ModifyStat(stat, value);
-            activeBuffs[stat] = value;
-
-            // 일정 시간 뒤에 스탯 복구
-            StartCoroutine(RemoveBuffAfterDelay(stat, value, duration));
+            ApplyMultiplier(stat, multiplier);
+            activeBuffs[stat] = multiplier;
+            buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
         }
 
-        private IEnumerator RemoveBuffAfterDelay(StatType stat, float value, float duration)
+        private IEnumerator RemoveBuffAfterDelay(StatType stat, float multiplier, float duration)
         {
             yield return new WaitForSeconds(duration);
-            RemoveBuff(stat, value);
+            RemoveBuff(stat, multiplier);
         }
 
-        private void RemoveBuff(StatType stat, float value)
+        private void RemoveBuff(StatType stat, float multiplier)
         {
-            if (activeBuffs.TryGetValue(stat, out float current))
+            if (activeBuffs.TryGetValue(stat, out float currentMultiplier))
             {
-                float actualValue = Mathf.Min(current, value);
-                ModifyStat(stat, -actualValue);
-                activeBuffs[stat] -= actualValue;
-
-                if (activeBuffs[stat] <= 0)
+                if (Mathf.Approximately(currentMultiplier, multiplier))
+                {
+                    ApplyMultiplier(stat, 1f / multiplier);
                     activeBuffs.Remove(stat);
-
-                Debug.Log($"{stat} -{actualValue} (버프 종료)");
+                    Debug.Log($"{stat} 버프 종료 (배율 {multiplier}배 → 1.0)");
+                }
             }
         }
 
-        private void ModifyStat(StatType stat, float value)
+        private void ApplyMultiplier(StatType stat, float multiplier)
         {
             switch (stat)
             {
-                case StatType.HP:
-                    maxHP += value;
-                    currentHP += value;
-                    break;
-                case StatType.Atk: atk += value; break;
-                case StatType.Def: def += value; break;
-                case StatType.SpA: spA += value; break;
-                case StatType.SpD: spD += value; break;
-                case StatType.Spe: spe += value; break;
+                case StatType.Atk: atk *= multiplier; break;
+                case StatType.Def: def *= multiplier; break;
+                case StatType.SpA: spA *= multiplier; break;
+                case StatType.SpD: spD *= multiplier; break;
+                case StatType.Spe: spe *= multiplier; break;
             }
         }
     }
