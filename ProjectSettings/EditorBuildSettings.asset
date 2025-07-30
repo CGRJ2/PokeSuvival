@@ -15,18 +15,16 @@ EditorBuildSettings:
     path: Assets/00WorkSpace/SJH/SJH_LobbyScene.unity
     guid: c60cf0fc3a143ad47832052e3619b1ca
   - enabled: 1
+    path: Assets/00WorkSpace/SJH/SJH_GameScene.unity
+    guid: c5bdc38bc582b9b4c992d50b809ee2e9
+  - enabled: 1
     path: Assets/00WorkSpace/SJH/SJH_Scene.unity
     guid: d88a2bfdc7ed85b4a86ff2f799939f1b
-  - enabled: 1
-    path: Assets/00WorkSpace/SJH/SJH_ExpScene.unity
-    guid: 4de1df31f34b9ce479e5d6f69ed343db
   - enabled: 1
     path: Assets/00WorkSpace/MMJ/MMJ_ExpScene.unity
     guid: 7f461046d9cf0da45bccdab559fdf9a3
   - enabled: 1
     path: Assets/00WorkSpace/MMJ/MMJ_LobbyScene.unity
     guid: 01f55370544700845b5c5d170e395391
-    path: Assets/00WorkSpace/SJH/SJH_GameScene.unity
-    guid: c5bdc38bc582b9b4c992d50b809ee2e9
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 61ef2b17c67d4cf4fa150ae02e7c7606, type: 2}
