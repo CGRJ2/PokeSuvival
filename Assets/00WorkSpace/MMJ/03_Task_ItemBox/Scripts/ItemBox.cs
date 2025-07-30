@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 using System.Runtime.Serialization;
 
 
-public class ItemBox : MonoBehaviourPun, IPunObservable//, IDamagable
+public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 {
     [Header("아이템 설정(드롭 확률 변수는 비율입니다.)")]
     [SerializeField] private GameObject[] itemPrefabs; // 여러 아이템 프리팹 배열로 변경
