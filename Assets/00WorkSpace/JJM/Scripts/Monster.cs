@@ -53,6 +53,9 @@ public class Monster : MonoBehaviourPun, IDamagable
 
         spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
 
+        // 회전 고정 추가
+        if (rb != null)
+            rb.freezeRotation = true;
 
         if (pokemonData != null) // PokemonData가 할당되어 있으면
         {
