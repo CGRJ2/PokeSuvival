@@ -396,6 +396,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         //bool ready = (bool)player.CustomProperties["Ready"];
     }
 
+    private void OnApplicationQuit()
+    {
+        BackendManager.Auth.SignOut();
+    }
 }
 
 [System.Serializable]

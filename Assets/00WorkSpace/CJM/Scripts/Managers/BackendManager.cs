@@ -26,16 +26,7 @@ public class BackendManager : Singleton<BackendManager>
         reference.SetValueAsync(testText);*/
     }
     
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            UpdateUserData("name", "πŒ∏∏¡ÿ");
-        }
-
-
-    }
-
+   
 
     void Start()
     {
