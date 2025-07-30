@@ -5,30 +5,61 @@ namespace NTJ
 {
     public class ItemPickup : MonoBehaviourPun
     {
-        // SpriteRenderer를 만들고 ItemPickup에 할당
-        // ItemPrefab에 PhotonView 컴포넌트를 붙이기
+        private int itemId;
+        private SpriteRenderer spriteRenderer;
+        private bool isPickedUp = false;
 
-        private ItemData itemData;
-        [SerializeField] private SpriteRenderer spriteRenderer;
-
-        public void Initialize(ItemData data)
+        private void Awake()
         {
-            // 아이템 외형 설정
-            itemData = data;
-
-            if (spriteRenderer != null && itemData.sprite != null)
-            {
-                spriteRenderer.sprite = itemData.sprite;
-            }
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        private void OnTriggerEnter(Collider other)
+        // 아이템 ID로 초기화하고, Sprite도 설정
+        public void Initialize(int id)
         {
-            if (other.TryGetComponent<IStatReceiver>(out var receiver))
+            itemId = id;
+            isPickedUp = false; // 풀에서 나올 때 초기화
+            var data = ItemDatabase.Instance.GetItemById(id);
+
+            if (data == null)
             {
-                receiver.ApplyStat(itemData);
-                PhotonNetwork.Destroy(gameObject);
+                Debug.LogWarning($"[ItemPickup] 유효하지 않은 itemId: {id}");
+                return;
             }
+
+            if (data.sprite == null)
+            {
+                Debug.LogWarning($"[ItemPickup] itemId={id}에 스프라이트가 없습니다.");
+                return;
+            }
+
+            spriteRenderer.sprite = data.sprite;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (isPickedUp) return; // 중복 방지
+            isPickedUp = true;
+
+            if (!other.TryGetComponent<PhotonView>(out var targetView)) return;
+
+            photonView.RPC(nameof(ApplyItemEffect), RpcTarget.AllBuffered, itemId, targetView.ViewID);
+            ItemObjectPool.Instance.ReturnToPool(this);
+        }
+
+        [PunRPC]
+        private void ApplyItemEffect(int id, int viewID)
+        {
+            var data = ItemDatabase.Instance.GetItemById(id);
+            var receiver = PhotonView.Find(viewID)?.GetComponent<IStatReceiver>();
+
+            if (data == null || receiver == null)
+            {
+                Debug.LogWarning("[ItemPickup] 아이템 효과 적용 실패");
+                return;
+            }
+
+            receiver.ApplyStat(data);
         }
     }
 }

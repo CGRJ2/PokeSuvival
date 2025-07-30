@@ -8,23 +8,21 @@ namespace NTJ
     public class TestState : MonoBehaviourPun, IStatReceiver
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private PokemonData pokemonData;
+        [SerializeField] private PlayerModel playerModel;
 
-        // 실제 게임 도중 사용되는 현재 상태 값
-        public int level = 1;
-        public float currentHP;
-        public float maxHP;
-
-        public float atk;
-        public float def;
-        public float spA;
-        public float spD;
-        public float spe;
-
-        // 버프 관리용 (중첩 적용 방지 & RemoveStat 때 필요)
+        // 버프 관리용 (StatType -> multiplier)
         private Dictionary<StatType, float> activeBuffs = new();
         private Dictionary<StatType, Coroutine> buffCoroutines = new();
+        private Dictionary<StatType, float> buffEndTime = new();
 
+        // 최종 스탯 계산용 (기본스탯 * 버프배율)
+        public float atk => playerModel.AllStat.Attak * GetBuffMultiplier(StatType.Atk);
+        public float def => playerModel.AllStat.Defense * GetBuffMultiplier(StatType.Def);
+        public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpA);
+        public float spD => playerModel.AllStat.SpecialDefense * GetBuffMultiplier(StatType.SpD);
+        public float spe => playerModel.AllStat.Speed * GetBuffMultiplier(StatType.Spe);
+        
+        
         public void ApplyStat(ItemData item)
         {
             switch (item.itemType)
@@ -40,6 +38,10 @@ namespace NTJ
                 case ItemType.Buff:
                     ApplyBuff(item.affectedStat, item.value, item.duration);
                     break;
+
+                default:
+                    Debug.LogWarning($"정의되지 않은 아이템 타입: {item.itemType}");
+                    break;
             }
         }
 
@@ -53,30 +55,25 @@ namespace NTJ
 
         private void Heal(float value)
         {
-            currentHP = Mathf.Min(currentHP + value, maxHP);
-            Debug.Log($"HP 회복: {value}, 현재 HP: {currentHP}/{maxHP}");
+            int newHp = Mathf.Min(playerModel.CurrentHp + (int)value, playerModel.MaxHp);
+            playerModel.SetCurrentHp(newHp);
+            Debug.Log($"HP 회복: {value}, 현재 HP: {newHp}/{playerModel.MaxHp}");
         }
 
         private void LevelUp()
         {
-            // 레벨업 시 능력치 증가 예시
-            level++;
-            maxHP += 10;
-            currentHP = maxHP;
-            atk += 1;
-            def += 1;
-            spA += 1;
-            spD += 1;
-            spe += 1;
-
-            //  Sprite 변경
-            if (pokemonData.levelSprites.Length > level - 1)
-                spriteRenderer.sprite = pokemonData.levelSprites[level - 1];
-
-            Debug.Log($"레벨업! 현재 레벨: {level}");
-
-            ReapplyBuffs();
+            playerModel.SetLevel(playerModel.PokeLevel + 1);
+            playerModel.SetExp(0);
+            Debug.Log($"레벨업! 현재 레벨: {playerModel.PokeLevel}, 경험치 초기화");
         }
+
+       // PlayerModel에 추가해야 됨
+
+       // public void SetExp(int exp)
+       // {
+       //     _pokeExp = exp;
+       //     _nextExp = PokeUtils.GetNextLevelExp(PokeLevel);
+       // }
 
         private void ApplyBuff(StatType stat, float multiplier, float duration)
         {
@@ -86,28 +83,43 @@ namespace NTJ
                 return;
             }
 
+            // 이미 해당 스탯에 버프가 존재한다면
             if (activeBuffs.ContainsKey(stat))
             {
-                Debug.Log($"{stat} 버프 지속시간 초기화");
-
+                // 기존 코루틴 시간이 남아있다면 갱신 조건 확인
                 if (buffCoroutines.TryGetValue(stat, out Coroutine coroutine))
                 {
-                    StopCoroutine(coroutine);
-                }
+                    // 기존보다 새 duration이 더 길면 갱신
+                    float remainingTime = GetRemainingBuffTime(stat);
 
-                buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
-                return;
+                    if (duration > remainingTime)
+                    {
+                        StopCoroutine(coroutine);
+                        buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
+                        Debug.Log($"{stat} 버프 지속시간 갱신: {remainingTime:F1}s → {duration}s");
+                    }
+                    else
+                    {
+                        Debug.Log($"{stat} 버프 무시 (남은 시간 {remainingTime:F1}s > 새 버프 {duration}s)");
+                    }
+                }
+                return; // 중첩 없음, 배율은 그대로 유지
             }
 
-            ApplyMultiplier(stat, multiplier);
+            // 신규 버프
             activeBuffs[stat] = multiplier;
             buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
+            Debug.Log($"{stat} 버프 시작, 배율: {multiplier}, 지속시간: {duration}s");
         }
+        
 
         private IEnumerator RemoveBuffAfterDelay(StatType stat, float multiplier, float duration)
         {
+            buffEndTime[stat] = Time.time + duration;
             yield return new WaitForSeconds(duration);
+
             RemoveBuff(stat, multiplier);
+            buffEndTime.Remove(stat);
         }
 
         private void RemoveBuff(StatType stat, float multiplier)
@@ -116,34 +128,25 @@ namespace NTJ
             {
                 if (Mathf.Approximately(currentMultiplier, multiplier))
                 {
-                    ApplyMultiplier(stat, 1f / multiplier);
                     activeBuffs.Remove(stat);
-                    Debug.Log($"{stat} 버프 종료 (배율 {multiplier}배 → 1.0)");
+                    Debug.Log($"{stat} 버프 종료");
                 }
             }
         }
 
-        private void ApplyMultiplier(StatType stat, float multiplier)
+        private float GetBuffMultiplier(StatType stat)
         {
-            switch (stat)
-            {
-                case StatType.Atk: atk *= multiplier; break;
-                case StatType.Def: def *= multiplier; break;
-                case StatType.SpA: spA *= multiplier; break;
-                case StatType.SpD: spD *= multiplier; break;
-                case StatType.Spe: spe *= multiplier; break;
-            }
+            if (activeBuffs.TryGetValue(stat, out float multiplier))
+                return multiplier;
+            return 1f;
         }
-        private void ReapplyBuffs()
+        private float GetRemainingBuffTime(StatType stat)
         {
-            foreach (var buffEntry in activeBuffs)
+            if (buffEndTime.TryGetValue(stat, out float endTime))
             {
-                StatType stat = buffEntry.Key;
-                float multiplier = buffEntry.Value;
-
-                ApplyMultiplier(stat, multiplier);
-                Debug.Log($"{stat} 버프 재적용 (x{multiplier})");
+                return Mathf.Max(0, endTime - Time.time);
             }
+            return 0;
         }
     }
 }
