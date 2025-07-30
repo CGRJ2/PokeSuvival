@@ -1,8 +1,8 @@
-using System.Collections;
+Ôªøusing Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExpOrbPool : MonoBehaviour
+public class ExpOrbPool : MonoBehaviourPun
 {
     public static ExpOrbPool Instance { get; private set; }
 
@@ -11,6 +11,9 @@ public class ExpOrbPool : MonoBehaviour
     [SerializeField] private int initialPoolSize = 50;
 
     private Queue<ExpOrb> pool = new Queue<ExpOrb>();
+
+    // SJH
+    private Queue<ExpOrb> _networkPool = new();
 
     private void Awake()
     {
@@ -22,8 +25,8 @@ public class ExpOrbPool : MonoBehaviour
             return;
         }
 
-        InitPool(initialPoolSize);
-    }
+        //InitPool(initialPoolSize);
+	}
 
     public void InitPool(int count)
     {
@@ -35,22 +38,60 @@ public class ExpOrbPool : MonoBehaviour
         }
     }
 
-    public ExpOrb GetOrb()
-    {
-        if (pool.Count > 0)
-        {
-            return pool.Dequeue();
-        }
+    //public ExpOrb GetOrb()
+    //{
+    //    if (pool.Count > 0)
+    //    {
+    //        return pool.Dequeue();
+    //    }
 
-        // ¿œ¥‹~ ∫Œ¡∑«œ∏È ªı∑Œ ª˝º∫
-        ExpOrb orb = Instantiate(orbPrefab, parentTransform);
-        orb.gameObject.SetActive(false);
-        return orb;
+    //    // ÏùºÎã®~ Î∂ÄÏ°±ÌïòÎ©¥ ÏÉàÎ°ú ÏÉùÏÑ±
+    //    ExpOrb orb = Instantiate(orbPrefab, parentTransform);
+    //    orb.gameObject.SetActive(false);
+    //    return orb;
+    //}
+
+    // SJH
+	public ExpOrb GetOrb()
+	{
+		if (!PhotonNetwork.IsMasterClient) return null;
+		if (_networkPool.Count > 0)
+		{
+			return _networkPool.Dequeue();
+		}
+
+        // ÏùºÎã®~ Î∂ÄÏ°±ÌïòÎ©¥ ÏÉàÎ°ú ÏÉùÏÑ±
+        GameObject go = PhotonNetwork.InstantiateRoomObject("Candy", new Vector3(999999, 999999), Quaternion.identity);
+		ExpOrb orb = go.GetComponent<ExpOrb>();
+		orb.gameObject.SetActive(false);
+		return orb;
+	}
+
+	public void ReturnOrb(ExpOrb orb)
+    {
+		if (!PhotonNetwork.IsMasterClient) return;
+		orb.gameObject.SetActive(false);
+        //pool.Enqueue(orb);
+        _networkPool.Enqueue(orb);
     }
 
-    public void ReturnOrb(ExpOrb orb)
+    public void NetworkInit()
     {
-        orb.gameObject.SetActive(false);
-        pool.Enqueue(orb);
-    }
+		if (!PhotonNetwork.IsMasterClient) return;
+		for (int i = 0; i < initialPoolSize; i++)
+		{
+			GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity);
+            if (go == null)
+            {
+                Debug.LogError("Í≤åÏûÑ Ïò§Î∏åÏ†ùÌä∏ null");
+            }
+			ExpOrb orb = go.GetComponent<ExpOrb>();
+            if (orb == null)
+            {
+                Debug.LogError("ExpOrb null");
+            }
+			go.gameObject.SetActive(false);
+			_networkPool.Enqueue(orb);
+		}
+	}
 }

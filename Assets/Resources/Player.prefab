@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64045b67b036ff45b86447f14588192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _model:
+  <Model>k__BackingField:
     <PlayerName>k__BackingField: 
     <PokeData>k__BackingField: {fileID: 0}
     AllStat:
@@ -178,10 +178,12 @@ MonoBehaviour:
       SpecialDefense: 0
       Speed: 0
     _pokeLevel: 0
-    <PokeExp>k__BackingField: 0
+    _pokeExp: 0
+    <NextExp>k__BackingField: 0
+    <TotalExp>k__BackingField: 0
     <MaxHp>k__BackingField: 0
     _currentHp: 0
-  _view: {fileID: 0}
+  <View>k__BackingField: {fileID: 0}
   _input: {fileID: 0}
   _flipX: 0
   <MoveDir>k__BackingField: {x: 0, y: 0}

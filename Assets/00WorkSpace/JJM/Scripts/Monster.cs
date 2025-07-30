@@ -1,102 +1,262 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviourPun, IDamagable
 {
-    public float detectRange = 10f;      // ÇÃ·¹ÀÌ¾î¸¦ °¨ÁöÇÒ ¼ö ÀÖ´Â °Å¸®
-    public float moveSpeed = 3f;         // ¸ó½ºÅÍÀÇ ÀÌµ¿ ¼Óµµ
-    public float attackRange = 2f;       // ÇÃ·¹ÀÌ¾î¸¦ °ø°İÇÒ ¼ö ÀÖ´Â °Å¸®
-    public float attackCooldown = 1.5f;  // °ø°İ ÈÄ ´Ù½Ã °ø°İÇÒ ¶§±îÁöÀÇ ´ë±â ½Ã°£
-    public int maxHealth = 100;          // ¸ó½ºÅÍÀÇ ÃÖ´ë Ã¼·Â
+    [Header("ê¸°ë³¸ ìŠ¤íƒ¯")]
+    public PokemonData pokemonData; // PokemonData ScriptableObject ì°¸ì¡° (Inspectorì—ì„œ í• ë‹¹)
+    [SerializeField] public int level = 1; // ëª¬ìŠ¤í„° ë ˆë²¨ (Inspectorì—ì„œ ìˆ˜ì • ê°€ëŠ¥)
+    [SerializeField] public int maxHealth = 100; // ìµœëŒ€ ì²´ë ¥ (Inspectorì—ì„œ ìˆ˜ì • ê°€ëŠ¥)
+    [SerializeField] public int currentHealth = 100; // í˜„ì¬ ì²´ë ¥ (Inspectorì—ì„œ ìˆ˜ì • ê°€ëŠ¥)
 
-    private int currentHealth;           // ÇöÀç Ã¼·Â
-    private Transform player;            // ÇÃ·¹ÀÌ¾îÀÇ Transform ÂüÁ¶
-    private float lastAttackTime;        // ¸¶Áö¸· °ø°İ ½Ã°¢
+    [Header("AI ì„¤ì •")]
+    public float detectRange = 10f;      // í”Œë ˆì´ì–´ë¥¼ ê°ì§€í•  ìˆ˜ ìˆëŠ” ê±°ë¦¬
+    public float moveSpeed = 3f;         // ëª¬ìŠ¤í„°ì˜ ì´ë™ ì†ë„
+    public float attackRange = 2f;       // í”Œë ˆì´ì–´ë¥¼ ê³µê²©í•  ìˆ˜ ìˆëŠ” ê±°ë¦¬
+    public float attackCooldown = 1.5f;  // ê³µê²© í›„ ë‹¤ì‹œ ê³µê²©í•  ë•Œê¹Œì§€ì˜ ëŒ€ê¸° ì‹œê°„
 
-    private Vector3 wanderDirection; // ÇöÀç ÀÌµ¿ ¹æÇâÀ» ÀúÀåÇÏ´Â º¯¼ö
-    private float wanderTimer; // ¹æÇâÀ» ¹Ù²Ü ¶§±îÁö ³²Àº ½Ã°£À» ÀúÀåÇÏ´Â º¯¼ö
-    public float wanderChangeInterval = 2f; // ¹æÇâÀ» ¹Ù²Ü ½Ã°£ °£°İ(ÃÊ)
+    private Transform player;            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Transform ï¿½ï¿½ï¿½ï¿½
+    private float lastAttackTime;        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
-    void Start() // °ÔÀÓ ½ÃÀÛ ½Ã È£ÃâµÇ´Â ÇÔ¼ö
+    private Vector3 wanderDirection; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private float wanderTimer; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float wanderChangeInterval = 2f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)
+
+    [SerializeField] private Sprite idleSprite;           // ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveLeftSprite;       // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveRightSprite;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveUpSprite;         // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveDownSprite;       // ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveUpLeftSprite;     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ë°¢ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveUpRightSprite;    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ë°¢ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveDownLeftSprite;   // ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ë°¢ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private Sprite moveDownRightSprite;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ë°¢ï¿½ï¿½
+    [SerializeField] private Sprite deadSprite; // ï¿½ï¿½ï¿½Í°ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+
+    private SpriteRenderer spriteRenderer; // SpriteRenderer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+
+    [SerializeField] private int attackDamage = 10; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½İ·ï¿½
+
+    private Rigidbody2D rb; // Rigidbody2D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
+    [SerializeField] private float corpseDuration = 2f; // ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½(ï¿½ï¿½) (Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+
+    [SerializeField] private GameObject expOrbPrefab; // Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½
+
+    public BattleDataTable BattleData => throw new System.NotImplementedException();
+
+    void Start() // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Ô¼ï¿½
     {
-        currentHealth = maxHealth; // ÇöÀç Ã¼·ÂÀ» ÃÖ´ë Ã¼·ÂÀ¸·Î ÃÊ±âÈ­
-        player = GameObject.FindGameObjectWithTag("Player")?.transform; // "Player" ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®ÀÇ TransformÀ» Ã£À½
-        SetRandomWanderDirection(); // ½ÃÀÛÇÒ ¶§ ·£´ı ¹æÇâÀ» ÇÑ ¹ø ¼³Á¤
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
+        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
+
+
+        if (pokemonData != null) // PokemonDataê°€ í• ë‹¹ë˜ì–´ ìˆìœ¼ë©´
+        {
+            currentHealth = maxHealth; // í˜„ì¬ ì²´ë ¥ ì´ˆê¸°í™”
+            // í•„ìš”í•˜ë‹¤ë©´ ë‹¤ë¥¸ ìŠ¤íƒ¯ë„ pokemonDataì—ì„œ ê°€ì ¸ì™€ì„œ ì´ˆê¸°í™”
+        }
+        else
+        {
+            currentHealth = maxHealth; // PokemonDataê°€ ì—†ìœ¼ë©´ Inspector ê°’ ì‚¬ìš©
+        }
+        player = GameObject.FindGameObjectWithTag("Player")?.transform; // "Player" íƒœê·¸ë¥¼ ê°€ì§„ ì˜¤ë¸Œì íŠ¸ì˜ Transformì„ ì°¾ìŒ
+        SetRandomWanderDirection(); // ì‹œì‘í•  ë•Œ ëœë¤ ë°©í–¥ì„ í•œ ë²ˆ ì„¤ì •
     }
 
-    void Update() // ¸Å ÇÁ·¹ÀÓ¸¶´Ù È£ÃâµÇ´Â ÇÔ¼ö
+    void Update() // ë§¤ í”„ë ˆì„ë§ˆë‹¤ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     {
-        if (player == null) return; // ÇÃ·¹ÀÌ¾î°¡ ¾øÀ¸¸é ¾Æ¹«°Íµµ ÇÏÁö ¾ÊÀ½
+        if (!PhotonNetwork.IsMasterClient) return; // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ë§Œ ëª¬ìŠ¤í„° AIë¥¼ ì œì–´
 
-        float distance = Vector3.Distance(transform.position, player.position); // ¸ó½ºÅÍ¿Í ÇÃ·¹ÀÌ¾î »çÀÌÀÇ °Å¸® °è»ê
-
-        if (distance <= detectRange) // ÇÃ·¹ÀÌ¾î°¡ °¨Áö ¹üÀ§ ³»¿¡ ÀÖÀ» ¶§
+        if (player == null) // í”Œë ˆì´ì–´ê°€ ì—†ìœ¼ë©´
         {
-            MoveTowards(player.position); // ÇÃ·¹ÀÌ¾î¸¦ ÇâÇØ ÀÌµ¿
+            Wander(); // ììœ ë¡­ê²Œ ì´ë™
+            return; // ì•„ë˜ ë¡œì§ì€ ì‹¤í–‰í•˜ì§€ ì•ŠìŒ
+        }
 
-            if (distance <= attackRange && Time.time - lastAttackTime > attackCooldown) // °ø°İ ¹üÀ§ ³»ÀÌ°í ÄğÅ¸ÀÓÀÌ Áö³µÀ» ¶§
+        float distance = Vector3.Distance(transform.position, player.position); // ëª¬ìŠ¤í„°ì™€ í”Œë ˆì´ì–´ ì‚¬ì´ì˜ ê±°ë¦¬ ê³„ì‚°
+
+        if (distance <= detectRange) // í”Œë ˆì´ì–´ê°€ ê°ì§€ ë²”ìœ„ ë‚´ì— ìˆì„ ë•Œ
+        {
+            MoveTowards(player.position); // í”Œë ˆì´ì–´ë¥¼ í–¥í•´ ì´ë™
+
+            if (distance <= attackRange && Time.time - lastAttackTime > attackCooldown) // ê³µê²© ë²”ìœ„ ë‚´ì´ê³  ì¿¨íƒ€ì„ì´ ì§€ë‚¬ì„ ë•Œ
             {
-                AttackPlayer(); // ÇÃ·¹ÀÌ¾î °ø°İ
-                lastAttackTime = Time.time; // ¸¶Áö¸· °ø°İ ½Ã°¢ °»½Å
+                AttackPlayer(); // í”Œë ˆì´ì–´ ê³µê²©
+                lastAttackTime = Time.time; // ë§ˆì§€ë§‰ ê³µê²© ì‹œê° ê°±ì‹ 
             }
         }
-        else // ÇÃ·¹ÀÌ¾î°¡ °¨Áö ¹üÀ§ ¹Û¿¡ ÀÖÀ» ¶§
+        else // í”Œë ˆì´ì–´ê°€ ê°ì§€ ë²”ìœ„ ë°–ì— ìˆì„ ë•Œ
         {
-            Wander(); // ÀÚÀ¯·Ó°Ô ÀÌµ¿
+            Wander(); // ììœ ë¡­ê²Œ ì´ë™
+        }
+
+
+    }
+
+    void MoveTowards(Vector3 target) // ì§€ì •í•œ ìœ„ì¹˜ë¡œ ì´ë™í•˜ëŠ” í•¨ìˆ˜
+    {
+
+        Vector2 direction = (target - transform.position).normalized; // ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+        Vector2 newPos = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime; // ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½
+        rb.MovePosition(newPos); // Rigidbody2Dï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ìµï¿½(ï¿½æµ¹ ï¿½Úµï¿½ Ã³ï¿½ï¿½)
+        SetSpriteByDirection(direction); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+
+    }
+
+    void Wander() // ììœ  ì´ë™(ëœë¤ ì´ë™ ë“±) í•¨ìˆ˜
+    {
+        wanderTimer -= Time.deltaTime; // íƒ€ì´ë¨¸ë¥¼ ë§¤ í”„ë ˆì„ë§ˆë‹¤ ê°ì†Œì‹œí‚´
+        if (wanderTimer <= 0f) // íƒ€ì´ë¨¸ê°€ 0 ì´í•˜ê°€ ë˜ë©´
+        {
+            SetRandomWanderDirection(); // ìƒˆë¡œìš´ ëœë¤ ë°©í–¥ì„ ì„¤ì •
+        }
+        transform.position += wanderDirection * moveSpeed * Time.deltaTime; // í˜„ì¬ ë°©í–¥ìœ¼ë¡œ ì´ë™
+
+        SetSpriteByDirection(wanderDirection); // ë°©í–¥ì— ë”°ë¼ ìŠ¤í”„ë¼ì´íŠ¸ ì„¤ì •
+    }
+
+    // ëœë¤ ë°©í–¥ì„ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
+    void SetRandomWanderDirection() // ìƒˆë¡œìš´ ëœë¤ ë°©í–¥ì„ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
+    {
+        float angle = Random.Range(0f, 360f); // 0~360ë„ ì¤‘ì—ì„œ ëœë¤ ê°ë„ë¥¼ ì„ íƒ
+        wanderDirection = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)).normalized; // í‰ë©´ìƒ ëœë¤ ë°©í–¥ ë²¡í„° ê³„ì‚°
+        wanderTimer = wanderChangeInterval; // íƒ€ì´ë¨¸ë¥¼ ë‹¤ì‹œ ì´ˆê¸°í™”
+    }
+
+    void AttackPlayer() // í”Œë ˆì´ì–´ë¥¼ ê³µê²©í•˜ëŠ” í•¨ìˆ˜
+    {
+
+        // í”Œë ˆì´ì–´ì—ê²Œ ë°ë¯¸ì§€ ì£¼ê¸°
+        if (player == null) return;
+
+
+        // IDamageable ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ã£ï¿½ï¿½
+        IDamagable damagable = player.GetComponent<IDamagable>();
+        if (damagable != null)
+        {
+            //damagable.TakeDamage(attackDamage);
+
+        }
+        
+    }
+
+    public void TakeDamage(int damage) // ëª¬ìŠ¤í„°ê°€ ë°ë¯¸ì§€ë¥¼ ë°›ëŠ” í•¨ìˆ˜
+    {
+        currentHealth -= damage; // ë°›ì€ ë°ë¯¸ì§€ë§Œí¼ ì²´ë ¥ ê°ì†Œ
+        if (currentHealth <= 0) // ì²´ë ¥ì´ 0 ì´í•˜ê°€ ë˜ë©´
+        {
+            Die(); // ì‚¬ë§ ì²˜ë¦¬
         }
     }
 
-    void MoveTowards(Vector3 target) // ÁöÁ¤ÇÑ À§Ä¡·Î ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+    void Die() // ëª¬ìŠ¤í„°ê°€ ì£½ì—ˆì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     {
-        Vector3 direction = (target - transform.position).normalized; // ¸ñÇ¥ À§Ä¡±îÁöÀÇ ¹æÇâ º¤ÅÍ °è»ê ¹× Á¤±ÔÈ­
-        transform.position += direction * moveSpeed * Time.deltaTime; // ÇØ´ç ¹æÇâÀ¸·Î ÀÌµ¿
-        // ÇÊ¿ä½Ã È¸Àü Ãß°¡
-    }
 
-    void Wander() // ÀÚÀ¯ ÀÌµ¿(·£´ı ÀÌµ¿ µî) ÇÔ¼ö
-    {
-        wanderTimer -= Time.deltaTime; // Å¸ÀÌ¸Ó¸¦ ¸Å ÇÁ·¹ÀÓ¸¶´Ù °¨¼Ò½ÃÅ´
-        if (wanderTimer <= 0f) // Å¸ÀÌ¸Ó°¡ 0 ÀÌÇÏ°¡ µÇ¸é
+        // ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (expOrbPrefab != null)
         {
-            SetRandomWanderDirection(); // »õ·Î¿î ·£´ı ¹æÇâÀ» ¼³Á¤
+            // ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            int expAmount = level * 10; // ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ x 10
+            GameObject orbObj = PhotonNetwork.Instantiate(expOrbPrefab.name, transform.position, Quaternion.identity);
+            ExpOrb orb = orbObj.GetComponent<ExpOrb>();
+            if (orb != null)
+                orb.Init(expAmount);
         }
-        transform.position += wanderDirection * moveSpeed * Time.deltaTime; // ÇöÀç ¹æÇâÀ¸·Î ÀÌµ¿
+        
+
+        StartCoroutine(CorpseAndDestroy()); // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú·ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½
+
     }
 
-    // ·£´ı ¹æÇâÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö
-    void SetRandomWanderDirection() // »õ·Î¿î ·£´ı ¹æÇâÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    IEnumerator CorpseAndDestroy() // ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ú·ï¿½Æ¾
     {
-        float angle = Random.Range(0f, 360f); // 0~360µµ Áß¿¡¼­ ·£´ı °¢µµ¸¦ ¼±ÅÃ
-        wanderDirection = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized; // Æò¸é»ó ·£´ı ¹æÇâ º¤ÅÍ °è»ê
-        wanderTimer = wanderChangeInterval; // Å¸ÀÌ¸Ó¸¦ ´Ù½Ã ÃÊ±âÈ­
-    }
-
-    void AttackPlayer() // ÇÃ·¹ÀÌ¾î¸¦ °ø°İÇÏ´Â ÇÔ¼ö
-    {
-        // ÇÃ·¹ÀÌ¾î¿¡°Ô µ¥¹ÌÁö ÁÖ±â
-        // ¿¹½Ã: player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
-    }
-
-    public void TakeDamage(int damage) // ¸ó½ºÅÍ°¡ µ¥¹ÌÁö¸¦ ¹Ş´Â ÇÔ¼ö
-    {
-        currentHealth -= damage; // ¹ŞÀº µ¥¹ÌÁö¸¸Å­ Ã¼·Â °¨¼Ò
-        if (currentHealth <= 0) // Ã¼·ÂÀÌ 0 ÀÌÇÏ°¡ µÇ¸é
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+        if (spriteRenderer != null)
         {
-            Die(); // »ç¸Á Ã³¸®
+            if (deadSprite != null)
+                spriteRenderer.sprite = deadSprite; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
+        }
+        // ï¿½İ¶ï¿½ï¿½Ì´ï¿½/AI ï¿½ï¿½È°ï¿½ï¿½È­ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½)
+        Collider2D col = GetComponent<Collider2D>(); // Collider2D ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (col != null) col.enabled = false; // ï¿½İ¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
+        this.enabled = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½È°ï¿½ï¿½È­(ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+
+        yield return new WaitForSeconds(corpseDuration); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½
+
+
+        PhotonNetwork.Destroy(gameObject); // ë„¤íŠ¸ì›Œí¬ì—ì„œ ëª¬ìŠ¤í„° ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
+    }
+
+    void SetSpriteByDirection(Vector2 dir) // ë°©í–¥ì— ë”°ë¼ ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
+    {
+        if (spriteRenderer == null) return; // SpriteRendererê°€ ì—†ìœ¼ë©´ ë¦¬í„´
+
+        // ë°©í–¥ì´ ê±°ì˜ 0ì´ë©´ idle ì²˜ë¦¬
+        if (dir.magnitude < 0.01f)
+        {
+            spriteRenderer.sprite = idleSprite;
+            return;
+        }
+
+        // ëŒ€ê°ì„  ìš°ì„  íŒë³„ (45ë„ ë‹¨ìœ„)
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // ë°©í–¥ ê°ë„ ê³„ì‚°
+
+        if (angle >= -22.5f && angle < 22.5f)
+            spriteRenderer.sprite = moveRightSprite; // ì˜¤ë¥¸ìª½
+        else if (angle >= 22.5f && angle < 67.5f)
+            spriteRenderer.sprite = moveUpRightSprite; // ì˜¤ë¥¸ìª½ ìœ„
+        else if (angle >= 67.5f && angle < 112.5f)
+            spriteRenderer.sprite = moveUpSprite; // ìœ„
+        else if (angle >= 112.5f && angle < 157.5f)
+            spriteRenderer.sprite = moveUpLeftSprite; // ì™¼ìª½ ìœ„
+        else if (angle >= 157.5f || angle < -157.5f)
+            spriteRenderer.sprite = moveLeftSprite; // ì™¼ìª½
+        else if (angle >= -157.5f && angle < -112.5f)
+            spriteRenderer.sprite = moveDownLeftSprite; // ì™¼ìª½ ì•„ë˜
+        else if (angle >= -112.5f && angle < -67.5f)
+            spriteRenderer.sprite = moveDownSprite; // ì•„ë˜
+        else if (angle >= -67.5f && angle < -22.5f)
+            spriteRenderer.sprite = moveDownRightSprite; // ì˜¤ë¥¸ìª½ ì•„ë˜
+    }
+
+
+    public void ResetMonster() // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ô¼ï¿½
+    {
+        currentHealth = maxHealth; // Ã¼ï¿½ï¿½ ï¿½Ê±ï¿½È­
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.white; // ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) ï¿½Ê±ï¿½È­
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = true; // ï¿½İ¶ï¿½ï¿½Ì´ï¿½ È°ï¿½ï¿½È­
+        this.enabled = true; // ï¿½ï¿½Å©ï¿½ï¿½Æ® È°ï¿½ï¿½È­
+                             // ï¿½Ê¿ï¿½ï¿½Ï´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½/AI ï¿½îµµ ï¿½Ê±ï¿½È­
+    }
+
+    // Photon ï¿½ï¿½Æ®ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ ï¿½Ô¼ï¿½
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // ï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½È­ ï¿½Ô¼ï¿½
+
+    {
+        if (stream.IsWriting) // ë§ˆìŠ¤í„° í´ë¼ì´ì–¸íŠ¸ì—ì„œ ë°ì´í„°ë¥¼ ë³´ë‚¼ ë•Œ
+        {
+            stream.SendNext(transform.position); // ìœ„ì¹˜ ì •ë³´ ì „ì†¡
+            stream.SendNext(currentHealth); // ì²´ë ¥ ì •ë³´ ì „ì†¡
+            stream.SendNext(level); // ë ˆë²¨ ì •ë³´ ì „ì†¡
+        }
+        else // ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ì—ì„œ ë°ì´í„°ë¥¼ ë°›ì„ ë•Œ
+        {
+            transform.position = (Vector3)stream.ReceiveNext(); // ìœ„ì¹˜ ì •ë³´ ìˆ˜ì‹ 
+            currentHealth = (int)stream.ReceiveNext(); // ì²´ë ¥ ì •ë³´ ìˆ˜ì‹ 
+            level = (int)stream.ReceiveNext(); // ë ˆë²¨ ì •ë³´ ìˆ˜ì‹ 
         }
     }
 
-    void Die() // ¸ó½ºÅÍ°¡ Á×¾úÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö
-    {
-        // °æÇèÄ¡ ±¸½½ »ı¼º À§Ä¡
-        // TODO: °æÇèÄ¡ ±¸½½ ÇÁ¸®ÆÕ »ı¼º ¹× µå·Ó
-        // ¿¹½Ã: Instantiate(expOrbPrefab, transform.position, Quaternion.identity);
-
-        // ¾ÆÀÌÅÛ µå·Ó À§Ä¡
-        // TODO: ¾ÆÀÌÅÛ ÇÁ¸®ÆÕ »ı¼º ¹× µå·Ó
-        // ¿¹½Ã: Instantiate(itemPrefab, transform.position, Quaternion.identity);
-
-        Destroy(gameObject); // ¸ó½ºÅÍ ¿ÀºêÁ§Æ® »èÁ¦
-    }
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Projectile : MonoBehaviourPun
@@ -36,13 +37,14 @@ public class Projectile : MonoBehaviourPun
         {
             if (_attacker == collision.transform) return;
 
-            var defenderData = target.BattleData;
-            if (defenderData.CurrentHp <= 0) return;
+			if (target.TakeDamage(_attackerData, _skill)) PhotonNetwork.Destroy(gameObject);
 
-            int damage = PokeUtils.CalculateDamage(_attackerData, defenderData, _skill);
-            target.TakeDamage(damage);
-			PlayerManager.Instance?.ShowDamageText(collision.transform, damage, Color.white);
-			PhotonNetwork.Destroy(gameObject);
-		}
+            //var defenderData = target.BattleData;
+            //if (defenderData.CurrentHp <= 0) return;
+
+            //int damage = PokeUtils.CalculateDamage(_attackerData, defenderData, _skill);
+            //target.TakeDamage(damage);
+            //PlayerManager.Instance?.ShowDamageText(collision.transform, damage, Color.white);
+        }
 	}
 }
