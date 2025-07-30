@@ -19,6 +19,7 @@ public class UIManager : Singleton<UIManager>
         InitializeGroup.Init();
         StaticGroup.Init();
         LobbyGroup.Init();
+        InGameGroup.Init();
     }
 
 

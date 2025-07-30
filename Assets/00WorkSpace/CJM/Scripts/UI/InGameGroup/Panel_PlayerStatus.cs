@@ -17,4 +17,22 @@ public class Panel_PlayerStatus : MonoBehaviour
     {
 
     }
+
+    void Update()
+    {
+        if (NetworkManager.Instance.CurServer.type != ServerType.InGame) return;
+
+
+        PlayerManager pm = PlayerManager.Instance;
+        if (pm == null) return;
+        PlayerModel model = pm.LocalPlayerController.Model;
+
+        tmp_Name.text = model.PokeData.PokeName;
+        tmp_Level.text = model.PokeLevel.ToString();
+        tmp_CurHP.text = model.CurrentHp.ToString();
+        tmp_MaxHP.text = model.MaxHp.ToString();
+
+        float curExp = model.PokeExp;
+        float maxExp = model.NextExp;
+    }
 }
