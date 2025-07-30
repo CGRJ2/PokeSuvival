@@ -1,5 +1,5 @@
 ﻿public interface IDamagable
 {
     BattleDataTable BattleData { get; }
-    public void TakeDamage(int value);
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill);
 }
