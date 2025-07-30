@@ -45,7 +45,19 @@ public class Monster : MonoBehaviourPun, IDamagable
 
     [SerializeField] private GameObject expOrbPrefab; // Inspector에서 경험치 구슬 프리팹 할당
 
-    public BattleDataTable BattleData => throw new System.NotImplementedException();
+    public BattleDataTable BattleData
+    {
+        get
+        {
+            return new BattleDataTable(
+                level: this.level,
+                pokeData: this.pokemonData,
+                pokeStat: new PokemonStat { Attak = this.attackDamage, Hp = this.maxHealth },
+                maxHp: this.maxHealth,
+                currentHp: this.currentHealth
+            );
+        }
+    }
 
     void Start() // 게임 시작 시 호출되는 함수
     {

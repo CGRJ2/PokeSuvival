@@ -14,7 +14,7 @@ public class TestPlayer : MonoBehaviour, IDamagable
     private Vector2 moveInput;
     private Rigidbody2D rb;
 
-    // 플레이어의 BattleDataTable 정보 반환 (예시)
+    // 플레이어의 BattleDataTable 정보 반환 
     public BattleDataTable BattleData
     {
         get
@@ -23,7 +23,7 @@ public class TestPlayer : MonoBehaviour, IDamagable
             return new BattleDataTable(
                 level: 1,
                 pokeData: null,
-                pokeStat: new PokemonStat { Attak = attackDamage, Hp = maxHealth }, // 예시
+                pokeStat: new PokemonStat { Attak = attackDamage, Hp = maxHealth },
                 maxHp: maxHealth,
                 currentHp: currentHealth
             );
@@ -86,6 +86,7 @@ public class TestPlayer : MonoBehaviour, IDamagable
         if (currentHealth <= 0)
         {
             Debug.Log("플레이어 사망");
+           
             // 사망 처리
             return true;
         }
