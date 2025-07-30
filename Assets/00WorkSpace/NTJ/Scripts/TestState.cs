@@ -63,17 +63,7 @@ namespace NTJ
         private void LevelUp()
         {
             playerModel.SetLevel(playerModel.PokeLevel + 1);
-            playerModel.SetExp(0);
-            Debug.Log($"레벨업! 현재 레벨: {playerModel.PokeLevel}, 경험치 초기화");
         }
-
-       // PlayerModel에 추가해야 됨
-
-       // public void SetExp(int exp)
-       // {
-       //     _pokeExp = exp;
-       //     _nextExp = PokeUtils.GetNextLevelExp(PokeLevel);
-       // }
 
         private void ApplyBuff(StatType stat, float multiplier, float duration)
         {
