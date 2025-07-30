@@ -13,7 +13,8 @@ public class PhotonInit : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("마스터 서버에 연결됨");
-        PhotonNetwork.JoinOrCreateRoom("TestRoom", new Photon.Realtime.RoomOptions(), Photon.Realtime.TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom("TestRoom", new Photon.Realtime.RoomOptions { MaxPlayers = 10 }, Photon.Realtime.TypedLobby.Default);
+
     }
 
     public override void OnJoinedRoom()

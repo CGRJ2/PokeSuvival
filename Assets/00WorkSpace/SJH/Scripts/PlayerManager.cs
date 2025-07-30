@@ -30,6 +30,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
 	public static PlayerManager Instance { get; private set; }
 
+	private Coroutine _playerDeleteRoutine;
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -96,7 +98,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	public void PlayerDead(int totalExp)
 	{
 		// TODO : 사망 UI 활성화
-		StartCoroutine(PlayerDeadRoutine(totalExp));
+		_playerDeleteRoutine = StartCoroutine(PlayerDeadRoutine(totalExp));
         UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController.Model);
     }
     IEnumerator PlayerDeadRoutine(int totalExp)
@@ -106,13 +108,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		yield return new WaitForSeconds(_objectDeleteTime);
 		LocalPlayerController.ActionRPC(nameof(LocalPlayerController.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
 	}
-	public void OnPlayerToLobby()
+	public void PlayerToLobby()
 	{
-		PhotonNetwork.LoadLevel(LobbySceneName);
+		LocalPlayerController.DisconnectSkillEvent();
 	}
 
 	public void PlayerRespawn()
 	{
+		StopCoroutine(_playerDeleteRoutine);
+		_playerDeleteRoutine = null;
+
 		LocalPlayerController.PlayerRespawn();
 	}
 }

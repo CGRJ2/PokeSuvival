@@ -20,21 +20,21 @@ public class Panel_PlayerInit : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(inputField_Name.text))
         {
-            Debug.LogError("´Ğ³×ÀÓÀ» Á¦´ë·Î ¼³Á¤ÇØÁÖ¼¼¿ä");
+            Debug.LogError("ï¿½Ğ³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½");
             return;
         }
 
-        // ·Î±×ÀÎÇÑ »óÅÂ¶ó¸é => Auth »ç¿ëÀÚ ÇÁ·ÎÇÊ¿¡ ¾÷µ¥ÀÌÆ®
+        // ë¡œê·¸ì¸í•œ ìƒíƒœë¼ë©´ => Auth ì‚¬ìš©ì í”„ë¡œí•„ì— ì—…ë°ì´íŠ¸
         if (BackendManager.Auth.CurrentUser != null)
         {
-            // Auth À¯Àú ÇÁ·ÎÇÊ ¾÷µ¥ÀÌÆ®
+            // Auth ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
             
-            // DB¿¡ ÀúÀå
+            // DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text));
         }
 
-        // Æ÷Åæ¿¡ ´Ğ³×ÀÓ ¼³Á¤
+        // ï¿½ï¿½ï¿½æ¿¡ ï¿½Ğ³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         PhotonNetwork.NickName = inputField_Name.text;
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);

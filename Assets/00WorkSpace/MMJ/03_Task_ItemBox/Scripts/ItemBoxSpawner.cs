@@ -20,7 +20,7 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         // 타일맵이 인스펙터에서 할당되었는지 확인합니다.
         if (targetTilemap == null)
         {
-            Debug.LogError("MonsterBallSpawner: 스폰할 타일맵(Target Tilemap)이 할당되지 않았습니다! 인스펙터에서 설정해주세요.");
+            Debug.LogError("ItemBoxSpawner: 스폰할 타일맵(Target Tilemap)이 할당되지 않았습니다! 인스펙터에서 설정해주세요.");
             enabled = false; // 스크립트 비활성화
             return;
         }
