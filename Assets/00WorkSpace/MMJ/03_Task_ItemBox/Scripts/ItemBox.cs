@@ -27,10 +27,14 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
     // 데미지를 받는 메서드 구현
-    public void TakeDamage(int damage)
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
         if (!photonView.IsMine && PhotonNetwork.IsConnected)
-            return;
+            return true;
+
+        // 스킬과 공격 데이터를 기반으로 데미지 계산
+        BattleDataTable defenderData = this.BattleData;
+        int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 
         currentHp -= damage;
 
@@ -39,12 +43,10 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         {
             Die();
         }
+
+        return true;
     }
 
-    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
-    {
-        throw new System.NotImplementedException();
-    }
 
     // 사망 처리 메서드 구현
     public void Die()
@@ -159,10 +161,5 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 
         Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
     }
-
-	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
-	{
-		throw new System.NotImplementedException();
-	}
 }
 
