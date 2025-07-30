@@ -50,8 +50,6 @@ public class Panel_RoomInside : MonoBehaviour
         panel_MapSettings.InitRoomSettings(PhotonNetwork.IsMasterClient);
         //panel_RoomButtons.InitButtons(PhotonNetwork.IsMasterClient);
         panel_MapSettings.UpdateRoomProperty();
-
-        UIManager.Instance.OpenPanel(gameObject);
     }
 
     public void UpdatePlayerList()
