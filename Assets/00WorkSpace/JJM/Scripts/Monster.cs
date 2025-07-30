@@ -24,18 +24,18 @@ public class Monster : MonoBehaviourPun, IDamagable
     private float wanderTimer; // 방향을 바꿀 때까지 남은 시간을 저장하는 변수
     public float wanderChangeInterval = 2f; // 방향을 바꿀 시간 간격(초)
 
-    [SerializeField] private Sprite idleSprite;           // 대기(멈춤) 상태 스프라이트
-    [SerializeField] private Sprite moveLeftSprite;       // 왼쪽 이동 스프라이트
-    [SerializeField] private Sprite moveRightSprite;      // 오른쪽 이동 스프라이트
-    [SerializeField] private Sprite moveUpSprite;         // 위쪽 이동 스프라이트
-    [SerializeField] private Sprite moveDownSprite;       // 아래쪽 이동 스프라이트
-    [SerializeField] private Sprite moveUpLeftSprite;     // 왼쪽 위 대각선 이동 스프라이트
-    [SerializeField] private Sprite moveUpRightSprite;    // 오른쪽 위 대각선 이동 스프라이트
-    [SerializeField] private Sprite moveDownLeftSprite;   // 왼쪽 아래 대각선 이동 스프라이트
-    [SerializeField] private Sprite moveDownRightSprite;  // 오른쪽 아래 대각선 이동 스프라이트
-    [SerializeField] private Sprite deadSprite; // 몬스터가 죽었을 때 사용할 스프라이트
+    //[SerializeField] private Sprite idleSprite;           // 대기(멈춤) 상태 스프라이트
+    //[SerializeField] private Sprite moveLeftSprite;       // 왼쪽 이동 스프라이트
+    //[SerializeField] private Sprite moveRightSprite;      // 오른쪽 이동 스프라이트
+    //[SerializeField] private Sprite moveUpSprite;         // 위쪽 이동 스프라이트
+    //[SerializeField] private Sprite moveDownSprite;       // 아래쪽 이동 스프라이트
+    //[SerializeField] private Sprite moveUpLeftSprite;     // 왼쪽 위 대각선 이동 스프라이트
+    //[SerializeField] private Sprite moveUpRightSprite;    // 오른쪽 위 대각선 이동 스프라이트
+    //[SerializeField] private Sprite moveDownLeftSprite;   // 왼쪽 아래 대각선 이동 스프라이트
+    //[SerializeField] private Sprite moveDownRightSprite;  // 오른쪽 아래 대각선 이동 스프라이트
+    //[SerializeField] private Sprite deadSprite; // 몬스터가 죽었을 때 사용할 스프라이트
 
-    private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
+    //private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
 
     [SerializeField] private int attackDamage = 10; // 몬스터 공격력
 
@@ -45,6 +45,7 @@ public class Monster : MonoBehaviourPun, IDamagable
 
     [SerializeField] private GameObject expOrbPrefab; // Inspector에서 경험치 구슬 프리팹 할당
 
+    private Animator animator; // Animator 컴포넌트 참조
     public BattleDataTable BattleData
     {
         get
@@ -63,7 +64,9 @@ public class Monster : MonoBehaviourPun, IDamagable
     {
         rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
 
-        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
+        //spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
+        animator = GetComponent<Animator>(); // Animator 컴포넌트 가져오기
+
 
         // 회전 고정 추가
         if (rb != null)
@@ -119,7 +122,7 @@ public class Monster : MonoBehaviourPun, IDamagable
         Vector2 direction = (target - transform.position).normalized; // 목표 방향 계산
         Vector2 newPos = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime; // 이동할 위치 계산
         rb.MovePosition(newPos); // Rigidbody2D를 이용해 이동(충돌 자동 처리)
-        SetSpriteByDirection(direction); // 스프라이트 변경
+        SetAnimationByDirection(direction); // 스프라이트 변경
 
     }
 
@@ -132,7 +135,7 @@ public class Monster : MonoBehaviourPun, IDamagable
         }
         transform.position += wanderDirection * moveSpeed * Time.deltaTime; // 현재 방향으로 이동
 
-        SetSpriteByDirection(wanderDirection); // 방향에 따라 스프라이트 설정
+        SetAnimationByDirection(wanderDirection); // 방향에 따라 스프라이트 설정
     }
 
     // 랜덤 방향을 설정하는 함수
@@ -201,13 +204,16 @@ public class Monster : MonoBehaviourPun, IDamagable
 
     IEnumerator CorpseAndDestroy() // 시체를 일정 시간 남겼다가 삭제하는 코루틴
     {
-        // 죽은 상태 연출(스프라이트 변경, 반투명 등)
-        if (spriteRenderer != null)
-        {
-            if (deadSprite != null)
-                spriteRenderer.sprite = deadSprite; // 죽음 스프라이트로 변경
-            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // 반투명 처리(예시)
-        }
+        //// 죽은 상태 연출(스프라이트 변경, 반투명 등)
+        //if (spriteRenderer != null)
+        //{
+        //    if (deadSprite != null)
+        //        spriteRenderer.sprite = deadSprite; // 죽음 스프라이트로 변경
+        //    spriteRenderer.color = new Color(1, 1, 1, 0.5f); // 반투명 처리(예시)
+        //}
+        if (animator != null)
+            animator.SetBool("IsDead", true); // 죽음 애니메이션 트리거
+
         // 콜라이더/AI 비활성화 (움직임, 충돌 방지)
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false; // 콜라이더 비활성화
@@ -218,44 +224,54 @@ public class Monster : MonoBehaviourPun, IDamagable
         PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
     }
 
-    void SetSpriteByDirection(Vector2 dir) // 방향에 따라 스프라이트를 설정하는 함수
+    //void SetSpriteByDirection(Vector2 dir) // 방향에 따라 스프라이트를 설정하는 함수
+    //{
+    //    if (spriteRenderer == null) return; // SpriteRenderer가 없으면 리턴
+
+    //    // 방향이 거의 0이면 idle 처리
+    //    if (dir.magnitude < 0.01f)
+    //    {
+    //        spriteRenderer.sprite = idleSprite;
+    //        return;
+    //    }
+
+    //    // 대각선 우선 판별 (45도 단위)
+    //    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // 방향 각도 계산
+
+    //    if (angle >= -22.5f && angle < 22.5f)
+    //        spriteRenderer.sprite = moveRightSprite; // 오른쪽
+    //    else if (angle >= 22.5f && angle < 67.5f)
+    //        spriteRenderer.sprite = moveUpRightSprite; // 오른쪽 위
+    //    else if (angle >= 67.5f && angle < 112.5f)
+    //        spriteRenderer.sprite = moveUpSprite; // 위
+    //    else if (angle >= 112.5f && angle < 157.5f)
+    //        spriteRenderer.sprite = moveUpLeftSprite; // 왼쪽 위
+    //    else if (angle >= 157.5f || angle < -157.5f)
+    //        spriteRenderer.sprite = moveLeftSprite; // 왼쪽
+    //    else if (angle >= -157.5f && angle < -112.5f)
+    //        spriteRenderer.sprite = moveDownLeftSprite; // 왼쪽 아래
+    //    else if (angle >= -112.5f && angle < -67.5f)
+    //        spriteRenderer.sprite = moveDownSprite; // 아래
+    //    else if (angle >= -67.5f && angle < -22.5f)
+    //        spriteRenderer.sprite = moveDownRightSprite; // 오른쪽 아래
+    //}
+    void SetAnimationByDirection(Vector2 dir)
     {
-        if (spriteRenderer == null) return; // SpriteRenderer가 없으면 리턴
+        if (animator == null) return;
 
-        // 방향이 거의 0이면 idle 처리
-        if (dir.magnitude < 0.01f)
-        {
-            spriteRenderer.sprite = idleSprite;
-            return;
-        }
+        animator.SetFloat("X", dir.x);
+        animator.SetFloat("Y", dir.y);
 
-        // 대각선 우선 판별 (45도 단위)
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // 방향 각도 계산
-
-        if (angle >= -22.5f && angle < 22.5f)
-            spriteRenderer.sprite = moveRightSprite; // 오른쪽
-        else if (angle >= 22.5f && angle < 67.5f)
-            spriteRenderer.sprite = moveUpRightSprite; // 오른쪽 위
-        else if (angle >= 67.5f && angle < 112.5f)
-            spriteRenderer.sprite = moveUpSprite; // 위
-        else if (angle >= 112.5f && angle < 157.5f)
-            spriteRenderer.sprite = moveUpLeftSprite; // 왼쪽 위
-        else if (angle >= 157.5f || angle < -157.5f)
-            spriteRenderer.sprite = moveLeftSprite; // 왼쪽
-        else if (angle >= -157.5f && angle < -112.5f)
-            spriteRenderer.sprite = moveDownLeftSprite; // 왼쪽 아래
-        else if (angle >= -112.5f && angle < -67.5f)
-            spriteRenderer.sprite = moveDownSprite; // 아래
-        else if (angle >= -67.5f && angle < -22.5f)
-            spriteRenderer.sprite = moveDownRightSprite; // 오른쪽 아래
+        // Idle 처리
+        animator.SetBool("IsMoving", dir.magnitude > 0.01f);
     }
 
 
     public void ResetMonster() // 몬스터 상태 초기화 함수
     {
         currentHealth = maxHealth; // 체력 초기화
-        if (spriteRenderer != null)
-            spriteRenderer.color = Color.white; // 색상(투명도) 초기화
+        //if (spriteRenderer != null)
+        //    spriteRenderer.color = Color.white; // 색상(투명도) 초기화
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = true; // 콜라이더 활성화
         this.enabled = true; // 스크립트 활성화
