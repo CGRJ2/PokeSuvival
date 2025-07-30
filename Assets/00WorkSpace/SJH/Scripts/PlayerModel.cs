@@ -30,6 +30,7 @@ public class PlayerModel
 		{
 			Debug.Log($"{_pokeExp} + {value} = {_pokeExp + value}");
 			_pokeExp += value;
+			TotalExp += value;
 			while (true)
 			{
 				int requiredExp = PokeUtils.GetNextLevelExp(PokeLevel);
@@ -45,6 +46,7 @@ public class PlayerModel
 		}
 	}
 	[field: SerializeField] public int NextExp { get; private set; }
+	[field: SerializeField] public int TotalExp { get; private set; }
 	[field: SerializeField] public int MaxHp { get; private set; }
 	[SerializeField] private int _currentHp;
 	public int CurrentHp

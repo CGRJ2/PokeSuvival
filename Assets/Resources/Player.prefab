@@ -180,6 +180,7 @@ MonoBehaviour:
     _pokeLevel: 0
     _pokeExp: 0
     <NextExp>k__BackingField: 0
+    <TotalExp>k__BackingField: 0
     <MaxHp>k__BackingField: 0
     _currentHp: 0
   <View>k__BackingField: {fileID: 0}

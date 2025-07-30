@@ -43,13 +43,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		}
 	}
 
-	public void PlayerInit(PokemonData pokeData)
+	public void PlayerInit()
 	{
 		Debug.Log("플레이어 초기화");
 
-		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		// TODO : 플레이어 생성 연출
 
-		// TODO : 스킬 클래스로 분리
+		PokemonData pokeData = null;
+		object[] data = photonView.InstantiationData;
+		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
+		else if (data[0] is string pokeName)
+		{
+			pokeData = Define.GetPokeData(pokeName);
+		}
+		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
 		SkillInit();
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
@@ -58,6 +65,31 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1")?.GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
+	}
+
+	public void PlayerRespawn()
+	{
+		// TODO : 플레이어 생성 연출
+		_input.enabled = true;
+
+		// 플레이어의 커스텀프로퍼티로 사용할 포켓몬 지정
+		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+		PokemonData pokeData = Define.GetPokeData(pokemonName);
+		if (pokeData == null)
+		{
+			object[] data = photonView.InstantiationData;
+			if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
+			else if (data[0] is string pokeName)
+			{
+				pokeData = Define.GetPokeData(pokeName);
+			}
+		}
+		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		ActionRPC(nameof(RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
+		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
+		ConnectEvent();
+
+		PlayerManager.Instance.LocalPlayerController = this;
 	}
 
 	public void ConnectEvent()
@@ -72,6 +104,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			_input.enabled = false;
 			View.SetIsDead(true);
+			Debug.LogWarning("플레이어 사망");
+			PlayerManager.Instance.PlayerDead(Model.TotalExp);
 		};
 		Model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
 	}
@@ -105,16 +139,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			gameObject.tag = "Enemy";
 			return;
 		}
-
-		Debug.Log("플레이어 인스턴스화");
-
 		gameObject.tag = "Player";
-		object[] data = photonView.InstantiationData;
-		PokemonData pokeData = null;
-		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
-		else if (data[0] is string pokeName) pokeData = Define.GetPokeData(pokeName);
-
-		PlayerInit(pokeData);
+		PlayerInit();
 	}
 
 	void SkillInit()
@@ -261,7 +287,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		Model.AddExp(value);
 	}
-	void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
+	public void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
 
 	[PunRPC]
 	public void RPC_PokemonEvolution(int pokeNumber, PhotonMessageInfo info)
@@ -319,5 +345,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		var pokeData = Define.GetPokeData(pokeNumber);
 		Model = new PlayerModel(Model.PlayerName, pokeData, level, 0, currentHp);
 		View?.SetAnimator(pokeData.AnimController);
+	}
+	[PunRPC]
+	public void RPC_PlayerSetActive(bool value)
+	{
+		gameObject.SetActive(value);
 	}
 }
