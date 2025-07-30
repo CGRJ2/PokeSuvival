@@ -315,6 +315,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void AddExp(int value)
 	{
 		Model.AddExp(value);
+		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {value}", Color.blue);
 	}
 	public void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
 

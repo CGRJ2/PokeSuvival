@@ -94,6 +94,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		var go = Instantiate(_floatingTextPrefab, spawnPos.position, Quaternion.identity);
 		go.GetComponent<FloatingText>()?.InitFloatingDamage($"{damage}", color);
 	}
+	public void ShowDamageText(Transform spawnPos, string text, Color color)
+	{
+		if (_floatingTextPrefab.Equals(null)) return;
+
+		var go = Instantiate(_floatingTextPrefab, spawnPos.position, Quaternion.identity);
+		go.GetComponent<FloatingText>()?.InitFloatingDamage($"{text}", color);
+	}
 
 	public void PlayerDead(int totalExp)
 	{
