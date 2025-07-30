@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [field: SerializeField] public UIGroup_Initialize InitializeGroup { get; private set; }
-    [field: SerializeField] public UIGroup_Loading LoadingGroup { get; private set; }
+    [field: SerializeField] public UIGroup_Static StaticGroup { get; private set; }
     [field: SerializeField] public UIGroup_Lobby LobbyGroup { get; private set; }
     [field: SerializeField] public UIGroup_InGame InGameGroup { get; private set; }
 
@@ -17,7 +17,7 @@ public class UIManager : Singleton<UIManager>
     {
         base.SingletonInit();
         InitializeGroup.Init();
-        LoadingGroup.Init();
+        StaticGroup.Init();
         LobbyGroup.Init();
     }
 

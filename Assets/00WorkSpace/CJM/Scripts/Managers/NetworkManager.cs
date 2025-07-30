@@ -48,8 +48,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 연결 시도와 동시에 로딩창으로 가리기
         if (um != null)
         {
-            um.LoadingGroup.gameObject.SetActive(true);
-            um.LoadingGroup.fullScreen.gameObject.SetActive(true);
+            um.StaticGroup.panel_Loading.gameObject.SetActive(true);
         }
     }
 
@@ -86,8 +85,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             }
 
             // 로딩창 비활성화
-            if (um.LoadingGroup != null)
-                um.LoadingGroup.fullScreen.gameObject.SetActive(false);
+            if (um.StaticGroup != null)
+                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
         // 현재 접속한 서버가 인게임 서버라면
         else if (curServer.type == ServerType.InGame)
@@ -95,8 +94,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             StartCoroutine(JoinLobbyAfterConnectedMaster());
 
             // 로딩창 비활성화
-            if (um.LoadingGroup != null)
-                um.LoadingGroup.fullScreen.gameObject.SetActive(false);
+            if (um.StaticGroup != null)
+                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
 
 
@@ -175,7 +174,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (curServer.type == ServerType.InGame)
         {
             if (um != null)
+            {
                 um.LobbyGroup.gameObject.SetActive(false);
+                um.InGameGroup.gameObject.SetActive(true);
+                um.InGameGroup.GameStartViewUpdate();
+            }
+                
         }
         else if (curServer.type == ServerType.Lobby)
         {
