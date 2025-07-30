@@ -108,9 +108,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		yield return new WaitForSeconds(_objectDeleteTime);
 		LocalPlayerController.ActionRPC(nameof(LocalPlayerController.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
 	}
-	public void OnPlayerToLobby()
+	public void PlayerToLobby()
 	{
-		PhotonNetwork.LoadLevel(LobbySceneName);
+		LocalPlayerController.DisconnectSkillEvent();
 	}
 
 	public void PlayerRespawn()
