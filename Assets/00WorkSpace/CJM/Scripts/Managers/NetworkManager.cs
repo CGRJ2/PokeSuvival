@@ -327,6 +327,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     public void MoveToLobby()
     {
+
         PlayerManager.Instance?.PlayerToLobby(); // SJH 스킬 이벤트 해제
 		// 우선 첫번째 서버로 고정 이동
 		ChangeServer(lobbyServerDatas[0]);

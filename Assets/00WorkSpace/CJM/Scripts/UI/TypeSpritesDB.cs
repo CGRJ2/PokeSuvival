@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-
 
 //[CreateAssetMenu(menuName = "Create TypeSpritesDB(SO)")]
 public class TypeSpritesDB : ScriptableObject

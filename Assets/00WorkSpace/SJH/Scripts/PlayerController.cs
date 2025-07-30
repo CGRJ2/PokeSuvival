@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
-				//Debug.Log($"스킬 {slot} 키다운");
+				Debug.Log($"스킬 {slot} 키다운");
 				IAttack attack = SkillCheck(slot, out var skill);
 				if (attack == null || skill == null) return;
 				IDamagable damagable = this;
@@ -243,7 +243,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				// TODO : 뷰 처리
 				break;
 			case InputActionPhase.Canceled:
-				//Debug.Log($"스킬 {slot} 키업 : {ctx.duration}");
+				Debug.Log($"스킬 {slot} 키업 : {ctx.duration}");
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
