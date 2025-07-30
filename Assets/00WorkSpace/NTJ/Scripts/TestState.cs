@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NTJ
 {
-    public class TestState : MonoBehaviourPun, IStatReceiver
+        public class TestState : MonoBehaviourPun, IStatReceiver
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private PlayerModel playerModel;

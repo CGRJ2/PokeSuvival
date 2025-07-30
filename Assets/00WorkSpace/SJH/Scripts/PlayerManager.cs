@@ -7,8 +7,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private CinemachineVirtualCamera _playerFollowCam;
 	[SerializeField] private GameObject _floatingTextPrefab;
-
-
+	public PlayerController LocalPlayerController;
 
 	public CinemachineVirtualCamera PlayerFollowCam
 	{
@@ -33,7 +32,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		if (Instance == null)
 		{
 			Instance = this;
-			DontDestroyOnLoad(gameObject);
 		}
 		else
 		{
@@ -68,7 +66,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
 	{
-
+		Debug.Log("룸 입장");
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 		Debug.Log(pokemonName);
 
