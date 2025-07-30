@@ -3,6 +3,7 @@ using Photon.Pun;
 using UnityEngine.UIElements;
 using System.Runtime.Serialization;
 using NTJ;
+using System.Collections;
 
 
 public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
@@ -122,23 +123,21 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsWriting)
-        {
-            // 내 데이터를 보냄
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-            stream.SendNext(currentHp);
-        }
-        else
-        {
-            // 상대방의 데이터를 받음
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-            currentHp = (int)stream.ReceiveNext();
-        }
+        //if (stream.IsWriting)
+        //{
+        //    // 내 데이터를 보냄
+        //    stream.SendNext(transform.position);
+        //    stream.SendNext(transform.rotation);
+        //    stream.SendNext(currentHp);
+        //}
+        //else
+        //{
+        //    // 상대방의 데이터를 받음
+        //    transform.position = (Vector3)stream.ReceiveNext();
+        //    transform.rotation = (Quaternion)stream.ReceiveNext();
+        //    currentHp = (int)stream.ReceiveNext();
+        //}
     }
-
-
     //private void OnTriggerEnter2D(Collider2D collider) // 테스트용 코드
     //{
     //    // 플레이어에 닿으면 아이템이 먹힘
@@ -177,7 +176,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         string prefabPath = "Items/ItemPrefab";
         GameObject newItem = PhotonNetwork.InstantiateRoomObject(prefabPath, position, Quaternion.identity);
         var itemPickup = newItem.GetComponent<ItemPickup>();
-		itemPickup.Initialize(itemData.id);
+        itemPickup.Initialize(itemData.id);
 
 		Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
     }
