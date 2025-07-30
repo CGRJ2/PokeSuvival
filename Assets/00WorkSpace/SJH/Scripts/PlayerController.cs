@@ -70,8 +70,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void PlayerRespawn()
 	{
 		// TODO : 플레이어 생성 연출
-		_input.enabled = true;
-
+		_input.actions.Enable();
+		View.SetIsDead(false);
 		// 플레이어의 커스텀프로퍼티로 사용할 포켓몬 지정
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 		PokemonData pokeData = Define.GetPokeData(pokemonName);
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		};
 		Model.OnDied += () =>
 		{
-			_input.enabled = false;
+			_input.actions.Disable();
 			View.SetIsDead(true);
 			Debug.LogWarning("플레이어 사망");
 			PlayerManager.Instance.PlayerDead(Model.TotalExp);
@@ -137,9 +137,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (!photonView.IsMine)
 		{
 			gameObject.tag = "Enemy";
+			View.SetOrderInLayer(false);
 			return;
 		}
 		gameObject.tag = "Player";
+		View.SetOrderInLayer(true);
 		PlayerInit();
 	}
 

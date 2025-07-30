@@ -30,6 +30,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
 	public static PlayerManager Instance { get; private set; }
 
+	private Coroutine _playerDeleteRoutine;
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -96,7 +98,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	public void PlayerDead(int totalExp)
 	{
 		// TODO : 사망 UI 활성화
-		StartCoroutine(PlayerDeadRoutine(totalExp));
+		_playerDeleteRoutine = StartCoroutine(PlayerDeadRoutine(totalExp));
         UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController.Model);
     }
     IEnumerator PlayerDeadRoutine(int totalExp)
@@ -113,6 +115,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
 	public void PlayerRespawn()
 	{
+		StopCoroutine(_playerDeleteRoutine);
+		_playerDeleteRoutine = null;
+
 		LocalPlayerController.PlayerRespawn();
 	}
 }

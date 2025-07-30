@@ -89,11 +89,11 @@ public class ExpOrb : MonoBehaviourPun
                 isAttracted = true;
 
                 // PhotonView 접근
-                PhotonView playerView = closestPlayer.GetComponent<PhotonView>();
-                if (PhotonNetwork.IsConnected && photonView.IsMine && playerView != null)
-                {
-                    photonView.RPC(nameof(RPC_StartAttraction), RpcTarget.Others, playerView.ViewID);
-                }
+                //PhotonView playerView = closestPlayer.GetComponent<PhotonView>();
+                //if (PhotonNetwork.IsConnected && photonView.IsMine && playerView != null)
+                //{
+                //    photonView.RPC(nameof(RPC_StartAttraction), RpcTarget.Others, playerView.ViewID);
+                //}
             }
         }
     }
