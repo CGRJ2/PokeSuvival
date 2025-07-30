@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,12 +14,12 @@ public class TestPlayer : MonoBehaviour, IDamagable
     private Vector2 moveInput;
     private Rigidbody2D rb;
 
-    // ÇÃ·¹ÀÌ¾îÀÇ BattleDataTable Á¤º¸ ¹İÈ¯ 
+    // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ BattleDataTable ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ 
     public BattleDataTable BattleData
     {
         get
         {
-            // ½ÇÁ¦ ½ºÅÈ Á¤º¸¸¦ Ã¤¿ö¼­ ¹İÈ¯ÇØ¾ß ÇÔ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ø¾ï¿½ ï¿½ï¿½
             return new BattleDataTable(
                 level: 1,
                 pokeData: null,
@@ -37,12 +37,12 @@ public class TestPlayer : MonoBehaviour, IDamagable
 
     void Update()
     {
-        // 8¹æÇâ ÀÌµ¿ ÀÔ·Â
+        // 8ë°©í–¥ ì´ë™ ì…ë ¥
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         moveInput = new Vector2(h, v).normalized;
 
-        // °ø°İ (½ºÆäÀÌ½º¹Ù)
+        // ê³µê²© (ìŠ¤í˜ì´ìŠ¤ë°”)
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Attack();
@@ -56,7 +56,7 @@ public class TestPlayer : MonoBehaviour, IDamagable
 
     void Attack()
     {
-        // ÇÃ·¹ÀÌ¾î ÁÖº¯¿¡ ÀÖ´Â ¸ó½ºÅÍ Å½»ö
+        // í”Œë ˆì´ì–´ ì£¼ë³€ì— ìˆëŠ” ëª¬ìŠ¤í„° íƒìƒ‰
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
         foreach (var hit in hits)
         {
@@ -65,38 +65,40 @@ public class TestPlayer : MonoBehaviour, IDamagable
                 IDamagable monster = hit.GetComponent<IDamagable>();
                 if (monster != null)
                 {
-                    // ±âº» °ø°İ: BattleDataTable°ú null(½ºÅ³ ¾øÀ½) Àü´Ş
                     monster.TakeDamage(this.BattleData, null);
                 }
             }
         }
     }
 
-    // IDamagable ÀÎÅÍÆäÀÌ½º ±¸Çö
+    // IDamagable ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
         int damage = 0;
         if (skill != null)
             damage = skill.Damage;
         else
-            damage = attackerData.AllStat.Attak; // ±âº» °ø°İ·Â
+            damage = attackerData.AllStat.Attak; // ï¿½âº» ï¿½ï¿½ï¿½İ·ï¿½
 
         currentHealth -= damage;
-        Debug.Log($"ÇÃ·¹ÀÌ¾î°¡ µ¥¹ÌÁö ¹ŞÀ½: {damage} ³²Àº Ã¼·Â: {currentHealth}");
+        Debug.Log($"ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: {damage} ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½: {currentHealth}");
         if (currentHealth <= 0)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î »ç¸Á");
-           
-            // »ç¸Á Ã³¸®
             return true;
+            Debug.Log("í”Œë ˆì´ì–´ê°€ ë°ë¯¸ì§€ ë°›ìŒ: " + damage + " ë‚¨ì€ ì²´ë ¥: " + currentHealth);
         }
         return false;
     }
 
-    // ½Ã°¢Àû µğ¹ö±×¿ë
+    // ì‹œê°ì  ë””ë²„ê·¸ìš©
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }

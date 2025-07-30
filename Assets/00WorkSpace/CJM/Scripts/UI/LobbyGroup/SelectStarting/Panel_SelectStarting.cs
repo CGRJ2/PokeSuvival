@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Panel_SelectStarting : MonoBehaviour
 {
-    public PokemonData selectedPokemon;
+    [HideInInspector] public PokemonData selectedPokemon;
     public Panel_PokemonList panel_PokemonList;
     public Panel_PokemonInfo panel_PokemonInfo;
     [SerializeField] Button btn_Confirm;
@@ -47,6 +47,6 @@ public class Panel_SelectStarting : MonoBehaviour
     void CloseSelectPanel()
     {
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.panel_SelectStarting.gameObject);
+        um.ClosePanel(um.StaticGroup.panel_SelectStarting.gameObject);
     }
 }

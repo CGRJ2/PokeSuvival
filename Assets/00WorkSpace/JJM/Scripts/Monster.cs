@@ -157,10 +157,7 @@ public class Monster : MonoBehaviourPun, IDamagable
         IDamagable damagable = player.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            // 공격자 정보(BattleDataTable)와 사용할 스킬(PokemonSkill)을 전달해야 함
-            // 예시: 기본 공격(스킬이 null이거나 기본값)
             damagable.TakeDamage(this.BattleData, null);
-
         }
         
     }
@@ -294,4 +291,9 @@ public class Monster : MonoBehaviourPun, IDamagable
             level = (int)stream.ReceiveNext(); // 레벨 정보 수신
         }
     }
+
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }

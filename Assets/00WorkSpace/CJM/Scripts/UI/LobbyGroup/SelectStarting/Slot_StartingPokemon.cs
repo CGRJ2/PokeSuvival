@@ -34,9 +34,9 @@ public class Slot_StartingPokemon : MonoBehaviour
 
     public void UpdateSelectedPokemonInfoView()
     {
-        UIGroup_Lobby lobbyGroup = UIManager.Instance.LobbyGroup;
+        UIGroup_Static staticGroup = UIManager.Instance.StaticGroup;
 
-        lobbyGroup.panel_SelectStarting.panel_PokemonInfo.UpdateView(pokemonData);
-        lobbyGroup.panel_SelectStarting.selectedPokemon = this.pokemonData;
+        staticGroup.panel_SelectStarting.panel_PokemonInfo.UpdateView(pokemonData);
+        staticGroup.panel_SelectStarting.selectedPokemon = this.pokemonData;
     }
 }

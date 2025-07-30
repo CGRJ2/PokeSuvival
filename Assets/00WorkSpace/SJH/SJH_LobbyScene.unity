@@ -968,11 +968,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
       propertyPath: isTestServer
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: testServerIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
       propertyPath: temp_InGameSceneName
-      value: SJH_ExpScene
+      value: SJH_GameScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: inGameServerDatas.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: testServerDatas.Array.data[1].id
+      value: f0992c9c-d55b-4754-9509-0045a9058505
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: inGameServerDatas.Array.data[2].id
+      value: 63fc88d5-6bf3-443b-b1b8-b1f440ba2063
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: testServerDatas.Array.data[1].name
+      value: SJH Test Server
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: inGameServerDatas.Array.data[2].name
+      value: SJH_In Game Server 03 (KR)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: inGameServerDatas.Array.data[2].type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5336341913695506676, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
       propertyPath: m_LocalPosition.x
