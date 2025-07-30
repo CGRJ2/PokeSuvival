@@ -25,13 +25,15 @@ public class BackendManager : Singleton<BackendManager>
         DatabaseReference reference = Database.RootReference;
         reference.SetValueAsync(testText);*/
     }
-
+    
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
             UpdateUserData("name", "πŒ∏∏¡ÿ");
         }
+
+
     }
 
 

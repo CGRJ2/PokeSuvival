@@ -13,7 +13,9 @@ public class SkillSlotView : MonoBehaviour
 
     public bool actived;
 
-    public void UpdateSlotView(PokemonSkill skill)
+    
+
+    public void UpdateSlotView(PokemonSkill skill, float targetCoolTime)
     {
         image_Blocked.gameObject.SetActive(false);
 
@@ -22,9 +24,9 @@ public class SkillSlotView : MonoBehaviour
         // 쿨타임 존재 시
         if (skill.Cooldown > 0)
         {
-            tmp_CoolTime.text = skill.Cooldown.ToString();
+            tmp_CoolTime.text = ((int)(targetCoolTime - Time.time) % 1000).ToString();
             image_CoolTime.gameObject.SetActive(true);
-            image_CoolTime.fillAmount = Mathf.Clamp01(skill.Cooldown);
+            image_CoolTime.fillAmount = Mathf.Clamp01(Time.time/ targetCoolTime);
         }
         else
         {
