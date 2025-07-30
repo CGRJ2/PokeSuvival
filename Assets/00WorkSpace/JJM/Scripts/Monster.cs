@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class Monster : MonoBehaviourPun, IPunObservable
+public class Monster : MonoBehaviourPun, IDamagable
 {
     [Header("기본 스탯")]
     public PokemonData pokemonData; // PokemonData ScriptableObject 참조 (Inspector에서 할당)
@@ -16,30 +16,43 @@ public class Monster : MonoBehaviourPun, IPunObservable
     public float moveSpeed = 3f;         // 몬스터의 이동 속도
     public float attackRange = 2f;       // 플레이어를 공격할 수 있는 거리
     public float attackCooldown = 1.5f;  // 공격 후 다시 공격할 때까지의 대기 시간
-    
-    private Transform player;            // 플레이어의 Transform 참조
-    private float lastAttackTime;        // 마지막 공격 시각
 
-    private Vector3 wanderDirection; // 현재 이동 방향을 저장하는 변수
-    private float wanderTimer; // 방향을 바꿀 때까지 남은 시간을 저장하는 변수
-    public float wanderChangeInterval = 2f; // 방향을 바꿀 시간 간격(초)
+    private Transform player;            // �÷��̾��� Transform ����
+    private float lastAttackTime;        // ������ ���� �ð�
 
-    [SerializeField] private Sprite idleSprite;           // 대기(멈춤) 상태 스프라이트
-    [SerializeField] private Sprite moveLeftSprite;       // 왼쪽 이동 스프라이트
-    [SerializeField] private Sprite moveRightSprite;      // 오른쪽 이동 스프라이트
-    [SerializeField] private Sprite moveUpSprite;         // 위쪽 이동 스프라이트
-    [SerializeField] private Sprite moveDownSprite;       // 아래쪽 이동 스프라이트
-    [SerializeField] private Sprite moveUpLeftSprite;     // 왼쪽 위 대각선 이동 스프라이트
-    [SerializeField] private Sprite moveUpRightSprite;    // 오른쪽 위 대각선 이동 스프라이트
-    [SerializeField] private Sprite moveDownLeftSprite;   // 왼쪽 아래 대각선 이동 스프라이트
-    [SerializeField] private Sprite moveDownRightSprite;  // 오른쪽 아래 대각선
+    private Vector3 wanderDirection; // ���� �̵� ������ �����ϴ� ����
+    private float wanderTimer; // ������ �ٲ� ������ ���� �ð��� �����ϴ� ����
+    public float wanderChangeInterval = 2f; // ������ �ٲ� �ð� ����(��)
 
-    private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
+    [SerializeField] private Sprite idleSprite;           // ���(����) ���� ��������Ʈ
+    [SerializeField] private Sprite moveLeftSprite;       // ���� �̵� ��������Ʈ
+    [SerializeField] private Sprite moveRightSprite;      // ������ �̵� ��������Ʈ
+    [SerializeField] private Sprite moveUpSprite;         // ���� �̵� ��������Ʈ
+    [SerializeField] private Sprite moveDownSprite;       // �Ʒ��� �̵� ��������Ʈ
+    [SerializeField] private Sprite moveUpLeftSprite;     // ���� �� �밢�� �̵� ��������Ʈ
+    [SerializeField] private Sprite moveUpRightSprite;    // ������ �� �밢�� �̵� ��������Ʈ
+    [SerializeField] private Sprite moveDownLeftSprite;   // ���� �Ʒ� �밢�� �̵� ��������Ʈ
+    [SerializeField] private Sprite moveDownRightSprite;  // ������ �Ʒ� �밢��
+    [SerializeField] private Sprite deadSprite; // ���Ͱ� �׾��� �� ����� ��������Ʈ
 
-    [SerializeField] private int attackDamage = 10; // 몬스터 공격력
-    void Start() // 게임 시작 시 호출되는 함수
+    private SpriteRenderer spriteRenderer; // SpriteRenderer ������Ʈ ����
+
+    [SerializeField] private int attackDamage = 10; // ���� ���ݷ�
+
+    private Rigidbody2D rb; // Rigidbody2D ������Ʈ ���� ����
+
+    [SerializeField] private float corpseDuration = 2f; // ��ü�� �������� �ð�(��) (Inspector���� ���� ����)
+
+    [SerializeField] private GameObject expOrbPrefab; // Inspector���� ����ġ ���� ������ �Ҵ�
+
+    public BattleDataTable BattleData => throw new System.NotImplementedException();
+
+    void Start() // ���� ���� �� ȣ��Ǵ� �Լ�
     {
-        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ������Ʈ ��������
+
+        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer ������Ʈ ��������
+
 
 
         if (pokemonData != null) // PokemonData가 할당되어 있으면
@@ -81,19 +94,17 @@ public class Monster : MonoBehaviourPun, IPunObservable
         {
             Wander(); // 자유롭게 이동
         }
-        // 멈췄을 때 idle 스프라이트로 변경
-        if (spriteRenderer != null)
-            spriteRenderer.sprite = idleSprite;
+
 
     }
 
     void MoveTowards(Vector3 target) // 지정한 위치로 이동하는 함수
     {
-        Vector3 direction = (target - transform.position).normalized; // 목표 위치까지의 방향 벡터 계산 및 정규화
-        transform.position += direction * moveSpeed * Time.deltaTime; // 해당 방향으로 이동
-                                                                      // 필요시 회전 추가
 
-        SetSpriteByDirection(direction); // 방향에 따라 스프라이트 설정
+        Vector2 direction = (target - transform.position).normalized; // ��ǥ ���� ���
+        Vector2 newPos = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime; // �̵��� ��ġ ���
+        rb.MovePosition(newPos); // Rigidbody2D�� �̿��� �̵�(�浹 �ڵ� ó��)
+        SetSpriteByDirection(direction); // ��������Ʈ ����
 
     }
 
@@ -123,11 +134,13 @@ public class Monster : MonoBehaviourPun, IPunObservable
         // 플레이어에게 데미지 주기
         if (player == null) return;
 
-        // IDamageable 인터페이스를 가진 컴포넌트 찾기
-        IDamagable damageable = player.GetComponent<IDamagable>();
-        if (damageable != null)
+
+        // IDamageable �������̽��� ���� ������Ʈ ã��
+        IDamagable damagable = player.GetComponent<IDamagable>();
+        if (damagable != null)
         {
-            //damageable.TakeDamage(attackDamage);
+            damagable.TakeDamage(attackDamage);
+
         }
         
     }
@@ -143,13 +156,39 @@ public class Monster : MonoBehaviourPun, IPunObservable
 
     void Die() // 몬스터가 죽었을 때 호출되는 함수
     {
-        // 경험치 구슬 생성 위치
-        // TODO: 경험치 구슬 프리팹 생성 및 드롭
-        // 예시: Instantiate(expOrbPrefab, transform.position, Quaternion.identity);
 
-        // 아이템 드롭 위치
-        // TODO: 아이템 프리팹 생성 및 드롭
-        // 예시: Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        // ����ġ ���� ����
+        if (expOrbPrefab != null)
+        {
+            // ����ġ ���� ���� �����̳� ��Ÿ ������ ����
+            int expAmount = level * 10; // ����: ���� x 10
+            GameObject orbObj = PhotonNetwork.Instantiate(expOrbPrefab.name, transform.position, Quaternion.identity);
+            ExpOrb orb = orbObj.GetComponent<ExpOrb>();
+            if (orb != null)
+                orb.Init(expAmount);
+        }
+        
+
+        StartCoroutine(CorpseAndDestroy()); // ��ü ���� �� ���� �ڷ�ƾ ����
+
+    }
+
+    IEnumerator CorpseAndDestroy() // ��ü�� ���� �ð� ����ٰ� �����ϴ� �ڷ�ƾ
+    {
+        // ���� ���� ����(��������Ʈ ����, ������ ��)
+        if (spriteRenderer != null)
+        {
+            if (deadSprite != null)
+                spriteRenderer.sprite = deadSprite; // ���� ��������Ʈ�� ����
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // ������ ó��(����)
+        }
+        // �ݶ��̴�/AI ��Ȱ��ȭ (������, �浹 ����)
+        Collider2D col = GetComponent<Collider2D>(); // Collider2D ������Ʈ ��������
+        if (col != null) col.enabled = false; // �ݶ��̴� ��Ȱ��ȭ
+        this.enabled = false; // ���� ��ũ��Ʈ ��Ȱ��ȭ(�߰� ���� ����)
+
+        yield return new WaitForSeconds(corpseDuration); // ������ �ð���ŭ ���
+
 
         PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
     }
@@ -186,8 +225,21 @@ public class Monster : MonoBehaviourPun, IPunObservable
             spriteRenderer.sprite = moveDownRightSprite; // 오른쪽 아래
     }
 
-    // Photon 네트워크를 통한 동기화 함수
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // 네트워크 동기화 함수
+
+    public void ResetMonster() // ���� ���� �ʱ�ȭ �Լ�
+    {
+        currentHealth = maxHealth; // ü�� �ʱ�ȭ
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.white; // ����(������) �ʱ�ȭ
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = true; // �ݶ��̴� Ȱ��ȭ
+        this.enabled = true; // ��ũ��Ʈ Ȱ��ȭ
+                             // �ʿ��ϴٸ� �߰��� ����/�ִϸ��̼�/AI � �ʱ�ȭ
+    }
+
+    // Photon ��Ʈ��ũ�� ���� ����ȭ �Լ�
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // ��Ʈ��ũ ����ȭ �Լ�
+
     {
         if (stream.IsWriting) // 마스터 클라이언트에서 데이터를 보낼 때
         {
