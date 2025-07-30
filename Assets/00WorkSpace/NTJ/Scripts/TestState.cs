@@ -5,26 +5,24 @@ using UnityEngine;
 
 namespace NTJ
 {
-    public class TestState : MonoBehaviourPun, IStatReceiver
+        public class TestState : MonoBehaviourPun, IStatReceiver
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private PokemonData pokemonData;
+        [SerializeField] private PlayerModel playerModel;
 
-        // ½ÇÁ¦ °ÔÀÓ µµÁß »ç¿ëµÇ´Â ÇöÀç »óÅÂ °ª
-        public int level = 1;
-        public float currentHP;
-        public float maxHP;
-
-        public float atk;
-        public float def;
-        public float spA;
-        public float spD;
-        public float spe;
-
-        // ¹öÇÁ °ü¸®¿ë (ÁßÃ¸ Àû¿ë ¹æÁö & RemoveStat ¶§ ÇÊ¿ä)
+        // ë²„í”„ ê´€ë¦¬ìš© (StatType -> multiplier)
         private Dictionary<StatType, float> activeBuffs = new();
         private Dictionary<StatType, Coroutine> buffCoroutines = new();
+        private Dictionary<StatType, float> buffEndTime = new();
 
+        // ìµœì¢… ìŠ¤íƒ¯ ê³„ì‚°ìš© (ê¸°ë³¸ìŠ¤íƒ¯ * ë²„í”„ë°°ìœ¨)
+        public float atk => playerModel.AllStat.Attak * GetBuffMultiplier(StatType.Atk);
+        public float def => playerModel.AllStat.Defense * GetBuffMultiplier(StatType.Def);
+        public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpA);
+        public float spD => playerModel.AllStat.SpecialDefense * GetBuffMultiplier(StatType.SpD);
+        public float spe => playerModel.AllStat.Speed * GetBuffMultiplier(StatType.Spe);
+        
+        
         public void ApplyStat(ItemData item)
         {
             switch (item.itemType)
@@ -40,6 +38,10 @@ namespace NTJ
                 case ItemType.Buff:
                     ApplyBuff(item.affectedStat, item.value, item.duration);
                     break;
+
+                default:
+                    Debug.LogWarning($"ì •ì˜ë˜ì§€ ì•Šì€ ì•„ì´í…œ íƒ€ì…: {item.itemType}");
+                    break;
             }
         }
 
@@ -53,59 +55,61 @@ namespace NTJ
 
         private void Heal(float value)
         {
-            currentHP = Mathf.Min(currentHP + value, maxHP);
-            Debug.Log($"HP È¸º¹: {value}, ÇöÀç HP: {currentHP}/{maxHP}");
+            int newHp = Mathf.Min(playerModel.CurrentHp + (int)value, playerModel.MaxHp);
+            playerModel.SetCurrentHp(newHp);
+            Debug.Log($"HP íšŒë³µ: {value}, í˜„ì¬ HP: {newHp}/{playerModel.MaxHp}");
         }
 
         private void LevelUp()
         {
-            // ·¹º§¾÷ ½Ã ´É·ÂÄ¡ Áõ°¡ ¿¹½Ã
-            level++;
-            maxHP += 10;
-            currentHP = maxHP;
-            atk += 1;
-            def += 1;
-            spA += 1;
-            spD += 1;
-            spe += 1;
-
-            //  Sprite º¯°æ
-            if (pokemonData.levelSprites.Length > level - 1)
-                spriteRenderer.sprite = pokemonData.levelSprites[level - 1];
-
-            Debug.Log($"·¹º§¾÷! ÇöÀç ·¹º§: {level}");
+            playerModel.SetLevel(playerModel.PokeLevel + 1);
         }
 
         private void ApplyBuff(StatType stat, float multiplier, float duration)
         {
             if (Mathf.Approximately(multiplier, 1f) || multiplier <= 0f)
             {
-                Debug.LogWarning($"{stat} ºñÁ¤»ó ¹èÀ² ¹æÁö : {multiplier}");
+                Debug.LogWarning($"{stat} ë¹„ì •ìƒ ë°°ìœ¨ ë°©ì§€ : {multiplier}");
                 return;
             }
 
+            // ì´ë¯¸ í•´ë‹¹ ìŠ¤íƒ¯ì— ë²„í”„ê°€ ì¡´ì¬í•œë‹¤ë©´
             if (activeBuffs.ContainsKey(stat))
             {
-                Debug.Log($"{stat} ¹öÇÁ Áö¼Ó½Ã°£ ÃÊ±âÈ­");
-
+                // ê¸°ì¡´ ì½”ë£¨í‹´ ì‹œê°„ì´ ë‚¨ì•„ìˆë‹¤ë©´ ê°±ì‹  ì¡°ê±´ í™•ì¸
                 if (buffCoroutines.TryGetValue(stat, out Coroutine coroutine))
                 {
-                    StopCoroutine(coroutine);
-                }
+                    // ê¸°ì¡´ë³´ë‹¤ ìƒˆ durationì´ ë” ê¸¸ë©´ ê°±ì‹ 
+                    float remainingTime = GetRemainingBuffTime(stat);
 
-                buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
-                return;
+                    if (duration > remainingTime)
+                    {
+                        StopCoroutine(coroutine);
+                        buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
+                        Debug.Log($"{stat} ë²„í”„ ì§€ì†ì‹œê°„ ê°±ì‹ : {remainingTime:F1}s â†’ {duration}s");
+                    }
+                    else
+                    {
+                        Debug.Log($"{stat} ë²„í”„ ë¬´ì‹œ (ë‚¨ì€ ì‹œê°„ {remainingTime:F1}s > ìƒˆ ë²„í”„ {duration}s)");
+                    }
+                }
+                return; // ì¤‘ì²© ì—†ìŒ, ë°°ìœ¨ì€ ê·¸ëŒ€ë¡œ ìœ ì§€
             }
 
-            ApplyMultiplier(stat, multiplier);
+            // ì‹ ê·œ ë²„í”„
             activeBuffs[stat] = multiplier;
             buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
+            Debug.Log($"{stat} ë²„í”„ ì‹œì‘, ë°°ìœ¨: {multiplier}, ì§€ì†ì‹œê°„: {duration}s");
         }
+        
 
         private IEnumerator RemoveBuffAfterDelay(StatType stat, float multiplier, float duration)
         {
+            buffEndTime[stat] = Time.time + duration;
             yield return new WaitForSeconds(duration);
+
             RemoveBuff(stat, multiplier);
+            buffEndTime.Remove(stat);
         }
 
         private void RemoveBuff(StatType stat, float multiplier)
@@ -114,23 +118,25 @@ namespace NTJ
             {
                 if (Mathf.Approximately(currentMultiplier, multiplier))
                 {
-                    ApplyMultiplier(stat, 1f / multiplier);
                     activeBuffs.Remove(stat);
-                    Debug.Log($"{stat} ¹öÇÁ Á¾·á (¹èÀ² {multiplier}¹è ¡æ 1.0)");
+                    Debug.Log($"{stat} ë²„í”„ ì¢…ë£Œ");
                 }
             }
         }
 
-        private void ApplyMultiplier(StatType stat, float multiplier)
+        private float GetBuffMultiplier(StatType stat)
         {
-            switch (stat)
+            if (activeBuffs.TryGetValue(stat, out float multiplier))
+                return multiplier;
+            return 1f;
+        }
+        private float GetRemainingBuffTime(StatType stat)
+        {
+            if (buffEndTime.TryGetValue(stat, out float endTime))
             {
-                case StatType.Atk: atk *= multiplier; break;
-                case StatType.Def: def *= multiplier; break;
-                case StatType.SpA: spA *= multiplier; break;
-                case StatType.SpD: spD *= multiplier; break;
-                case StatType.Spe: spe *= multiplier; break;
+                return Mathf.Max(0, endTime - Time.time);
             }
+            return 0;
         }
     }
 }
