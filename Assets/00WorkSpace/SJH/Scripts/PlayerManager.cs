@@ -97,8 +97,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		// TODO : 사망 UI 활성화
 		StartCoroutine(PlayerDeadRoutine(totalExp));
-	}
-	IEnumerator PlayerDeadRoutine(int totalExp)
+        UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController.Model);
+    }
+    IEnumerator PlayerDeadRoutine(int totalExp)
 	{
 		Debug.Log("플레이어 사망 > 로비로 이동");
 		_playerFollowCam.Follow = null;
