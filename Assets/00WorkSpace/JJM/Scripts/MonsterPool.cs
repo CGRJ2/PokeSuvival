@@ -15,21 +15,31 @@ public class MonsterPool : IPunPrefabPool
         if (!pool.ContainsKey(prefabId)) // 해당 프리팹 풀 없으면
             pool[prefabId] = new Queue<GameObject>(); // 새 풀 생성
 
+        GameObject obj; // 반환할 오브젝트 변수 선언
+
         if (pool[prefabId].Count > 0) // 풀에 오브젝트가 있으면
         {
-            GameObject obj = pool[prefabId].Dequeue(); // 하나 꺼냄
+            obj = pool[prefabId].Dequeue(); // 하나 꺼냄
             obj.transform.position = position; // 위치 설정
             obj.transform.rotation = rotation; // 회전 설정
-            return obj; // 반환
         }
         else // 풀에 없으면
         {
             GameObject prefab = Resources.Load<GameObject>(prefabId); // 프리팹 로드
-            GameObject obj = Object.Instantiate(prefab, position, rotation); // 새로 생성
-            obj.SetActive(false); // 새로 생성할 때도 비활성화로 반환
-            objectToPrefabId[obj] = prefabId; // 오브젝트와 prefabId 매핑 저장
-            return obj; // 반환
+            obj = Object.Instantiate(prefab, position, rotation); // 새로 생성
         }
+
+        objectToPrefabId[obj] = prefabId; // 오브젝트와 prefabId 매핑 저장(중복 등록 안전)
+
+        // === 여기서 상태 초기화 ===
+        Monster monster = obj.GetComponent<Monster>(); // Monster 컴포넌트 가져오기
+        if (monster != null) monster.ResetMonster(); // 상태 초기화 함수 호출(반투명, 체력 등 원상복구)
+        // =======================
+
+        obj.SetActive(false); // 새로 생성할 때도 비활성화로 반환
+        return obj; // 반환
+
+
     }
 
     public void Destroy(GameObject gameObject) // 오브젝트 삭제 요청 시 호출
@@ -37,17 +47,16 @@ public class MonsterPool : IPunPrefabPool
         gameObject.SetActive(false); // 비활성화
 
         string prefabId;
-        // 오브젝트에 해당하는 prefabId를 찾음
-        if (!objectToPrefabId.TryGetValue(gameObject, out prefabId))
+        if (!objectToPrefabId.TryGetValue(gameObject, out prefabId)) // 프리팹ID를 딕셔너리에서 안전하게 찾기
         {
-            // 못 찾으면 name에서 (Clone) 제거해서 시도
-            prefabId = gameObject.name.Replace("(Clone)", "").Trim();
+            Debug.LogError($"MonsterPool: objectToPrefabId에 {gameObject.name}이(가) 없습니다.");
+            return;
         }
 
         if (!pool.ContainsKey(prefabId)) // 해당 프리팹 풀 없으면
             pool[prefabId] = new Queue<GameObject>(); // 새 풀 생성
 
-        pool[gameObject.name].Enqueue(gameObject); // 풀에 다시 넣음
+        pool[prefabId].Enqueue(gameObject); // prefabId로 풀에 다시 넣음
     }
 }
 //PhotonNetwork.PrefabPool에 할당

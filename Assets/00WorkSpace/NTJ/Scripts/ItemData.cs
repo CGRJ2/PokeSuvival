@@ -8,12 +8,12 @@ namespace NTJ
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
     public class ItemData : ScriptableObject
     {
+        public int id;
         public string itemName;
         public ItemType itemType;
         public StatType affectedStat;
         public float value; // 증가량 또는 회복량
         public float duration; // 버프 지속시간
-
         public Sprite sprite;
     }
 }
