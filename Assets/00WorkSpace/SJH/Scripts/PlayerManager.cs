@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		//PhotonNetwork.ConnectUsingSettings();
 	}
 
-    public override void OnConnectedToMaster()
+    /*public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
         Debug.Log("마스터 연결 후 로비 상태로 변경");
@@ -71,7 +71,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		Debug.Log("룸 입장");
 		PlayerInstaniate();
-	}
+	}*/
 
 	public void PlayerInstaniate()
 	{

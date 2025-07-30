@@ -25,6 +25,11 @@ public class Panel_GameOver : MonoBehaviour
         UIManager.Instance.InGameGroup.GameStartViewUpdate();
 
         // 여기서 플레이어 재시작 함수 실행
+        PlayerManager pm = PlayerManager.Instance;
+        if (pm != null)
+        {
+            pm.PlayerRespawn();
+        }
     }
 
     private void OpenSelectStartingPanel()

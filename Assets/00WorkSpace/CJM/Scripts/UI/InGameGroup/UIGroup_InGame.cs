@@ -20,6 +20,13 @@ public class UIGroup_InGame : MonoBehaviour
         panel_GameOver.gameObject.SetActive(false);
 
         panel_HUD.OnGameStart();
+
+        PlayerManager pm = PlayerManager.Instance;
+        if (pm != null)
+        {
+            pm.PlayerInstaniate();
+        }
+
     }
 
     // 플레이어 사망 시 호출
