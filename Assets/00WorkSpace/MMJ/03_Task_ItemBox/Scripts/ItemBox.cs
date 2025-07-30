@@ -30,33 +30,32 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
         if (!photonView.IsMine && PhotonNetwork.IsConnected)
-            return true;
+            return false;
 
         // 스킬과 공격 데이터를 기반으로 데미지 계산
-        BattleDataTable defenderData = this.BattleData;
-        int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+        int damage = 4;
+        currentHp -= damage; // TODO : 나중에는 랜덤으로
+		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
 
-        currentHp -= damage;
+        photonView.RPC(nameof(RPC_SyncHp), RpcTarget.OthersBuffered, currentHp);
 
         // 체력이 0 이하면 파괴
         if (currentHp <= 0)
         {
-            Die();
-        }
+			if (PhotonNetwork.IsMasterClient)
+			{
+				OnHit();
+			}
+		}
 
         return true;
     }
 
-
-    // 사망 처리 메서드 구현
-    public void Die()
+    [PunRPC]
+    public void RPC_SyncHp(int _currentHp)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            OnHit();
-        }
+        currentHp = _currentHp;
     }
-
 
     // 플레이어 공격에 의해 파괴될 때 호출
     public void OnHit()
@@ -135,15 +134,15 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collider) // 테스트용 코드
-    {
-        // 플레이어에 닿으면 아이템이 먹힘
-        if (collider.CompareTag("Player"))
-        {
-            // 자기 자신(아이템)을 비활성화
-            ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collider) // 테스트용 코드
+    //{
+    //    // 플레이어에 닿으면 아이템이 먹힘
+    //    if (collider.CompareTag("Player"))
+    //    {
+    //        // 자기 자신(아이템)을 비활성화
+    //        ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
+    //    }
+    //}
 
     [PunRPC]
     private void RPC_DropItem(Vector3 position, int itemIndex)
@@ -156,6 +155,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         }
 
         // 선택된 아이템 프리팹 생성
+        Debug.Log($"{itemIndex}번째 아이템[{itemPrefabs[itemIndex].name}] 생성 시도");
         string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources 폴더 내 경로
         GameObject newItem = PhotonNetwork.Instantiate(prefabPath, position, Quaternion.identity);
 
