@@ -139,7 +139,6 @@ public class Monster : MonoBehaviourPun, IDamagable
         IDamagable damagable = player.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            //MMJ 버그떠서 임시 주석처리 충돌시 나중에 삭제 요망
             //damagable.TakeDamage(attackDamage);
 
         }
@@ -256,8 +255,8 @@ public class Monster : MonoBehaviourPun, IDamagable
         }
     }
 
-    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
-    {
-        throw new System.NotImplementedException();
-    }
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }

@@ -35,6 +35,6 @@ public class Panel_SelectedPokemonView : MonoBehaviour
     void OpenPokemonListPanel()
     {
         UIManager um = UIManager.Instance;
-        um.OpenPanel(um.LobbyGroup.panel_SelectStarting.gameObject);
+        um.OpenPanel(um.StaticGroup.panel_SelectStarting.gameObject);
     }
 }

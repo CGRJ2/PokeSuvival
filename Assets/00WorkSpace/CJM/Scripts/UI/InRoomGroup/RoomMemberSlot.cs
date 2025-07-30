@@ -18,7 +18,7 @@ public class RoomMemberSlot : MonoBehaviour, IPointerClickHandler
     
     public void Init()
     {
-        btn_ChangePokemon.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_SelectStarting.gameObject));
+        btn_ChangePokemon.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_SelectStarting.gameObject));
     }
    
 

@@ -5,7 +5,6 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using WebSocketSharp;
 
 public class Panel_LogIn : MonoBehaviour
 {
@@ -48,9 +47,10 @@ public class Panel_LogIn : MonoBehaviour
 
             UIManager um = UIManager.Instance;
             FirebaseUser user = task.Result.User;
-            
+
             // 처음 생성한 플레이어라면 => 닉네임 설정 패널 열기
-            if (user.DisplayName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(user.DisplayName))
+            //if (BackendManager.Instance.LoadUserDataFromDB() == null)
             {
                 um.ClosePanel(gameObject);
                 um.OpenPanel(um.InitializeGroup.panel_PlayerInit.gameObject);
@@ -59,11 +59,12 @@ public class Panel_LogIn : MonoBehaviour
             else
             {
                 um.ClosePanel(gameObject);
+                PhotonNetwork.NickName = user.DisplayName;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
                 PhotonNetwork.JoinLobby();
             }
         });
 
-        
-        
+
+
     }
 }
