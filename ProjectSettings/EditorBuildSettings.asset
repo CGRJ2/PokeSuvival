@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00WorkSpace/SJH/SJH_ExpScene.unity
     guid: 4de1df31f34b9ce479e5d6f69ed343db
+  - enabled: 1
+    path: Assets/00WorkSpace/SJH/SJH_GameScene.unity
+    guid: c5bdc38bc582b9b4c992d50b809ee2e9
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 61ef2b17c67d4cf4fa150ae02e7c7606, type: 2}

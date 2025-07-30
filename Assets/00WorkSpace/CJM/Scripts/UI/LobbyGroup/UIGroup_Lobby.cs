@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class UIGroup_Lobby : MonoBehaviour
 {
     public Panel_LobbyDefault panel_LobbyDefault;
-    public Panel_SelectStarting panel_SelectStarting;
     public Panel_MatchMaking panel_MatchMaking;
     public Panel_RoomInfo panel_RoomInfo;
     public Panel_RoomMaking panel_RoomMaking;
@@ -16,7 +15,6 @@ public class UIGroup_Lobby : MonoBehaviour
     public void Init()
     {
         panel_LobbyDefault.Init();
-        panel_SelectStarting.Init();
         panel_MatchMaking.Init();
         panel_RoomInfo.Init();
         panel_RoomMaking.Init();

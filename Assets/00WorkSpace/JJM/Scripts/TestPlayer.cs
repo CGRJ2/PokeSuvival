@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,12 +24,12 @@ public class TestPlayer : MonoBehaviour, IDamagable
 
     void Update()
     {
-        // 8¹æÇâ ÀÌµ¿ ÀÔ·Â
+        // 8ë°©í–¥ ì´ë™ ì…ë ¥
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         moveInput = new Vector2(h, v).normalized;
 
-        // °ø°İ (½ºÆäÀÌ½º¹Ù)
+        // ê³µê²© (ìŠ¤í˜ì´ìŠ¤ë°”)
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Attack();
@@ -43,7 +43,7 @@ public class TestPlayer : MonoBehaviour, IDamagable
 
     void Attack()
     {
-        // ÇÃ·¹ÀÌ¾î ÁÖº¯¿¡ ÀÖ´Â ¸ó½ºÅÍ Å½»ö
+        // í”Œë ˆì´ì–´ ì£¼ë³€ì— ìˆëŠ” ëª¬ìŠ¤í„° íƒìƒ‰
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, attackRange);
         foreach (var hit in hits)
         {
@@ -52,7 +52,7 @@ public class TestPlayer : MonoBehaviour, IDamagable
                 IDamagable monster = hit.GetComponent<IDamagable>();
                 if (monster != null)
                 {
-                    monster.TakeDamage(attackDamage);
+                    //monster.TakeDamage(attackDamage);
                 }
             }
         }
@@ -61,18 +61,23 @@ public class TestPlayer : MonoBehaviour, IDamagable
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ µ¥¹ÌÁö ¹ŞÀ½: " + damage + " ³²Àº Ã¼·Â: " + currentHealth);
+        Debug.Log("í”Œë ˆì´ì–´ê°€ ë°ë¯¸ì§€ ë°›ìŒ: " + damage + " ë‚¨ì€ ì²´ë ¥: " + currentHealth);
         if (currentHealth <= 0)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î »ç¸Á");
-            // »ç¸Á Ã³¸®
+            Debug.Log("í”Œë ˆì´ì–´ ì‚¬ë§");
+            // ì‚¬ë§ ì²˜ë¦¬
         }
     }
 
-    // ½Ã°¢Àû µğ¹ö±×¿ë
+    // ì‹œê°ì  ë””ë²„ê·¸ìš©
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }

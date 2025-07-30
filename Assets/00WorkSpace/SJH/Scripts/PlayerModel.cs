@@ -23,28 +23,9 @@ public class PlayerModel
 	}
 	public Action<int> OnPokeLevelChanged;
 	[SerializeField] private int _pokeExp;
-	public int PokeExp
-	{
-		get => _pokeExp;
-		private set
-		{
-			Debug.Log($"{_pokeExp} + {value} = {_pokeExp + value}");
-			_pokeExp += value;
-			while (true)
-			{
-				int requiredExp = PokeUtils.GetNextLevelExp(PokeLevel);
-				if (_pokeExp >= requiredExp)
-				{
-					_pokeExp -= requiredExp;
-					PokeLevel++;
-					Debug.Log($"레벨업! 현재 레벨: {PokeLevel}");
-				}
-				else break;
-			}
-			NextExp = PokeUtils.GetNextLevelExp(PokeLevel);
-		}
-	}
+	public int PokeExp { get => _pokeExp; }
 	[field: SerializeField] public int NextExp { get; private set; }
+	[field: SerializeField] public int TotalExp { get; private set; }
 	[field: SerializeField] public int MaxHp { get; private set; }
 	[SerializeField] private int _currentHp;
 	public int CurrentHp
@@ -79,7 +60,7 @@ public class PlayerModel
         PlayerName = playerName;
 		PokeData = pokemonData;
 		PokeLevel = level;
-		PokeExp = exp;
+		_pokeExp = exp;
 		AllStat = PokeUtils.CalculateAllStat(level, pokemonData.BaseStat);
 		MaxHp = AllStat.Hp;
 		if (currentHp == -1) CurrentHp = MaxHp;
@@ -98,7 +79,28 @@ public class PlayerModel
 	public PokemonData GetNextEvoData() => PokeData.NextEvoData;
 	public void SetCurrentHp(int hp) => CurrentHp = hp;
 	public void SetLevel(int level) => PokeLevel = level;
-	public void AddExp(int exp) => PokeExp = _pokeExp + exp;
+	public void AddExp(int value)
+	{
+		Debug.Log($"{_pokeExp} + {value} = {_pokeExp + value}");
+
+		_pokeExp += value;
+		TotalExp += value;
+
+		while (true)
+		{
+			int requiredExp = PokeUtils.GetNextLevelExp(PokeLevel);
+			if (_pokeExp >= requiredExp)
+			{
+				_pokeExp -= requiredExp;
+				PokeLevel++;
+				Debug.Log($"레벨업! 현재 레벨: {PokeLevel}");
+			}
+			else break;
+		}
+
+		NextExp = PokeUtils.GetNextLevelExp(PokeLevel);
+	}
+
 	public PokemonSkill GetSkill(int index)
 	{
 		var skills = PokeData.Skills;

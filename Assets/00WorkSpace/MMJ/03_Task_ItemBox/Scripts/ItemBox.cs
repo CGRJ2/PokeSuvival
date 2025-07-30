@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UIElements;
 using System.Runtime.Serialization;
@@ -6,16 +6,16 @@ using System.Runtime.Serialization;
 
 public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 {
-    [Header("¾ÆÀÌÅÛ ¼³Á¤(µå·Ó È®·ü º¯¼ö´Â ºñÀ²ÀÔ´Ï´Ù.)")]
-    [SerializeField] private GameObject[] itemPrefabs; // ¿©·¯ ¾ÆÀÌÅÛ ÇÁ¸®ÆÕ ¹è¿­·Î º¯°æ
-    [SerializeField] private float[] dropProbabilities; // °¢ ¾ÆÀÌÅÛÀÇ µå·Ó È®·ü
+    [Header("ì•„ì´í…œ ì„¤ì •(ë“œë¡­ í™•ë¥  ë³€ìˆ˜ëŠ” ë¹„ìœ¨ì…ë‹ˆë‹¤.)")]
+    [SerializeField] private GameObject[] itemPrefabs; // ì—¬ëŸ¬ ì•„ì´í…œ í”„ë¦¬íŒ¹ ë°°ì—´ë¡œ ë³€ê²½
+    [SerializeField] private float[] dropProbabilities; // ê° ì•„ì´í…œì˜ ë“œë¡­ í™•ë¥ 
 
-    [Header("¹èÆ² µ¥ÀÌÅÍ")]
+    [Header("ë°°í‹€ ë°ì´í„°")]
 
     [SerializeField] private int maxHp = 10;
     [SerializeField] private int currentHp = 10;
 
-    // IDamagable ÀÎÅÍÆäÀÌ½º ±¸Çö
+    // IDamagable ì¸í„°í˜ì´ìŠ¤ êµ¬í˜„
     public BattleDataTable BattleData
     {
         get => new BattleDataTable(
@@ -26,7 +26,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             currentHp);
     }
 
-    // µ¥¹ÌÁö¸¦ ¹Ş´Â ¸Ş¼­µå ±¸Çö
+    // ë°ë¯¸ì§€ë¥¼ ë°›ëŠ” ë©”ì„œë“œ êµ¬í˜„
     public void TakeDamage(int damage)
     {
         if (!photonView.IsMine && PhotonNetwork.IsConnected)
@@ -34,7 +34,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 
         currentHp -= damage;
 
-        // Ã¼·ÂÀÌ 0 ÀÌÇÏ¸é ÆÄ±«
+        // ì²´ë ¥ì´ 0 ì´í•˜ë©´ íŒŒê´´
         if (currentHp <= 0)
         {
             Die();
@@ -42,7 +42,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
 
-    // »ç¸Á Ã³¸® ¸Ş¼­µå ±¸Çö
+    // ì‚¬ë§ ì²˜ë¦¬ ë©”ì„œë“œ êµ¬í˜„
     public void Die()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -52,47 +52,47 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
 
-    // ÇÃ·¹ÀÌ¾î °ø°İ¿¡ ÀÇÇØ ÆÄ±«µÉ ¶§ È£Ãâ
+    // í”Œë ˆì´ì–´ ê³µê²©ì— ì˜í•´ íŒŒê´´ë  ë•Œ í˜¸ì¶œ
     public void OnHit()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // ¸ó½ºÅÍº¼ÀÇ ÇöÀç À§Ä¡ ÀúÀå
+            // ëª¬ìŠ¤í„°ë³¼ì˜ í˜„ì¬ ìœ„ì¹˜ ì €ì¥
             Vector3 spawnPosition = transform.position;
 
-            // ·£´ı ¾ÆÀÌÅÛ ¼±ÅÃ ÈÄ µå·Ó
+            // ëœë¤ ì•„ì´í…œ ì„ íƒ í›„ ë“œë¡­
             int selectedItemIndex = GetRandomItemIndex();
 
-            // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ÀÎµ¦½º¸¦ RPC·Î Àü´Ş
+            // ì„ íƒëœ ì•„ì´í…œ ì¸ë±ìŠ¤ë¥¼ RPCë¡œ ì „ë‹¬
             photonView.RPC(nameof(RPC_DropItem), RpcTarget.AllBuffered, spawnPosition, selectedItemIndex);
 
-            // Ç®·Î ¹İÈ¯
+            // í’€ë¡œ ë°˜í™˜
             ItemBoxPoolManager.Instance.ReturnToPool(gameObject);
         }
     }
 
-    // È®·ü¿¡ µû¶ó ·£´ı ¾ÆÀÌÅÛ ÀÎµ¦½º ¼±ÅÃ
+    // í™•ë¥ ì— ë”°ë¼ ëœë¤ ì•„ì´í…œ ì¸ë±ìŠ¤ ì„ íƒ
     private int GetRandomItemIndex()
     {
-        // ¾ÆÀÌÅÛÀÌ³ª È®·ü ¹è¿­ÀÌ ¾ø°Å³ª ±æÀÌ°¡ ´Ù¸£¸é -1 ¹İÈ¯
+        // ì•„ì´í…œì´ë‚˜ í™•ë¥  ë°°ì—´ì´ ì—†ê±°ë‚˜ ê¸¸ì´ê°€ ë‹¤ë¥´ë©´ -1 ë°˜í™˜
         if (itemPrefabs == null || dropProbabilities == null ||
             itemPrefabs.Length == 0 || itemPrefabs.Length != dropProbabilities.Length)
         {
-            Debug.LogWarning("¾ÆÀÌÅÛ ÇÁ¸®ÆÕ ¶Ç´Â È®·ü ¼³Á¤ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
+            Debug.LogWarning("ì•„ì´í…œ í”„ë¦¬íŒ¹ ë˜ëŠ” í™•ë¥  ì„¤ì •ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return -1;
         }
 
-        // È®·ü ÇÕ°è °è»ê (ÇÕÀÌ 1ÀÌ ¾Æ´Ò ¼ö ÀÖÀ¸¹Ç·Î)
+        // í™•ë¥  í•©ê³„ ê³„ì‚° (í•©ì´ 1ì´ ì•„ë‹ ìˆ˜ ìˆìœ¼ë¯€ë¡œ)
         float totalProbability = 0f;
         foreach (float prob in dropProbabilities)
         {
             totalProbability += prob;
         }
 
-        // 0~1 »çÀÌÀÇ ·£´ı °ª »ı¼º
+        // 0~1 ì‚¬ì´ì˜ ëœë¤ ê°’ ìƒì„±
         float randomValue = Random.value * totalProbability;
 
-        // È®·ü¿¡ µû¶ó ¾ÆÀÌÅÛ ¼±ÅÃ
+        // í™•ë¥ ì— ë”°ë¼ ì•„ì´í…œ ì„ íƒ
         float cumulativeProbability = 0f;
 
         for (int i = 0; i < dropProbabilities.Length; i++)
@@ -105,7 +105,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             }
         }
 
-        // ±âº»°ªÀ¸·Î Ã¹ ¹øÂ° ¾ÆÀÌÅÛ ¹İÈ¯
+        // ê¸°ë³¸ê°’ìœ¼ë¡œ ì²« ë²ˆì§¸ ì•„ì´í…œ ë°˜í™˜
         return 0;
     }
 
@@ -114,14 +114,14 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     {
         if (stream.IsWriting)
         {
-            // ³» µ¥ÀÌÅÍ¸¦ º¸³¿
+            // ë‚´ ë°ì´í„°ë¥¼ ë³´ëƒ„
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
             stream.SendNext(currentHp);
         }
         else
         {
-            // »ó´ë¹æÀÇ µ¥ÀÌÅÍ¸¦ ¹ŞÀ½
+            // ìƒëŒ€ë°©ì˜ ë°ì´í„°ë¥¼ ë°›ìŒ
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
             currentHp = (int)stream.ReceiveNext();
@@ -129,12 +129,12 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collider) // Å×½ºÆ®¿ë ÄÚµå
+    private void OnTriggerEnter2D(Collider2D collider) // í…ŒìŠ¤íŠ¸ìš© ì½”ë“œ
     {
-        // ÇÃ·¹ÀÌ¾î¿¡ ´êÀ¸¸é ¾ÆÀÌÅÛÀÌ ¸ÔÈû
+        // í”Œë ˆì´ì–´ì— ë‹¿ìœ¼ë©´ ì•„ì´í…œì´ ë¨¹í˜
         if (collider.CompareTag("Player"))
         {
-            // ÀÚ±â ÀÚ½Å(¾ÆÀÌÅÛ)À» ºñÈ°¼ºÈ­
+            // ìê¸° ìì‹ (ì•„ì´í…œ)ì„ ë¹„í™œì„±í™”
             ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
         }
     }
@@ -142,18 +142,23 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     [PunRPC]
     private void RPC_DropItem(Vector3 position, int itemIndex)
     {
-        // ¾ÆÀÌÅÛ ÀÎµ¦½º°¡ À¯È¿ÇÏÁö ¾ÊÀ¸¸é ¸®ÅÏ
+        // ì•„ì´í…œ ì¸ë±ìŠ¤ê°€ ìœ íš¨í•˜ì§€ ì•Šìœ¼ë©´ ë¦¬í„´
         if (itemIndex < 0 || itemIndex >= itemPrefabs.Length || itemPrefabs[itemIndex] == null)
         {
-            Debug.LogWarning("À¯È¿ÇÏÁö ¾ÊÀº ¾ÆÀÌÅÛ ÀÎµ¦½ºÀÔ´Ï´Ù: " + itemIndex);
+            Debug.LogWarning("ìœ íš¨í•˜ì§€ ì•Šì€ ì•„ì´í…œ ì¸ë±ìŠ¤ì…ë‹ˆë‹¤: " + itemIndex);
             return;
         }
 
-        // ¼±ÅÃµÈ ¾ÆÀÌÅÛ ÇÁ¸®ÆÕ »ı¼º
-        string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources Æú´õ ³» °æ·Î
+        // ì„ íƒëœ ì•„ì´í…œ í”„ë¦¬íŒ¹ ìƒì„±
+        string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources í´ë” ë‚´ ê²½ë¡œ
         GameObject newItem = PhotonNetwork.Instantiate(prefabPath, position, Quaternion.identity);
 
-        Debug.Log(itemPrefabs[itemIndex].name + " ¾ÆÀÌÅÛÀÌ »ı¼ºµÇ¾ú½À´Ï´Ù!");
+        Debug.Log(itemPrefabs[itemIndex].name + " ì•„ì´í…œì´ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤!");
     }
+
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }
 
