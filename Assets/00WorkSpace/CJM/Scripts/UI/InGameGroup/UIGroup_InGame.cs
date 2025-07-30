@@ -8,6 +8,7 @@ public class UIGroup_InGame : MonoBehaviour
     [SerializeField] private Panel_HUD panel_HUD;
     [SerializeField] private Panel_GameOver panel_GameOver;
 
+
     public void Init()
     {
         panel_HUD.Init();
@@ -41,5 +42,10 @@ public class UIGroup_InGame : MonoBehaviour
         {
             panel_HUD.panel_SkillSlots.UpdateSkillSlotsView(playerModel);
         }
+    }
+
+    public void UpdateCoolTime(PlayerModel playerModel, SkillSlot slot)
+    {
+        panel_HUD.panel_SkillSlots.UpdateSlotCoolTimeView(playerModel, slot);
     }
 }

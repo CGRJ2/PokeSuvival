@@ -109,7 +109,12 @@ public class PlayerModel
 		return skills[index];
 	}
 	public bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
-	public void SetSkillCooldown(SkillSlot slot, float cooldown) => SkillCooldownDic[slot] = Time.time + cooldown;
+	public void SetSkillCooldown(SkillSlot slot, float cooldown) 
+	{
+        SkillCooldownDic[slot] = Time.time + cooldown;
+		UIManager.Instance.InGameGroup.UpdateCoolTime(PlayerManager.Instance?.LocalPlayerController.Model, slot);
+    }
+    
 	public void ReCalculateAllStat()
 	{
 		int hpGap = MaxHp - _currentHp;
