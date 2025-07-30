@@ -52,7 +52,6 @@ public class PlayerModel
 	public bool IsDead { get; private set; }
 
 	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
-
 	// TODO : 패시브 아이템 리스트
 
 	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)

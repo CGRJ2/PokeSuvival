@@ -29,8 +29,11 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     // 데미지를 받는 메서드 구현
     public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
-        if (!photonView.IsMine && PhotonNetwork.IsConnected)
-            return false;
+        //if (!photonView.IsMine && PhotonNetwork.IsConnected)
+        //{
+        //    Debug.Log("아이템박스 내꺼 아님");
+        //    return false;
+        //}
 
         // 스킬과 공격 데이터를 기반으로 데미지 계산
         int damage = 4;
@@ -42,10 +45,9 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         // 체력이 0 이하면 파괴
         if (currentHp <= 0)
         {
-			if (PhotonNetwork.IsMasterClient)
-			{
-				OnHit();
-			}
+            Debug.Log("아이템박스 부셔짐 방장 호출");
+            photonView.RPC(nameof(RPC_OnHit), RpcTarget.MasterClient);
+            return false;
 		}
 
         return true;
@@ -58,8 +60,10 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
     // 플레이어 공격에 의해 파괴될 때 호출
-    public void OnHit()
+    [PunRPC]
+    public void RPC_OnHit()
     {
+        Debug.Log("방장이 아이템박스가 부셔졌을 떄 아이템 랜덤 드롭");
         if (PhotonNetwork.IsMasterClient)
         {
             // 몬스터볼의 현재 위치 저장
@@ -69,7 +73,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             int selectedItemIndex = GetRandomItemIndex();
 
             // 선택된 아이템 인덱스를 RPC로 전달
-            photonView.RPC(nameof(RPC_DropItem), RpcTarget.AllBuffered, spawnPosition, selectedItemIndex);
+            photonView.RPC(nameof(RPC_DropItem), RpcTarget.MasterClient, spawnPosition, selectedItemIndex);
 
             // 풀로 반환
             ItemBoxPoolManager.Instance.ReturnToPool(gameObject);
@@ -156,8 +160,9 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 
         // 선택된 아이템 프리팹 생성
         Debug.Log($"{itemIndex}번째 아이템[{itemPrefabs[itemIndex].name}] 생성 시도");
-        string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources 폴더 내 경로
-        GameObject newItem = PhotonNetwork.Instantiate(prefabPath, position, Quaternion.identity);
+        //string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources 폴더 내 경로
+        string prefabPath = "Items/ItemPrefab";
+        GameObject newItem = PhotonNetwork.InstantiateRoomObject(prefabPath, position, Quaternion.identity);
 
         Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
     }
