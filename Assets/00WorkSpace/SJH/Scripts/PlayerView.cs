@@ -32,4 +32,9 @@ public class PlayerView : MonoBehaviour
 	public void SetIsSpeAttack() => _anim.SetTrigger("IsSpeAttack");
 	public void SetIsHit() => _anim.SetTrigger("IsHit");
 	public void SetIsDead(bool isDead) => _anim.SetBool("IsDead", isDead);
+	public void SetOrderInLayer(bool isMine)
+	{
+		if (isMine) _sprite.sortingOrder = 11;
+		else _sprite.sortingOrder = 10;
+	}
 }

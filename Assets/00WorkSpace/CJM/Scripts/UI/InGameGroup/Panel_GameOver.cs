@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -24,7 +24,7 @@ public class Panel_GameOver : MonoBehaviour
     {
         UIManager.Instance.InGameGroup.GameStartViewUpdate();
 
-        // ¿©±â¼­ ÇÃ·¹ÀÌ¾î Àç½ÃÀÛ ÇÔ¼ö ½ÇÇà
+        // ì—¬ê¸°ì„œ í”Œë ˆì´ì–´ ì¬ì‹œì‘ í•¨ìˆ˜ ì‹¤í–‰
         PlayerManager pm = PlayerManager.Instance;
         if (pm != null)
         {
@@ -40,10 +40,11 @@ public class Panel_GameOver : MonoBehaviour
 
     private void ReturnToLobbyServer()
     {
+        gameObject.SetActive(false); // SJH
         NetworkManager.Instance.MoveToLobby();
     }
 
-    // ÇÃ·¹ÀÌ¾î »ç¸Á ½Ã È£Ãâ
+    // í”Œë ˆì´ì–´ ì‚¬ë§ ì‹œ í˜¸ì¶œ
     public void UpdateResultView(float exp, int level, int kills)
     {
         tmp_EXP.text = $"EXP: {exp}";

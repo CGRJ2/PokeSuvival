@@ -1,4 +1,4 @@
-using ExitGames.Client.Photon;
+ï»¿using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -9,14 +9,14 @@ using WebSocketSharp;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
-    [Header("Å×½ºÆ®¿ë ÀÎ°ÔÀÓ ¾À ÀÌ¸§")] // ³ªÁß¿¡ DB·Î °ü¸®ÇÒ ¿¹Á¤
+    [Header("í…ŒìŠ¤íŠ¸ìš© ì¸ê²Œì„ ì”¬ ì´ë¦„")] // ë‚˜ì¤‘ì— DBë¡œ ê´€ë¦¬í•  ì˜ˆì •
     public string temp_InGameSceneName;
 
-    [Header("Å×½ºÅÍ ¼­¹ö ¿¬°á ¿©ºÎ")]
+    [Header("í…ŒìŠ¤í„° ì„œë²„ ì—°ê²° ì—¬ë¶€")]
     [SerializeField] bool isTestServer;
     [SerializeField] int testServerIndex;
 
-    [Header("µğ¹ö±ë ¿ëµµ")]
+    [Header("ë””ë²„ê¹… ìš©ë„")]
     [SerializeField] TMP_Text tmp_State;
     public ServerData CurServer { get; private set; }
     [SerializeField] ServerData[] testServerDatas;
@@ -25,7 +25,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     UIManager um;
 
-    Hashtable customPropsDB_Player; // ¼­¹ö ÀÌµ¿ ½Ã, Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼¸¦ À¯ÁöÇÏ±â À§ÇÑ ¹é¾÷ °ø°£
+    Hashtable customPropsDB_Player; // ì„œë²„ ì´ë™ ì‹œ, ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ë¥¼ ìœ ì§€í•˜ê¸° ìœ„í•œ ë°±ì—… ê³µê°„
 
     private void Awake() => Init();
     public void Init()
@@ -33,7 +33,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.SingletonInit();
         um = UIManager.Instance;
 
-        // ¼­¹ö °ü¸® R&D ÁøÇà ÈÄ ¼öÁ¤ÇÏÀÚ
+        // ì„œë²„ ê´€ë¦¬ R&D ì§„í–‰ í›„ ìˆ˜ì •í•˜ì
         CurServer = lobbyServerDatas[0];
         if (isTestServer)
         {
@@ -45,7 +45,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
         //PhotonNetwork.ConnectUsingSettings();
 
-        // ¿¬°á ½Ãµµ¿Í µ¿½Ã¿¡ ·ÎµùÃ¢À¸·Î °¡¸®±â
+        // ì—°ê²° ì‹œë„ì™€ ë™ì‹œì— ë¡œë”©ì°½ìœ¼ë¡œ ê°€ë¦¬ê¸°
         if (um != null)
         {
             um.StaticGroup.panel_Loading.gameObject.SetActive(true);
@@ -54,27 +54,27 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     private void Update()
     {
-        // »óÅÂ µğ¹ö±ë¿ë
+        // ìƒíƒœ ë””ë²„ê¹…ìš©
         if (tmp_State != null)
-            tmp_State.text = $"ÇöÀç ¼­¹ö : {CurServer.name}, Current State : {PhotonNetwork.NetworkClientState}";
+            tmp_State.text = $"í˜„ì¬ ì„œë²„ : {CurServer.name}, Current State : {PhotonNetwork.NetworkClientState}";
     }
 
 
     public override void OnConnected()
     {
         base.OnConnected();
-        Debug.Log("¿¬°á");
+        Debug.Log("ì—°ê²°");
     }
 
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        Debug.Log("¸¶½ºÅÍ ¿¬°á");
+        Debug.Log("ë§ˆìŠ¤í„° ì—°ê²°");
 
-        // ÇöÀç Á¢¼ÓÇÑ ¼­¹ö°¡ ·Îºñ¶ó¸é
+        // í˜„ì¬ ì ‘ì†í•œ ì„œë²„ê°€ ë¡œë¹„ë¼ë©´
         if (CurServer.type == ServerType.Lobby)
         {
-            // ÇÃ·¹ÀÌ¾î Á¤º¸°¡ ¾øÀ¸¸é(= Ã³À½ ½ÃÀÛÇÑ »óÅÂ¶ó¸é) => InitializeGroup(UI) È°¼ºÈ­
+            // í”Œë ˆì´ì–´ ì •ë³´ê°€ ì—†ìœ¼ë©´(= ì²˜ìŒ ì‹œì‘í•œ ìƒíƒœë¼ë©´) => InitializeGroup(UI) í™œì„±í™”
             if (PhotonNetwork.LocalPlayer.NickName.IsNullOrEmpty())
             {
                 um.InitializeGroup.InitView();
@@ -84,22 +84,22 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 StartCoroutine(JoinLobbyAfterConnectedMaster());
             }
 
-            // ·ÎµùÃ¢ ºñÈ°¼ºÈ­
+            // ë¡œë”©ì°½ ë¹„í™œì„±í™”
             if (um.StaticGroup != null)
                 um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
-        // ÇöÀç Á¢¼ÓÇÑ ¼­¹ö°¡ ÀÎ°ÔÀÓ ¼­¹ö¶ó¸é
+        // í˜„ì¬ ì ‘ì†í•œ ì„œë²„ê°€ ì¸ê²Œì„ ì„œë²„ë¼ë©´
         else if (CurServer.type == ServerType.InGame)
         {
             StartCoroutine(JoinLobbyAfterConnectedMaster());
 
-            // ·ÎµùÃ¢ ºñÈ°¼ºÈ­
+            // ë¡œë”©ì°½ ë¹„í™œì„±í™”
             if (um.StaticGroup != null)
                 um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
 
 
-        // Å×½ºÆ®¿ë ¼­¹ö ¿¹¿ÜÃ³¸® 
+        // í…ŒìŠ¤íŠ¸ìš© ì„œë²„ ì˜ˆì™¸ì²˜ë¦¬ 
         else if (CurServer.type == ServerType.TestServer)
         {
             StartCoroutine(JoinLobbyAfterConnectedMaster());
@@ -115,17 +115,27 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     }
 
 
-    // ·Îºñ ÀÔÀå½Ã È£ÃâµÊ
+    // ë¡œë¹„ ì…ì¥ì‹œ í˜¸ì¶œë¨
     public override void OnJoinedLobby()
     {
         if (CurServer.type == ServerType.TestServer)
         {
-            return;
+            // SJH í…ŒìŠ¤íŠ¸ì„œë²„ìš© UIì²˜ë¦¬
+            Debug.Log("SJH í…ŒìŠ¤íŠ¸ì„œë²„ìš© UI ì²˜ë¦¬");
+			if (um.StaticGroup != null)
+				um.StaticGroup.panel_Loading.gameObject.SetActive(false);
+
+			um.LobbyGroup.gameObject.SetActive(true);
+			um.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
+
+			um.InitializeGroup.gameObject.SetActive(false);
+			um.InGameGroup.gameObject.SetActive(false);
+			return;
         }
 
         if (CurServer.type == ServerType.InGame)
         {
-            Debug.Log("ÀÎ°ÔÀÓ ¼­¹ö ´ÜÀÏ ·ë »ç¿ë");
+            Debug.Log("ì¸ê²Œì„ ì„œë²„ ë‹¨ì¼ ë£¸ ì‚¬ìš©");
             PhotonNetwork.JoinRandomOrCreateRoom();
         }
 
@@ -139,7 +149,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 um.InitializeGroup.gameObject.SetActive(false);
                 um.InGameGroup.gameObject.SetActive(false);
 
-                // ÇÃ·¹ÀÌ¾î Á¤º¸ ¾÷µ¥ÀÌÆ®
+                // í”Œë ˆì´ì–´ ì •ë³´ ì—…ë°ì´íŠ¸
                 if (BackendManager.Auth.CurrentUser != null)
                 {
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
@@ -154,20 +164,20 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     }
 
 
-    #region ¸ÅÄ¡ ¸ŞÀÌÅ· °ü·Ã
+    #region ë§¤ì¹˜ ë©”ì´í‚¹ ê´€ë ¨
 
 
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        Debug.Log("¹æ ¸¸µé¾îÁü");
+        Debug.Log("ë°© ë§Œë“¤ì–´ì§");
     }
 
-    // ¹æ ÀÔÀå½Ã È£ÃâµÊ
+    // ë°© ì…ì¥ì‹œ í˜¸ì¶œë¨
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("¹æ ÀÔÀå");
+        Debug.Log("ë°© ì…ì¥");
 
         if (CurServer.type == ServerType.TestServer) { return; }
 
@@ -198,7 +208,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
     }
 
-    // ¹æ ÅğÀå½Ã È£ÃâµÊ
+    // ë°© í‡´ì¥ì‹œ í˜¸ì¶œë¨
     public override void OnLeftRoom()
     {
         if (CurServer.type == ServerType.TestServer) { return; }
@@ -211,7 +221,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
     }
 
-    // »õ·Î¿î ÇÃ·¹ÀÌ¾î°¡ ¹æ ÀÔÀå½Ã È£ÃâµÊ
+    // ìƒˆë¡œìš´ í”Œë ˆì´ì–´ê°€ ë°© ì…ì¥ì‹œ í˜¸ì¶œë¨
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (CurServer.type == ServerType.TestServer) { return; }
@@ -222,7 +232,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
     }
 
-    // ´Ù¸¥ ÇÃ·¹ÀÌ¾î°¡ ¹æ ÅğÀå½Ã È£ÃâµÊ
+    // ë‹¤ë¥¸ í”Œë ˆì´ì–´ê°€ ë°© í‡´ì¥ì‹œ í˜¸ì¶œë¨
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (CurServer.type == ServerType.TestServer) { return; }
@@ -234,7 +244,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     }
 
 
-    // ·Îºñ¿¡ ÀÖÀ» ¶§ ¹æÀ» Ãß°¡ or »èÁ¦ÇÒ ¶§ ¾÷µ¥ÀÌÆ® µÊ
+    // ë¡œë¹„ì— ìˆì„ ë•Œ ë°©ì„ ì¶”ê°€ or ì‚­ì œí•  ë•Œ ì—…ë°ì´íŠ¸ ë¨
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         if (CurServer.type == ServerType.TestServer) { return; }
@@ -242,14 +252,14 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
 
         base.OnRoomListUpdate(roomList);
-        //Debug.Log($"Á¤º¸°¡ °»½ÅµÈ ¹æ °³¼ö{roomList.Count}");
+        //Debug.Log($"ì •ë³´ê°€ ê°±ì‹ ëœ ë°© ê°œìˆ˜{roomList.Count}");
 
-        // º¯È­ÇÑ ¾Öµé ÇöÀç ¹æ ÇØ½ÃÅ×ÀÌºí¿¡ °»½Å
+        // ë³€í™”í•œ ì• ë“¤ í˜„ì¬ ë°© í•´ì‹œí…Œì´ë¸”ì— ê°±ì‹ 
         foreach (RoomInfo info in roomList)
         {
             if (info.RemovedFromList)
             {
-                //Debug.Log($"¹æ »èÁ¦ {info.Name}");
+                //Debug.Log($"ë°© ì‚­ì œ {info.Name}");
                 cachedRoomList.Remove(info.Name);
             }
             else
@@ -258,12 +268,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             }
         }
 
-        //Debug.Log($"ÇöÀç Á¸ÀçÇÏ´Â ¹æ °³¼ö{cachedRoomList.Count}");
+        //Debug.Log($"í˜„ì¬ ì¡´ì¬í•˜ëŠ” ë°© ê°œìˆ˜{cachedRoomList.Count}");
 
-        // ÇØ½ÃÅ×ÀÌºíÀ» ¸®½ºÆ®·Î º¯È¯
+        // í•´ì‹œí…Œì´ë¸”ì„ ë¦¬ìŠ¤íŠ¸ë¡œ ë³€í™˜
         List<RoomInfo> activedRoomList = cachedRoomList.Values.ToList();
 
-        // È°¼ºÈ­µÈ ¹æ(»èÁ¦µÇÁö ¾ÊÀº ¹æ)¸¸ ¾÷µ¥ÀÌÆ®
+        // í™œì„±í™”ëœ ë°©(ì‚­ì œë˜ì§€ ì•Šì€ ë°©)ë§Œ ì—…ë°ì´íŠ¸
         UIManager.Instance.LobbyGroup.panel_MatchMaking.UpdateRoomListView(activedRoomList);
     }
 
@@ -278,7 +288,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             um.LobbyGroup.panel_RoomInside.panel_MapSettings.UpdateRoomProperty();
     }
 
-    // ¹æ¾ÈÀÇ ÇÃ·¹ÀÌ¾î°¡ Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼°¡ º¯°æµÉ ¶§ È£Ãâ (´Ù¸¥ »ç¶÷ÀÌ º¯°æÇØµµ È£ÃâµÊ)
+    // ë°©ì•ˆì˜ í”Œë ˆì´ì–´ê°€ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ê°€ ë³€ê²½ë  ë•Œ í˜¸ì¶œ (ë‹¤ë¥¸ ì‚¬ëŒì´ ë³€ê²½í•´ë„ í˜¸ì¶œë¨)
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
@@ -294,38 +304,47 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     public void ChangeServer(ServerData serverData)
     {
-        // ÇöÀç Á¢¼Ó ÁßÀÎ ¼­¹ö°¡ ¾ø´Ù¸é
-        if (CurServer == null) { Debug.LogError("ÇöÀç ¼­¹ö¸¦ ÀÎ½ÄÇÏÁö ¸øÇÔ!"); }
+        // í˜„ì¬ ì ‘ì† ì¤‘ì¸ ì„œë²„ê°€ ì—†ë‹¤ë©´
+        if (CurServer == null) { Debug.LogError("í˜„ì¬ ì„œë²„ë¥¼ ì¸ì‹í•˜ì§€ ëª»í•¨!"); }
 
-        // ÇÃ·¹ÀÌ¾î Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ ¹é¾÷
+        // í”Œë ˆì´ì–´ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° ë°±ì—…
         if (PhotonNetwork.LocalPlayer.CustomProperties != null)
             customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
-        // ÇöÀç Á¢¼Ó ÁßÀÎ ¼­¹ö ¿¬°á ÇØÁ¦
+        // í˜„ì¬ ì ‘ì† ì¤‘ì¸ ì„œë²„ ì—°ê²° í•´ì œ
         PhotonNetwork.Disconnect();
-        // ÀÌµ¿ÇÒ ¼­¹ö AppID °»½Å
+        // ì´ë™í•  ì„œë²„ AppID ê°±ì‹ 
         PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = serverData.id;
-        // °»½ÅµÈ IDÀÇ ¼­¹ö ¿¬°á
+        // ê°±ì‹ ëœ IDì˜ ì„œë²„ ì—°ê²°
         PhotonNetwork.ConnectUsingSettings();
 
-        // ¿¬°á ÈÄ Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ º¹¿ø
+        // ì—°ê²° í›„ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° ë³µì›
         PhotonNetwork.LocalPlayer.CustomProperties = customPropsDB_Player;
 
-        // Á¢¼Ó¿¡ ¼º°øÇÏ¸é ÇöÀç ¼­¹ö °»½Å
+        // ì ‘ì†ì— ì„±ê³µí•˜ë©´ í˜„ì¬ ì„œë²„ ê°±ì‹ 
         CurServer = serverData;
     }
 
     public void MoveToLobby()
     {
-        // ¿ì¼± Ã¹¹øÂ° ¼­¹ö·Î °íÁ¤ ÀÌµ¿
-        ChangeServer(lobbyServerDatas[0]);
+        PlayerManager.Instance?.PlayerToLobby(); // SJH ìŠ¤í‚¬ ì´ë²¤íŠ¸ í•´ì œ
+		// ìš°ì„  ì²«ë²ˆì§¸ ì„œë²„ë¡œ ê³ ì • ì´ë™
+		ChangeServer(lobbyServerDatas[0]);
 
-        PhotonNetwork.LoadLevel("LobbyScene(CJM)"); // ·Îºñ ¾À ÀÌ¸§ ¾À¸Å´ÏÀú¿¡ ÀúÀåÇØµÎ±â
+        PhotonNetwork.LoadLevel("LobbyScene(CJM)"); // ë¡œë¹„ ì”¬ ì´ë¦„ ì”¬ë§¤ë‹ˆì €ì— ì €ì¥í•´ë‘ê¸°
     }
 
     public void MoveToInGameScene(string sceneName)
     {
-        // ¿ì¼± Ã¹¹øÂ° ¼­¹ö·Î °íÁ¤ ÀÌµ¿
+        // SJH í…ŒìŠ¤íŠ¸ì„œë²„ë©´ í…ŒìŠ¤íŠ¸ ì„œë²„ë¡œ
+        if (isTestServer)
+        {
+            ChangeServer(inGameServerDatas[2]);
+			PhotonNetwork.LoadLevel(sceneName);
+            return;
+		}
+
+        // ìš°ì„  ì²«ë²ˆì§¸ ì„œë²„ë¡œ ê³ ì • ì´ë™
         ChangeServer(inGameServerDatas[0]);
 
         PhotonNetwork.LoadLevel(sceneName);
@@ -338,60 +357,60 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     public void Test()
     {
-        //PhotonNetwork.ConnectUsingSettings();   // Á¢¼Ó ½Ãµµ ¿äÃ»
-        //PhotonNetwork.Disconnect();             // Á¢¼Ó ÇØÁ¦ ¿äÃ»
+        //PhotonNetwork.ConnectUsingSettings();   // ì ‘ì† ì‹œë„ ìš”ì²­
+        //PhotonNetwork.Disconnect();             // ì ‘ì† í•´ì œ ìš”ì²­
 
-        //PhotonNetwork.CreateRoom("RoomName");   // ¹æ »ı¼º ¿äÃ»
-        //PhotonNetwork.JoinRoom("RoomName");     // ¹æ ÀÔÀå ¿äÃ»
-        //PhotonNetwork.LeaveRoom();              // ¹æ ÅğÀå ¿äÃ»
+        //PhotonNetwork.CreateRoom("RoomName");   // ë°© ìƒì„± ìš”ì²­
+        //PhotonNetwork.JoinRoom("RoomName");     // ë°© ì…ì¥ ìš”ì²­
+        //PhotonNetwork.LeaveRoom();              // ë°© í‡´ì¥ ìš”ì²­
 
-        //PhotonNetwork.JoinLobby();              // ·Îºñ ÀÔÀå ¿äÃ»
-        //PhotonNetwork.LeaveLobby();             // ·Îºñ ÅğÀå ¿äÃ»
+        //PhotonNetwork.JoinLobby();              // ë¡œë¹„ ì…ì¥ ìš”ì²­
+        //PhotonNetwork.LeaveLobby();             // ë¡œë¹„ í‡´ì¥ ìš”ì²­
 
-        //PhotonNetwork.LoadLevel("SceneName");   // ¾À ÀüÈ¯ ¿äÃ»
+        //PhotonNetwork.LoadLevel("SceneName");   // ì”¬ ì „í™˜ ìš”ì²­
 
-        //bool isConnected = PhotonNetwork.IsConnected;           // Á¢¼Ó ¿©ºÎ È®ÀÎ
-        //bool isInRoom = PhotonNetwork.InRoom;                   // ¹æ ÀÔÀå ¿©ºÎ È®ÀÎ
-        //bool isLobby = PhotonNetwork.InLobby;                   // ·Îºñ ÀÔÀå ¿©ºÎ È®ÀÎ
-        //ClientState state = PhotonNetwork.NetworkClientState;   // Å¬¶óÀÌ¾ğÆ® »óÅÂ È®ÀÎ
-        //Player player = PhotonNetwork.LocalPlayer;              // Æ÷Åæ ÇÃ·¹ÀÌ¾î Á¤º¸ È®ÀÎ
-        //Room players = PhotonNetwork.CurrentRoom;               // ÇöÀç ¹æ Á¤º¸ È®ÀÎ
+        //bool isConnected = PhotonNetwork.IsConnected;           // ì ‘ì† ì—¬ë¶€ í™•ì¸
+        //bool isInRoom = PhotonNetwork.InRoom;                   // ë°© ì…ì¥ ì—¬ë¶€ í™•ì¸
+        //bool isLobby = PhotonNetwork.InLobby;                   // ë¡œë¹„ ì…ì¥ ì—¬ë¶€ í™•ì¸
+        //ClientState state = PhotonNetwork.NetworkClientState;   // í´ë¼ì´ì–¸íŠ¸ ìƒíƒœ í™•ì¸
+        //Player player = PhotonNetwork.LocalPlayer;              // í¬í†¤ í”Œë ˆì´ì–´ ì •ë³´ í™•ì¸
+        //Room players = PhotonNetwork.CurrentRoom;               // í˜„ì¬ ë°© ì •ë³´ í™•ì¸
 
 
-        //public override void OnConnected() { }                          // Æ÷Åæ Á¢¼Ó½Ã È£ÃâµÊ
-        //public override void OnConnectedToMaster() { }                  // ¸¶½ºÅÍ ¼­¹ö Á¢¼Ó½Ã È£ÃâµÊ
-        //public override void OnDisconnected(DisconnectCause cause) { }  // Á¢¼Ó ÇØÁ¦½Ã È£ÃâµÊ
+        //public override void OnConnected() { }                          // í¬í†¤ ì ‘ì†ì‹œ í˜¸ì¶œë¨
+        //public override void OnConnectedToMaster() { }                  // ë§ˆìŠ¤í„° ì„œë²„ ì ‘ì†ì‹œ í˜¸ì¶œë¨
+        //public override void OnDisconnected(DisconnectCause cause) { }  // ì ‘ì† í•´ì œì‹œ í˜¸ì¶œë¨
 
-        //public override void OnCreatedRoom() { }    // ¹æ »ı¼º½Ã È£ÃâµÊ
-        //public override void OnJoinedRoom() { }     // ¹æ ÀÔÀå½Ã È£ÃâµÊ
-        //public override void OnLeftRoom() { }       // ¹æ ÅğÀå½Ã È£ÃâµÊ
-        //public override void OnPlayerEnteredRoom(Player newPlayer) { }  // »õ·Î¿î ÇÃ·¹ÀÌ¾î°¡ ¹æ ÀÔÀå½Ã È£ÃâµÊ
-        //public override void OnPlayerLeftRoom(Player otherPlayer) { }   // ´Ù¸¥ ÇÃ·¹ÀÌ¾î°¡ ¹æ ÅğÀå½Ã È£ÃâµÊ
-        //public override void OnCreateRoomFailed(short returnCode, string message) { }   // ¹æ »ı¼º ½ÇÆĞ½Ã È£ÃâµÊ
-        //public override void OnJoinRoomFailed(short returnCode, string message) { }     // ¹æ ÀÔÀå ½ÇÆĞ½Ã È£ÃâµÊ
+        //public override void OnCreatedRoom() { }    // ë°© ìƒì„±ì‹œ í˜¸ì¶œë¨
+        //public override void OnJoinedRoom() { }     // ë°© ì…ì¥ì‹œ í˜¸ì¶œë¨
+        //public override void OnLeftRoom() { }       // ë°© í‡´ì¥ì‹œ í˜¸ì¶œë¨
+        //public override void OnPlayerEnteredRoom(Player newPlayer) { }  // ìƒˆë¡œìš´ í”Œë ˆì´ì–´ê°€ ë°© ì…ì¥ì‹œ í˜¸ì¶œë¨
+        //public override void OnPlayerLeftRoom(Player otherPlayer) { }   // ë‹¤ë¥¸ í”Œë ˆì´ì–´ê°€ ë°© í‡´ì¥ì‹œ í˜¸ì¶œë¨
+        //public override void OnCreateRoomFailed(short returnCode, string message) { }   // ë°© ìƒì„± ì‹¤íŒ¨ì‹œ í˜¸ì¶œë¨
+        //public override void OnJoinRoomFailed(short returnCode, string message) { }     // ë°© ì…ì¥ ì‹¤íŒ¨ì‹œ í˜¸ì¶œë¨
 
-        //public override void OnJoinedLobby() { }    // ·Îºñ ÀÔÀå½Ã È£ÃâµÊ
-        //public override void OnLeftLobby() { }      // ·Îºñ ÅğÀå½Ã È£ÃâµÊ
-        //public override void OnRoomListUpdate(List<RoomInfo> roomList) { }  // ¹æ ¸ñ·Ï º¯°æ½Ã È£ÃâµÊ
+        //public override void OnJoinedLobby() { }    // ë¡œë¹„ ì…ì¥ì‹œ í˜¸ì¶œë¨
+        //public override void OnLeftLobby() { }      // ë¡œë¹„ í‡´ì¥ì‹œ í˜¸ì¶œë¨
+        //public override void OnRoomListUpdate(List<RoomInfo> roomList) { }  // ë°© ëª©ë¡ ë³€ê²½ì‹œ í˜¸ì¶œë¨
 
-        //Room room = PhotonNetwork.CurrentRoom;  // ÇöÀç Âü°¡ÇÑ ·ëÀ» È®ÀÎ
+        //Room room = PhotonNetwork.CurrentRoom;  // í˜„ì¬ ì°¸ê°€í•œ ë£¸ì„ í™•ì¸
 
-        //// ·ë Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ ¼³Á¤
+        //// ë£¸ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° ì„¤ì •
         //ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtabl> ();
         //roomProperty["Map"] = "Select Map";
         //room.SetCustomProperties(roomProperty);
 
-        //// ·ë Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ È®ÀÎ
+        //// ë£¸ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° í™•ì¸
         //string curMap = (string)room.CustomProperties["Map"];
 
-        //Player player = PhotonNetwork.LocalPlayer;  // ÀÚ½Å ÇÃ·¹ÀÌ¾î¸¦ È®ÀÎ
+        //Player player = PhotonNetwork.LocalPlayer;  // ìì‹  í”Œë ˆì´ì–´ë¥¼ í™•ì¸
 
-        //// ÇÃ·¹ÀÌ¾î Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ ¼³Á¤
+        //// í”Œë ˆì´ì–´ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° ì„¤ì •
         //ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon> Hashtable();
         //playerProperty["Ready"] = true;
         //player.SetCustomProperties(playerProperty);
 
-        //// ÇÃ·¹ÀÌ¾î Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ È®ÀÎ
+        //// í”Œë ˆì´ì–´ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° í™•ì¸
         //bool ready = (bool)player.CustomProperties["Ready"];
     }
 
