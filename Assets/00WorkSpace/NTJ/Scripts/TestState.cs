@@ -10,12 +10,12 @@ namespace NTJ
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private PlayerModel playerModel;
 
-        // ¹öÇÁ °ü¸®¿ë (StatType -> multiplier)
+        // ë²„í”„ ê´€ë¦¬ìš© (StatType -> multiplier)
         private Dictionary<StatType, float> activeBuffs = new();
         private Dictionary<StatType, Coroutine> buffCoroutines = new();
         private Dictionary<StatType, float> buffEndTime = new();
 
-        // ÃÖÁ¾ ½ºÅÈ °è»ê¿ë (±âº»½ºÅÈ * ¹öÇÁ¹èÀ²)
+        // ìµœì¢… ìŠ¤íƒ¯ ê³„ì‚°ìš© (ê¸°ë³¸ìŠ¤íƒ¯ * ë²„í”„ë°°ìœ¨)
         public float atk => playerModel.AllStat.Attak * GetBuffMultiplier(StatType.Atk);
         public float def => playerModel.AllStat.Defense * GetBuffMultiplier(StatType.Def);
         public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpA);
@@ -40,7 +40,7 @@ namespace NTJ
                     break;
 
                 default:
-                    Debug.LogWarning($"Á¤ÀÇµÇÁö ¾ÊÀº ¾ÆÀÌÅÛ Å¸ÀÔ: {item.itemType}");
+                    Debug.LogWarning($"ì •ì˜ë˜ì§€ ì•Šì€ ì•„ì´í…œ íƒ€ì…: {item.itemType}");
                     break;
             }
         }
@@ -57,59 +57,49 @@ namespace NTJ
         {
             int newHp = Mathf.Min(playerModel.CurrentHp + (int)value, playerModel.MaxHp);
             playerModel.SetCurrentHp(newHp);
-            Debug.Log($"HP È¸º¹: {value}, ÇöÀç HP: {newHp}/{playerModel.MaxHp}");
+            Debug.Log($"HP íšŒë³µ: {value}, í˜„ì¬ HP: {newHp}/{playerModel.MaxHp}");
         }
 
         private void LevelUp()
         {
             playerModel.SetLevel(playerModel.PokeLevel + 1);
-            playerModel.SetExp(0);
-            Debug.Log($"·¹º§¾÷! ÇöÀç ·¹º§: {playerModel.PokeLevel}, °æÇèÄ¡ ÃÊ±âÈ­");
         }
-
-       // PlayerModel¿¡ Ãß°¡ÇØ¾ß µÊ
-
-       // public void SetExp(int exp)
-       // {
-       //     _pokeExp = exp;
-       //     _nextExp = PokeUtils.GetNextLevelExp(PokeLevel);
-       // }
 
         private void ApplyBuff(StatType stat, float multiplier, float duration)
         {
             if (Mathf.Approximately(multiplier, 1f) || multiplier <= 0f)
             {
-                Debug.LogWarning($"{stat} ºñÁ¤»ó ¹èÀ² ¹æÁö : {multiplier}");
+                Debug.LogWarning($"{stat} ë¹„ì •ìƒ ë°°ìœ¨ ë°©ì§€ : {multiplier}");
                 return;
             }
 
-            // ÀÌ¹Ì ÇØ´ç ½ºÅÈ¿¡ ¹öÇÁ°¡ Á¸ÀçÇÑ´Ù¸é
+            // ì´ë¯¸ í•´ë‹¹ ìŠ¤íƒ¯ì— ë²„í”„ê°€ ì¡´ì¬í•œë‹¤ë©´
             if (activeBuffs.ContainsKey(stat))
             {
-                // ±âÁ¸ ÄÚ·çÆ¾ ½Ã°£ÀÌ ³²¾ÆÀÖ´Ù¸é °»½Å Á¶°Ç È®ÀÎ
+                // ê¸°ì¡´ ì½”ë£¨í‹´ ì‹œê°„ì´ ë‚¨ì•„ìˆë‹¤ë©´ ê°±ì‹  ì¡°ê±´ í™•ì¸
                 if (buffCoroutines.TryGetValue(stat, out Coroutine coroutine))
                 {
-                    // ±âÁ¸º¸´Ù »õ durationÀÌ ´õ ±æ¸é °»½Å
+                    // ê¸°ì¡´ë³´ë‹¤ ìƒˆ durationì´ ë” ê¸¸ë©´ ê°±ì‹ 
                     float remainingTime = GetRemainingBuffTime(stat);
 
                     if (duration > remainingTime)
                     {
                         StopCoroutine(coroutine);
                         buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
-                        Debug.Log($"{stat} ¹öÇÁ Áö¼Ó½Ã°£ °»½Å: {remainingTime:F1}s ¡æ {duration}s");
+                        Debug.Log($"{stat} ë²„í”„ ì§€ì†ì‹œê°„ ê°±ì‹ : {remainingTime:F1}s â†’ {duration}s");
                     }
                     else
                     {
-                        Debug.Log($"{stat} ¹öÇÁ ¹«½Ã (³²Àº ½Ã°£ {remainingTime:F1}s > »õ ¹öÇÁ {duration}s)");
+                        Debug.Log($"{stat} ë²„í”„ ë¬´ì‹œ (ë‚¨ì€ ì‹œê°„ {remainingTime:F1}s > ìƒˆ ë²„í”„ {duration}s)");
                     }
                 }
-                return; // ÁßÃ¸ ¾øÀ½, ¹èÀ²Àº ±×´ë·Î À¯Áö
+                return; // ì¤‘ì²© ì—†ìŒ, ë°°ìœ¨ì€ ê·¸ëŒ€ë¡œ ìœ ì§€
             }
 
-            // ½Å±Ô ¹öÇÁ
+            // ì‹ ê·œ ë²„í”„
             activeBuffs[stat] = multiplier;
             buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
-            Debug.Log($"{stat} ¹öÇÁ ½ÃÀÛ, ¹èÀ²: {multiplier}, Áö¼Ó½Ã°£: {duration}s");
+            Debug.Log($"{stat} ë²„í”„ ì‹œì‘, ë°°ìœ¨: {multiplier}, ì§€ì†ì‹œê°„: {duration}s");
         }
         
 
@@ -129,7 +119,7 @@ namespace NTJ
                 if (Mathf.Approximately(currentMultiplier, multiplier))
                 {
                     activeBuffs.Remove(stat);
-                    Debug.Log($"{stat} ¹öÇÁ Á¾·á");
+                    Debug.Log($"{stat} ë²„í”„ ì¢…ë£Œ");
                 }
             }
         }
