@@ -100725,8 +100725,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b4c60e1ed0931843b2bf16ca3a506e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 917355742058428109, guid: 4a6e0c61105c43b458d16c8ce675288d, type: 3}
+  itemPrefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
   poolSize: 20
+  items: []
 --- !u!4 &766540406
 Transform:
   m_ObjectHideFlags: 0

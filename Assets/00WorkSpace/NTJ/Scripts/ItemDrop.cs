@@ -1,4 +1,4 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ namespace NTJ
         {
             if (possibleDrops == null || possibleDrops.Count == 0)
             {
-                possibleDrops = new List<ItemData>(ItemDatabase.Instance.items);
+                //possibleDrops = new List<ItemData>(ItemDatabase.Instance.items);
             }
         }
 
@@ -23,7 +23,7 @@ namespace NTJ
 
             if (possibleDrops == null || possibleDrops.Count == 0)
             {
-                Debug.LogWarning("[ItemDrop] µå·Ó °¡´ÉÇÑ ¾ÆÀÌÅÛÀÌ ¾øÀ½.");
+                Debug.LogWarning("[ItemDrop] ë“œë¡­ ê°€ëŠ¥í•œ ì•„ì´í…œì´ ì—†ìŒ.");
                 return;
             }
 
@@ -41,13 +41,13 @@ namespace NTJ
 
             if (item != null && item.TryGetComponent<Rigidbody2D>(out var rb))
             {
-                // ·£´ı ¹æÇâÀÇ ´ÜÀ§ º¤ÅÍ »ı¼º
+                // ëœë¤ ë°©í–¥ì˜ ë‹¨ìœ„ ë²¡í„° ìƒì„±
                 Vector2 randomDir = Random.insideUnitCircle.normalized;
 
-                // Èû Å©±â ¼³Á¤
+                // í˜ í¬ê¸° ì„¤ì •
                 float forceMagnitude = 3f;
 
-                // Èû Àû¿ë
+                // í˜ ì ìš©
                 rb.AddForce(randomDir * forceMagnitude, ForceMode2D.Impulse);
             }
         }

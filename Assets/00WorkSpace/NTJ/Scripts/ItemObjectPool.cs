@@ -1,7 +1,7 @@
 ﻿using NTJ;
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -12,9 +12,13 @@ public class ItemObjectPool : MonoBehaviourPun
     [SerializeField] private GameObject itemPrefab;
     [SerializeField] private int poolSize = 20;
 
-    private readonly Queue<ItemPickup> pool = new();
+    public Queue<ItemPickup> Pool = new();
+	public ItemDatabase ItemDatabase { get; private set; }
+    [Header("아이템 DB")]
+	public ItemData[] items;
+	private Dictionary<int, ItemData> _itemDict;
 
-    private void Awake()
+	private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject); // 싱글톤 안전 처리
@@ -23,7 +27,7 @@ public class ItemObjectPool : MonoBehaviourPun
         {
             var obj = Instantiate(itemPrefab, transform); // TODO : 룸오브젝트로 생성
             obj.SetActive(false);
-            pool.Enqueue(obj.GetComponent<ItemPickup>());
+            Pool.Enqueue(obj.GetComponent<ItemPickup>());
         }
     }
 
@@ -31,9 +35,9 @@ public class ItemObjectPool : MonoBehaviourPun
     {
         ItemPickup item;
 
-        if (pool.Count > 0)
+        if (Pool.Count > 0)
         {
-            item = pool.Dequeue();
+            item = Pool.Dequeue();
         }
         else
         {
@@ -53,10 +57,27 @@ public class ItemObjectPool : MonoBehaviourPun
 
     public void ReturnToPool(ItemPickup item)
     {
-        if (!pool.Contains(item))
+        if (!Pool.Contains(item))
         {
             item.gameObject.SetActive(false);
-            pool.Enqueue(item);
+            Pool.Enqueue(item);
         }
     }
+
+    public void ItemDatabaseInit()
+    {
+		ItemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+		_itemDict = ItemDatabase.items.ToDictionary(i => i.id);
+        foreach (var kvp in _itemDict)
+        {
+            Debug.Log($"Key : {kvp.Key} / Value : {kvp.Value.itemName}");
+        }
+        Debug.Log($"아이템 데이터 {_itemDict.Count}개 초기화 완료");
+	}
+	public ItemData GetItemById(int id)
+	{
+		if (!PhotonNetwork.IsMasterClient) return null;
+        if (ItemDatabase == null) ItemDatabaseInit();
+		return _itemDict != null && _itemDict.TryGetValue(id, out var data) ? data : null;
+	}
 }

@@ -2,6 +2,7 @@
 using Photon.Pun;
 using UnityEngine.UIElements;
 using System.Runtime.Serialization;
+using NTJ;
 
 
 public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
@@ -149,7 +150,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     //}
 
     [PunRPC]
-    private void RPC_DropItem(Vector3 position, int itemIndex)
+    public void RPC_DropItem(Vector3 position, int itemIndex)
     {
         // 아이템 인덱스가 유효하지 않으면 리턴
         if (itemIndex < 0 || itemIndex >= itemPrefabs.Length || itemPrefabs[itemIndex] == null)
@@ -158,13 +159,27 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             return;
         }
 
+        // itemIndex에 따라 ItemDatabase에서 받아옴
+        int realItemIndex = itemIndex + 1;
+        var io = ItemObjectPool.Instance;
+        if (io == null) return;
+        ItemData itemData = io.GetItemById(realItemIndex);
+        if (itemData == null)
+        {
+            Debug.Log("아이템 데이터가 비어있습니다. 생성 실패");
+            return;
+        }
+
+        // 아이템 프리팹에 스프라이트나 데이터를 어디서 넣어줘야할지
+
         // 선택된 아이템 프리팹 생성
-        Debug.Log($"{itemIndex}번째 아이템[{itemPrefabs[itemIndex].name}] 생성 시도");
-        //string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources 폴더 내 경로
+        Debug.Log($"{realItemIndex}번째 아이템[{itemPrefabs[itemIndex].name}] 생성 시도");
         string prefabPath = "Items/ItemPrefab";
         GameObject newItem = PhotonNetwork.InstantiateRoomObject(prefabPath, position, Quaternion.identity);
+        var itemPickup = newItem.GetComponent<ItemPickup>();
+		itemPickup.Initialize(itemData.id);
 
-        Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
+		Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
     }
 }
 
