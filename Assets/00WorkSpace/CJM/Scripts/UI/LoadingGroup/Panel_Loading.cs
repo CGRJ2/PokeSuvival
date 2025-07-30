@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class LoadingPanel : MonoBehaviour
+public class Panel_Loading : MonoBehaviour
 {
     [SerializeField] TMP_Text tmp_Loading;
 

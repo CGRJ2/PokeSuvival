@@ -48,8 +48,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 연결 시도와 동시에 로딩창으로 가리기
         if (um != null)
         {
-            um.LoadingGroup.gameObject.SetActive(true);
-            um.LoadingGroup.fullScreen.gameObject.SetActive(true);
+            um.StaticGroup.panel_Loading.gameObject.SetActive(true);
         }
     }
 
@@ -72,34 +71,40 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnConnectedToMaster();
         Debug.Log("마스터 연결");
 
-        // 현재 접속한 서버 판단이 필요해
-
         // 현재 접속한 서버가 로비라면
         if (curServer.type == ServerType.Lobby)
         {
             // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
-            // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
             if (PhotonNetwork.LocalPlayer.NickName.IsNullOrEmpty())
+            {
                 um.InitializeGroup.InitView();
+            }
             else
+            {
                 StartCoroutine(JoinLobbyAfterConnectedMaster());
+            }
+
+            // 로딩창 비활성화
+            if (um.StaticGroup != null)
+                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
         // 현재 접속한 서버가 인게임 서버라면
         else if (curServer.type == ServerType.InGame)
         {
-            // 서버 이동 전에 설정된 값 동기화. Room 설정
-            // 파티로 입장한 경우 & 퀵매치로 입장한 경우 나누어서 설정
-            //PhotonNetwork.JoinRoom("서버 이동 전에 선택한 맵 key");
+            StartCoroutine(JoinLobbyAfterConnectedMaster());
+
+            // 로딩창 비활성화
+            if (um.StaticGroup != null)
+                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
+
+
+        // 테스트용 서버 예외처리 
         else if (curServer.type == ServerType.TestServer)
         {
             StartCoroutine(JoinLobbyAfterConnectedMaster());
             return;
         }
-
-        // 로딩창 비활성화
-        if (um.LoadingGroup != null)
-            um.LoadingGroup.fullScreen.gameObject.SetActive(false);
     }
 
     System.Collections.IEnumerator JoinLobbyAfterConnectedMaster()
@@ -118,20 +123,32 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             return;
         }
 
-        if (um != null)
+        if (curServer.type == ServerType.InGame)
         {
-            um.LobbyGroup.gameObject.SetActive(true);
-            um.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
+            Debug.Log("인게임 서버 단일 룸 사용");
+            PhotonNetwork.JoinRandomOrCreateRoom();
+        }
 
-            um.InitializeGroup.gameObject.SetActive(false);
-            um.InGameGroup.gameObject.SetActive(false);
-
-            // 플레이어 정보 업데이트
-            if (BackendManager.Auth.CurrentUser != null)
-                um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateView();
-            else
+        else if (curServer.type == ServerType.Lobby)
+        {
+            if (um != null)
             {
-                // 게스트로그인이면 플레이어 정보 패널 위치에 로그인 버튼 활성화
+                um.LobbyGroup.gameObject.SetActive(true);
+                um.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
+
+                um.InitializeGroup.gameObject.SetActive(false);
+                um.InGameGroup.gameObject.SetActive(false);
+
+                // 플레이어 정보 업데이트
+                if (BackendManager.Auth.CurrentUser != null)
+                {
+                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
+                }
+                else
+                {
+                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.ClearView();
+                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateGuestInfoView();
+                }
             }
         }
     }
@@ -157,7 +174,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (curServer.type == ServerType.InGame)
         {
             if (um != null)
+            {
                 um.LobbyGroup.gameObject.SetActive(false);
+                um.InGameGroup.gameObject.SetActive(true);
+                um.InGameGroup.GameStartViewUpdate();
+            }
+                
         }
         else if (curServer.type == ServerType.Lobby)
         {

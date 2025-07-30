@@ -27,7 +27,11 @@ public class Panel_PlayerInit : MonoBehaviour
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
         if (BackendManager.Auth.CurrentUser != null)
         {
+            // Auth ���� ������ ������Ʈ
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
+            
+            // DB�� ����
+            BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text));
         }
 
         // 포톤에 닉네임 설정
@@ -35,5 +39,4 @@ public class Panel_PlayerInit : MonoBehaviour
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);
     }
-
 }
