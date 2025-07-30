@@ -33,7 +33,7 @@ public class MeleeAttack : IAttack
 				if (defenderData.CurrentHp <= 0) continue;
 				int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 				//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
-				iD.TakeDamage(damage);
+				//iD.TakeDamage(damage);
 				PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
 				Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 			}
@@ -77,7 +77,7 @@ public class MeleeAttack : IAttack
 					if (defenderData.CurrentHp <= 0) continue;
 					int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 					//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
-					iD.TakeDamage(damage);
+					//iD.TakeDamage(damage);
 					PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
 					hitTargets.Add(enemy.transform);
 

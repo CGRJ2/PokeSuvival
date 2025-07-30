@@ -1,9 +1,11 @@
+using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class Panel_LogIn : MonoBehaviour
 {
@@ -35,7 +37,7 @@ public class Panel_LogIn : MonoBehaviour
             // 로그인이 실패한 상황
             if (task.IsFaulted)
             {
-                Debug.LogError($"로그인이 실패함. 실패사유: {task.Exception}");
+                Debug.LogError($"로그인이 실패함. 실패사유: {task.Exception}, ErrorCode: {((FirebaseException)task.Exception.InnerException).ErrorCode}");
                 return;
             }
 
@@ -48,7 +50,7 @@ public class Panel_LogIn : MonoBehaviour
             FirebaseUser user = task.Result.User;
             
             // 처음 생성한 플레이어라면 => 닉네임 설정 패널 열기
-            if (user.DisplayName == "")
+            if (user.DisplayName.IsNullOrEmpty())
             {
                 um.ClosePanel(gameObject);
                 um.OpenPanel(um.InitializeGroup.panel_PlayerInit.gameObject);

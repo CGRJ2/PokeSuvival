@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class SimplePlayerController : MonoBehaviour
+public class SimplePlayerController : MonoBehaviourPunCallbacks
 {
     [SerializeField] private float moveSpeed = 5f;
     private Rigidbody2D rb;
     private Vector2 moveInput;
+
+    [SerializeField] private int attackDamage = 1;
+    [SerializeField] private float attackRange = 2f;
+
 
     private void Awake()
     {
@@ -19,6 +24,9 @@ public class SimplePlayerController : MonoBehaviour
         moveInput.y = Input.GetAxisRaw("Vertical");
         moveInput.Normalize();
     }
+
+  
+
 
     private void FixedUpdate()
     {

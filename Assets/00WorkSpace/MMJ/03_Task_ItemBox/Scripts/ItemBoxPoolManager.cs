@@ -42,28 +42,21 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
-        // �� �̸� ����
         string roomName = "ItemBoxTest";
 
-        // �ش� �̸��� ���� ������ �����ϰ�, ������ �����ϴ� ������� ����
-        PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
-
-        Debug.Log($"�� '{roomName}'�� ���� �õ� ��... �̹� �����ϸ� �����ϰ�, ������ �����մϴ�.");
+        //PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
 
-        Debug.Log("Update ȣ��� / �������ΰ�? " + PhotonNetwork.IsMasterClient);
         if (PhotonNetwork.IsMasterClient)
         {
             InitializePool();
         }
         else
         {
-            // �����Ͱ� �ƴ� Ŭ���̾�Ʈ�� ���� Ȱ��ȭ�� ������Ʈ ������ ��û
-            Debug.Log("������ Ŭ���̾�Ʈ���� Ȱ��ȭ�� ������Ʈ ���� ��û");
             photonView.RPC(nameof(RequestActiveObjectsInfo), RpcTarget.MasterClient);
         }
 
@@ -72,12 +65,8 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RequestActiveObjectsInfo()
     {
-        // ������ Ŭ���̾�Ʈ�� ����
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("Ȱ��ȭ�� ������Ʈ ���� ��û ����. ���� ���� ����...");
-
-            // ���� Ȱ��ȭ�� ��� ������Ʈ�� ViewID�� ����
             List<int> activeViewIDs = new List<int>();
             List<Vector3> activePositions = new List<Vector3>();
 
@@ -90,20 +79,13 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
                     {
                         activeViewIDs.Add(pv.ViewID);
                         activePositions.Add(obj.transform.position);
-                        Debug.Log($"Ȱ��ȭ�� ������Ʈ �߰�: ViewID {pv.ViewID}, ��ġ: {obj.transform.position}");
                     }
                 }
             }
 
-            // �ʰ� ������ Ŭ���̾�Ʈ���� Ȱ��ȭ�� ������Ʈ ���� ����
             if (activeViewIDs.Count > 0)
             {
-                Debug.Log($"Ȱ��ȭ�� ������Ʈ {activeViewIDs.Count}�� ���� ����");
                 photonView.RPC(nameof(SyncActiveObjects), RpcTarget.Others, activeViewIDs.ToArray(), activePositions.ToArray());
-            }
-            else
-            {
-                Debug.Log("Ȱ��ȭ�� ������Ʈ�� �����ϴ�.");
             }
         }
     }
@@ -111,18 +93,11 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SyncActiveObjects(int[] activeViewIDs, Vector3[] positions)
     {
-        Debug.Log($"������ Ŭ���̾�Ʈ�κ��� {activeViewIDs.Length}���� Ȱ��ȭ�� ������Ʈ ���� ����");
-
-        // �ణ�� ���� �� ������Ʈ Ȱ��ȭ (��� ������Ʈ�� ������ �ð��� �ֱ� ����)
         StartCoroutine(ActivateObjectsAfterDelay(activeViewIDs, positions));
     }
 
     private IEnumerator ActivateObjectsAfterDelay(int[] activeViewIDs, Vector3[] positions)
     {
-        Debug.Log("������Ʈ Ȱ��ȭ �غ� ��... ��� ���");
-
-        // ��� ������Ʈ�� ������ ������ �ణ ���
-        // �� �ð��� ������ ���⼺�� ������Ʈ ���� ���� ���� �ʿ�
         yield return new WaitForSeconds(0.5f);
 
         int activatedCount = 0;
@@ -135,20 +110,11 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             PhotonView pv = PhotonView.Find(viewID);
             if (pv != null)
             {
-                // ��ġ ���� �� Ȱ��ȭ
                 pv.transform.position = position;
                 pv.gameObject.SetActive(true);
                 activatedCount++;
-
-                Debug.Log($"������Ʈ Ȱ��ȭ ����: ViewID {viewID}, ��ġ: {position}");
-            }
-            else
-            {
-                Debug.LogWarning($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
             }
         }
-
-        Debug.Log($"�ʰ� ����: �� {activatedCount}���� ������Ʈ Ȱ��ȭ �Ϸ�");
     }
 
 
@@ -161,9 +127,8 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         }
 
         GameObject obj = PhotonNetwork.InstantiateRoomObject(itemBoxPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
-        obj.SetActive(false); // ���ÿ����� ��Ȱ��ȭ��
+        obj.SetActive(false);
 
-        // ���̾��Ű ������ ���� �θ� ���� (���ÿ����� �����)
         obj.transform.SetParent(this.transform);
 
         pooledObjects.Add(obj);
@@ -180,12 +145,9 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
                 return pooledObjects[i];
             }
         }
-
-        Debug.Log("��� ������ ������Ʈ�� ����");
         return null;
     }
 
-    // ������ Ŭ���̾�Ʈ���� ���ͺ� ���� ��û
     public void SpawnItemBox(Vector3 position)
     {
         if (PhotonNetwork.IsMasterClient)
@@ -193,21 +155,14 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             GameObject itemBox = GetPooledObject();
             if (itemBox != null)
             {
-                // ��ġ ����
                 itemBox.transform.position = position;
 
-                // ��� Ŭ���̾�Ʈ���� Ȱ��ȭ ��û (ViewID�� �ĺ�)
                 int viewID = itemBox.GetComponent<PhotonView>().ViewID;
                 photonView.RPC(nameof(RPC_SetActiveObject), RpcTarget.AllBuffered, viewID, true, position);
-            }
-            else
-            {
-                Debug.LogWarning("���ͺ��� ������ �� �����ϴ�. ��� ������ ������Ʈ�� �����ϴ�.");
             }
         }
     }
 
-    // ���ͺ� �ı� (Ǯ�� ��ȯ)
     public void ReturnToPool(GameObject obj)
     {
         if (PhotonNetwork.IsMasterClient)
@@ -228,11 +183,6 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
                 pv.transform.position = position; // ��ġ ����
             }
             pv.gameObject.SetActive(active);
-            Debug.Log($"������Ʈ {viewID}�� {(active ? "Ȱ��ȭ" : "��Ȱ��ȭ")}�߽��ϴ�.");
-        }
-        else
-        {
-            Debug.LogError($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
         }
     }
 
@@ -241,7 +191,6 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         if (obj.GetComponent<PhotonView>() != null)
         {
             int viewID = obj.GetComponent<PhotonView>().ViewID;
-            // ��� Ŭ���̾�Ʈ���� ��Ȱ��ȭ ��û ���� (���۸� ����)
             photonView.RPC(nameof(RPC_DeactivateObject), RpcTarget.AllBuffered, viewID);
         }
     }
@@ -253,11 +202,6 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         if (pv != null)
         {
             pv.gameObject.SetActive(false);
-            Debug.Log($"������Ʈ {viewID}�� ��Ȱ��ȭ�Ǿ����ϴ�.");
-        }
-        else
-        {
-            Debug.LogWarning($"ViewID {viewID}�� ���� PhotonView�� ã�� �� �����ϴ�.");
         }
     }
 
