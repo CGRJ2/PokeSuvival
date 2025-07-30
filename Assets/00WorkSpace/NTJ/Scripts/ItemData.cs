@@ -1,8 +1,8 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 namespace NTJ
 {
-    public enum ItemType { Buff, Heal, LevelUp }
+    public enum ItemType { Buff, Heal, LevelUp, StatBuff }
     public enum StatType { HP, Atk, Def, SpA, SpD, Spe }
 
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
@@ -12,8 +12,8 @@ namespace NTJ
         public string itemName;
         public ItemType itemType;
         public StatType affectedStat;
-        public float value; // Áõ°¡·® ¶Ç´Â È¸º¹·®
-        public float duration; // ¹öÇÁ Áö¼Ó½Ã°£
+        public float value; // ì¦ê°€ëŸ‰ ë˜ëŠ” íšŒë³µëŸ‰
+        public float duration; // ë²„í”„ ì§€ì†ì‹œê°„
         public Sprite sprite;
     }
 }

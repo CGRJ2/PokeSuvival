@@ -1,4 +1,4 @@
-using NTJ;
+ï»¿using NTJ;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,11 +17,11 @@ public class ItemObjectPool : MonoBehaviourPun
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject); // ½Ì±ÛÅæ ¾ÈÀü Ã³¸®
+        else Destroy(gameObject); // ì‹±ê¸€í†¤ ì•ˆì „ ì²˜ë¦¬
 
         for (int i = 0; i < poolSize; i++)
         {
-            var obj = Instantiate(itemPrefab, transform);
+            var obj = Instantiate(itemPrefab, transform); // TODO : ë£¸ì˜¤ë¸Œì íŠ¸ë¡œ ìƒì„±
             obj.SetActive(false);
             pool.Enqueue(obj.GetComponent<ItemPickup>());
         }
@@ -45,8 +45,8 @@ public class ItemObjectPool : MonoBehaviourPun
         item.Initialize(itemId);
         item.gameObject.SetActive(true);
 
-        // °øÀ¯ ¾ÆÀÌÅÛÀ¸·Î ´©±¸³ª ¸ÔÀ» ¼ö ÀÖµµ·Ï Scene Ownership ¼³Á¤
-        item.photonView.TransferOwnership(0); // 0Àº SceneÀÇ ViewID
+        // ê³µìœ  ì•„ì´í…œìœ¼ë¡œ ëˆ„êµ¬ë‚˜ ë¨¹ì„ ìˆ˜ ìˆë„ë¡ Scene Ownership ì„¤ì •
+        item.photonView.TransferOwnership(0); // 0ì€ Sceneì˜ ViewID
 
         return item;
     }

@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefabs:
-  - {fileID: 917355742058428109, guid: 4a6e0c61105c43b458d16c8ce675288d, type: 3}
-  - {fileID: 917355742058428109, guid: 4a6e0c61105c43b458d16c8ce675288d, type: 3}
+  - {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+  - {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
   dropProbabilities:
   - 0
   - 0
