@@ -184,3 +184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bb1c316468fbbf45af971e7ccff281b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemId: 0
+  spriteRenderer: {fileID: 0}
+  isPickedUp: 0

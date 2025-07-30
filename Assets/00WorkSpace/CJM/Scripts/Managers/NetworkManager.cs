@@ -83,28 +83,28 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             {
                 StartCoroutine(JoinLobbyAfterConnectedMaster());
             }
-
-            // 로딩창 비활성화
-            if (um.StaticGroup != null)
-                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
         // 현재 접속한 서버가 인게임 서버라면
         else if (CurServer.type == ServerType.InGame)
         {
             StartCoroutine(JoinLobbyAfterConnectedMaster());
-
-            // 로딩창 비활성화
-            if (um.StaticGroup != null)
-                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
         }
-
 
         // 테스트용 서버 예외처리 
-        else if (CurServer.type == ServerType.TestServer)
+        else if (CurServer.type == ServerType.FunctionTestServer)
         {
             StartCoroutine(JoinLobbyAfterConnectedMaster());
-            return;
         }
+        else if (CurServer.type == ServerType.TestServer)
+        {
+            Debug.Log("연결됐으니 초기화 화면 활성화");
+            um.InitializeGroup.InitView();
+        }
+
+        // 로딩창 비활성화
+        if (um.StaticGroup != null)
+            um.StaticGroup.panel_Loading.gameObject.SetActive(false);
+
     }
 
     System.Collections.IEnumerator JoinLobbyAfterConnectedMaster()
@@ -118,28 +118,13 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 로비 입장시 호출됨
     public override void OnJoinedLobby()
     {
-        if (CurServer.type == ServerType.TestServer)
-        {
-            // SJH 테스트서버용 UI처리
-            Debug.Log("SJH 테스트서버용 UI 처리");
-			if (um.StaticGroup != null)
-				um.StaticGroup.panel_Loading.gameObject.SetActive(false);
-
-			um.LobbyGroup.gameObject.SetActive(true);
-			um.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
-
-			um.InitializeGroup.gameObject.SetActive(false);
-			um.InGameGroup.gameObject.SetActive(false);
-			return;
-        }
-
         if (CurServer.type == ServerType.InGame)
         {
             Debug.Log("인게임 서버 단일 룸 사용");
             PhotonNetwork.JoinRandomOrCreateRoom();
         }
 
-        else if (CurServer.type == ServerType.Lobby)
+        else if (CurServer.type == ServerType.Lobby || CurServer.type == ServerType.TestServer)
         {
             if (um != null)
             {
@@ -179,7 +164,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnJoinedRoom();
         Debug.Log("방 입장");
 
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
 
         if (CurServer.type == ServerType.InGame)
         {
@@ -211,7 +196,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 방 퇴장시 호출됨
     public override void OnLeftRoom()
     {
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
         if (CurServer.type == ServerType.InGame) { return; }
 
 
@@ -224,7 +209,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 새로운 플레이어가 방 입장시 호출됨
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
         if (CurServer.type == ServerType.InGame) { return; }
 
 
@@ -235,7 +220,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 다른 플레이어가 방 퇴장시 호출됨
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
         if (CurServer.type == ServerType.InGame) { return; }
 
 
@@ -247,7 +232,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 로비에 있을 때 방을 추가 or 삭제할 때 업데이트 됨
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
         if (CurServer.type == ServerType.InGame) { return; }
 
 
@@ -280,7 +265,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
         if (CurServer.type == ServerType.InGame) { return; }
 
 
@@ -292,7 +277,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-        if (CurServer.type == ServerType.TestServer) { return; }
+        if (CurServer.type == ServerType.FunctionTestServer) { return; }
         if (CurServer.type == ServerType.InGame) { return; }
 
         if (um != null)
@@ -346,12 +331,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
         // 우선 첫번째 서버로 고정 이동
         ChangeServer(inGameServerDatas[0]);
-
         PhotonNetwork.LoadLevel(sceneName);
-
-
-
-
     }
 
 
@@ -423,5 +403,5 @@ public class ServerData
     public string name;
     public string id;
 }
-public enum ServerType { Lobby, InGame, TestServer };
+public enum ServerType { Lobby, InGame, TestServer, FunctionTestServer};
 
