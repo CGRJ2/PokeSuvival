@@ -14,8 +14,21 @@ public class TestPlayer : MonoBehaviour, IDamagable
     private Vector2 moveInput;
     private Rigidbody2D rb;
 
-    public BattleDataTable BattleData => throw new System.NotImplementedException();
-
+    // �÷��̾��� BattleDataTable ���� ��ȯ 
+    public BattleDataTable BattleData
+    {
+        get
+        {
+            // ���� ���� ������ ä���� ��ȯ�ؾ� ��
+            return new BattleDataTable(
+                level: 1,
+                pokeData: null,
+                pokeStat: new PokemonStat { Attak = attackDamage, Hp = maxHealth },
+                maxHp: maxHealth,
+                currentHp: currentHealth
+            );
+        }
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,21 +65,29 @@ public class TestPlayer : MonoBehaviour, IDamagable
                 IDamagable monster = hit.GetComponent<IDamagable>();
                 if (monster != null)
                 {
-                    //monster.TakeDamage(attackDamage);
+                    monster.TakeDamage(this.BattleData, null);
                 }
             }
         }
     }
 
-    public void TakeDamage(int damage)
+    // IDamagable �������̽� ����
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
+        int damage = 0;
+        if (skill != null)
+            damage = skill.Damage;
+        else
+            damage = attackerData.AllStat.Attak; // �⺻ ���ݷ�
+
         currentHealth -= damage;
-        Debug.Log("플레이어가 데미지 받음: " + damage + " 남은 체력: " + currentHealth);
+        Debug.Log($"�÷��̾ ������ ����: {damage} ���� ü��: {currentHealth}");
         if (currentHealth <= 0)
         {
-            Debug.Log("플레이어 사망");
-            // 사망 처리
+            return true;
+            Debug.Log("플레이어가 데미지 받음: " + damage + " 남은 체력: " + currentHealth);
         }
+        return false;
     }
 
     // 시각적 디버그용
