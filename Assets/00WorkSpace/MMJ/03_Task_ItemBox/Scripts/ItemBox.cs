@@ -2,6 +2,7 @@
 using Photon.Pun;
 using UnityEngine.UIElements;
 using System.Runtime.Serialization;
+using NTJ;
 
 
 public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
@@ -29,38 +30,41 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     // 데미지를 받는 메서드 구현
     public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
-        if (!photonView.IsMine && PhotonNetwork.IsConnected)
-            return true;
+        //if (!photonView.IsMine && PhotonNetwork.IsConnected)
+        //{
+        //    Debug.Log("아이템박스 내꺼 아님");
+        //    return false;
+        //}
 
         // 스킬과 공격 데이터를 기반으로 데미지 계산
-        BattleDataTable defenderData = this.BattleData;
-        int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+        int damage = 4;
+        currentHp -= damage; // TODO : 나중에는 랜덤으로
+		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
 
-        currentHp -= damage;
+        photonView.RPC(nameof(RPC_SyncHp), RpcTarget.OthersBuffered, currentHp);
 
         // 체력이 0 이하면 파괴
         if (currentHp <= 0)
         {
-            Die();
-        }
+            Debug.Log("아이템박스 부셔짐 방장 호출");
+            photonView.RPC(nameof(RPC_OnHit), RpcTarget.MasterClient);
+            return false;
+		}
 
         return true;
     }
 
-
-    // 사망 처리 메서드 구현
-    public void Die()
+    [PunRPC]
+    public void RPC_SyncHp(int _currentHp)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            OnHit();
-        }
+        currentHp = _currentHp;
     }
 
-
     // 플레이어 공격에 의해 파괴될 때 호출
-    public void OnHit()
+    [PunRPC]
+    public void RPC_OnHit()
     {
+        Debug.Log("방장이 아이템박스가 부셔졌을 떄 아이템 랜덤 드롭");
         if (PhotonNetwork.IsMasterClient)
         {
             // 몬스터볼의 현재 위치 저장
@@ -70,7 +74,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             int selectedItemIndex = GetRandomItemIndex();
 
             // 선택된 아이템 인덱스를 RPC로 전달
-            photonView.RPC(nameof(RPC_DropItem), RpcTarget.AllBuffered, spawnPosition, selectedItemIndex);
+            photonView.RPC(nameof(RPC_DropItem), RpcTarget.MasterClient, spawnPosition, selectedItemIndex);
 
             // 풀로 반환
             ItemBoxPoolManager.Instance.ReturnToPool(gameObject);
@@ -135,18 +139,18 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collider) // 테스트용 코드
-    {
-        // 플레이어에 닿으면 아이템이 먹힘
-        if (collider.CompareTag("Player"))
-        {
-            // 자기 자신(아이템)을 비활성화
-            ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collider) // 테스트용 코드
+    //{
+    //    // 플레이어에 닿으면 아이템이 먹힘
+    //    if (collider.CompareTag("Player"))
+    //    {
+    //        // 자기 자신(아이템)을 비활성화
+    //        ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
+    //    }
+    //}
 
     [PunRPC]
-    private void RPC_DropItem(Vector3 position, int itemIndex)
+    public void RPC_DropItem(Vector3 position, int itemIndex)
     {
         // 아이템 인덱스가 유효하지 않으면 리턴
         if (itemIndex < 0 || itemIndex >= itemPrefabs.Length || itemPrefabs[itemIndex] == null)
@@ -155,11 +159,27 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             return;
         }
 
-        // 선택된 아이템 프리팹 생성
-        string prefabPath = "Items/" + itemPrefabs[itemIndex].name; // Resources 폴더 내 경로
-        GameObject newItem = PhotonNetwork.Instantiate(prefabPath, position, Quaternion.identity);
+        // itemIndex에 따라 ItemDatabase에서 받아옴
+        int realItemIndex = itemIndex + 1;
+        var io = ItemObjectPool.Instance;
+        if (io == null) return;
+        ItemData itemData = io.GetItemById(realItemIndex);
+        if (itemData == null)
+        {
+            Debug.Log("아이템 데이터가 비어있습니다. 생성 실패");
+            return;
+        }
 
-        Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
+        // 아이템 프리팹에 스프라이트나 데이터를 어디서 넣어줘야할지
+
+        // 선택된 아이템 프리팹 생성
+        Debug.Log($"{realItemIndex}번째 아이템[{itemPrefabs[itemIndex].name}] 생성 시도");
+        string prefabPath = "Items/ItemPrefab";
+        GameObject newItem = PhotonNetwork.InstantiateRoomObject(prefabPath, position, Quaternion.identity);
+        var itemPickup = newItem.GetComponent<ItemPickup>();
+		itemPickup.Initialize(itemData.id);
+
+		Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
     }
 }
 

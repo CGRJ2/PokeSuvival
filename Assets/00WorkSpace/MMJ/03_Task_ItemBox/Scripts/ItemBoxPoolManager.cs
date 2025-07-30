@@ -38,14 +38,14 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
+    //public override void OnJoinedLobby()
+    //{
+    //    base.OnJoinedLobby();
 
-        string roomName = "ItemBoxTest";
+    //    string roomName = "ItemBoxTest";
 
-        PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
-    }
+    //    PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
+    //}
 
     public override void OnJoinedRoom()
     {
@@ -204,7 +204,4 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
             pv.gameObject.SetActive(false);
         }
     }
-
-
-
 }
