@@ -44,7 +44,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
 
         string roomName = "ItemBoxTest";
 
-        PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
+        //PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = 4, IsVisible = true }, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()

@@ -106,6 +106,5 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
         Vector3 spawnPosition = validSpawnPositions[randomIndex];
 
         ItemBoxPoolManager.Instance.SpawnItemBox(spawnPosition);
-
     }
 }

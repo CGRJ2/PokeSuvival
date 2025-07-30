@@ -1,7 +1,5 @@
 using Firebase.Auth;
 using Firebase.Extensions;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +40,7 @@ public class Panel_SignUp : MonoBehaviour
             // 가입이 실패한 경우
             if (task.IsFaulted)
             {
-                Debug.LogError($"이메일 가입 실패함. 실패사유: {task.Exception}");
+                Debug.LogError($"이메일 가입 실패함. 실패사유: {task.Exception}, ErrorCode: {((Firebase.FirebaseException)task.Exception.InnerException).ErrorCode}");
                 return;
             }
 

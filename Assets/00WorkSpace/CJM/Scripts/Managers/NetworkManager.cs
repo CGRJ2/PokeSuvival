@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using WebSocketSharp;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
@@ -78,7 +79,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         {
             // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
             // 이거를 지금은 닉네임으로 판단하지만, firebase를 적용하고부터는 PlayerData의 유무로 판단하자
-            if (PhotonNetwork.LocalPlayer.NickName == "")
+            if (PhotonNetwork.LocalPlayer.NickName.IsNullOrEmpty())
                 um.InitializeGroup.InitView();
             else
                 StartCoroutine(JoinLobbyAfterConnectedMaster());
@@ -126,7 +127,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             um.InGameGroup.gameObject.SetActive(false);
 
             // 플레이어 정보 업데이트
-            um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateView();
+            if (BackendManager.Auth.CurrentUser != null)
+                um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateView();
+            else
+            {
+                // 게스트로그인이면 플레이어 정보 패널 위치에 로그인 버튼 활성화
+            }
         }
     }
 
@@ -167,10 +173,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 방 퇴장시 호출됨
     public override void OnLeftRoom()
     {
-        if (curServer.type == ServerType.TestServer)
-        {
-            return;
-        }
+        if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
         {
@@ -182,6 +187,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
@@ -191,6 +198,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
@@ -201,6 +210,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         base.OnRoomListUpdate(roomList);
         //Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
@@ -231,6 +242,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
+        if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
+
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.panel_MapSettings.UpdateRoomProperty();
@@ -240,6 +254,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+        if (curServer.type == ServerType.TestServer) { return; }
+        if (curServer.type == ServerType.InGame) { return; }
 
         if (um != null)
             um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
