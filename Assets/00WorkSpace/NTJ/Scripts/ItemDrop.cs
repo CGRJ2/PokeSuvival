@@ -9,6 +9,14 @@ namespace NTJ
         [SerializeField] private List<ItemData> possibleDrops;
         [SerializeField][Range(0f, 1f)] private float dropChance = 0.3f;
 
+        private void Awake()
+        {
+            if (possibleDrops == null || possibleDrops.Count == 0)
+            {
+                possibleDrops = new List<ItemData>(ItemDatabase.Instance.items);
+            }
+        }
+
         public void OnDeath()
         {
             if (!PhotonNetwork.IsMasterClient) return;
@@ -24,13 +32,23 @@ namespace NTJ
                 int index = Random.Range(0, possibleDrops.Count);
                 int itemId = possibleDrops[index].id;
 
-                var item = ItemObjectPool.Instance.SpawnItem(transform.position, itemId);
+                SpawnItemWithForce(transform.position, itemId);
+            }
+        }
+        public void SpawnItemWithForce(Vector3 position, int itemId)
+        {
+            var item = ItemObjectPool.Instance.SpawnItem(position, itemId);
 
-                if (item.TryGetComponent<Rigidbody2D>(out var rb))
-                {
-                    Vector2 randomForce = Random.insideUnitCircle.normalized * 3f;
-                    rb.AddForce(randomForce, ForceMode2D.Impulse);
-                }
+            if (item != null && item.TryGetComponent<Rigidbody2D>(out var rb))
+            {
+                // ·£´ý ¹æÇâÀÇ ´ÜÀ§ º¤ÅÍ »ý¼º
+                Vector2 randomDir = Random.insideUnitCircle.normalized;
+
+                // Èû Å©±â ¼³Á¤
+                float forceMagnitude = 3f;
+
+                // Èû Àû¿ë
+                rb.AddForce(randomDir * forceMagnitude, ForceMode2D.Impulse);
             }
         }
     }
