@@ -6,6 +6,7 @@ public class Panel_SkillSlots : MonoBehaviour
     public void Init()
     {
         skillSlots = GetComponentsInChildren<SkillSlotView>();
+
     }
 
 
