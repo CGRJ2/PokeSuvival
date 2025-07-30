@@ -96,7 +96,6 @@ public class PlayerModel
 			}
 			else break;
 		}
-
 		NextExp = PokeUtils.GetNextLevelExp(PokeLevel);
 	}
 
