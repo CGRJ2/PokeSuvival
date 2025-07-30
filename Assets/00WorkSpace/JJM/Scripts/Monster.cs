@@ -139,7 +139,7 @@ public class Monster : MonoBehaviourPun, IDamagable
         IDamagable damagable = player.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            damagable.TakeDamage(attackDamage);
+            //damagable.TakeDamage(attackDamage);
 
         }
         
@@ -254,4 +254,9 @@ public class Monster : MonoBehaviourPun, IDamagable
             level = (int)stream.ReceiveNext(); // 레벨 정보 수신
         }
     }
+
+	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+	{
+		throw new System.NotImplementedException();
+	}
 }
