@@ -17,43 +17,43 @@ public class Monster : MonoBehaviourPun, IDamagable
     public float attackRange = 2f;       // 플레이어를 공격할 수 있는 거리
     public float attackCooldown = 1.5f;  // 공격 후 다시 공격할 때까지의 대기 시간
 
-    private Transform player;            // �÷��̾��� Transform ����
-    private float lastAttackTime;        // ������ ���� �ð�
+    private Transform player;            // 플레이어의 Transform 참조
+    private float lastAttackTime;        // 마지막 공격 시각
 
-    private Vector3 wanderDirection; // ���� �̵� ������ �����ϴ� ����
-    private float wanderTimer; // ������ �ٲ� ������ ���� �ð��� �����ϴ� ����
-    public float wanderChangeInterval = 2f; // ������ �ٲ� �ð� ����(��)
+    private Vector3 wanderDirection; // 현재 이동 방향을 저장하는 변수
+    private float wanderTimer; // 방향을 바꿀 때까지 남은 시간을 저장하는 변수
+    public float wanderChangeInterval = 2f; // 방향을 바꿀 시간 간격(초)
 
-    [SerializeField] private Sprite idleSprite;           // ���(����) ���� ��������Ʈ
-    [SerializeField] private Sprite moveLeftSprite;       // ���� �̵� ��������Ʈ
-    [SerializeField] private Sprite moveRightSprite;      // ������ �̵� ��������Ʈ
-    [SerializeField] private Sprite moveUpSprite;         // ���� �̵� ��������Ʈ
-    [SerializeField] private Sprite moveDownSprite;       // �Ʒ��� �̵� ��������Ʈ
-    [SerializeField] private Sprite moveUpLeftSprite;     // ���� �� �밢�� �̵� ��������Ʈ
-    [SerializeField] private Sprite moveUpRightSprite;    // ������ �� �밢�� �̵� ��������Ʈ
-    [SerializeField] private Sprite moveDownLeftSprite;   // ���� �Ʒ� �밢�� �̵� ��������Ʈ
-    [SerializeField] private Sprite moveDownRightSprite;  // ������ �Ʒ� �밢��
-    [SerializeField] private Sprite deadSprite; // ���Ͱ� �׾��� �� ����� ��������Ʈ
+    [SerializeField] private Sprite idleSprite;           // 대기(멈춤) 상태 스프라이트
+    [SerializeField] private Sprite moveLeftSprite;       // 왼쪽 이동 스프라이트
+    [SerializeField] private Sprite moveRightSprite;      // 오른쪽 이동 스프라이트
+    [SerializeField] private Sprite moveUpSprite;         // 위쪽 이동 스프라이트
+    [SerializeField] private Sprite moveDownSprite;       // 아래쪽 이동 스프라이트
+    [SerializeField] private Sprite moveUpLeftSprite;     // 왼쪽 위 대각선 이동 스프라이트
+    [SerializeField] private Sprite moveUpRightSprite;    // 오른쪽 위 대각선 이동 스프라이트
+    [SerializeField] private Sprite moveDownLeftSprite;   // 왼쪽 아래 대각선 이동 스프라이트
+    [SerializeField] private Sprite moveDownRightSprite;  // 오른쪽 아래 대각선 이동 스프라이트
+    [SerializeField] private Sprite deadSprite; // 몬스터가 죽었을 때 사용할 스프라이트
 
-    private SpriteRenderer spriteRenderer; // SpriteRenderer ������Ʈ ����
+    private SpriteRenderer spriteRenderer; // SpriteRenderer 컴포넌트 참조
 
-    [SerializeField] private int attackDamage = 10; // ���� ���ݷ�
+    [SerializeField] private int attackDamage = 10; // 몬스터 공격력
 
-    private Rigidbody2D rb; // Rigidbody2D ������Ʈ ���� ����
+    private Rigidbody2D rb; // Rigidbody2D 컴포넌트 참조 변수
 
-    [SerializeField] private float corpseDuration = 2f; // ��ü�� �������� �ð�(��) (Inspector���� ���� ����)
+    [SerializeField] private float corpseDuration = 2f; // 시체가 남아있을 시간(초) (Inspector에서 조정 가능)
 
-    [SerializeField] private GameObject expOrbPrefab; // Inspector���� ����ġ ���� ������ �Ҵ�
+    [SerializeField] private GameObject expOrbPrefab; // Inspector에서 경험치 구슬 프리팹 할당
 
     public BattleDataTable BattleData => throw new System.NotImplementedException();
 
-    void Start() // ���� ���� �� ȣ��Ǵ� �Լ�
+    void Start() // 게임 시작 시 호출되는 함수
     {
-        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ������Ʈ ��������
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
 
-        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer ������Ʈ ��������
+        spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRenderer 컴포넌트 가져오기
 
-        // ȸ�� ���� �߰�
+        // 회전 고정 추가
         if (rb != null)
             rb.freezeRotation = true;
 
@@ -104,10 +104,10 @@ public class Monster : MonoBehaviourPun, IDamagable
     void MoveTowards(Vector3 target) // 지정한 위치로 이동하는 함수
     {
 
-        Vector2 direction = (target - transform.position).normalized; // ��ǥ ���� ���
-        Vector2 newPos = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime; // �̵��� ��ġ ���
-        rb.MovePosition(newPos); // Rigidbody2D�� �̿��� �̵�(�浹 �ڵ� ó��)
-        SetSpriteByDirection(direction); // ��������Ʈ ����
+        Vector2 direction = (target - transform.position).normalized; // 목표 방향 계산
+        Vector2 newPos = (Vector2)transform.position + direction * moveSpeed * Time.deltaTime; // 이동할 위치 계산
+        rb.MovePosition(newPos); // Rigidbody2D를 이용해 이동(충돌 자동 처리)
+        SetSpriteByDirection(direction); // 스프라이트 변경
 
     }
 
@@ -138,33 +138,44 @@ public class Monster : MonoBehaviourPun, IDamagable
         if (player == null) return;
 
 
-        // IDamageable �������̽��� ���� ������Ʈ ã��
+        // IDamagable 인터페이스를 가진 컴포넌트 찾기
         IDamagable damagable = player.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            damagable.TakeDamage(attackDamage);
+            // 공격자 정보(BattleDataTable)와 사용할 스킬(PokemonSkill)을 전달해야 함
+            // 예시: 기본 공격(스킬이 null이거나 기본값)
+            damagable.TakeDamage(this.BattleData, null);
 
         }
         
     }
 
-    public void TakeDamage(int damage) // 몬스터가 데미지를 받는 함수
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
-        currentHealth -= damage; // 받은 데미지만큼 체력 감소
-        if (currentHealth <= 0) // 체력이 0 이하가 되면
+        // 예시: skill이 null이면 일반 공격, 아니면 스킬 공격 처리
+        int damage = 0;
+        if (skill != null)
+            damage = skill.Damage;
+        else
+            damage = attackerData.AllStat.Attak; // 또는 적절한 기본 공격력
+
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
-            Die(); // 사망 처리
+            Die();
+            return true; // 사망
         }
+        return false; // 생존
     }
 
     void Die() // 몬스터가 죽었을 때 호출되는 함수
     {
 
-        // ����ġ ���� ����
+        // 경험치 구슬 생성
         if (expOrbPrefab != null)
         {
-            // ����ġ ���� ���� �����̳� ��Ÿ ������ ����
-            int expAmount = level * 10; // ����: ���� x 10
+            // 경험치 양은 몬스터 레벨이나 기타 값으로 결정
+            int expAmount = level * 10; // 예시: 레벨 x 10
             GameObject orbObj = PhotonNetwork.Instantiate(expOrbPrefab.name, transform.position, Quaternion.identity);
             ExpOrb orb = orbObj.GetComponent<ExpOrb>();
             if (orb != null)
@@ -172,26 +183,25 @@ public class Monster : MonoBehaviourPun, IDamagable
         }
         
 
-        StartCoroutine(CorpseAndDestroy()); // ��ü ���� �� ���� �ڷ�ƾ ����
+        StartCoroutine(CorpseAndDestroy()); // 시체 유지 후 삭제 코루틴 시작
 
     }
 
-    IEnumerator CorpseAndDestroy() // ��ü�� ���� �ð� ����ٰ� �����ϴ� �ڷ�ƾ
+    IEnumerator CorpseAndDestroy() // 시체를 일정 시간 남겼다가 삭제하는 코루틴
     {
-        // ���� ���� ����(��������Ʈ ����, ������ ��)
+        // 죽은 상태 연출(스프라이트 변경, 반투명 등)
         if (spriteRenderer != null)
         {
             if (deadSprite != null)
-                spriteRenderer.sprite = deadSprite; // ���� ��������Ʈ�� ����
-            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // ������ ó��(����)
+                spriteRenderer.sprite = deadSprite; // 죽음 스프라이트로 변경
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f); // 반투명 처리(예시)
         }
-        // �ݶ��̴�/AI ��Ȱ��ȭ (������, �浹 ����)
-        Collider2D col = GetComponent<Collider2D>(); // Collider2D ������Ʈ ��������
-        if (col != null) col.enabled = false; // �ݶ��̴� ��Ȱ��ȭ
-        this.enabled = false; // ���� ��ũ��Ʈ ��Ȱ��ȭ(�߰� ���� ����)
+        // 콜라이더/AI 비활성화 (움직임, 충돌 방지)
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false; // 콜라이더 비활성화
+        this.enabled = false; // 몬스터 스크립트 비활성화(추가 동작 방지)
 
-        yield return new WaitForSeconds(corpseDuration); // ������ �ð���ŭ ���
-
+        yield return new WaitForSeconds(corpseDuration); // 지정한 시간만큼 대기
 
         PhotonNetwork.Destroy(gameObject); // 네트워크에서 몬스터 오브젝트 삭제
     }
@@ -229,20 +239,19 @@ public class Monster : MonoBehaviourPun, IDamagable
     }
 
 
-    public void ResetMonster() // ���� ���� �ʱ�ȭ �Լ�
+    public void ResetMonster() // 몬스터 상태 초기화 함수
     {
-        currentHealth = maxHealth; // ü�� �ʱ�ȭ
+        currentHealth = maxHealth; // 체력 초기화
         if (spriteRenderer != null)
-            spriteRenderer.color = Color.white; // ����(������) �ʱ�ȭ
+            spriteRenderer.color = Color.white; // 색상(투명도) 초기화
         Collider2D col = GetComponent<Collider2D>();
-        if (col != null) col.enabled = true; // �ݶ��̴� Ȱ��ȭ
-        this.enabled = true; // ��ũ��Ʈ Ȱ��ȭ
-                             // �ʿ��ϴٸ� �߰��� ����/�ִϸ��̼�/AI � �ʱ�ȭ
+        if (col != null) col.enabled = true; // 콜라이더 활성화
+        this.enabled = true; // 스크립트 활성화
+        // 필요하다면 추가로 상태/애니메이션/AI 등도 초기화
     }
 
-    // Photon ��Ʈ��ũ�� ���� ����ȭ �Լ�
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // ��Ʈ��ũ ����ȭ �Լ�
-
+    // Photon 네트워크를 통한 동기화 함수
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) // 네트워크 동기화 함수
     {
         if (stream.IsWriting) // 마스터 클라이언트에서 데이터를 보낼 때
         {
