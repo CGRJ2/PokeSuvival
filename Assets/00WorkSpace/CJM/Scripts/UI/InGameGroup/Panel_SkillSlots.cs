@@ -29,7 +29,7 @@ public class Panel_SkillSlots : MonoBehaviour
             // 해당 슬롯에 넣을 스킬이 있다면
             if (skillSlots[i].actived)
             {
-                skillSlots[i].UpdateSlotView(pokemonData.Skills[i]);
+                skillSlots[i].UpdateSlotView(pokemonData.Skills[i], model.SkillCooldownDic[(SkillSlot)i]);
             }
             // 해당 슬롯에 넣을 스킬이 없다면
             else
