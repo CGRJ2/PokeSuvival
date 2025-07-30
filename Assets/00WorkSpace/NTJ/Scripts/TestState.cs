@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NTJ
 {
-        public class TestState : MonoBehaviourPun, IStatReceiver
+    public class TestState : MonoBehaviourPun, IStatReceiver
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private PlayerModel playerModel;
@@ -21,8 +21,8 @@ namespace NTJ
         public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpA);
         public float spD => playerModel.AllStat.SpecialDefense * GetBuffMultiplier(StatType.SpD);
         public float spe => playerModel.AllStat.Speed * GetBuffMultiplier(StatType.Spe);
-        
-        
+
+
         public void ApplyStat(ItemData item)
         {
             switch (item.itemType)
@@ -101,7 +101,7 @@ namespace NTJ
             buffCoroutines[stat] = StartCoroutine(RemoveBuffAfterDelay(stat, multiplier, duration));
             Debug.Log($"{stat} 버프 시작, 배율: {multiplier}, 지속시간: {duration}s");
         }
-        
+
 
         private IEnumerator RemoveBuffAfterDelay(StatType stat, float multiplier, float duration)
         {

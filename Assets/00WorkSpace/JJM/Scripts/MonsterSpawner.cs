@@ -13,13 +13,17 @@ public class MonsterSpawner : MonoBehaviourPunCallbacks
 
     void Awake() // 게임 오브젝트가 생성될 때 호출
     {
+        Debug.Log("MonsterSpawner Awake 호출됨");
         PhotonNetwork.PrefabPool = new MonsterPool(); // 커스텀 풀 할당
     }
 
     public override void OnJoinedRoom() // 룸에 입장했을 때 호출되는 콜백 함수
     {
         Debug.Log("룸에 입장함, 몬스터 생성 시도"); // 디버그 로그 출력
-        TrySpawnMonsters(); // 몬스터 생성 시도
+        if (PhotonNetwork.IsMasterClient)
+        {
+            TrySpawnMonsters();
+        }
     }
     void Update() // 매 프레임마다 호출
     {
@@ -52,8 +56,9 @@ public class MonsterSpawner : MonoBehaviourPunCallbacks
             while (!found && tryCount < maxTry) // 적절한 위치를 찾거나 최대 시도까지 반복
             {
                 float x = Random.Range(spawnMin.x, spawnMax.x); // x축 랜덤 위치
-                float z = Random.Range(spawnMin.y, spawnMax.y); // z축 랜덤 위치
-                spawnPos = new Vector3(x, 0, z); // y는 0으로 고정
+                float y = Random.Range(spawnMin.y, spawnMax.y); // z축 랜덤 위치
+                spawnPos = new Vector3(x, y, 0); // z는 0으로 고정
+                
 
                 bool overlap = false; // 겹침 여부 플래그 초기화
 
