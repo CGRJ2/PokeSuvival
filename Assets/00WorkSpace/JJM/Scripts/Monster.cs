@@ -139,7 +139,8 @@ public class Monster : MonoBehaviourPun, IDamagable
         IDamagable damagable = player.GetComponent<IDamagable>();
         if (damagable != null)
         {
-            damagable.TakeDamage(attackDamage);
+            //MMJ 버그떠서 임시 주석처리 충돌시 나중에 삭제 요망
+            //damagable.TakeDamage(attackDamage);
 
         }
         
@@ -253,5 +254,10 @@ public class Monster : MonoBehaviourPun, IDamagable
             currentHealth = (int)stream.ReceiveNext(); // 체력 정보 수신
             level = (int)stream.ReceiveNext(); // 레벨 정보 수신
         }
+    }
+
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -41,6 +41,10 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         }
     }
 
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+    {
+        throw new System.NotImplementedException();
+    }
 
     // 사망 처리 메서드 구현
     public void Die()

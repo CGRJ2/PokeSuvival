@@ -52,7 +52,8 @@ public class TestPlayer : MonoBehaviour, IDamagable
                 IDamagable monster = hit.GetComponent<IDamagable>();
                 if (monster != null)
                 {
-                    monster.TakeDamage(attackDamage);
+                    // MMJ 버그떠서 임시 주석처리 충돌 시 삭제요망
+                    // monster.TakeDamage(attackDamage);
                 }
             }
         }
@@ -74,5 +75,10 @@ public class TestPlayer : MonoBehaviour, IDamagable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
+    {
+        throw new System.NotImplementedException();
     }
 }
