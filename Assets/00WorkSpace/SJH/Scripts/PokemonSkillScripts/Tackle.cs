@@ -35,17 +35,20 @@ public class Tackle : IAttack
 				if (Vector2.Dot(attackDir, dir) >= 0.7f)
 				{
 					var iD = enemy.GetComponent<IDamagable>();
-					var pv = enemy.GetComponent<PhotonView>();
-					if (iD == null || pv == null) continue;
-					var defenderData = iD.BattleData;
-					if (defenderData.CurrentHp <= 0) continue;
-					int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
-					//pv.RPC("RPC_TakeDamage", pv.Owner, damage);
-					iD.TakeDamage(damage);
-					PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
+					if (iD == null) continue;
+					iD.TakeDamage(attackerData, skill);
 					hitTargets.Add(enemy.transform);
+					//var iD = enemy.GetComponent<IDamagable>();
+					//var pv = enemy.GetComponent<PhotonView>();
+					//if (iD == null || pv == null) continue;
+					//var defenderData = iD.BattleData;
+					//if (defenderData.CurrentHp <= 0) continue;
+					//int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+					////pv.RPC("RPC_TakeDamage", pv.Owner, damage);
+					//iD.TakeDamage(damage);
+					//PlayerManager.Instance?.ShowDamageText(pv.gameObject.transform, damage, Color.white);
 
-					Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
+					//Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 				}
 			}
 
