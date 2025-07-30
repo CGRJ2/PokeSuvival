@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class UIGroup_InGame : MonoBehaviour
 {
     [SerializeField] private Panel_HUD panel_HUD;
     [SerializeField] private Panel_GameOver panel_GameOver;
+
 
     public void Init()
     {
@@ -30,5 +32,20 @@ public class UIGroup_InGame : MonoBehaviour
 
         // 킬수는 잠시 임시로 넣어둠
         panel_GameOver.UpdateResultView(playerModel.TotalExp, playerModel.PokeLevel, 99);
+    }
+
+    public void UpdateSkillSlots(PlayerModel playerModel)
+    { 
+        // 이렇게 사용하면 됩니다
+        // UIManager.Instance.InGameGroup.UpdateSkillSlots();
+        if (PhotonNetwork.LocalPlayer.IsLocal)
+        {
+            panel_HUD.panel_SkillSlots.UpdateSkillSlotsView(playerModel);
+        }
+    }
+
+    public void UpdateCoolTime(PlayerModel playerModel, SkillSlot slot)
+    {
+        panel_HUD.panel_SkillSlots.UpdateSlotCoolTimeView(playerModel, slot);
     }
 }

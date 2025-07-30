@@ -1,29 +1,33 @@
-using NTJ;
+ï»¿using NTJ;
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ItemObjectPool : MonoBehaviourPun
 {
-    public static ItemObjectPool Instance;
+    public static ItemObjectPool Instance { get; private set; }
 
     [SerializeField] private GameObject itemPrefab;
     [SerializeField] private int poolSize = 20;
 
-    private readonly Queue<ItemPickup> pool = new();
+    public Queue<ItemPickup> Pool = new();
+	public ItemDatabase ItemDatabase { get; private set; }
+    [Header("ì•„ì´í…œ DB")]
+	public ItemData[] items;
+	private Dictionary<int, ItemData> _itemDict;
 
-    private void Awake()
+	private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject); // ½Ì±ÛÅæ ¾ÈÀü Ã³¸®
+        else Destroy(gameObject); // ì‹±ê¸€í†¤ ì•ˆì „ ì²˜ë¦¬
 
         for (int i = 0; i < poolSize; i++)
         {
-            var obj = Instantiate(itemPrefab, transform);
+            var obj = Instantiate(itemPrefab, transform); // TODO : ë£¸ì˜¤ë¸Œì íŠ¸ë¡œ ìƒì„±
             obj.SetActive(false);
-            pool.Enqueue(obj.GetComponent<ItemPickup>());
+            Pool.Enqueue(obj.GetComponent<ItemPickup>());
         }
     }
 
@@ -31,9 +35,9 @@ public class ItemObjectPool : MonoBehaviourPun
     {
         ItemPickup item;
 
-        if (pool.Count > 0)
+        if (Pool.Count > 0)
         {
-            item = pool.Dequeue();
+            item = Pool.Dequeue();
         }
         else
         {
@@ -42,21 +46,47 @@ public class ItemObjectPool : MonoBehaviourPun
         }
 
         item.transform.position = position;
-        item.Initialize(itemId);
+        item.RPC_Initialize(itemId);
         item.gameObject.SetActive(true);
 
-        // °øÀ¯ ¾ÆÀÌÅÛÀ¸·Î ´©±¸³ª ¸ÔÀ» ¼ö ÀÖµµ·Ï Scene Ownership ¼³Á¤
-        item.photonView.TransferOwnership(0); // 0Àº SceneÀÇ ViewID
+        // ê³µìœ  ì•„ì´í…œìœ¼ë¡œ ëˆ„êµ¬ë‚˜ ë¨¹ì„ ìˆ˜ ìˆë„ë¡ Scene Ownership ì„¤ì •
+        item.photonView.TransferOwnership(0); // 0ì€ Sceneì˜ ViewID
 
         return item;
     }
 
     public void ReturnToPool(ItemPickup item)
     {
-        if (!pool.Contains(item))
+        if (!Pool.Contains(item))
         {
             item.gameObject.SetActive(false);
-            pool.Enqueue(item);
+            Pool.Enqueue(item);
         }
     }
+
+    [PunRPC]
+    public void RPC_ReturnToPool(ItemPickup item)
+	{
+		if (!Pool.Contains(item))
+		{
+			item.gameObject.SetActive(false);
+			Pool.Enqueue(item);
+		}
+	}
+
+	public void ItemDatabaseInit()
+    {
+		ItemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+		_itemDict = ItemDatabase.items.ToDictionary(i => i.id);
+        foreach (var kvp in _itemDict)
+        {
+            Debug.Log($"Key : {kvp.Key} / Value : {kvp.Value.itemName}");
+        }
+        Debug.Log($"ì•„ì´í…œ ë°ì´í„° {_itemDict.Count}ê°œ ì´ˆê¸°í™” ì™„ë£Œ");
+	}
+	public ItemData GetItemById(int id)
+	{
+        if (ItemDatabase == null) ItemDatabaseInit();
+		return _itemDict != null && _itemDict.TryGetValue(id, out var data) ? data : null;
+	}
 }

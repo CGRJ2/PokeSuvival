@@ -1,5 +1,7 @@
-﻿using Photon.Pun;
+﻿using NTJ;
+using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
@@ -7,7 +9,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable, IStatReceiver
 {
 	[field: SerializeField] public PlayerModel Model { get; private set; }
 	[field: SerializeField] public PlayerView View { get; private set; }
@@ -19,7 +21,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	private int _maxLogCount = 10;
 	[SerializeField] private Queue<Vector2> _moveHistory = new();
 	[SerializeField] private Vector2 _lastDir = Vector2.down;
-
+	public Action<PlayerModel> OnModelChanged;
 	void Awake()
 	{
 		View = GetComponent<PlayerView>();
@@ -54,11 +56,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			pokeData = Define.GetPokeData(pokeName);
 		}
 		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
-		ConnectSkillEvent();
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
 
 		PlayerManager.Instance.LocalPlayerController = this;
+
+		OnModelChanged?.Invoke(Model);
 
 		// TODO : 테스트 코드
 		GameObject.Find("Button1")?.GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
@@ -105,6 +108,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			PlayerManager.Instance.PlayerDead(Model.TotalExp);
 		};
 		Model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
+		OnModelChanged += (model) =>
+		{
+			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
+		};
 
 		ConnectSkillEvent();
 	}
@@ -114,6 +121,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Model.OnCurrentHpChanged = null;
 		Model.OnDied = null;
 		Model.OnPokeLevelChanged = null;
+		OnModelChanged = null;
 
 		DisconnectSkillEvent();
 	}
@@ -231,7 +239,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
-				Debug.Log($"스킬 {slot} 키다운");
+				//Debug.Log($"스킬 {slot} 키다운");
 				IAttack attack = SkillCheck(slot, out var skill);
 				if (attack == null || skill == null) return;
 				IDamagable damagable = this;
@@ -243,7 +251,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				// TODO : 뷰 처리
 				break;
 			case InputActionPhase.Canceled:
-				Debug.Log($"스킬 {slot} 키업 : {ctx.duration}");
+				//Debug.Log($"스킬 {slot} 키업 : {ctx.duration}");
 				// TODO : 모델 처리
 				// TODO : 뷰 처리
 				break;
@@ -324,6 +332,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		var pokeData = Define.GetPokeData(pokeNumber);
 		Model = new PlayerModel(Model.PlayerName, pokeData);
 		View?.SetAnimator(pokeData.AnimController);
+		if (PhotonNetwork.LocalPlayer.IsLocal) OnModelChanged?.Invoke(Model);
 	}
 	[PunRPC]
 	public void RPC_CurrentHpChanged(int value)
@@ -366,10 +375,38 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		var pokeData = Define.GetPokeData(pokeNumber);
 		Model = new PlayerModel(Model.PlayerName, pokeData, level, 0, currentHp);
 		View?.SetAnimator(pokeData.AnimController);
+
+		if (PhotonNetwork.LocalPlayer.IsLocal) OnModelChanged?.Invoke(Model);
 	}
 	[PunRPC]
 	public void RPC_PlayerSetActive(bool value)
 	{
 		gameObject.SetActive(value);
+	}
+
+	public void ApplyStat(ItemData item)
+	{
+		// TODO : 아이템 타입에 따라 적용
+		switch (item.itemType)
+		{
+			case ItemType.Heal:
+				Debug.Log($"{item.value} 회복");
+				break;
+			case ItemType.LevelUp:
+				Debug.Log($"플레이어 레벨 상승 {Model.PokeLevel} -> {Model.PokeLevel + 1}");
+				Model.SetLevel(Model.PokeLevel + 1);
+				break;
+			case ItemType.Buff:
+				Debug.Log($"TODO : 도구, 열매 등 스탯을 제외한 버프 획득");
+				break;
+			case ItemType.StatBuff:
+				Debug.Log($"{item.affectedStat} 랭크 상승");
+				break;
+		}
+	}
+
+	public void RemoveStat(ItemData item)
+	{
+		// TODO : ApplyStat 적용 구조에 따라 수정하기
 	}
 }

@@ -1,65 +1,105 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using UnityEngine;
 
 namespace NTJ
 {
     public class ItemPickup : MonoBehaviourPun
     {
-        private int itemId;
-        private SpriteRenderer spriteRenderer;
-        private bool isPickedUp = false;
+		[SerializeField] private int itemId;
+		[SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private bool isPickedUp = false;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        // ¾ÆÀÌÅÛ ID·Î ÃÊ±âÈ­ÇÏ°í, Spriteµµ ¼³Á¤
-        public void Initialize(int id)
+        // ì•„ì´í…œ IDë¡œ ì´ˆê¸°í™”í•˜ê³ , Spriteë„ ì„¤ì •
+        [PunRPC]
+        public void RPC_Initialize(int id)
         {
+            Debug.Log("í´ë¼ ì•„ì´í…œ ì´ˆê¸°í™” ì‹œì‘");
             itemId = id;
-            isPickedUp = false; // Ç®¿¡¼­ ³ª¿Ã ¶§ ÃÊ±âÈ­
-            var data = ItemDatabase.Instance.GetItemById(id);
+            isPickedUp = false; // í’€ì—ì„œ ë‚˜ì˜¬ ë•Œ ì´ˆê¸°í™”
+            var data = ItemObjectPool.Instance.GetItemById(id);
 
             if (data == null)
             {
-                Debug.LogWarning($"[ItemPickup] À¯È¿ÇÏÁö ¾ÊÀº itemId: {id}");
+                Debug.LogWarning($"[ItemPickup] ìœ íš¨í•˜ì§€ ì•Šì€ itemId: {id}");
                 return;
             }
 
             if (data.sprite == null)
             {
-                Debug.LogWarning($"[ItemPickup] itemId={id}¿¡ ½ºÇÁ¶óÀÌÆ®°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogWarning($"[ItemPickup] itemId={id}ì— ìŠ¤í”„ë¼ì´íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
                 return;
             }
 
             spriteRenderer.sprite = data.sprite;
+            Debug.Log("í´ë¼ ì•„ì´í…œ ì´ˆê¸°í™” ì™„ë£Œ");
         }
+		public void Initialize(int id)
+		{
+			Debug.Log("ë°©ì¥ ì•„ì´í…œ ì´ˆê¸°í™” ì‹œì‘");
+			itemId = id;
+			isPickedUp = false; // í’€ì—ì„œ ë‚˜ì˜¬ ë•Œ ì´ˆê¸°í™”
+			var data = ItemObjectPool.Instance.GetItemById(id);
 
-        private void OnTriggerEnter2D(Collider2D other)
+			if (data == null)
+			{
+				Debug.LogWarning($"[ItemPickup] ìœ íš¨í•˜ì§€ ì•Šì€ itemId: {id}");
+				return;
+			}
+
+			if (data.sprite == null)
+			{
+				Debug.LogWarning($"[ItemPickup] itemId={id}ì— ìŠ¤í”„ë¼ì´íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
+				return;
+			}
+
+			spriteRenderer.sprite = data.sprite;
+			Debug.Log("ë°©ì¥ ì•„ì´í…œ ì´ˆê¸°í™” ì™„ë£Œ");
+
+            photonView.RPC(nameof(RPC_Initialize), RpcTarget.OthersBuffered, id);
+		}
+
+		private void OnTriggerEnter2D(Collider2D other)
         {
-            if (isPickedUp) return; // Áßº¹ ¹æÁö
+            if (!other.CompareTag("Player") || isPickedUp) return;
             isPickedUp = true;
 
-            if (!other.TryGetComponent<PhotonView>(out var targetView)) return;
-
-            photonView.RPC(nameof(ApplyItemEffect), RpcTarget.AllBuffered, itemId, targetView.ViewID);
-            ItemObjectPool.Instance.ReturnToPool(this);
+            if (!other.TryGetComponent<IStatReceiver>(out var player)) return;
+			var data = ItemObjectPool.Instance.GetItemById(this.itemId);
+            player.ApplyStat(data);
+            photonView.RPC(nameof(RPC_ItemDespawn), RpcTarget.AllBuffered);
         }
 
         [PunRPC]
+        public void RPC_ItemDespawn()
+        {
+            gameObject.SetActive(false);
+            Debug.Log("ì•„ì´í…œì„ íšë“í•˜ì—¬ ë¹„í™œì„±í™” ì™„ë£Œ");
+        }
+
+		public void OnDisable()
+		{
+			ItemObjectPool.Instance.ReturnToPool(this);
+            Debug.Log("ë¹„í™œì„±í™” í›„ í’€ë¡œ ëŒì•„ê°€ê¸° ì™„ë£Œ");
+		}
+
+		[PunRPC]
         private void ApplyItemEffect(int id, int viewID)
         {
-            var data = ItemDatabase.Instance.GetItemById(id);
+            var data = ItemObjectPool.Instance.GetItemById(id);
             var receiver = PhotonView.Find(viewID)?.GetComponent<IStatReceiver>();
 
             if (data == null || receiver == null)
             {
-                Debug.LogWarning("[ItemPickup] ¾ÆÀÌÅÛ È¿°ú Àû¿ë ½ÇÆĞ");
+                Debug.LogWarning("[ItemPickup] ì•„ì´í…œ íš¨ê³¼ ì ìš© ì‹¤íŒ¨");
                 return;
             }
 
             receiver.ApplyStat(data);
         }
-    }
+	}
 }

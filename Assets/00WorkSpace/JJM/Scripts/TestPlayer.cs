@@ -84,8 +84,8 @@ public class TestPlayer : MonoBehaviour, IDamagable
         Debug.Log($"�÷��̾ ������ ����: {damage} ���� ü��: {currentHealth}");
         if (currentHealth <= 0)
         {
-            return true;
             Debug.Log("플레이어가 데미지 받음: " + damage + " 남은 체력: " + currentHealth);
+            return true;
         }
         return false;
     }
@@ -96,9 +96,4 @@ public class TestPlayer : MonoBehaviour, IDamagable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
-
-	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
-	{
-		throw new System.NotImplementedException();
-	}
 }

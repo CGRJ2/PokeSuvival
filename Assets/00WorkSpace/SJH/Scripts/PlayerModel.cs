@@ -52,7 +52,6 @@ public class PlayerModel
 	public bool IsDead { get; private set; }
 
 	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
-
 	// TODO : 패시브 아이템 리스트
 
 	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
@@ -110,7 +109,12 @@ public class PlayerModel
 		return skills[index];
 	}
 	public bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
-	public void SetSkillCooldown(SkillSlot slot, float cooldown) => SkillCooldownDic[slot] = Time.time + cooldown;
+	public void SetSkillCooldown(SkillSlot slot, float cooldown) 
+	{
+        SkillCooldownDic[slot] = Time.time + cooldown;
+		UIManager.Instance.InGameGroup.UpdateCoolTime(PlayerManager.Instance?.LocalPlayerController.Model, slot);
+    }
+    
 	public void ReCalculateAllStat()
 	{
 		int hpGap = MaxHp - _currentHp;

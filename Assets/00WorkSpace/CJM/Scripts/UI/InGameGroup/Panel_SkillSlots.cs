@@ -3,11 +3,11 @@ using UnityEngine;
 public class Panel_SkillSlots : MonoBehaviour
 {
     SkillSlotView[] skillSlots;
+
     public void Init()
     {
         skillSlots = GetComponentsInChildren<SkillSlotView>();
     }
-
 
     public void UpdateSkillSlotsView(PlayerModel model)
     {
@@ -36,8 +36,11 @@ public class Panel_SkillSlots : MonoBehaviour
                 skillSlots[i].BlockSlotView();
             }
         }
+    }
 
 
-        float cool_01 = model.SkillCooldownDic[SkillSlot.Skill1];
+    public void UpdateSlotCoolTimeView(PlayerModel model, SkillSlot slot)
+    {
+        skillSlots[(int)slot].CoolTimeUpdate((model.SkillCooldownDic[slot]));
     }
 }
