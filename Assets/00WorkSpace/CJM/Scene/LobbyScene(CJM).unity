@@ -122,6 +122,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &359598162 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+  m_PrefabInstance: {fileID: 1272132428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04a13c7873eecd448164323e6394791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +408,17 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!114 &1251636947 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+  m_PrefabInstance: {fileID: 1574633069294498284}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932e349bc4ea0f84f83f21ba1c8b3f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1272132428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -458,6 +480,64 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+--- !u!1 &1288119152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1288119154}
+  - component: {fileID: 1288119153}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1288119153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288119152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccaaab36d3b2bad4d9d8f7d52e19cf38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backendManager: {fileID: 1251636947}
+  uIManager: {fileID: 2045375954}
+  networkManager: {fileID: 359598162}
+--- !u!4 &1288119154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288119152}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.501969, y: 15.129771, z: 0.0351412}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2045375954 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7642149336142701899, guid: d144a3705ce37da48bfdccca0bdf578f, type: 3}
+  m_PrefabInstance: {fileID: 530094293411600091}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ebde854b5c04484694c7c7a65285d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &530094293411600091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -468,11 +548,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 237995794856573825, guid: d144a3705ce37da48bfdccca0bdf578f, type: 3}
       propertyPath: m_Text
-      value: 
+      value: aaaaaa
       objectReference: {fileID: 0}
     - target: {fileID: 1039977984569132137, guid: d144a3705ce37da48bfdccca0bdf578f, type: 3}
       propertyPath: m_Text
-      value: 
+      value: testCJM@aa.aa
       objectReference: {fileID: 0}
     - target: {fileID: 1682670418678352474, guid: d144a3705ce37da48bfdccca0bdf578f, type: 3}
       propertyPath: m_IsActive
@@ -743,6 +823,7 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 896086323}
+  - {fileID: 1574633069294498284}
   - {fileID: 530094293411600091}
   - {fileID: 1272132428}
-  - {fileID: 1574633069294498284}
+  - {fileID: 1288119154}

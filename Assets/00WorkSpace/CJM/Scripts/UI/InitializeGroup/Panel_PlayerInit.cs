@@ -20,21 +20,20 @@ public class Panel_PlayerInit : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(inputField_Name.text))
         {
-            Debug.LogError("�г����� ����� �������ּ���");
+            Debug.LogError("닉네임을 제대로 설정해주세요");
             return;
         }
 
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
         if (BackendManager.Auth.CurrentUser != null)
         {
-            // Auth ���� ������ ������Ʈ
+            // Auth 
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
             
-            // DB�� ����
+            // DB
             BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text));
         }
 
-        // ���濡 �г��� ����
         PhotonNetwork.NickName = inputField_Name.text;
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);
