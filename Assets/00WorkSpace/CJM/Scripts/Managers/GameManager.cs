@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Init()
     {
+        base.SingletonInit();
         backendManager.Init();
         uIManager.Init();
         networkManager.Init();

@@ -2,6 +2,7 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
+using Google.MiniJSON;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -247,6 +248,13 @@ public class BackendManager : Singleton<BackendManager>
                 mutableData.Value = 1;
                 return TransactionResult.Success(mutableData);
             }
+            else if ((long)mutableData.Value <= 0)
+            {
+                long curUserCount = (long)mutableData.Value;
+                mutableData.Value = 0;
+                Debug.LogError("서버 인원 수가 음수로 나오려고 함. 우선 예외처리로 기능 작동에는 문제 없지만 확인 필요.");
+                return TransactionResult.Success(mutableData);
+            }
             else
             {
                 long curUserCount = (long)mutableData.Value;
@@ -296,6 +304,40 @@ public class BackendManager : Singleton<BackendManager>
                 Debug.LogWarning("해당 서버가 데이터베이스에 존재하지 않음.");
                 onFail?.Invoke("해당 서버가 데이터베이스에 없다는 메시지 전송");
             }
+        });
+    }
+
+    // 서버 타입+이름으로 해당 서버 데이터 반환하기
+    public void GetServerData(string name, ServerType type, Action<ServerData> onSuccess = null, Action<string> onFail = null)
+    {
+        DatabaseReference serverRoot = GetServerBaseRef(type);
+        DatabaseReference targetRef = serverRoot.Child(name);
+
+        targetRef.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled || task.IsFaulted)
+            {
+                Debug.LogError("서버 불러오기 실패");
+                onFail?.Invoke("불러오기 실패");
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                string json = snapshot.GetRawJsonValue();
+                ServerData data = JsonUtility.FromJson<ServerData>(json);
+                Debug.Log($"서버 데이터 불러오기 성공: {json}");
+
+                onSuccess?.Invoke(data);
+            }
+            else
+            {
+                Debug.LogWarning("서버 데이터가 존재하지 않음.");
+                onFail?.Invoke("서버 데이터가 없다는 메시지 전송");
+            }
+
         });
     }
 
@@ -378,7 +420,8 @@ public class UserData
     public string name;
     public int level;
     public int money;
-    public float playTime;
+    public int kills;
+    public float suvivalTime;
     public float highScore;
     public string startingPokemonName;
 
@@ -387,7 +430,9 @@ public class UserData
         this.name = name;
         this.level = 1;
         this.money = 0;
-        this.playTime = 0;
+        this.kills = 0;
+        this.suvivalTime = 0;
+        this.highScore = 0;
         this.startingPokemonName = "None";
     }
 }
@@ -400,6 +445,8 @@ public class ServerData
     public int type;
     public int maxPlayerCount;
     public int curPlayerCount;
+
+    public ServerData() { }
 
     public ServerData(string name, string id, int maxPlayerCount)
     {

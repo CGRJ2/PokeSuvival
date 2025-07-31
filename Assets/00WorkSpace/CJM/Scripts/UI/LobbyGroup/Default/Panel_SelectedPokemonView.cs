@@ -21,14 +21,21 @@ public class Panel_SelectedPokemonView : MonoBehaviour
 
     public void UpdateView()
     {
-        // 스타팅 포켓몬 설정해주기
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+        // 스타팅 포켓몬이 설정되어 있다면 UI창 업데이트
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon") 
+            && (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] != "None")
         {
             string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
             PokemonData selectedPokemonData = Define.GetPokeData(pokemonDataSO_Name);
                 
             tmp_Name.text = selectedPokemonData.PokeName;
             image_Sprite.sprite = selectedPokemonData.PokemonInfoSprite;
+        }
+        // 설정이 안되어 있다면
+        else
+        {
+            // 물음표 표시로 바꿔주기
+            // 포켓몬 이름 text에 기본값 넣어주기
         }
     }
 

@@ -18,6 +18,7 @@ public class Panel_SelectStarting : MonoBehaviour
 
         // 맨 처음 보여줄 몬스터 (일단 1번인 이상해씨를 넣었습니다)
         panel_PokemonInfo.UpdateView(Define.GetPokeData("이상해씨"));
+        selectedPokemon = Define.GetPokeData("이상해씨");
     }
 
     void SelectConfirm()
@@ -28,6 +29,9 @@ public class Panel_SelectStarting : MonoBehaviour
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
         playerProperty["StartingPokemon"] = selectedPokemon.PokeName;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+
+        // UserData에 업데이트
+        BackendManager.Instance.UpdateUserData("startingPokemonName", selectedPokemon.PokeName);
 
         // 디버그용
         /*if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
