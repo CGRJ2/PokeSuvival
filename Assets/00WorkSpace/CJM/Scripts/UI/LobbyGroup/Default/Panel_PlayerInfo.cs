@@ -31,8 +31,9 @@ public class Panel_PlayerInfo : MonoBehaviour
     {
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         panel_Loading.SetActive(true);
+        Debug.Log("아직 이름 설정 안되어서 기다림");
         yield return new WaitUntil(() => !user.DisplayName.IsNullOrEmpty());
-
+        Debug.Log("정보 갱신할거 기다리는중");
         tmp_Name.text = $"Name: {user.DisplayName}";
         tmp_Email.text = $"E-Mail: {user.Email}";
         tmp_UserId.text = $"User Id: {user.UserId}";

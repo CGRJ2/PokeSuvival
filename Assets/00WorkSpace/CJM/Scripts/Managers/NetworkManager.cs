@@ -137,10 +137,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 // 플레이어 정보 업데이트
                 if (BackendManager.Auth.CurrentUser != null)
                 {
+                    //Debug.Log("로비씬 플레이어 정보 갱신");
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
                 }
                 else
                 {
+                    //Debug.Log("로비씬 플레이어 정보 없으니 게스트 버전 업데이트");
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.ClearView();
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateGuestInfoView();
                 }
@@ -180,15 +182,15 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                     pm.PlayerInstaniate();
                 }
             }
-                
+
         }
         else if (CurServer.type == ServerType.Lobby)
         {
             if (um != null)
             {
+                um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
                 um.LobbyGroup.panel_RoomInside.InitRoomView();
                 um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
-                um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
             }
         }
     }
@@ -313,8 +315,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public void MoveToLobby()
     {
         PlayerManager.Instance?.PlayerToLobby(); // SJH 스킬 이벤트 해제
-		// 우선 첫번째 서버로 고정 이동
-		ChangeServer(lobbyServerDatas[0]);
+                                                 // 우선 첫번째 서버로 고정 이동
+        ChangeServer(lobbyServerDatas[0]);
 
         PhotonNetwork.LoadLevel("LobbyScene(CJM)"); // 로비 씬 이름 씬매니저에 저장해두기
     }
@@ -325,9 +327,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (isTestServer)
         {
             ChangeServer(inGameServerDatas[2]);
-			PhotonNetwork.LoadLevel(sceneName);
+            PhotonNetwork.LoadLevel(sceneName);
             return;
-		}
+        }
 
         // 우선 첫번째 서버로 고정 이동
         ChangeServer(inGameServerDatas[0]);
@@ -394,6 +396,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         //bool ready = (bool)player.CustomProperties["Ready"];
     }
 
+    private void OnApplicationQuit()
+    {
+        BackendManager.Auth.SignOut();
+    }
 }
 
 [System.Serializable]
@@ -403,5 +409,5 @@ public class ServerData
     public string name;
     public string id;
 }
-public enum ServerType { Lobby, InGame, TestServer, FunctionTestServer};
+public enum ServerType { Lobby, InGame, TestServer, FunctionTestServer };
 

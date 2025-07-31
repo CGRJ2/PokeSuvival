@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +30,13 @@ public class Panel_PlayerStatus : MonoBehaviour
         tmp_CurHP.text = model.CurrentHp.ToString();
         tmp_MaxHP.text = model.MaxHp.ToString();
 
+        float curHp = model.CurrentHp;
+        float maxHp = model.MaxHp;
+
         float curExp = model.PokeExp;
         float maxExp = model.NextExp;
+
+        image_HPBar.fillAmount = Mathf.Clamp01(curHp / maxHp);
+        image_EXPBar.fillAmount = Mathf.Clamp01(curExp / maxExp);
     }
 }

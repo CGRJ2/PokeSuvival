@@ -13,6 +13,7 @@ public class Panel_RoomButtons : MonoBehaviour
     {
         btn_Exit.onClick.AddListener(ExitRoom);
         btn_Ready.onClick.AddListener(Ready);
+        btn_Start.onClick.AddListener(StartWithParty);
     }
 
     /*public void InitButtons(bool isMaster)
@@ -86,5 +87,15 @@ public class Panel_RoomButtons : MonoBehaviour
     public void SetActiveStartButton(bool activate)
     {
         btn_Start.gameObject.SetActive(activate);
+    }
+
+    public void StartWithParty()
+    {
+        // 임시
+        // 인게임 서버 중 비어있는 곳을 찾아 접속해야함.
+        // 인게임 서버들의 인원 상태를 저장해두는 중계자 필요 => firebase DB 설계 진행하자
+        NetworkManager nm = NetworkManager.Instance;
+        string inGameSceneName = nm.temp_InGameSceneName;
+        nm.MoveToInGameScene(inGameSceneName);
     }
 }

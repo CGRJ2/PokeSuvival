@@ -129,7 +129,7 @@ public class ItemBoxPoolManager : MonoBehaviourPunCallbacks
         GameObject obj = PhotonNetwork.InstantiateRoomObject(itemBoxPrefab.name, new Vector3(0, -100, 0), Quaternion.identity);
         obj.SetActive(false);
 
-        obj.transform.SetParent(this.transform);
+        //obj.transform.SetParent(this.transform);
 
         pooledObjects.Add(obj);
         return obj;

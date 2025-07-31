@@ -7,7 +7,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ItemObjectPool : MonoBehaviourPun
 {
-    public static ItemObjectPool Instance;
+    public static ItemObjectPool Instance { get; private set; }
 
     [SerializeField] private GameObject itemPrefab;
     [SerializeField] private int poolSize = 20;
@@ -46,7 +46,7 @@ public class ItemObjectPool : MonoBehaviourPun
         }
 
         item.transform.position = position;
-        item.Initialize(itemId);
+        item.RPC_Initialize(itemId);
         item.gameObject.SetActive(true);
 
         // 공유 아이템으로 누구나 먹을 수 있도록 Scene Ownership 설정
@@ -64,7 +64,17 @@ public class ItemObjectPool : MonoBehaviourPun
         }
     }
 
-    public void ItemDatabaseInit()
+    [PunRPC]
+    public void RPC_ReturnToPool(ItemPickup item)
+	{
+		if (!Pool.Contains(item))
+		{
+			item.gameObject.SetActive(false);
+			Pool.Enqueue(item);
+		}
+	}
+
+	public void ItemDatabaseInit()
     {
 		ItemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
 		_itemDict = ItemDatabase.items.ToDictionary(i => i.id);
@@ -76,7 +86,6 @@ public class ItemObjectPool : MonoBehaviourPun
 	}
 	public ItemData GetItemById(int id)
 	{
-		if (!PhotonNetwork.IsMasterClient) return null;
         if (ItemDatabase == null) ItemDatabaseInit();
 		return _itemDict != null && _itemDict.TryGetValue(id, out var data) ? data : null;
 	}
