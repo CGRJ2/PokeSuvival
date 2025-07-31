@@ -12,7 +12,8 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
     public GameObject shopItemPrefab; // 아이템 패널 프리팹 (이미지, 이름, 가격, 버튼 포함)
     public TMP_Text buyCoinText; // 구매할 아이템 총합 가격을 표시할 텍스트
     public TMP_Text coinText; // 현재 플레이어가 가진 재화를 표시할 텍스트
-    public int playerCoin = 999999; // 플레이어가 가진 현재 재화
+    public int playerCoin = 99999; // 플레이어가 가진 현재 재화
+    public GameObject notEnoughCoinPanel; // 재화 부족 안내 UI 오브젝트
 
     private List<ItemData> buyItems = new List<ItemData>(); // 구매 목록에 추가된 아이템 리스트
 
@@ -61,10 +62,27 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         }
         else
         {
-            // 재화 부족 안내 (추후 구현)
+            Debug.Log("재화 부족! UI 표시 시도");
+            // 재화 부족 안내 UI 표시
+            if (notEnoughCoinPanel != null)
+            {
+                notEnoughCoinPanel.SetActive(true);
+                StartCoroutine(HideInsufficientCoinPanel());
+            }
+            else
+            {
+                Debug.LogWarning("notEnoughCoinPanel이 Inspector에 연결되어 있지 않습니다.");
+            }
         }
     }
-
+    
+    // 재화 부족 안내 UI를 3초 후 자동으로 끄는 코루틴
+    private System.Collections.IEnumerator HideInsufficientCoinPanel()
+    {
+        yield return new WaitForSeconds(3f); // 3초 대기
+        if (notEnoughCoinPanel != null)
+            notEnoughCoinPanel.SetActive(false); // UI 끄기
+    }
     void UpdateCoinText() // 현재 재화 텍스트 갱신
     {
         coinText.text = playerCoin.ToString(); // coinText에 현재 재화 표시
