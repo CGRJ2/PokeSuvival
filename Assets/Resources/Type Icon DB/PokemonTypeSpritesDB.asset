@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dd7ca1e3dabf049b5aaacab37be53d, type: 3}
+  m_Name: PokemonTypeSpritesDB
+  m_EditorClassIdentifier: 
+  spriteDatas:
+  - type: 12
+    sprite: {fileID: 2114316383, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 16
+    sprite: {fileID: -365463751, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 15
+    sprite: {fileID: -1754489797, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 7
+    sprite: {fileID: 1240972530, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 6
+    sprite: {fileID: -1635906053, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 2
+    sprite: {fileID: 1872012446, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 10
+    sprite: {fileID: -1450329598, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 14
+    sprite: {fileID: 204178497, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 4
+    sprite: {fileID: 1416820515, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 9
+    sprite: {fileID: 1894193473, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 8
+    sprite: {fileID: 982664135, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 1
+    sprite: {fileID: -112137679, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 5
+    sprite: {fileID: 213444739, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 11
+    sprite: {fileID: -1901031604, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 13
+    sprite: {fileID: -927842098, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 17
+    sprite: {fileID: -1155910904, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  - type: 3
+    sprite: {fileID: -1417994042, guid: 142458ac048501a46b1238fa09a87d26, type: 3}

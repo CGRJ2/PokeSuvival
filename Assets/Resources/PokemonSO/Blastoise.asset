@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Blastoise
+  m_EditorClassIdentifier: 
+  PokeNumber: 9
+  PokeName: "\uAC70\uBD81\uC655"
+  PokeTypes: 0300000000000000
+  BaseStat:
+    Hp: 79
+    Attak: 83
+    Defense: 100
+    SpecialAttack: 85
+    SpecialDefense: 105
+    Speed: 78
+  AnimController: {fileID: 9100000, guid: 11a5f6966e4fd244ebf89870ed91ef1a, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 78ea197d9ae26fe46bf66fefc0d4e32f, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: d02d46d4379070e4f8b41c5386476352, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
+  Desc: 
+  EvoLevel: 0
+  NextEvoData: {fileID: 0}

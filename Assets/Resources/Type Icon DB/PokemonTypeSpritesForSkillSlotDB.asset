@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dd7ca1e3dabf049b5aaacab37be53d, type: 3}
+  m_Name: PokemonTypeSpritesForSkillSlotDB
+  m_EditorClassIdentifier: 
+  spriteDatas:
+  - type: 12
+    sprite: {fileID: -1209918113, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 16
+    sprite: {fileID: 848566264, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 15
+    sprite: {fileID: -1739685034, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 7
+    sprite: {fileID: 147156427, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 6
+    sprite: {fileID: 1421870181, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 2
+    sprite: {fileID: -115413227, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 10
+    sprite: {fileID: 1969865288, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 14
+    sprite: {fileID: -1903719953, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 4
+    sprite: {fileID: 737061238, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 9
+    sprite: {fileID: 1465721850, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 8
+    sprite: {fileID: -370751014, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 1
+    sprite: {fileID: 783999088, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 5
+    sprite: {fileID: -277572173, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 11
+    sprite: {fileID: -786910269, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 13
+    sprite: {fileID: -1916172805, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 17
+    sprite: {fileID: 1410428103, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
+  - type: 3
+    sprite: {fileID: -2018646531, guid: ba24caf9206d75249b73583d5b38b87e, type: 3}
