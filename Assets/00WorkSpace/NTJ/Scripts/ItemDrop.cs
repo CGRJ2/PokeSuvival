@@ -37,7 +37,7 @@ namespace NTJ
         }
         public void SpawnItemWithForce(Vector3 position, int itemId)
         {
-            var item = ItemObjectPool.Instance.SpawnItem(position, itemId);
+            var item = ItemDataManager.Instance.SpawnItem(position, itemId);
 
             if (item != null && item.TryGetComponent<Rigidbody2D>(out var rb))
             {

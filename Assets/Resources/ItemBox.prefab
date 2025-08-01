@@ -142,10 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefabs:
   - {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
-  - {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
   dropProbabilities:
-  - 0
-  - 0
+  - 1
   maxHp: 10
   currentHp: 10
 --- !u!58 &-1713756809837424617

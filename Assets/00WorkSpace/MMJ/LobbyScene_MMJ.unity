@@ -413,6 +413,10 @@ PrefabInstance:
       propertyPath: isTestServer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
+      propertyPath: temp_InGameSceneName
+      value: GameScene_MMJ
+      objectReference: {fileID: 0}
     - target: {fileID: 5336341913695506676, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
