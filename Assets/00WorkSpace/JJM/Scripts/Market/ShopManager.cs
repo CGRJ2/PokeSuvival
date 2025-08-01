@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
     public TMP_Text coinText; // 현재 플레이어가 가진 재화를 표시할 텍스트
     public int playerCoin = 99999; // 플레이어가 가진 현재 재화
     public GameObject notEnoughCoinPanel; // 재화 부족 안내 UI 오브젝트
+    public GameObject shopRootPanel; // 상점 전체 오브젝트
 
     private List<ItemData> buyItems = new List<ItemData>(); // 구매 목록에 추가된 아이템 리스트
 
@@ -29,7 +30,7 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         {
             var go = Instantiate(shopItemPrefab, sellItemContent); // 프리팹 생성 및 Content에 추가
             var ui = go.GetComponent<ItemUI>(); // ItemUI 컴포넌트 가져오기
-            ui.Setup(item.sprite, item.itemName, item.value, () => AddToBuyItems(item)); // 아이템 정보 세팅 및 클릭 이벤트 연결
+            ui.Setup(item.sprite, item.itemName, item.price, item.description, () => AddToBuyItems(item)); // 아이템 정보 세팅 및 클릭 이벤트 연결
         }
     }
 
@@ -38,23 +39,44 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         buyItems.Add(item); // 구매 목록에 아이템 추가
         var go = Instantiate(shopItemPrefab, buyItemContent); // BuyItemContent에 프리팹 생성
         var ui = go.GetComponent<ItemUI>(); // ItemUI 컴포넌트 가져오기
-        ui.Setup(item.sprite, item.itemName, item.value, null); // 아이템 정보 세팅 (구매 목록은 클릭 이벤트 없음)
+        ui.Setup(item.sprite, item.itemName, item.price, item.description, null); // 아이템 정보 세팅 (구매 목록은 클릭 이벤트 없음)
         UpdateBuyTotal(); // 구매 총합 가격 갱신
     }
 
     void UpdateBuyTotal() // 구매 목록의 총 가격을 buyCoinText에 표시
     {
-        int total = buyItems.Sum(i => (int)i.value); // 구매 목록의 가격 합산
+        int total = buyItems.Sum(i => (int)i.price); // 구매 목록의 가격 합산
         buyCoinText.text = total.ToString(); // 총합 텍스트 갱신
     }
 
     public void ConfirmBuy() // 구매 버튼 클릭 시 호출 (일괄 구매)
     {
-        int total = buyItems.Sum(i => (int)i.value); // 구매 목록의 총 가격 계산
+        int total = buyItems.Sum(i => (int)i.price); // 구매 목록의 총 가격 계산
         if (playerCoin >= total) // 재화가 충분한지 확인
         {
             playerCoin -= total; // 재화 차감
             UpdateCoinText(); // 현재 재화 텍스트 갱신
+
+            // 도감에 구매한 아이템 등록
+            if (InventoryUI.Instance != null)
+            {
+                foreach (var item in buyItems)
+                    InventoryUI.Instance.ownedItemIds.Add(item.id);
+
+                InventoryUI.Instance.UpdatePage(); // 도감 UI 갱신
+            }
+
+            // 1. 구매한 아이템을 sellItems에서 제거
+            foreach (var item in buyItems)
+            {
+                sellItems.Remove(item);
+            }
+
+            // 2. 상점 UI 갱신 (기존 아이템 패널 모두 삭제 후 다시 생성)
+            foreach (Transform child in sellItemContent)
+                Destroy(child.gameObject);
+            PopulateSellItems();
+
             buyItems.Clear(); // 구매 목록 초기화
             foreach (Transform child in buyItemContent) // 구매 목록 UI 삭제
                 Destroy(child.gameObject);
@@ -82,6 +104,12 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         yield return new WaitForSeconds(3f); // 3초 대기
         if (notEnoughCoinPanel != null)
             notEnoughCoinPanel.SetActive(false); // UI 끄기
+    }
+
+    public void CloseShop()//상점 닫기 버튼 클릭 시 호출
+    {
+        if (shopRootPanel != null)
+            shopRootPanel.SetActive(false); // 상점 UI 비활성화
     }
     void UpdateCoinText() // 현재 재화 텍스트 갱신
     {

@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10005
   itemName: SellItem5
-  itemType: 0
-  affectedStat: 0
-  value: 100000
+  itemType: 4
+  affectedStat: 5
+  value: 0
   duration: 0
   sprite: {fileID: 21300000, guid: 5643d0ef54d60f54985927fdc9442899, type: 3}
+  description: spe + 10
+  price: 100000
