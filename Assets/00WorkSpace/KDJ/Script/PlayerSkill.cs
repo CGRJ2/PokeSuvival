@@ -22,13 +22,13 @@ public class PlayerSkillManager : MonoBehaviour
     private bool canHeal = true;          // 현재 힐 스킬 사용 가능 여부
 
     private Rigidbody2D rb;               // 플레이어의 Rigidbody2D 컴포넌트
-    private PlayerHealth playerHealth;    // 플레이어의 체력 관리 스크립트
+    //private PlayerHealth playerHealth;    // 플레이어의 체력 관리 스크립트
 
     void Start()
     {
         // 시작 시 필요한 컴포넌트를 가져옴
         rb = GetComponent<Rigidbody2D>();
-        playerHealth = GetComponent<PlayerHealth>();
+        //playerHealth = GetComponent<PlayerHealth>();
     }
 
     void Update()
@@ -95,7 +95,7 @@ public class PlayerSkillManager : MonoBehaviour
     private IEnumerator Heal()
     {
         canHeal = false;
-        playerHealth.Heal(healAmount);// 플레이어 체력 회복
+        //playerHealth.Heal(healAmount);// 플레이어 체력 회복
         yield return new WaitForSeconds(healCooldown);// 쿨다운 대기
         canHeal = true;
     }
