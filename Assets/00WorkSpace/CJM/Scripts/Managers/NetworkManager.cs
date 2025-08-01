@@ -19,7 +19,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     [Header("씬 전환을 위한 이름(string) 저장")]
     public string inGameSceneName;
     public string lobbySceneName;
-    
+
     public ServerData CurServer { get; private set; }
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
@@ -295,37 +295,55 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public void ChangeServer(ServerData serverData)
     {
         if (serverData == null) { Debug.LogError("이동할 서버가 설정되지 않음!"); return; }
-        
-        Hashtable customPropsDB_Player = null;
 
-        // 현재 접속 중인 서버가 없다면 실행 안함
-        if (CurServer != null)
+        // 해당 서버 접속 가능여부 판단
+        BackendManager.Instance.IsAbleToConnectServer(serverData, (accessable) =>
         {
-            // 플레이어 커스텀 프로퍼티 백업
-            if (PhotonNetwork.LocalPlayer.CustomProperties != null)
-                customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
+            //Debug.Log($"접근 가능은 한가?{accessable}");
+            if (accessable)
+            {
+                Hashtable customPropsDB_Player = null;
 
-            // 연결 해제 이전에 서버 퇴장 처리
-            BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
+                // 현재 접속 중인 서버가 없다면 실행 안함
+                if (CurServer != null)
+                {
+                    // 플레이어 커스텀 프로퍼티 백업
+                    if (PhotonNetwork.LocalPlayer.CustomProperties != null)
+                        customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
-            // 현재 접속 중인 서버 연결 해제
-            PhotonNetwork.Disconnect();
-        }
+                    // 연결 해제 이전에 서버 퇴장 처리
+                    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
+
+                    // 현재 접속 중인 서버 연결 해제
+                    PhotonNetwork.Disconnect();
+                }
+
+                // 이동할 서버 AppID 갱신
+                PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = serverData.id;
+                // 갱신된 ID의 서버 연결
+
+                // 접속에 성공하면 현재 서버 갱신
+                CurServer = serverData;
+
+                PhotonNetwork.ConnectUsingSettings();
+
+                // 연결 후 커스텀 프로퍼티 복원
+                if (customPropsDB_Player != null)
+                    PhotonNetwork.LocalPlayer.CustomProperties = customPropsDB_Player;
+
+                // 연결 후 서버 입장 처리
+                BackendManager.Instance.OnEnterServerCapacityUpdate(serverData);
+            }
+            else
+            {
+                Debug.LogError("해당 서버 접속 불가능. 사유: 인원 초과");
+            }
+        });
+
+
         
-        // 이동할 서버 AppID 갱신
-        PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = serverData.id;
-        // 갱신된 ID의 서버 연결
-        PhotonNetwork.ConnectUsingSettings();
 
-        // 연결 후 커스텀 프로퍼티 복원
-        if (customPropsDB_Player != null)
-            PhotonNetwork.LocalPlayer.CustomProperties = customPropsDB_Player;
-
-        // 연결 후 서버 입장 처리
-        BackendManager.Instance.OnEnterServerCapacityUpdate(serverData);
-
-        // 접속에 성공하면 현재 서버 갱신
-        CurServer = serverData;
+        
     }
 
     public void ConnectToBestServer(ServerType serverType)
@@ -344,6 +362,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             );
         });
     }
+
 
     public void MoveToLobby()
     {
@@ -371,11 +390,11 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         PhotonNetwork.LoadLevel(inGameSceneName);
     }
 
-    public void MoveToInGameScene(string targetServerName)
+    public void MoveToInGameScene(string targetServerKey)
     {
-        BackendManager.Instance.GetServerData(targetServerName, ServerType.InGame, (targetServer) => 
+        BackendManager.Instance.GetServerData(targetServerKey, ServerType.InGame, (targetServer) =>
         {
-            BackendManager.Instance.IsAbleToConnectServer(targetServer, (accessable) => 
+            BackendManager.Instance.IsAbleToConnectServer(targetServer, (accessable) =>
             {
                 if (accessable)
                 {

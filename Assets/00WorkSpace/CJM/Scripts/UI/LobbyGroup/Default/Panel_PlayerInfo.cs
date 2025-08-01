@@ -15,16 +15,20 @@ public class Panel_PlayerInfo : MonoBehaviour
 
     [SerializeField] Button btn_LogOut;
     [SerializeField] Button btn_EditProfile;
-    [SerializeField] GameObject panel_Loading;
-
+    
     [SerializeField] Button btn_LogIn;
+
+    [SerializeField] GameObject panel_Loading;
+    [SerializeField] Panel_EditProfile panel_EditProfile;
 
 
     public void Init()
     {
+        panel_EditProfile.Init();
+
         btn_LogOut.onClick.AddListener(LogOut);
-        btn_EditProfile.onClick.AddListener(EditProfile);
         btn_LogIn.onClick.AddListener(OpenLonInPanel);
+        btn_EditProfile.onClick.AddListener(() => UIManager.Instance.OpenPanel(panel_EditProfile.gameObject));
     }
 
     private IEnumerator WaitUntilUserInfoLoaded()
@@ -84,8 +88,5 @@ public class Panel_PlayerInfo : MonoBehaviour
         um.OpenPanel(um.InitializeGroup.gameObject);
     }
 
-    private void EditProfile()
-    {
-
-    }
+    
 }

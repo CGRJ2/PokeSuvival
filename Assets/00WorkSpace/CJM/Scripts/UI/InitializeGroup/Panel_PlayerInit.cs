@@ -27,7 +27,7 @@ public class Panel_PlayerInit : MonoBehaviour
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
         if (BackendManager.Auth.CurrentUser != null)
         {
-            // Auth 
+            // Auth => 이거 DB에서 이름 바뀌었을 때 구독해놓는 식으로 하면 될듯?
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
             
             // DB

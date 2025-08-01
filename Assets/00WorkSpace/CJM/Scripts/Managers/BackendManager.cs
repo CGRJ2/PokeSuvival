@@ -24,6 +24,8 @@ public class BackendManager : Singleton<BackendManager>
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            InitServerDataToServerInfoDB(new ServerData("Lobby Server 01 (KR)", "관동 지방", 0, "e4d01a07-2d0c-41bb-bc2d-59723abc27fc", 20));
+            InitServerDataToServerInfoDB(new ServerData("Lobby Server 02 (KR)", "성도 지방", 0, "4b17f092-1646-4668-9356-580cdb2e8529", 20));
         }
     }
 
@@ -206,9 +208,9 @@ public class BackendManager : Singleton<BackendManager>
         Debug.Log("DB에 해당 Server Data의 Server Info 첫 생성");
 
         DatabaseReference root = Database.RootReference;
-        DatabaseReference reference = GetServerBaseRef((ServerType)data.type).Child(data.name);
+        DatabaseReference reference = GetServerBaseRef((ServerType)data.type).Child(data.key);
 
-        ServerData serverInfo = new ServerData(data.name, data.id, 20);
+        ServerData serverInfo = new ServerData(data.key, data.name, data.type, data.id, 20);
         string json = JsonUtility.ToJson(serverInfo);
         reference.SetRawJsonValueAsync(json);
     }
@@ -217,7 +219,7 @@ public class BackendManager : Singleton<BackendManager>
     public void OnEnterServerCapacityUpdate(ServerData curServerData, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
-        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.name);
+        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
         
         reference.Child("curPlayerCount").RunTransaction(mutableData =>
         {
@@ -239,7 +241,7 @@ public class BackendManager : Singleton<BackendManager>
     public void OnExitServerCapacityUpdate(ServerData curServerData, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
-        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.name);
+        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
 
         reference.Child("curPlayerCount").RunTransaction(mutableData =>
         {
@@ -268,10 +270,12 @@ public class BackendManager : Singleton<BackendManager>
     public void IsAbleToConnectServer(ServerData curServerData, Action<bool> onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
-        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.name);
+        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
+
 
         reference.GetValueAsync().ContinueWithOnMainThread(task =>
         {
+
             if (task.IsCanceled)
             {
                 Debug.LogError("서버 데이터 불러오기 취소됨.");
@@ -289,8 +293,10 @@ public class BackendManager : Singleton<BackendManager>
 
             if (snapshot.Exists)
             {
-                int curPlayerCount = (int)snapshot.Child("curPlayerCount").Value;
-                int maxPlayerCount = (int)snapshot.Child("maxPlayerCount").Value;
+                Debug.LogError("존재하는데 왜 안돼");
+
+                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
+                long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
                 Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
 
@@ -308,10 +314,10 @@ public class BackendManager : Singleton<BackendManager>
     }
 
     // 서버 타입+이름으로 해당 서버 데이터 반환하기
-    public void GetServerData(string name, ServerType type, Action<ServerData> onSuccess = null, Action<string> onFail = null)
+    public void GetServerData(string key, ServerType type, Action<ServerData> onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference serverRoot = GetServerBaseRef(type);
-        DatabaseReference targetRef = serverRoot.Child(name);
+        DatabaseReference targetRef = serverRoot.Child(key);
 
         targetRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
@@ -364,6 +370,8 @@ public class BackendManager : Singleton<BackendManager>
                 string key = child.Key; // ex) "In Game Server 01 (KR)"
                 string json = child.GetRawJsonValue();
                 ServerData data = JsonUtility.FromJson<ServerData>(json);
+                Debug.LogWarning(data.key);
+
                 serverDict[key] = data;
             }
 
@@ -440,6 +448,7 @@ public class UserData
 [Serializable]
 public class ServerData
 {
+    public string key;
     public string name;
     public string id;
     public int type;
@@ -448,10 +457,12 @@ public class ServerData
 
     public ServerData() { }
 
-    public ServerData(string name, string id, int maxPlayerCount)
+    public ServerData(string key , string name, int type, string id, int maxPlayerCount)
     {
+        this.key = key;
         this.name = name;
         this.id = id;
+        this.type = type;
         this.maxPlayerCount = maxPlayerCount;
         curPlayerCount = 0;
     }

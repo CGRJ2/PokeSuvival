@@ -64,7 +64,7 @@ public class Panel_LogIn : MonoBehaviour
                 else
                 {
                     Debug.Log("유저 데이터 동기화 진행");
-                    PhotonNetwork.NickName = user.DisplayName;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
+                    PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
 
                     // 스타팅 포켓몬 동기화 해주기
                     ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();

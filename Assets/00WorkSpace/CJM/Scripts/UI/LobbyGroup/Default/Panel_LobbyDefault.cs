@@ -28,7 +28,8 @@ public class Panel_LobbyDefault : MonoBehaviour
     {
         NetworkManager nm = NetworkManager.Instance;
 
-        if (PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == null)
+        if (PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == null ||
+            (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == "None")
         {
             Debug.LogError("스타팅 포켓몬을 설정해주세요");
             return;
