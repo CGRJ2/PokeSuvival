@@ -24,8 +24,9 @@ public class BackendManager : Singleton<BackendManager>
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            InitServerDataToServerInfoDB(new ServerData("Lobby Server 01 (KR)", "관동 지방", 0, "e4d01a07-2d0c-41bb-bc2d-59723abc27fc", 20));
-            InitServerDataToServerInfoDB(new ServerData("Lobby Server 02 (KR)", "성도 지방", 0, "4b17f092-1646-4668-9356-580cdb2e8529", 20));
+            //InitServerDataToServerInfoDB(new ServerData("In Game Server 01 (KR)", "인게임 서버 01", 1, "f4af81c0-1b09-4d04-b4d6-ded79cac2991", 20));
+            //InitServerDataToServerInfoDB(new ServerData("In Game Server 02 (KR)", "인게임 서버 02", 1, "ebb39345-172c-4fe6-814b-f9a959a78382", 20));
+            //InitServerDataToServerInfoDB(new ServerData("In Game Server 03 (KR)", "인게임 서버 03", 1, "f3701beb-1956-416d-9a20-f3e8d9f8b59d", 20));
         }
     }
 
@@ -293,8 +294,6 @@ public class BackendManager : Singleton<BackendManager>
 
             if (snapshot.Exists)
             {
-                Debug.LogError("존재하는데 왜 안돼");
-
                 long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
@@ -370,7 +369,6 @@ public class BackendManager : Singleton<BackendManager>
                 string key = child.Key; // ex) "In Game Server 01 (KR)"
                 string json = child.GetRawJsonValue();
                 ServerData data = JsonUtility.FromJson<ServerData>(json);
-                Debug.LogWarning(data.key);
 
                 serverDict[key] = data;
             }

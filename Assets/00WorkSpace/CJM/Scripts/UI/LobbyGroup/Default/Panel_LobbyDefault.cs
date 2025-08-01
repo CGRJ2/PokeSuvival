@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,16 +27,20 @@ public class Panel_LobbyDefault : MonoBehaviour
 
     public void QuickMatch()
     {
-        NetworkManager nm = NetworkManager.Instance;
-
-        if (PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == null ||
-            (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == "None")
+        BackendManager.Instance.LoadUserDataFromDB((userData) =>
         {
-            Debug.LogError("스타팅 포켓몬을 설정해주세요");
-            return;
-        }
-
-        nm.MoveToInGameScene();
+            // 스타팅 포켓몬이 설정되어 있다면 인게임 씬 퀵이동
+            if (userData.startingPokemonName != "None")
+            {
+               NetworkManager.Instance.MoveToInGameScene();
+            }
+            // 설정이 안되어 있다면 인게임 시작 못함
+            else
+            {
+                Debug.LogError("스타팅 포켓몬을 설정해주세요");
+                return;
+            }
+        });
     }
 
     public void OpenMatchMakingPanel()

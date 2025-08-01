@@ -32,7 +32,7 @@ public class Panel_EditProfile : MonoBehaviour
             BackendManager.Instance.UpdateUserProfile(inputField_EditName.text);
 
             // DB
-            BackendManager.Instance.InitUserDataToDB(new UserData(inputField_EditName.text));
+            BackendManager.Instance.UpdateUserData("name", inputField_EditName.text);
         }
 
         PhotonNetwork.NickName = inputField_EditName.text;

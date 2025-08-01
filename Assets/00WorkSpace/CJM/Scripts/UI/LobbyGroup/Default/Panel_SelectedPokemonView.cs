@@ -12,6 +12,7 @@ public class Panel_SelectedPokemonView : MonoBehaviour
     [SerializeField] TMP_Text tmp_Name;
     [SerializeField] Image image_Sprite;
     [SerializeField] Button btn_changePokemon;
+    [SerializeField] Sprite sprite_noneSettedImage;
 
 
     public void Init()
@@ -21,22 +22,28 @@ public class Panel_SelectedPokemonView : MonoBehaviour
 
     public void UpdateView()
     {
-        // 스타팅 포켓몬이 설정되어 있다면 UI창 업데이트
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon") 
-            && (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] != "None")
+        BackendManager.Instance.LoadUserDataFromDB((userData) =>
         {
-            string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-            PokemonData selectedPokemonData = Define.GetPokeData(pokemonDataSO_Name);
-                
-            tmp_Name.text = selectedPokemonData.PokeName;
-            image_Sprite.sprite = selectedPokemonData.PokemonInfoSprite;
-        }
-        // 설정이 안되어 있다면
-        else
-        {
-            // 물음표 표시로 바꿔주기
-            // 포켓몬 이름 text에 기본값 넣어주기
-        }
+            // 스타팅 포켓몬이 설정되어 있다면 UI창 업데이트
+            if (userData.startingPokemonName != "None")
+            {
+                string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+                PokemonData selectedPokemonData = Define.GetPokeData(pokemonDataSO_Name);
+
+                tmp_Name.text = selectedPokemonData.PokeName;
+                image_Sprite.sprite = selectedPokemonData.PokemonInfoSprite;
+            }
+            // 설정이 안되어 있다면
+            else
+            {
+                // 포켓몬 이름 text에 기본값 넣어주기
+                tmp_Name.text = "스타팅 포켓몬을\r\n설정해주세요";
+
+                // 물음표 표시로 바꿔주기
+                image_Sprite.sprite = sprite_noneSettedImage;
+            }
+        });
+        
     }
 
     void OpenPokemonListPanel()

@@ -9,15 +9,19 @@ public class Slot_ServerInfo_Lobby : MonoBehaviour
     [SerializeField] TMP_Text tmp_ServerName;
     [SerializeField] TMP_Text tmp_PlayerCount;
     [SerializeField] Button btn_Self;
+    Image slotImage;
     ServerData serverData;
 
     private void Awake()
     {
         btn_Self.onClick.AddListener(SetSelectedServerData);
+        slotImage = GetComponent<Image>();
     }
 
     private void SetSelectedServerData()
     {
+        if (serverData == NetworkManager.Instance.CurServer) { Debug.Log("이미 해당 서버에 존재합니다."); return; }
+
         if (serverData != null)
         {
             UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_MatchMaking.panel_LobbyServerList.panel_ServerInfo.gameObject);
@@ -36,6 +40,15 @@ public class Slot_ServerInfo_Lobby : MonoBehaviour
         this.serverData = serverData;
         tmp_ServerName.text = serverData.name;
         tmp_PlayerCount.text = $"{serverData.curPlayerCount} / {serverData.maxPlayerCount}";
+
+        if (serverData == NetworkManager.Instance.CurServer)
+        {
+            slotImage.color = Color.green;
+        }
+        else
+        {
+            slotImage.color = Color.white;
+        }
     }
 
     public void HideSlotView()
