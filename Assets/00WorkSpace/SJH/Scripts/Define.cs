@@ -303,4 +303,12 @@ public enum SkillAnimType
 	Attack,
 	SpeAttack,
 }
+public enum AIState
+{
+	None,
+	Idle,
+	Move,
+	Attack,
+	Die,
+}
 #endregion
