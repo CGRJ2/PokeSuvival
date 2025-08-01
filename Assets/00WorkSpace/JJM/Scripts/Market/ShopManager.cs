@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
     public TMP_Text coinText; // 현재 플레이어가 가진 재화를 표시할 텍스트
     public int playerCoin = 99999; // 플레이어가 가진 현재 재화
     public GameObject notEnoughCoinPanel; // 재화 부족 안내 UI 오브젝트
+    public GameObject shopRootPanel; // 상점 전체 오브젝트
 
     private List<ItemData> buyItems = new List<ItemData>(); // 구매 목록에 추가된 아이템 리스트
 
@@ -82,6 +83,12 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         yield return new WaitForSeconds(3f); // 3초 대기
         if (notEnoughCoinPanel != null)
             notEnoughCoinPanel.SetActive(false); // UI 끄기
+    }
+
+    public void CloseShop()//상점 닫기 버튼 클릭 시 호출
+    {
+        if (shopRootPanel != null)
+            shopRootPanel.SetActive(false); // 상점 UI 비활성화
     }
     void UpdateCoinText() // 현재 재화 텍스트 갱신
     {
