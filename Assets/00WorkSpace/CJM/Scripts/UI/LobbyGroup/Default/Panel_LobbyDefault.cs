@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,19 +27,20 @@ public class Panel_LobbyDefault : MonoBehaviour
 
     public void QuickMatch()
     {
-        NetworkManager nm = NetworkManager.Instance;
-
-        if (PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == null)
+        BackendManager.Instance.LoadUserDataFromDB((userData) =>
         {
-            Debug.LogError("스타팅 포켓몬을 설정해주세요");
-            return;
-        }
-
-        // 임시
-        // 인게임 서버 중 비어있는 곳을 찾아 접속해야함.
-        // 인게임 서버들의 인원 상태를 저장해두는 중계자 필요 => firebase DB 설계 진행하자
-        string inGameSceneName = NetworkManager.Instance.temp_InGameSceneName;
-        nm.MoveToInGameScene(inGameSceneName);
+            // 스타팅 포켓몬이 설정되어 있다면 인게임 씬 퀵이동
+            if (userData.startingPokemonName != "None")
+            {
+               NetworkManager.Instance.MoveToInGameScene();
+            }
+            // 설정이 안되어 있다면 인게임 시작 못함
+            else
+            {
+                Debug.LogError("스타팅 포켓몬을 설정해주세요");
+                return;
+            }
+        });
     }
 
     public void OpenMatchMakingPanel()
