@@ -24,5 +24,7 @@ namespace NTJ
         public Sprite sprite;
         public string description; //아이템 설명
         public List<StatBonus> passiveStatBonuses; // 패시브 효과
+        [Header("가격")]
+        public int price;
     }
 }
