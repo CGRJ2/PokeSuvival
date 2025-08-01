@@ -348,6 +348,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         
     }
 
+    // 해당 타입 서버들 중 최적 서버를 찾아 서버 이동
     public void ConnectToBestServer(ServerType serverType)
     {
         BackendManager.Instance.LoadAllTargetTypeServers(serverType, (lobbyServerDic) =>
@@ -365,7 +366,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         });
     }
 
-
+    // 로비 서버 중 최적의 로비 서버로 이동 (인게임 씬에서 로비로 이동할 때 & 처음 게임을 실행할 때 예외처리)
     public void MoveToLobby()
     {
         // 플레이어 인스턴스가 있다면(= 인게임 씬에서 로비로 이동하는 상황이라면) => 플레이어 이벤트 할당 해제
@@ -378,6 +379,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         PhotonNetwork.LoadLevel(lobbySceneName);
     }
 
+    // 인게임 서버 중 최적의 서버로 이동(퀵매치 전용)
     public void MoveToInGameScene()
     {
         // 테스트 체크 시, 테스트 서버로
@@ -392,6 +394,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         PhotonNetwork.LoadLevel(inGameSceneName);
     }
 
+    // 인게임 서버 중 타겟 키에 해당하는 서버로 이동(인게임 서버 선택 이동 전용)
     public void MoveToInGameScene(string targetServerKey)
     {
         BackendManager.Instance.GetServerData(targetServerKey, ServerType.InGame, (targetServer) =>

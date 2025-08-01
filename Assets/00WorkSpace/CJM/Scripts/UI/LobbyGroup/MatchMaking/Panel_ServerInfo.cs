@@ -18,8 +18,9 @@ public class Panel_ServerInfo : MonoBehaviour
         btn_Cancel.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
 
-    public void UpdateView()
+    public void UpdateServerDataAndView(ServerData serverData)
     {
+        selectedServerData = serverData;
         tmp_ServerName.text = selectedServerData.name;
     }
 

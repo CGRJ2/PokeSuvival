@@ -25,7 +25,7 @@ public class Slot_ServerInfo_Lobby : MonoBehaviour
         if (serverData != null)
         {
             UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_MatchMaking.panel_LobbyServerList.panel_ServerInfo.gameObject);
-            UIManager.Instance.LobbyGroup.panel_MatchMaking.panel_LobbyServerList.panel_ServerInfo.selectedServerData = serverData;
+            UIManager.Instance.LobbyGroup.panel_MatchMaking.panel_LobbyServerList.panel_ServerInfo.UpdateServerDataAndView(serverData);
         }
         else
         {
