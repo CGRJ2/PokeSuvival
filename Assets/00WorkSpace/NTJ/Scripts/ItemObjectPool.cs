@@ -46,7 +46,7 @@ public class ItemObjectPool : MonoBehaviourPun
         }
 
         item.transform.position = position;
-        item.RPC_Initialize(itemId);
+        item.RPC_Initialize(itemId, position);
         item.gameObject.SetActive(true);
 
         // 공유 아이템으로 누구나 먹을 수 있도록 Scene Ownership 설정
