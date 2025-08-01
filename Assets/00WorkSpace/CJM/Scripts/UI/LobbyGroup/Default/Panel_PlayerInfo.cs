@@ -33,6 +33,9 @@ public class Panel_PlayerInfo : MonoBehaviour
 
     private IEnumerator WaitUntilUserInfoLoaded()
     {
+        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
+
+
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         panel_Loading.SetActive(true);
         Debug.Log("아직 이름 설정 안되어서 기다림");
@@ -83,6 +86,7 @@ public class Panel_PlayerInfo : MonoBehaviour
     private void LogOut()
     {
         BackendManager.Auth.SignOut();
+        PhotonNetwork.LocalPlayer.CustomProperties = new ExitGames.Client.Photon.Hashtable(); // 커스텀 프로퍼티 초기화
         UIManager um = UIManager.Instance;
         um.ClosePanel(um.LobbyGroup.gameObject);
         um.OpenPanel(um.InitializeGroup.gameObject);

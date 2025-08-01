@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,21 +26,17 @@ public class Panel_SelectStarting : MonoBehaviour
     {
         if (selectedPokemon == null) { Debug.LogError("선택한 포켓몬이 없습니다."); return; }
 
-        // 스타팅 포켓몬 설정해주기
+        // 스타팅 포켓몬 설정해주기 (포톤 로컬 유저 커스텀 프로퍼티)
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
         playerProperty["StartingPokemon"] = selectedPokemon.PokeName;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
-        // UserData에 업데이트
-        BackendManager.Instance.UpdateUserData("startingPokemonName", selectedPokemon.PokeName);
-
-        // 디버그용
-        /*if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+        // 로그인을 한 유저라면
+        if (BackendManager.Auth.CurrentUser != null)
         {
-            string pokemonDataSO_Name = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-            PokemonData debugTest = Define.GetPokeData(pokemonDataSO_Name);
-            Debug.Log($"스타팅 포켓몬 설정됨: {debugTest.PokeName}");
-        }*/
+            // UserData에 업데이트
+            BackendManager.Instance.UpdateUserData("startingPokemonName", selectedPokemon.PokeName);
+        }
 
         // LobbyDefault에 스타팅 포켓몬 View 업데이트
         UIManager.Instance.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
@@ -47,6 +44,7 @@ public class Panel_SelectStarting : MonoBehaviour
         // 패널 닫기
         CloseSelectPanel();
     }
+
 
     void CloseSelectPanel()
     {

@@ -37,5 +37,6 @@ public class Panel_PlayerInit : MonoBehaviour
         PhotonNetwork.NickName = inputField_Name.text;
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);
+        inputField_Name.text = "";
     }
 }

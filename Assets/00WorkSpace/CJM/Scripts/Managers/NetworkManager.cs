@@ -43,6 +43,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     }
     System.Collections.IEnumerator InitLobbyServerAfterBackendInitComplete()
     {
+        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
         yield return new WaitUntil(() => BackendManager.Auth != null);
         yield return new WaitUntil(() => BackendManager.Database != null);
 
@@ -112,6 +113,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     System.Collections.IEnumerator JoinLobbyAfterConnectedMaster()
     {
+        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
         yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
