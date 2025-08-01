@@ -98,6 +98,7 @@ public class EnemyAI
 	#region Idle Action
 	void IdleStartAction()
 	{
+		TargetPlayer = FindPlayer();
 		_enemy.StopMove();
 
 		// 랜덤 이동 방향 설정
@@ -111,7 +112,7 @@ public class EnemyAI
 	}
 	void IdleUpdateAction()
 	{
-		TargetPlayer = FindPlayer();
+		//TargetPlayer = FindPlayer();
 		// 플레이어가 있으면 이동
 		if (TargetPlayer != null)
 		{
@@ -125,7 +126,10 @@ public class EnemyAI
 		}
 		// 대기
 	}
-	void IdleEndAction() { }
+	void IdleEndAction()
+	{
+		TargetPlayer = FindPlayer();
+	}
 	#endregion
 	#region Move Action
 	void MoveStartAction()
