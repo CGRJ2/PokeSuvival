@@ -36,6 +36,14 @@ public class EnemyData
 		};
 	}
 	public float GetMoveSpeed() => PokeData.BaseStat.GetMoveSpeed();
+	public PokemonSkill GetSkill(int index)
+	{
+		var skills = PokeData.Skills;
+
+		if (skills == null || skills.Length == 0 || index < 0 || index >= skills.Length) return null;
+
+		return skills[index];
+	}
 	public void SetCurrentHp(int hp)
 	{
 		CurrentHp = hp;

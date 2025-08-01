@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	[SerializeField] private bool _flipX;
 	public Vector2 MoveDir = Vector2.down;
+	public Vector2 LastDir = Vector2.down;
 	public bool IsInit = false;
 	[SerializeField] private float _deleteTime;
 	[SerializeField] private float _moveSpeed = 0;
@@ -100,21 +101,53 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		Debug.Log("몬스터 파괴");
 	}
 
-	public void Move(Vector2 dir)
+	public void Move()
 	{
-		if (MoveDir.x != 0) _flipX = dir.x > 0.1f;
-		SetIsMoving(dir);
+		if (MoveDir == Vector2.zero)
+		{
+			StopMove();
+			return;
+		}
+
+		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
+		SetIsMoving(MoveDir);
 		_sprite.flipX = _flipX;
-		Vector2 movePos = dir * MoveSpeed;
+		Vector2 movePos = MoveDir * MoveSpeed;
 		_rigid.velocity = movePos;
-		_anim.SetFloat("X", dir.x);
-		_anim.SetFloat("Y", dir.y);
+
+		SetDirAnim(MoveDir);
+
+		LastDir = MoveDir;
 	}
 
 	public void StopMove()
 	{
 		_rigid.velocity = Vector2.zero;
 		SetIsMoving(Vector2.zero);
+
+		if (MoveDir != Vector2.zero)
+		{
+			LastDir = MoveDir;
+			SetDirAnim(LastDir);
+		}
+	}
+
+	public void Attack(SkillSlot slot)
+	{
+		PokemonSkill skill = EnemyData.GetSkill((int)slot);
+		if(skill == null) return;
+
+		IAttack attack = new SkillStrategyAttack(skill.SkillName);
+		if (attack == null) return;
+
+		if (skill.SkillAnimType == SkillAnimType.SpeAttack) SetIsSpeAttack();
+		else SetIsAttack();
+
+		EnemyData.SetSkillCooldown(slot, skill.Cooldown);
+
+		var damagable = EnemyAI.TargetPlayer?.GetComponent<IDamagable>();
+		if (damagable != null) attack.Attack(transform, LastDir, damagable.BattleData, skill);
+		Debug.Log($"몬스터 {skill.SkillName} 사용!");
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -136,4 +169,9 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	public void SetIsSpeAttack() => _anim.SetTrigger("IsSpeAttack");
 	public void SetIsHit() => _anim.SetTrigger("IsHit");
 	public void SetIsDead(bool isDead) => _anim.SetBool("IsDead", isDead);
+	public void SetDirAnim(Vector2 dir)
+	{
+		_anim.SetFloat("X", dir.x);
+		_anim.SetFloat("Y", dir.y);
+	}
 }

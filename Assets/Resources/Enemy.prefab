@@ -181,11 +181,13 @@ MonoBehaviour:
   EnemyAI:
     _prevState: 0
     CurrentState: 0
+    TargetPlayer: {fileID: 0}
   _rigid: {fileID: 0}
   _sprite: {fileID: 0}
   _anim: {fileID: 0}
   _flipX: 0
   MoveDir: {x: 0, y: -1}
+  LastDir: {x: 0, y: -1}
   IsInit: 0
   _deleteTime: 3
   _moveSpeed: 0

@@ -7,7 +7,7 @@ public class PlayerModel
 {
 	[field: SerializeField] public string PlayerName { get; private set; }
     [field: SerializeField] public PokemonData PokeData { get; private set; }
-	public PokemonStat AllStat;
+	[field: SerializeField] public PokemonStat AllStat { get; private set; }
 	[SerializeField] private int _pokeLevel;
 	public int PokeLevel
 	{
@@ -53,6 +53,9 @@ public class PlayerModel
 
 	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
 	// TODO : 패시브 아이템 리스트
+
+	public float StartTime;
+	public float EndTime;
 
 	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
     {

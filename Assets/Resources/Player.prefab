@@ -183,6 +183,8 @@ MonoBehaviour:
     <TotalExp>k__BackingField: 0
     <MaxHp>k__BackingField: 0
     _currentHp: 0
+    StartTime: 0
+    EndTime: 0
   <View>k__BackingField: {fileID: 0}
   _input: {fileID: 0}
   _flipX: 0
