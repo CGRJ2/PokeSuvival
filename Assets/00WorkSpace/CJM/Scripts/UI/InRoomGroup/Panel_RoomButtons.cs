@@ -65,8 +65,8 @@ public class Panel_RoomButtons : MonoBehaviour
     public void StartWithParty()
     {
         // 임시
-        string selectedMapName = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
-        NetworkManager.Instance.MoveToInGameScene(selectedMapName); 
+        string selectedMapKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+        NetworkManager.Instance.MoveToInGameScene(selectedMapKey); 
 
         // 1. 맵에서 선택한 서버에 입장 가능한지 판단 => 인게임 서버 리스트 표현을 우선으로 진행 => 완료
 

@@ -454,9 +454,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     }
 
     // 인게임 서버 중 타겟 키에 해당하는 서버로 이동(인게임 서버 선택 이동 전용)
-    public void MoveToInGameScene(string targetServerKey)
+    public void MoveToInGameScene(string targetServerName)
     {
-        BackendManager.Instance.GetServerData(targetServerKey, ServerType.InGame, (targetServer) =>
+        BackendManager.Instance.GetServerData(targetServerName, ServerType.InGame, (targetServer) =>
         {
             BackendManager.Instance.IsAbleToConnectServer(targetServer, (accessable) =>
             {

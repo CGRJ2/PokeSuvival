@@ -57,7 +57,7 @@ public class Slot_InGameServer : MonoBehaviour
             if (NetworkManager.Instance.CurServer.type == (int)ServerType.Lobby
                 && PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Joined)
             {
-                um.LobbyGroup.panel_RoomInside.panel_MapSettings.ChangeMap(serverData.name);
+                um.LobbyGroup.panel_RoomInside.panel_MapSettings.ChangeMap(serverData.key);
                 um.ClosePanel(um.StaticGroup.panel_InGameServerList.gameObject);
             }
 

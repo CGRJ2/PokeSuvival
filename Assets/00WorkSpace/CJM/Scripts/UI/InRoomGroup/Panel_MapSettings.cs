@@ -12,7 +12,7 @@ public class Panel_MapSettings : MonoBehaviour
     [SerializeField] Image image_Map;
     [SerializeField] Button btn_ChangeMap;
 
-    string selectedMapName;
+    string selectedServerKey;
 
     public void Init()
     {
@@ -44,10 +44,10 @@ public class Panel_MapSettings : MonoBehaviour
         MasterClientViewUpdate(isMaster);
     }
 
-    public void ChangeMap(string mapName)
+    public void ChangeMap(string mapKey)
     {
         ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-        roomProperty["Map"] = mapName;
+        roomProperty["Map"] = mapKey;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
     }
 
@@ -55,10 +55,14 @@ public class Panel_MapSettings : MonoBehaviour
     {
         if (PhotonNetwork.CurrentRoom.CustomProperties["Map"] != null)
         {
-            selectedMapName = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
-            SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
-            image_Map.sprite = spritesDB.dic[selectedMapName];
-            tmp_MapName.text = selectedMapName;
+            selectedServerKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+
+            BackendManager.Instance.GetServerData(selectedServerKey, ServerType.InGame, (ServerData) =>
+            {
+                SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
+                image_Map.sprite = spritesDB.dic[ServerData.name];
+                tmp_MapName.text = ServerData.name;
+            });
         }
         else
         {
@@ -67,20 +71,23 @@ public class Panel_MapSettings : MonoBehaviour
                 foreach (var kvp in data)
                 {
                     // 데이터가 있는 맨앞 녀석만 가져가기
-                    if (!string.IsNullOrEmpty(kvp.Value.name))
+                    if (!string.IsNullOrEmpty(kvp.Value.key))
                     {
-                        selectedMapName = kvp.Value.name;
+                        selectedServerKey = kvp.Value.key;
                         break;
                     }
                 }
 
                 ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-                roomProperty["Map"] = selectedMapName;
+                roomProperty["Map"] = selectedServerKey;
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
 
-                SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
-                image_Map.sprite = spritesDB.dic[selectedMapName];
-                tmp_MapName.text = selectedMapName;
+                BackendManager.Instance.GetServerData(selectedServerKey, ServerType.InGame, (ServerData) =>
+                {
+                    SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
+                    image_Map.sprite = spritesDB.dic[ServerData.name];
+                    tmp_MapName.text = ServerData.name;
+                });
             });
 
 

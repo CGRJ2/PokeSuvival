@@ -12,6 +12,7 @@ public class Panel_MatchMaking : MonoBehaviour
     [SerializeField] Button btn_LeftRoomListIndex;
     [SerializeField] Button btn_RightRoomListIndex;
     [SerializeField] TMP_Text tmp_RoomListIndex;
+    [SerializeField] TMP_Text tmp_CurServer;
 
     [SerializeField] Button btn_ChangeServer;
     [SerializeField] Button btn_EnterRoom;
@@ -33,6 +34,11 @@ public class Panel_MatchMaking : MonoBehaviour
 
         btn_CreateRoom.onClick.AddListener(OpenCreateRoomPanel);
         btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
+    }
+
+    private void OnEnable()
+    {
+        tmp_CurServer.text = NetworkManager.Instance.CurServer.name;
     }
 
     public void SetDefaultSetting()
