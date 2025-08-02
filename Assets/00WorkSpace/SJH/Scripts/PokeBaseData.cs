@@ -7,8 +7,18 @@ public abstract class PokeBaseData
 {
 	[field: SerializeField] public PokemonData PokeData { get; protected set; }
 	[field: SerializeField] public PokemonStat AllStat { get; protected set; }
-	[field: SerializeField] public int PokeLevel { get; protected set; }
-	[field: SerializeField] public int CurrentHp { get; protected set; }
+	[SerializeField] protected int _pokeLevel;
+	public virtual int PokeLevel
+	{
+		get => _pokeLevel;
+		protected set => _pokeLevel = value;
+	}
+	[SerializeField] protected int _currentHp;
+	public virtual int CurrentHp
+	{
+		get => _currentHp;
+		protected set => _currentHp = value;
+	}
 	[field: SerializeField] public int MaxHp { get; protected set; }
 	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; protected set; }
 
@@ -23,22 +33,10 @@ public abstract class PokeBaseData
 		return skills[index];
 	}
 
-	public virtual void SetCurrentHp(int hp)
-	{
-		CurrentHp = hp;
-		if (CurrentHp <= 0 && !IsDead)
-		{
-			IsDead = true;
-			OnDead();
-		}
-	}
+	public abstract void SetCurrentHp(int hp);
 
-	public virtual void SetLevel(int level)
-	{
-		PokeLevel = level;
-	}
-
+	public abstract void SetLevel(int level);
 	public virtual bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
 	public virtual void SetSkillCooldown(SkillSlot slot, float cooldown) => SkillCooldownDic[slot] = Time.time + cooldown;
-	protected abstract void OnDead();
+	protected virtual void OnDead() { }
 }
