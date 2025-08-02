@@ -264,6 +264,7 @@ public struct PokemonStat
 	public int Speed;
 
 	public float GetMoveSpeed() => Speed / 10f;
+	public int GetBaseStat() => Hp + Attak + Defense + SpecialAttack + SpecialDefense + Speed;
 }
 public enum SkillSlot
 {

@@ -31,7 +31,7 @@ public class EnemyAI
 		(Vector2.down + Vector2.right).normalized,
 	};
 	// Attack
-	[SerializeField] private float _searchRange = 5f;
+	[SerializeField] private float _searchRange = 8f;
 	private float _globalCooldown = 2f;
 	private float _gcdEndTime = 0;
 	public GameObject TargetPlayer;

@@ -99,13 +99,16 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	}
 
 	[PunRPC]
-	public void RPC_EnemyDead()
+	public void RPC_EnemyDead(int deadExp)
 	{
 		Debug.Log("몬스터 사망");
 		SetIsDead(EnemyData.IsDead);
-		// TODO : 경험치 드랍
 
-		if (PhotonNetwork.IsMasterClient) StartCoroutine(EnemyDeleteRoutine());
+		if (PhotonNetwork.IsMasterClient)
+		{
+			StartCoroutine(EnemyDeleteRoutine());
+			PhotonNetwork.InstantiateRoomObject("ExpOrb", transform.position, Quaternion.identity, 0, new object[] { deadExp });
+		}
 	}
 	IEnumerator EnemyDeleteRoutine()
 	{
@@ -162,7 +165,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		EnemyData.SetSkillCooldown(slot, skill.Cooldown);
 
-		if (targetPC is IDamagable damagable) attack.Attack(transform, LastDir, damagable.BattleData, skill);
+		attack.Attack(transform, LastDir, this.BattleData, skill);
 		Debug.Log($"몬스터 {skill.SkillName} 사용!");
 	}
 

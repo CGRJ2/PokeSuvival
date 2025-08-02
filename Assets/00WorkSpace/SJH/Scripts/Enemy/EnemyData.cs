@@ -50,10 +50,24 @@ public class EnemyData
 		if (CurrentHp <= 0 && !IsDead)
 		{
 			IsDead = true;
-			_enemy.photonView.RPC(nameof(_enemy.RPC_EnemyDead), RpcTarget.AllBuffered);
+			_enemy.photonView.RPC(nameof(_enemy.RPC_EnemyDead), RpcTarget.AllBuffered, GetDeathExp());
 		}
 	}
 	public void SetLevel(int level) => PokeLevel = level;
 	public bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
 	public void SetSkillCooldown(SkillSlot slot, float cooldown) => SkillCooldownDic[slot] = Time.time + cooldown;
+	public int GetDeathExp()
+	{
+		// 사망 경험치
+		// 기본 밸류
+		float baseValue = 10f;
+
+		// 종족값
+		int totalBaseStat = PokeData.BaseStat.GetBaseStat();
+
+		// 가중치
+		float modifyValue = totalBaseStat / 600f; // 600족기준
+
+		return Mathf.RoundToInt(PokeLevel * baseValue * (1f + modifyValue));
+	}
 }
