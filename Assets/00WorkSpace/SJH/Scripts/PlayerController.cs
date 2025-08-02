@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable, IStatReceiver
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable, NTJ.IStatReceiver
 {
 	[field: SerializeField] public PlayerModel Model { get; private set; }
 	[field: SerializeField] public PlayerView View { get; private set; }
@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 킬 카운트
 	public int KillCount { get; private set; }
 	[SerializeField] private PlayerController _lastAttacker;
+
+	// 버프 코루틴
+	private Dictionary<StatType, Coroutine> _rankUpRoutineDic = new();
 
 	void Awake()
 	{
@@ -469,11 +472,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	public void ApplyStat(ItemData item)
 	{
-		// TODO : 아이템 타입에 따라 적용
+		Debug.Log($"{item.itemName} 획득!");
 		switch (item.itemType)
 		{
 			case ItemType.Heal:
 				Debug.Log($"{item.value} 회복");
+				Model.SetHeal((int)item.value);
 				break;
 			case ItemType.LevelUp:
 				Debug.Log($"플레이어 레벨 상승 {Model.PokeLevel} -> {Model.PokeLevel + 1}");
@@ -484,6 +488,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				break;
 			case ItemType.StatBuff:
 				Debug.Log($"{item.affectedStat} 랭크 상승");
+				Model.AddRank(item.affectedStat, (int)item.value);
 				break;
 		}
 	}

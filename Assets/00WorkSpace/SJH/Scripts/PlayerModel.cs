@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 [Serializable]
@@ -51,7 +52,9 @@ public class PlayerModel
 	public bool IsMoving { get; private set; }
 	public bool IsDead { get; private set; }
 
-	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
+	public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
+	public Dictionary<StatType, int> StatRankUpDic { get; private set; }
+
 	// TODO : 패시브 아이템 리스트
 
 	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
@@ -70,6 +73,14 @@ public class PlayerModel
 			[SkillSlot.Skill2] = 0,
 			[SkillSlot.Skill3] = 0,
 			[SkillSlot.Skill4] = 0,
+		};
+		StatRankUpDic = new()
+		{
+			[StatType.Attack] = 0,
+			[StatType.Defense] = 0,
+			[StatType.SpAttack] = 0,
+			[StatType.SpDefense] = 0,
+			[StatType.Speed] = 0,
 		};
 	}
 
@@ -113,7 +124,6 @@ public class PlayerModel
 		SkillCooldownDic[slot] = Time.time + cooldown;
 		UIManager.Instance.InGameGroup.UpdateCoolTime(PlayerManager.Instance?.LocalPlayerController.Model, slot);
 	}
-
 	public void ReCalculateAllStat()
 	{
 		int hpGap = MaxHp - _currentHp;
@@ -130,5 +140,20 @@ public class PlayerModel
 		MaxHp = AllStat.Hp;
 		_currentHp = Mathf.Min(MaxHp - hpGap, MaxHp);
 		Debug.Log($"포켓몬 진화 : {prevName} -> {PokeData.PokeName}");
+	}
+	public void SetHeal(int value)
+	{
+		if (IsDead || value <= 0) return;
+
+		int newHp = Mathf.Min(_currentHp + value, MaxHp);
+		CurrentHp = newHp;
+
+		Debug.Log($"{value} 만큼 회복! 현재 체력 : {_currentHp}");
+	}
+	public void AddRank(StatType statType, int count)
+	{
+		if (!StatRankUpDic.ContainsKey(statType)) return;
+
+		StatRankUpDic[statType] = Mathf.Clamp(StatRankUpDic[statType] + count, -6, 6);
 	}
 }

@@ -181,6 +181,7 @@ MonoBehaviour:
   EnemyAI:
     _prevState: 0
     CurrentState: 0
+    _searchRange: 0
     TargetPlayer: {fileID: 0}
     TargetPC: {fileID: 0}
   _rigid: {fileID: 0}

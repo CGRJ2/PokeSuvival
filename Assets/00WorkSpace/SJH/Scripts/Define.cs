@@ -319,4 +319,20 @@ public enum AIState
 	Attack,
 	Die,
 }
+public enum ItemType
+{
+	Buff,		// 도구
+	Heal,		// 회복약
+	LevelUp,	// 이상한사탕
+	StatBuff,	// 스탯 상승 도구
+}
+public enum StatType
+{
+	HP,			// 체력은 없음
+	Attack,		// 공격
+	Defense,	// 방어
+	SpAttack,	// 특공
+	SpDefense,	// 특방
+	Speed		// 스피드
+}
 #endregion

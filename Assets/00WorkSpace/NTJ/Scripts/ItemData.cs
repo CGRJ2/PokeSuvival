@@ -2,9 +2,6 @@
 
 namespace NTJ
 {
-    public enum ItemType { Buff, Heal, LevelUp, StatBuff }
-    public enum StatType { HP, Atk, Def, SpA, SpD, Spe }
-
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
     public class ItemData : ScriptableObject
     {
