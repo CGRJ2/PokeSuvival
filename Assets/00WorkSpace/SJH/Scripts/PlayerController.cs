@@ -34,7 +34,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 생존시간
 	private float _startTime;
 	private float _endTime;
-	public float SurvivalTime => _endTime - _startTime;
+	public float SurvivalTime
+	{
+		get
+		{
+			// 아직 살아있으면
+			if (_endTime <= 0) return Time.time - _startTime;
+			else return _endTime - _startTime;
+		}
+	}
 
 	// 킬 카운트
 	public int KillCount { get; private set; }
@@ -66,10 +74,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		// TODO : 플레이어 생성 연출
 
+		// 시작, 사망 시간 초기화
+		_startTime = -1;
+		_endTime = -1;
+
 		// 시작 시간 기록
 		_startTime = Time.time;
 		// 킬 초기화
 		KillCount = 0;
+		// 마지막 공격자 초기화
+		_lastAttacker = null;
 
 		PokemonData pokeData = null;
 		object[] data = photonView.InstantiationData;
@@ -93,6 +107,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void PlayerRespawn()
 	{
 		// TODO : 플레이어 생성 연출
+
+		// 시작, 사망 시간 초기화
+		_startTime = -1;
+		_endTime = -1;
+
+		// 시작 시간 기록
+		_startTime = Time.time;
+		// 킬 초기화
+		KillCount = 0;
+		// 마지막 공격자 초기화
+		_lastAttacker = null;
+
 		_input.actions.Enable();
 		View.SetIsDead(false);
 		// 플레이어의 커스텀프로퍼티로 사용할 포켓몬 지정
@@ -128,7 +154,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			// 사망 시간 기록
 			_endTime = Time.time;
 			// 막타친 플레이어 킬카운트 증가
-			_lastAttacker?.AddKillCount();
+			if (_lastAttacker != null) ActionRPC(nameof(RPC_AddKillCount), _lastAttacker.photonView.Owner);
 
 			_input.actions.Disable();
 			View.SetIsDead(true);
@@ -318,7 +344,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (!attackerData.IsAI)
 		{
 			PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
-			_lastAttacker = attackerData.PC;
+			ActionRPC(nameof(RPC_SetLastAttacker), this.photonView.Owner, attackerData.PC.photonView.ViewID);
+		}
+		else if (attackerData.IsAI)
+		{
+			ActionRPC(nameof(RPC_SetLastAttacker), this.photonView.Owner, -1);
 		}
 
 		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
@@ -352,7 +382,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Model.AddExp(value);
 		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {value}", Color.blue);
 	}
-	public void ActionRPC(string funcName, RpcTarget target, object value) => photonView.RPC(funcName, target, value);
+	public void ActionRPC(string funcName, RpcTarget target, params object[] value) => photonView.RPC(funcName, target, value);
+	public void ActionRPC(string funcName, Player targetPlayer, params object[] value) => photonView.RPC(funcName, targetPlayer, value);
 
 	[PunRPC]
 	public void RPC_PokemonEvolution(int pokeNumber, PhotonMessageInfo info)
@@ -419,6 +450,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		gameObject.SetActive(value);
 	}
+	[PunRPC]
+	public void RPC_SetLastAttacker(int viewId)
+	{
+		if (!photonView.IsMine) return;
+		if (viewId < 0) _lastAttacker = null;
+
+		var pv = PhotonView.Find(viewId);
+		if (pv != null) _lastAttacker = pv.GetComponent<PlayerController>();
+	}
+	[PunRPC]
+	public void RPC_AddKillCount()
+	{
+		Debug.Log($"킬 증가! 현재 킬 : {KillCount}");
+		KillCount++;
+	}
+	////////////////////////////////// 스탯 변경
 
 	public void ApplyStat(ItemData item)
 	{
@@ -445,5 +492,4 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
 	}
-	public void AddKillCount() => KillCount++;
 }

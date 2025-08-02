@@ -111,9 +111,9 @@ public class EnemyAI
 	#region Idle Action
 	void IdleStartAction()
 	{
-		(TargetPlayer, TargetPC) = FindPlayer();
-
 		_enemy.StopMove();
+
+		(TargetPlayer, TargetPC) = FindPlayer();
 
 		// 랜덤 이동 방향 설정
 		int dirIndex = UnityEngine.Random.Range(0, _directions.Length);
