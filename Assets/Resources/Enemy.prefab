@@ -182,6 +182,7 @@ MonoBehaviour:
     _prevState: 0
     CurrentState: 0
     TargetPlayer: {fileID: 0}
+    TargetPC: {fileID: 0}
   _rigid: {fileID: 0}
   _sprite: {fileID: 0}
   _anim: {fileID: 0}

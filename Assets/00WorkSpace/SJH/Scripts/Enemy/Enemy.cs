@@ -26,7 +26,20 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		}
 	}
 
-	public BattleDataTable BattleData => new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp);
+	[SerializeField] BattleDataTable _battleData;
+	//public BattleDataTable BattleData => new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+	public BattleDataTable BattleData
+	{
+		get
+		{
+			if (_battleData.PokeData == null)
+			{
+				_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+				return _battleData;
+			}
+			return _battleData;
+		}
+	}
 
 	void Update()
 	{
@@ -134,6 +147,10 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	public void Attack(SkillSlot slot)
 	{
+		var target = EnemyAI.TargetPlayer;
+		var targetPC = EnemyAI.TargetPC;
+		if (target == null && targetPC == null) return;
+
 		PokemonSkill skill = EnemyData.GetSkill((int)slot);
 		if(skill == null) return;
 
@@ -145,8 +162,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		EnemyData.SetSkillCooldown(slot, skill.Cooldown);
 
-		var damagable = EnemyAI.TargetPlayer?.GetComponent<IDamagable>();
-		if (damagable != null) attack.Attack(transform, LastDir, damagable.BattleData, skill);
+		if (targetPC is IDamagable damagable) attack.Attack(transform, LastDir, damagable.BattleData, skill);
 		Debug.Log($"몬스터 {skill.SkillName} 사용!");
 	}
 

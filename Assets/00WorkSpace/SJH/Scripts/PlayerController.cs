@@ -285,7 +285,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		BattleDataTable defenderData = ((IDamagable)this).BattleData;
 		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
-		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+
+		// 플레이어들과 AI를 구분해야함
+		if (!attackerData.IsAI) PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+
 		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
 	}

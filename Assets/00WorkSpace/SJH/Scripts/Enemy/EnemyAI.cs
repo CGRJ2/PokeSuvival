@@ -31,11 +31,15 @@ public class EnemyAI
 		(Vector2.down + Vector2.right).normalized,
 	};
 	// Attack
-	private float _searchRange = 10f;
+	[SerializeField] private float _searchRange = 5f;
 	private float _globalCooldown = 2f;
 	private float _gcdEndTime = 0;
 	public GameObject TargetPlayer;
+	public PlayerController TargetPC;
 	private Collider2D[] _players;
+	// Search
+	private float _searchDelay = 1f;
+	private float _lastSearchTime = 0f;
 
 	public EnemyAI(Enemy enemy, EnemyData enemyData)
 	{
@@ -60,11 +64,19 @@ public class EnemyAI
 			OnStateStart(CurrentState);
 			//Debug.Log($"{CurrentState} 상태 시작");
 			_prevState = CurrentState;
+			return;
 		}
 		OnStateUpdate(CurrentState);
 		//Debug.Log($"{CurrentState} 상태 진행");
 	}
-	public void ChangeState(AIState nextState) => CurrentState = nextState;
+	public void ChangeState(AIState nextState)
+	{
+		if (CurrentState != nextState)
+		{
+			_prevState = CurrentState;
+			CurrentState = nextState;
+		}
+	}
 	void OnStateStart(AIState state)
 	{
 		switch (state)
@@ -95,10 +107,12 @@ public class EnemyAI
 			case AIState.Die: DieEndAction(); break;
 		}
 	}
+
 	#region Idle Action
 	void IdleStartAction()
 	{
-		TargetPlayer = FindPlayer();
+		(TargetPlayer, TargetPC) = FindPlayer();
+
 		_enemy.StopMove();
 
 		// 랜덤 이동 방향 설정
@@ -112,9 +126,11 @@ public class EnemyAI
 	}
 	void IdleUpdateAction()
 	{
-		//TargetPlayer = FindPlayer();
-		// 플레이어가 있으면 이동
-		if (TargetPlayer != null)
+		// 타겟이 없고 타겟 쿨타임이 돌았으면 서치
+		if (IsTargetNull() && CanSearchPlayer()) (TargetPlayer, TargetPC) = FindPlayer();
+
+		// 타겟이 있으면 이동
+		if (!IsTargetNull())
 		{
 			ChangeState(AIState.Move);
 			return;
@@ -123,20 +139,21 @@ public class EnemyAI
 		if (Time.time >= _nextMoveTime)
 		{
 			ChangeState(AIState.Move);
+			return;
 		}
 		// 대기
 	}
 	void IdleEndAction()
 	{
-		TargetPlayer = FindPlayer();
+		(TargetPlayer, TargetPC) = FindPlayer();
 	}
 	#endregion
 	#region Move Action
 	void MoveStartAction()
 	{
-		if (TargetPlayer == null) TargetPlayer = FindPlayer();
+		if (IsTargetNull()) (TargetPlayer, TargetPC) = FindPlayer();
 
-		if (TargetPlayer != null)
+		if (!IsTargetNull())
 		{
 			float dist = Vector2.Distance(_enemy.transform.position, TargetPlayer.transform.position);
 			Vector2 playerDir = (TargetPlayer.transform.position - _enemy.transform.position).normalized;
@@ -152,7 +169,7 @@ public class EnemyAI
 		}
 
 		// 플레이어가 없으면 랜덤이동 시간 지정
-		if (TargetPlayer == null)
+		if (IsTargetNull())
 		{
 			_moveTime = UnityEngine.Random.Range(1f, 3f);
 			_nextMoveTime = Time.time + _moveTime;
@@ -162,18 +179,22 @@ public class EnemyAI
 	}
 	void MoveUpdateAction()
 	{
+		// 타겟이 없고 타겟 쿨타임이 돌았으면 서치
+		if (IsTargetNull() && CanSearchPlayer()) (TargetPlayer, TargetPC) = FindPlayer();
+
 		// 타겟이 있으면 공격 상태로 전환 (Start에서 이동 시작)
-		if (TargetPlayer != null)
+		if (!IsTargetNull())
 		{
 			Vector2 toTarget = TargetPlayer.transform.position - _enemy.transform.position;
 
+			// 최소거리면 그냥 공격
 			if (toTarget.sqrMagnitude <= _minRange * _minRange)
 			{
 				_enemy.StopMove();
 				ChangeState(AIState.Attack);
 				return;
 			}
-
+			// 최소거리가 아니면 그냥 이동
 			Vector2 playerDir = toTarget.normalized;
 			_enemy.MoveDir = playerDir;
 			_enemy.SetDirAnim(playerDir);
@@ -194,14 +215,14 @@ public class EnemyAI
 	}
 	void MoveEndAction()
 	{
-		if (TargetPlayer == null) ChangeState(AIState.Idle);
+		if (IsTargetNull()) ChangeState(AIState.Idle);
 	}
 	#endregion
 	#region Attack Action
 	void AttackStartAction()
 	{
 		// 타겟이 없으면 대기 상태로
-		if (TargetPlayer == null)
+		if (IsTargetNull())
 		{
 			ChangeState(AIState.Idle);
 			return;
@@ -220,7 +241,7 @@ public class EnemyAI
 		// 타겟이 멀면 초기화
 		if (dist > _searchRange * 1.5f)
 		{
-			TargetPlayer = null;
+			TargetClear();
 			ChangeState(AIState.Idle);
 			return;
 		}
@@ -238,6 +259,7 @@ public class EnemyAI
 			// 애니메이션 변경을 위해 지정
 			_enemy.SetDirAnim(_enemy.LastDir);
 			_enemy.Attack(slot);
+			TargetClear();
 			_gcdEndTime = Time.time + _globalCooldown;
 		}
 		// 사용할 스킬이 없으면 다시 이동으로
@@ -249,7 +271,7 @@ public class EnemyAI
 	}
 	void AttackEndAction()
 	{
-		//if (TargetPlayer == null) ChangeState(AIState.Idle);
+		if (!IsTargetNull()) ChangeState(AIState.Move);
 	}
 	#endregion
 	#region Die Action
@@ -262,11 +284,13 @@ public class EnemyAI
 	void DieEndAction() { }
 	#endregion
 
-	GameObject FindPlayer()
+	(GameObject, PlayerController) FindPlayer()
 	{
+		_lastSearchTime = Time.time;
+
 		int playerCount = Physics2D.OverlapCircleNonAlloc(_enemy.transform.position, _searchRange, _players, _enemy.PlayerLayer);
 
-		if (playerCount == 0) return null;
+		if (playerCount == 0) return (null, null);
 
 		GameObject target = null;
 		PlayerController targetPC = null;
@@ -283,10 +307,11 @@ public class EnemyAI
 			{
 				nearDistance = distance;
 				target = _players[i].gameObject;
+				targetPC = pc;
 			}
 		}
 		if (targetPC != null) Debug.Log($"AI 공격할 대상 찾음 : {targetPC.Model.PlayerName}");
-		return target;
+		return (target, targetPC);
 	}
 
 	bool CanUseSkill(out SkillSlot slot, out PokemonSkill skill)
@@ -311,4 +336,19 @@ public class EnemyAI
 
 		return true;
 	}
+	/// <summary>
+	/// null이면 true 아니면 false
+	/// </summary>
+	/// <returns></returns>
+	bool IsTargetNull()
+	{
+		if (TargetPlayer != null && TargetPC != null) return false;
+		else return true;
+	}
+	public void TargetClear()
+	{
+		TargetPlayer = null;
+		TargetPC = null;
+	}
+	bool CanSearchPlayer() => Time.time - _lastSearchTime >= _searchDelay;
 }
