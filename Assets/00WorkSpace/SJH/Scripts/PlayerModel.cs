@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 [Serializable]
-public class PlayerModel
+public class PlayerModel : PokeBaseData
 {
 	[field: SerializeField] public string PlayerName { get; private set; }
 	[field: SerializeField] public PokemonData PokeData { get; private set; }
@@ -53,7 +52,6 @@ public class PlayerModel
 	public bool IsDead { get; private set; }
 
 	public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
-	public Dictionary<StatType, int> StatRankUpDic { get; private set; }
 
 	// TODO : 패시브 아이템 리스트
 
@@ -73,14 +71,6 @@ public class PlayerModel
 			[SkillSlot.Skill2] = 0,
 			[SkillSlot.Skill3] = 0,
 			[SkillSlot.Skill4] = 0,
-		};
-		StatRankUpDic = new()
-		{
-			[StatType.Attack] = 0,
-			[StatType.Defense] = 0,
-			[StatType.SpAttack] = 0,
-			[StatType.SpDefense] = 0,
-			[StatType.Speed] = 0,
 		};
 	}
 
@@ -149,11 +139,5 @@ public class PlayerModel
 		CurrentHp = newHp;
 
 		Debug.Log($"{value} 만큼 회복! 현재 체력 : {_currentHp}");
-	}
-	public void AddRank(StatType statType, int count)
-	{
-		if (!StatRankUpDic.ContainsKey(statType)) return;
-
-		StatRankUpDic[statType] = Mathf.Clamp(StatRankUpDic[statType] + count, -6, 6);
 	}
 }

@@ -9,10 +9,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable, NTJ.IStatReceiver
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable, IStatReceiver
 {
 	[field: SerializeField] public PlayerModel Model { get; private set; }
 	[field: SerializeField] public PlayerView View { get; private set; }
+	[field: SerializeField] public PokeRankHandler Rank { get; private set; }
+
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
 	[field: SerializeField] public Vector2 MoveDir { get; private set; }
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		View = GetComponent<PlayerView>();
 		_input = GetComponent<PlayerInput>();
+		Rank = new PokeRankHandler();
 
 		_moveHistory = new(_maxLogCount);
 	}
@@ -488,7 +491,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				break;
 			case ItemType.StatBuff:
 				Debug.Log($"{item.affectedStat} 랭크 상승");
-				Model.AddRank(item.affectedStat, (int)item.value);
+				Rank?.SetRankUp(item.affectedStat, (int)item.value, item.duration);
 				break;
 		}
 	}
@@ -496,5 +499,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
+	}
+
+	public PokemonStat GetRankUpStat()
+	{
+		var baseStat = Model.AllStat;
+		return baseStat;
 	}
 }
