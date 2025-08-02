@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		int pokeNumber = (int)data[0];
 		int pokeLevel = (int)data[1];
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
-		EnemyData = new EnemyData(this, pokeData.PokeName, pokeData, pokeLevel);
+		EnemyData = new EnemyData(this, pokeData, pokeLevel);
 		_anim.runtimeAnimatorController = EnemyData.PokeData.AnimController;
 		_anim.SetFloat("X", MoveDir.x);
 		_anim.SetFloat("Y", MoveDir.y);

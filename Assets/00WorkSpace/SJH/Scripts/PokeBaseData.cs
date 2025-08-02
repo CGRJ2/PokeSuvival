@@ -34,7 +34,6 @@ public abstract class PokeBaseData
 	}
 
 	public abstract void SetCurrentHp(int hp);
-
 	public abstract void SetLevel(int level);
 	public virtual bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
 	public virtual void SetSkillCooldown(SkillSlot slot, float cooldown) => SkillCooldownDic[slot] = Time.time + cooldown;
