@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerModel
 {
 	[field: SerializeField] public string PlayerName { get; private set; }
-    [field: SerializeField] public PokemonData PokeData { get; private set; }
+	[field: SerializeField] public PokemonData PokeData { get; private set; }
 	[field: SerializeField] public PokemonStat AllStat { get; private set; }
 	[SerializeField] private int _pokeLevel;
 	public int PokeLevel
@@ -47,19 +47,16 @@ public class PlayerModel
 	}
 	public Action<int> OnCurrentHpChanged;
 	public Action OnDied;
-	
+
 	public bool IsMoving { get; private set; }
 	public bool IsDead { get; private set; }
 
 	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; private set; }
 	// TODO : 패시브 아이템 리스트
 
-	public float StartTime;
-	public float EndTime;
-
 	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
-    {
-        PlayerName = playerName;
+	{
+		PlayerName = playerName;
 		PokeData = pokemonData;
 		PokeLevel = level;
 		_pokeExp = exp;
@@ -111,12 +108,12 @@ public class PlayerModel
 		return skills[index];
 	}
 	public bool IsSkillCooldown(SkillSlot slot) => SkillCooldownDic.TryGetValue(slot, out var endTime) && Time.time < endTime;
-	public void SetSkillCooldown(SkillSlot slot, float cooldown) 
+	public void SetSkillCooldown(SkillSlot slot, float cooldown)
 	{
-        SkillCooldownDic[slot] = Time.time + cooldown;
+		SkillCooldownDic[slot] = Time.time + cooldown;
 		UIManager.Instance.InGameGroup.UpdateCoolTime(PlayerManager.Instance?.LocalPlayerController.Model, slot);
-    }
-    
+	}
+
 	public void ReCalculateAllStat()
 	{
 		int hpGap = MaxHp - _currentHp;
@@ -134,5 +131,4 @@ public class PlayerModel
 		_currentHp = Mathf.Min(MaxHp - hpGap, MaxHp);
 		Debug.Log($"포켓몬 진화 : {prevName} -> {PokeData.PokeName}");
 	}
-
 }

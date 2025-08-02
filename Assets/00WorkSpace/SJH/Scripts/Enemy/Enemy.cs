@@ -27,16 +27,11 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	}
 
 	[SerializeField] BattleDataTable _battleData;
-	//public BattleDataTable BattleData => new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
 	public BattleDataTable BattleData
 	{
 		get
 		{
-			if (_battleData.PokeData == null)
-			{
-				_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
-				return _battleData;
-			}
+			if (!_battleData.IsVaild()) _battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
 			return _battleData;
 		}
 	}

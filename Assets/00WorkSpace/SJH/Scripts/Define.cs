@@ -286,12 +286,14 @@ public struct BattleDataTable
 	public PokemonStat AllStat;
 	public int MaxHp;
 	public int CurrentHp;
+
 	public bool IsAI;
+	public PlayerController PC;
 
 	// TODO : 상태이상
 	// TODO : 아이템 장착
 
-	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false)
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false, PlayerController pc = null)
 	{
 		Level = level;
 		PokeData = pokeData;
@@ -299,7 +301,10 @@ public struct BattleDataTable
 		MaxHp = maxHp;
 		CurrentHp = currentHp;
 		IsAI = isAI;
+		PC = pc;
 	}
+
+	public bool IsVaild() => PokeData != null;
 }
 public enum SkillAnimType
 {

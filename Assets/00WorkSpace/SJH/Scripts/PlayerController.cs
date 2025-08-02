@@ -16,12 +16,30 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
 	[field: SerializeField] public Vector2 MoveDir { get; private set; }
-	BattleDataTable IDamagable.BattleData { get => new BattleDataTable(Model.PokeLevel, Model.PokeData, Model.AllStat, Model.MaxHp, Model.CurrentHp); }
+	[SerializeField] private BattleDataTable _battleData;
+	public BattleDataTable BattleData
+	{
+		get
+		{
+			if (!_battleData.IsVaild()) _battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, Model.AllStat, Model.MaxHp, Model.CurrentHp, false, this);
+			return _battleData;
+		}
+	}
 	public int Test_Level; // 변화할 레벨
 	private int _maxLogCount = 10;
 	[SerializeField] private Queue<Vector2> _moveHistory = new();
 	[SerializeField] private Vector2 _lastDir = Vector2.down;
 	public Action<PlayerModel> OnModelChanged;
+
+	// 생존시간
+	private float _startTime;
+	private float _endTime;
+	public float SurvivalTime => _endTime - _startTime;
+
+	// 킬 카운트
+	public int KillCount { get; private set; }
+	[SerializeField] private PlayerController _lastAttacker;
+
 	void Awake()
 	{
 		View = GetComponent<PlayerView>();
@@ -47,6 +65,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Debug.Log("플레이어 초기화");
 
 		// TODO : 플레이어 생성 연출
+
+		// 시작 시간 기록
+		_startTime = Time.time;
+		// 킬 초기화
+		KillCount = 0;
 
 		PokemonData pokeData = null;
 		object[] data = photonView.InstantiationData;
@@ -102,6 +125,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		};
 		Model.OnDied += () =>
 		{
+			// 사망 시간 기록
+			_endTime = Time.time;
+			// 막타친 플레이어 킬카운트 증가
+			_lastAttacker?.AddKillCount();
+
 			_input.actions.Disable();
 			View.SetIsDead(true);
 			Debug.LogWarning("플레이어 사망");
@@ -287,7 +315,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 
 		// 플레이어들과 AI를 구분해야함
-		if (!attackerData.IsAI) PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+		if (!attackerData.IsAI)
+		{
+			PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+			_lastAttacker = attackerData.PC;
+		}
 
 		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
@@ -413,4 +445,5 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
 	}
+	public void AddKillCount() => KillCount++;
 }
