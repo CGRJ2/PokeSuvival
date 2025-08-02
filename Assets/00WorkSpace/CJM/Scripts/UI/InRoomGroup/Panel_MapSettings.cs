@@ -10,22 +10,29 @@ public class Panel_MapSettings : MonoBehaviour
 {
     [SerializeField] TMP_Text tmp_MapName;
     [SerializeField] Image image_Map;
-    [SerializeField] Button btn_MapLeft;
-    [SerializeField] Button btn_MapRight;
-    
+    [SerializeField] Button btn_ChangeMap;
 
-    int mapIndex;
-
-    [Header("나중에 데이터베이스 분리 필요")]
-    [SerializeField] MapData[] mapDatas; // 나중에 데이터베이스에서 불러오는 방식으로 수정해야될 듯
-
+    string selectedMapName;
 
     public void Init()
     {
-        btn_MapLeft.onClick.AddListener(ClickLeftMapButton);
-        btn_MapRight.onClick.AddListener(ClickRightMapButton);
+        btn_ChangeMap.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_InGameServerList.gameObject));
     }
 
+
+    public void MasterClientViewUpdate(bool isMaster)
+    {
+        if (isMaster)
+        {
+            btn_ChangeMap.interactable = true;
+            btn_ChangeMap.gameObject.SetActive(true);
+        }
+        else
+        {
+            btn_ChangeMap.interactable = false;
+            btn_ChangeMap.gameObject.SetActive(false);
+        }
+    }
 
     public void InitRoomSettings(bool isMaster)
     {
@@ -34,58 +41,53 @@ public class Panel_MapSettings : MonoBehaviour
         playerProperty["Ready"] = false;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
-        // 방장 or Not 설정
-        if (isMaster)
-        {
-            btn_MapLeft.interactable = true;
-            btn_MapLeft.gameObject.SetActive(true);
-
-            btn_MapRight.interactable = true;
-            btn_MapRight.gameObject.SetActive(true);
-        }
-        else
-        {
-            btn_MapLeft.interactable = false;
-            btn_MapLeft.gameObject.SetActive(false);
-
-            btn_MapRight.interactable = false;
-            btn_MapRight.gameObject.SetActive(false);
-        }
-
+        MasterClientViewUpdate(isMaster);
     }
 
-    public void ClickLeftMapButton()
+    public void ChangeMap(string mapName)
     {
-        if (mapIndex - 1 < 0) mapIndex = 0;
-        else mapIndex--;
-
         ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-        roomProperty["Map"] = mapIndex;
+        roomProperty["Map"] = mapName;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
-
-        UpdateRoomProperty();
-    }
-
-    public void ClickRightMapButton()
-    {
-        if (mapIndex + 1 > mapDatas.Length - 1) mapIndex = mapDatas.Length - 1;
-        else mapIndex++;
-
-        ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-        roomProperty["Map"] = mapIndex;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
-
-        UpdateRoomProperty();
     }
 
     public void UpdateRoomProperty()
     {
         if (PhotonNetwork.CurrentRoom.CustomProperties["Map"] != null)
         {
-            mapIndex = (int)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+            selectedMapName = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+            SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
+            image_Map.sprite = spritesDB.dic[selectedMapName];
+            tmp_MapName.text = selectedMapName;
         }
-        image_Map.sprite = mapDatas[mapIndex].sprite;
-        tmp_MapName.text = mapDatas[mapIndex].name;
+        else
+        {
+            BackendManager.Instance.LoadAllTargetTypeServers(ServerType.InGame, (data) =>
+            {
+                foreach (var kvp in data)
+                {
+                    // 데이터가 있는 맨앞 녀석만 가져가기
+                    if (!string.IsNullOrEmpty(kvp.Value.name))
+                    {
+                        selectedMapName = kvp.Value.name;
+                        break;
+                    }
+                }
+
+                ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+                roomProperty["Map"] = selectedMapName;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
+
+                SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
+                image_Map.sprite = spritesDB.dic[selectedMapName];
+                tmp_MapName.text = selectedMapName;
+            });
+
+
+            
+        }
+        
+        
     }
 
 }

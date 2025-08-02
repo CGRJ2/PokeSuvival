@@ -46,6 +46,8 @@ public class Panel_PlayerInfo : MonoBehaviour
         tmp_UserId.text = $"User Id: {user.UserId}";
         panel_Loading.SetActive(false);
     }
+    private void OnDestroy() => StopAllCoroutines();
+
 
     public void UpdatePlayerInfoView()
     {

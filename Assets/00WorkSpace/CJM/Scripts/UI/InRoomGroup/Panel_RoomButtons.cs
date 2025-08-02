@@ -18,8 +18,6 @@ public class Panel_RoomButtons : MonoBehaviour
     public void ExitRoom()
     {
         PhotonNetwork.LeaveRoom();
-        UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.panel_RoomInside.gameObject);
     }
     public void Ready()
     {
@@ -67,11 +65,10 @@ public class Panel_RoomButtons : MonoBehaviour
     public void StartWithParty()
     {
         // 임시
-        // 인게임 서버 리스트를 받아와서 선택할 수 있는 UI를 만들자
-        NetworkManager nm = NetworkManager.Instance;
-        nm.MoveToInGameScene("In Game Server 03 (KR)"); // 우선 임시 테스트용으로 3번 서버로 이동하게 함
+        string selectedMapName = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+        NetworkManager.Instance.MoveToInGameScene(selectedMapName); 
 
-        // 1. 맵에서 선택한 서버에 입장 가능한지 판단 => 인게임 서버 리스트 표현을 우선으로 진행
+        // 1. 맵에서 선택한 서버에 입장 가능한지 판단 => 인게임 서버 리스트 표현을 우선으로 진행 => 완료
 
         // 2. 입장 불가능하면 불가능 팝업 표시
 

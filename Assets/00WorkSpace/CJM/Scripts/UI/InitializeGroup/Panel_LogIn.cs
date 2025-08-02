@@ -93,4 +93,7 @@ public class Panel_LogIn : MonoBehaviour
         PhotonNetwork.JoinLobby();
         UIManager.Instance.ClosePanel(gameObject);
     }
+
+    private void OnDestroy() => StopAllCoroutines();
+
 }

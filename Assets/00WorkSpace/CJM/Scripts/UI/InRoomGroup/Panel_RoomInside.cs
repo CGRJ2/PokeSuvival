@@ -41,6 +41,11 @@ public class Panel_RoomInside : MonoBehaviour
         panel_RoomButtons.Init();
     }
 
+    public void SetDefaultSetting()
+    {
+        tmp_RoomName.text = "";
+        gameObject.SetActive(false);
+    }
 
     public void InitRoomView()
     {
@@ -109,6 +114,7 @@ public class Panel_RoomInside : MonoBehaviour
         bool ready = (bool)player.CustomProperties["Ready"];
         roomMemberSlot.UpdateReadyStateView(ready);
     }
+    private void OnDestroy() => StopAllCoroutines();
 
 
 }

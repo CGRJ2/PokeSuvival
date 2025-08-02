@@ -35,6 +35,12 @@ public class Panel_MatchMaking : MonoBehaviour
         btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
 
+    public void SetDefaultSetting()
+    {
+        panel_LobbyServerList.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
     public void UpdateRoomListView(List<RoomInfo> roomList)
     {
         // 표현 가능한 방 개수를 전체 방 개수에 나누어서 전체 페이지 결정

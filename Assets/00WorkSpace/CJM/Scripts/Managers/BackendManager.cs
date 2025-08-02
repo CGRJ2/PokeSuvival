@@ -19,14 +19,14 @@ public class BackendManager : Singleton<BackendManager>
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            LoadUserDataFromDB((data) => Debug.Log(data.name));
+            //LoadUserDataFromDB((data) => Debug.Log(data.name));
+            Debug.Log(NetworkManager.Instance.CurServer.sceneName);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            //InitServerDataToServerInfoDB(new ServerData("In Game Server 01 (KR)", "인게임 서버 01", 1, "f4af81c0-1b09-4d04-b4d6-ded79cac2991", 20));
-            //InitServerDataToServerInfoDB(new ServerData("In Game Server 02 (KR)", "인게임 서버 02", 1, "ebb39345-172c-4fe6-814b-f9a959a78382", 20));
-            //InitServerDataToServerInfoDB(new ServerData("In Game Server 03 (KR)", "인게임 서버 03", 1, "f3701beb-1956-416d-9a20-f3e8d9f8b59d", 20));
+            //InitServerDataToServerInfoDB(new ServerData("Lobby Server 01 (KR)", "LobbyScene(CJM)", "로비 01", 0, "e4d01a07-2d0c-41bb-bc2d-59723abc27fc", 20));
+            //InitServerDataToServerInfoDB(new ServerData("Lobby Server 02 (KR)", "LobbyScene(CJM)", "로비 02", 0, "4b17f092-1646-4668-9356-580cdb2e8529", 20));
         }
     }
 
@@ -211,7 +211,7 @@ public class BackendManager : Singleton<BackendManager>
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)data.type).Child(data.key);
 
-        ServerData serverInfo = new ServerData(data.key, data.name, data.type, data.id, 20);
+        ServerData serverInfo = new ServerData(data.key, data.sceneName, data.name, data.type, data.id, 20);
         string json = JsonUtility.ToJson(serverInfo);
         reference.SetRawJsonValueAsync(json);
     }
@@ -447,6 +447,7 @@ public class UserData
 public class ServerData
 {
     public string key;
+    public string sceneName;
     public string name;
     public string id;
     public int type;
@@ -455,9 +456,10 @@ public class ServerData
 
     public ServerData() { }
 
-    public ServerData(string key , string name, int type, string id, int maxPlayerCount)
+    public ServerData(string key, string sceneName,  string name, int type, string id, int maxPlayerCount)
     {
         this.key = key;
+        this.sceneName = sceneName;
         this.name = name;
         this.id = id;
         this.type = type;

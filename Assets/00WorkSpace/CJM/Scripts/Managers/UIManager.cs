@@ -30,4 +30,9 @@ public class UIManager : Singleton<UIManager>
     {
         gameObject.SetActive(false);
     }
+
+    public void ClearPanelStack()
+    {
+        Stack<GameObject> activedPanelStack = new Stack<GameObject>();
+    }
 }
