@@ -265,6 +265,15 @@ public struct PokemonStat
 
 	public float GetMoveSpeed() => Speed / 10f;
 	public int GetBaseStat() => Hp + Attak + Defense + SpecialAttack + SpecialDefense + Speed;
+	public bool IsEqual(PokemonStat stat)
+	{
+		return Hp == stat.Hp &&
+			   Attak == stat.Attak &&
+			   Defense == stat.Defense &&
+			   SpecialAttack == stat.SpecialAttack &&
+			   SpecialDefense == stat.SpecialDefense &&
+			   Speed == stat.Speed;
+	}
 }
 public enum SkillSlot
 {
@@ -279,6 +288,7 @@ public enum SkillType
 	Special,
 	Status,
 }
+[Serializable]
 public struct BattleDataTable
 {
 	public int Level;

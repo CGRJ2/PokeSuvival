@@ -31,7 +31,11 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	{
 		get
 		{
-			if (!_battleData.IsVaild()) _battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+			//if (!_battleData.IsVaild()) _battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+			//return _battleData;
+
+			// 매번 갱신으로 변경
+			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
 			return _battleData;
 		}
 	}
@@ -160,7 +164,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		EnemyData.SetSkillCooldown(slot, skill.Cooldown);
 
-		attack.Attack(transform, LastDir, this.BattleData, skill);
+		attack.Attack(transform, LastDir, BattleData, skill);
 		Debug.Log($"몬스터 {skill.SkillName} 사용!");
 	}
 

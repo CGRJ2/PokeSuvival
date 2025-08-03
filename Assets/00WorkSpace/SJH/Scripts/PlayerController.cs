@@ -18,12 +18,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
 	[field: SerializeField] public Vector2 MoveDir { get; private set; }
+
+	private PokemonStat _prevRankedStat;
 	[SerializeField] private BattleDataTable _battleData;
 	public BattleDataTable BattleData
 	{
 		get
 		{
-			if (!_battleData.IsVaild()) _battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, Model.AllStat, Model.MaxHp, Model.CurrentHp, false, this);
+			if (Rank == null || Rank.BaseData == null)
+			{
+				Rank = new PokeRankHandler(this, Model);
+				ConnectRankEvent();
+			}
+			var newStat = Rank.GetRankedStat();
+			if (!_prevRankedStat.IsEqual(newStat))
+			{
+				_prevRankedStat = newStat;
+				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this);
+			}
 			return _battleData;
 		}
 	}
@@ -57,7 +69,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		View = GetComponent<PlayerView>();
 		_input = GetComponent<PlayerInput>();
-		Rank = new PokeRankHandler();
 
 		_moveHistory = new(_maxLogCount);
 	}
@@ -170,10 +181,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
 		OnModelChanged += (model) =>
 		{
+			if (model != null) Rank = new PokeRankHandler(this, model);
+			ConnectRankEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
 
 		ConnectSkillEvent();
+		ConnectRankEvent();
 	}
 
 	public void DisconnectEvent()
@@ -184,6 +198,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		OnModelChanged = null;
 
 		DisconnectSkillEvent();
+		DisconnectRankEvent();
 	}
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -242,6 +257,32 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	private void OnSkillSlot2(InputAction.CallbackContext ctx) => OnSkill(SkillSlot.Skill2, ctx);
 	private void OnSkillSlot3(InputAction.CallbackContext ctx) => OnSkill(SkillSlot.Skill3, ctx);
 	private void OnSkillSlot4(InputAction.CallbackContext ctx) => OnSkill(SkillSlot.Skill4, ctx);
+
+	public void ConnectRankEvent()
+	{
+		if (Rank == null) return;
+
+		Rank.OnRankChanged += (statType, prev, next) =>
+		{
+			// 스탯종류, 이전값, 이후값
+		};
+
+		Rank.OnSyncToRank += (statType, next) =>
+		{
+			if (!photonView.IsMine) return;
+			// 스탯종류, 최신값
+			Debug.Log($"{Model.PokeData.PokeName} [{statType} : {next}] 동기화 시작");
+			ActionRPC(nameof(RPC_RankSync), RpcTarget.OthersBuffered, photonView.ViewID, (int)statType, next);
+		};
+	}
+
+	public void DisconnectRankEvent()
+	{
+		if (Rank == null) return;
+
+		Rank.OnRankChanged = null;
+		Rank.OnSyncToRank = null;
+	}
 
 	void MoveInput()
 	{
@@ -302,18 +343,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				//Debug.Log($"스킬 {slot} 키다운");
 				IAttack attack = SkillCheck(slot, out var skill);
 				if (attack == null || skill == null) return;
-				IDamagable damagable = this;
 				if (skill.SkillAnimType == SkillAnimType.SpeAttack) View.SetIsSpeAttack();
 				else View.SetIsAttack();
 				Model.SetSkillCooldown(slot, skill.Cooldown);
-				attack.Attack(transform, _lastDir, damagable.BattleData, skill);
-				// TODO : 모델 처리
-				// TODO : 뷰 처리
+				attack.Attack(transform, _lastDir, BattleData, skill);
 				break;
+
 			case InputActionPhase.Canceled:
 				//Debug.Log($"스킬 {slot} 키업 : {ctx.duration}");
-				// TODO : 모델 처리
-				// TODO : 뷰 처리
 				break;
 		}
 	}
@@ -341,7 +378,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		if (Model.CurrentHp <= 0 || Model.IsDead) return false;
 
-		//IDamagable iD = this;
 		BattleDataTable defenderData = ((IDamagable)this).BattleData;
 		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
@@ -447,6 +483,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Debug.Log("새로운 플레이어 입장");
 		var pokeData = Define.GetPokeData(pokeNumber);
 		Model = new PlayerModel(Model.PlayerName, pokeData, level, 0, currentHp);
+		Rank = new PokeRankHandler(this, Model);
 		View?.SetAnimator(pokeData.AnimController);
 
 		if (PhotonNetwork.LocalPlayer.IsLocal) OnModelChanged?.Invoke(Model);
@@ -471,6 +508,30 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Debug.Log($"킬 증가! 현재 킬 : {KillCount}");
 		KillCount++;
 	}
+	[PunRPC]
+	public void RPC_RankSync(int viewId, int statTypeIndex, int value)
+	{
+		var pv = PhotonView.Find(viewId);
+		if (pv == null)
+		{
+			Debug.LogWarning("RPC_RankSync : photonView == null");
+			return;
+		}
+		var pc = pv.GetComponent<PlayerController>();
+		if (pc == null)
+		{
+			Debug.LogWarning("RPC_RankSync : PlayerController == null");
+			return;
+		}
+		if (pc.Rank == null)
+		{
+			Debug.LogWarning("RPC_RankSync : Rank == null");
+			pc.Rank = new PokeRankHandler(pc, pc.Model);
+		}
+		StatType statType = (StatType)statTypeIndex;
+		Debug.Log($"{viewId} : [{statType} : {value}] 동기화 시작");
+		pc.Rank.RankSync(statType, value);
+	}
 	////////////////////////////////// 스탯 변경
 
 	public void ApplyStat(ItemData item)
@@ -491,7 +552,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				break;
 			case ItemType.StatBuff:
 				Debug.Log($"{item.affectedStat} 랭크 상승");
-				Rank?.SetRankUp(item.affectedStat, (int)item.value, item.duration);
+				Rank?.SetRank(item.affectedStat, (int)item.value, item.duration);
 				break;
 		}
 	}
@@ -499,11 +560,5 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
-	}
-
-	public PokemonStat GetRankUpStat()
-	{
-		var baseStat = Model.AllStat;
-		return baseStat;
 	}
 }

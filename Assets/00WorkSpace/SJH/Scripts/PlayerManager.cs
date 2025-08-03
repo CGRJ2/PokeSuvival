@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
 		// test
 		if (!PhotonNetwork.IsMasterClient) return;
-		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(13f, 0), Quaternion.identity, 0,
+		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(100f, 100f), Quaternion.identity, 0,
 			new object[]
 			{
 				7, // pokeNumber
