@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
 	}
+
 	#region Player Init, Respawn
 	public void PlayerInit()
 	{
