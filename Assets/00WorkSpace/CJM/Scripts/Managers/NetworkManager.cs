@@ -147,6 +147,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             PhotonNetwork.JoinOrCreateRoom(roomName, options, TypedLobby.Default);
 
             um.StaticGroup.SetDefaultSettings();
+            um.CloseAllActivedPanels();
         }
 
         else if (CurServer.type == (int)ServerType.Lobby || CurServer.type == (int)ServerType.TestServer)
@@ -155,6 +156,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             {
                 um.LobbyGroup.gameObject.SetActive(true);
                 um.LobbyGroup.OnJoinedLobbyDefaultSetting();
+                um.CloseAllActivedPanels();
                 um.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
 
                 um.InitializeGroup.gameObject.SetActive(false);
@@ -224,6 +226,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             if (um != null)
             {
                 um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+                um.CloseAllActivedPanels();
                 um.LobbyGroup.panel_RoomInside.InitRoomView();
                 um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
             }

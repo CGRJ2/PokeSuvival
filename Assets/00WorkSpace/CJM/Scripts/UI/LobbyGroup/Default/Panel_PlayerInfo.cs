@@ -90,8 +90,8 @@ public class Panel_PlayerInfo : MonoBehaviour
         BackendManager.Auth.SignOut();
         PhotonNetwork.LocalPlayer.CustomProperties = new ExitGames.Client.Photon.Hashtable(); // 커스텀 프로퍼티 초기화
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.gameObject);
-        um.OpenPanel(um.InitializeGroup.gameObject);
+        um.LobbyGroup.gameObject.SetActive(false);
+        um.InitializeGroup.gameObject.SetActive(true);
     }
 
     

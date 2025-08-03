@@ -21,7 +21,6 @@ public class UIGroup_Static : MonoBehaviour
     public void SetDefaultSettings()
     {
         panel_InGameServerList.SetDefaultSettings();
-        UIManager.Instance.ClearPanelStack();
     }
-    
+
 }

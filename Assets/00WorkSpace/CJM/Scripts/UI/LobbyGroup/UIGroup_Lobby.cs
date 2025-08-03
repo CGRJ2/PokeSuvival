@@ -30,6 +30,5 @@ public class UIGroup_Lobby : MonoBehaviour
         panel_RoomInfo.SetDefaultSetting();
         panel_RoomMaking.SetDefaultSetting();
         panel_RoomInside.SetDefaultSetting();
-        UIManager.Instance.ClearPanelStack();
     }
 }
