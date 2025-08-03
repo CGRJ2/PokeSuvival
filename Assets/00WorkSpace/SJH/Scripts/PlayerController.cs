@@ -7,10 +7,10 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunInstantiateMagicCallback, IDamagable, IStatReceiver
 {
+	#region Field
 	[field: SerializeField] public PlayerModel Model { get; private set; }
 	[field: SerializeField] public PlayerView View { get; private set; }
 	[field: SerializeField] public PokeRankHandler Rank { get; private set; }
@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			return _battleData;
 		}
 	}
-	public int Test_Level; // 변화할 레벨
 	private int _maxLogCount = 10;
 	[SerializeField] private Queue<Vector2> _moveHistory = new();
 	[SerializeField] private Vector2 _lastDir = Vector2.down;
@@ -62,6 +61,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 킬 카운트
 	public int KillCount { get; private set; }
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
+	#endregion
+
+	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
 
 	void Awake()
 	{
@@ -83,11 +85,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			Model.SetLevel(Test_Level);
 		}
 	}
+	void MoveInput()
+	{
+		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
+		if (MoveDir != Vector2.zero)
+		{
+			_moveHistory.Enqueue(MoveDir);
+			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
+		}
+
+		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
+	}
+	#region Player Init, Respawn
 	public void PlayerInit()
 	{
 		Debug.Log("플레이어 초기화");
-
 		// TODO : 플레이어 생성 연출
 
 		// 시작, 사망 시간 초기화
@@ -119,17 +132,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	public void PlayerRespawn()
 	{
+		Debug.Log("플레이어 리스폰");
 		// TODO : 플레이어 생성 연출
 
-		// 시작, 사망 시간 초기화
 		_startTime = -1;
 		_endTime = -1;
 
-		// 시작 시간 기록
 		_startTime = Time.time;
-		// 킬 초기화
 		KillCount = 0;
-		// 마지막 공격자 초기화
 		LastAttacker = null;
 
 		_input.actions.Enable();
@@ -153,7 +163,44 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		PlayerManager.Instance.LocalPlayerController = this;
 	}
+	#endregion
 
+	#region Photon Callback
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		// 수동 동기화
+		if (stream.IsWriting)
+		{
+			stream.SendNext(_flipX);
+			// TODO : 실시간 동기화
+		}
+		else
+		{
+			View.SetFlip(_flipX = (bool)stream.ReceiveNext());
+			// TODO : 실시간 동기화
+		}
+	}
+
+	public void OnPhotonInstantiate(PhotonMessageInfo info)
+	{
+		if (!photonView.IsMine)
+		{
+			gameObject.tag = "Enemy";
+			View.SetOrderInLayer(false);
+			return;
+		}
+		gameObject.tag = "Player";
+		View.SetOrderInLayer(true);
+		PlayerInit();
+	}
+	public override void OnPlayerEnteredRoom(Player newPlayer)
+	{
+		if (!photonView.IsMine) return;
+		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+	}
+	#endregion
+
+	#region Event Function
 	public void ConnectEvent()
 	{
 		DisconnectEvent();
@@ -196,35 +243,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		DisconnectSkillEvent();
 		DisconnectRankEvent();
 	}
-
-	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-	{
-		// 수동 동기화
-		if (stream.IsWriting)
-		{
-			stream.SendNext(_flipX);
-			// TODO : 실시간 동기화
-		}
-		else
-		{
-			View.SetFlip(_flipX = (bool)stream.ReceiveNext());
-			// TODO : 실시간 동기화
-		}
-	}
-
-	public void OnPhotonInstantiate(PhotonMessageInfo info)
-	{
-		if (!photonView.IsMine)
-		{
-			gameObject.tag = "Enemy";
-			View.SetOrderInLayer(false);
-			return;
-		}
-		gameObject.tag = "Player";
-		View.SetOrderInLayer(true);
-		PlayerInit();
-	}
-
 	public void ConnectSkillEvent()
 	{
 		var input = _input.actions;
@@ -279,19 +297,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Rank.OnRankChanged = null;
 		Rank.OnSyncToRank = null;
 	}
-
-	void MoveInput()
-	{
-		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
-
-		if (MoveDir != Vector2.zero)
-		{
-			_moveHistory.Enqueue(MoveDir);
-			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
-		}
-
-		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
-	}
+	#endregion
 
 	#region InputSystem Function
 	public void OnMove(InputValue value)
@@ -336,12 +342,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			case InputActionPhase.Started:
 				//Debug.Log($"스킬 {slot} 키다운");
-				IAttack attack = SkillCheck(slot, out var skill);
-				if (attack == null || skill == null) return;
-				if (skill.SkillAnimType == SkillAnimType.SpeAttack) View.SetIsSpeAttack();
-				else View.SetIsAttack();
-				Model.SetSkillCooldown(slot, skill.Cooldown);
-				attack.Attack(transform, _lastDir, BattleData, skill);
+				Attack(slot);
 				break;
 
 			case InputActionPhase.Canceled:
@@ -351,12 +352,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 	#endregion
 
-	public override void OnPlayerEnteredRoom(Player newPlayer)
+	#region Battle Attack, SkillCheck, TakeDamage
+	public void Attack(SkillSlot slot)
 	{
-		if (!photonView.IsMine) return;
-		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		IAttack attack = SkillCheck(slot, out var skill);
+		if (attack == null || skill == null) return;
+		if (skill.SkillAnimType == SkillAnimType.SpeAttack) View.SetIsSpeAttack();
+		else View.SetIsAttack();
+		Model.SetSkillCooldown(slot, skill.Cooldown);
+		attack.Attack(transform, _lastDir, BattleData, skill);
 	}
-
+	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)
+	{
+		skill = Model.GetSkill((int)slot);
+		if (skill == null) return null;
+		if (Model.IsSkillCooldown(slot)) return null;
+		IAttack attack = new SkillStrategyAttack(skill.SkillName);
+		if (attack == null) return null;
+		return attack;
+	}
 	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
 	{
 		if (Model.CurrentHp <= 0 || Model.IsDead) return false;
@@ -379,41 +393,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
 	}
+	#endregion
 
-	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)
-	{
-		skill = Model.GetSkill((int)slot);
-		if (skill == null)
-		{
-			Debug.LogWarning("사용할 수 있는 스킬이 없습니다.");
-			return null;
-		}
-		if (Model.IsSkillCooldown(slot))
-		{
-			Debug.LogWarning("스킬이 쿨타임입니다.");
-			return null;
-		}
-		IAttack attack = new SkillStrategyAttack(skill.SkillName);
-		if (attack == null)
-		{
-			Debug.LogWarning("정의되지 않은 스킬입니다.");
-			return null;
-		}
-		return attack;
-	}
-
-	public void AddExp(int value)
-	{
-		Model.AddExp(value);
-		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {value}", Color.blue);
-	}
+	#region Model, View, Rank, LastAttacker, KillCount setter
 	public void SetModel(PlayerModel model) => Model = model;
 	public void SetView(PlayerView view) => View = view;
 	public void SetRank(PokeRankHandler rank) => Rank = rank;
 	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
 	public void AddKillCount() => KillCount++;
-	////////////////////////////////// 스탯 변경
+	#endregion
 
+	#region Interact AddExp, ApplyStat, RemoveStat
+	public void AddExp(int value)
+	{
+		Model.AddExp(value);
+		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {value}", Color.blue);
+	}
 	public void ApplyStat(ItemData item)
 	{
 		Debug.Log($"{item.itemName} 획득!");
@@ -441,4 +436,5 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
 	}
+	#endregion
 }
