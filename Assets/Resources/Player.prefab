@@ -205,9 +205,9 @@ MonoBehaviour:
     CurrentHp: 0
     IsAI: 0
     PC: {fileID: 0}
-  Test_Level: 0
   _lastDir: {x: 0, y: -1}
   <LastAttacker>k__BackingField: {fileID: 0}
+  Test_Level: 0
 --- !u!114 &3518850844711382646
 MonoBehaviour:
   m_ObjectHideFlags: 0
