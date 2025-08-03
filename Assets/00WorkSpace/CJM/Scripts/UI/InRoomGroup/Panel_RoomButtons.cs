@@ -2,6 +2,8 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class Panel_RoomButtons : MonoBehaviour
@@ -66,12 +68,28 @@ public class Panel_RoomButtons : MonoBehaviour
     {
         // 임시
         string selectedMapKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
-        NetworkManager.Instance.MoveToInGameScene(selectedMapKey); 
+        int memberCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        // 1. 맵에서 선택한 서버에 입장 가능한지 판단 => 인게임 서버 리스트 표현을 우선으로 진행 => 완료
-
-        // 2. 입장 불가능하면 불가능 팝업 표시
-
-        // 3. 입장 가능하면 동시에 해당 서버로 이동
+        BackendManager.Instance.GetServerData(selectedMapKey, ServerType.InGame, (targetServer) =>
+        {
+            BackendManager.Instance.IsAbleToConnectMultipleUserIntoServer(targetServer, memberCount, (accessable) =>
+            {
+                if (accessable)
+                {
+                    // 서버에 자리 예약
+                    BackendManager.Instance.OnEnterServerCapacityUpdate(targetServer, memberCount, () =>
+                    {
+                        // 자리 예약 성공 시 => 룸 커스텀 프로퍼티에 시작가능 갱신
+                        ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+                        roomProperty["Start"] = true;
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
+                    });
+                }
+                else
+                {
+                    Debug.LogError("파티에 모든 멤버가 이동하기에 서버에 자리가 부족합니다.");
+                }
+            });
+        });
     }
 }

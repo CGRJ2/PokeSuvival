@@ -217,7 +217,7 @@ public class BackendManager : Singleton<BackendManager>
     }
 
     // 서버 입장 시, 서버 인원에 본인 추가
-    public void OnEnterServerCapacityUpdate(ServerData curServerData, Action<string> onFail = null)
+    public void OnEnterServerCapacityUpdate(ServerData curServerData, int multipleEnter = 1, Action onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -226,14 +226,27 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (mutableData.Value == null)
             {
-                mutableData.Value = 1;
+                mutableData.Value = multipleEnter;
                 return TransactionResult.Success(mutableData);
             }
             else
             {
                 long curUserCount = (long)mutableData.Value;
-                mutableData.Value = curUserCount + 1;
+                mutableData.Value = curUserCount + multipleEnter;
                 return TransactionResult.Success(mutableData);
+            }
+        }).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled || task.IsFaulted)
+            {
+                Debug.LogError("서버 인원 추가 실패, 트랜잭션 처리 중 오류 발생");
+                onFail?.Invoke("서버 인원 추가/예약 실패");
+                return;
+            }
+            
+            if (task.IsCompletedSuccessfully)
+            {
+                onSuccess?.Invoke();
             }
         });
     }
@@ -302,6 +315,50 @@ public class BackendManager : Singleton<BackendManager>
                 if(curPlayerCount < maxPlayerCount)
                     onSuccess?.Invoke(true);
                 else 
+                    onSuccess?.Invoke(false);
+            }
+            else
+            {
+                Debug.LogWarning("해당 서버가 데이터베이스에 존재하지 않음.");
+                onFail?.Invoke("해당 서버가 데이터베이스에 없다는 메시지 전송");
+            }
+        });
+    }
+
+    public void IsAbleToConnectMultipleUserIntoServer(ServerData curServerData, int multiUserCount, Action<bool> onSuccess = null, Action<string> onFail = null)
+    {
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
+
+
+        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+
+            if (task.IsCanceled)
+            {
+                Debug.LogError("서버 데이터 불러오기 취소됨.");
+                onFail?.Invoke("취소 메시지 전달용");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"서버 데이터 불러오기 실패: {task.Exception}");
+                onFail?.Invoke("실패 메시지 전달용");
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
+                long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
+
+                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
+
+                if (curPlayerCount < maxPlayerCount - multiUserCount + 1)
+                    onSuccess?.Invoke(true);
+                else
                     onSuccess?.Invoke(false);
             }
             else

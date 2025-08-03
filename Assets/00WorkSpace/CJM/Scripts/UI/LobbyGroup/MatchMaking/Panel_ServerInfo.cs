@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +29,10 @@ public class Panel_ServerInfo : MonoBehaviour
     private void MoveToTargetServer()
     {
         NetworkManager.Instance.ChangeServer(selectedServerData);
+
+        // 씬 로드
+        if (SceneManager.GetActiveScene().name != selectedServerData.sceneName)
+            PhotonNetwork.LoadLevel(selectedServerData.sceneName);
 
         // 로비 서버의 전환이라면. 
         switch (selectedServerData.type)
