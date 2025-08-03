@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PlayerModel Model { get; private set; }
 	[field: SerializeField] public PlayerView View { get; private set; }
 	[field: SerializeField] public PokeRankHandler Rank { get; private set; }
+	[field: SerializeField] public NetworkHandler RPC { get; private set; }
 
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
@@ -60,15 +61,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	// 킬 카운트
 	public int KillCount { get; private set; }
-	[SerializeField] private PlayerController _lastAttacker;
-
-	// 버프 코루틴
-	private Dictionary<StatType, Coroutine> _rankUpRoutineDic = new();
+	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
 
 	void Awake()
 	{
 		View = GetComponent<PlayerView>();
 		_input = GetComponent<PlayerInput>();
+		RPC = GetComponent<NetworkHandler>();
 
 		_moveHistory = new(_maxLogCount);
 	}
@@ -100,7 +99,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// 킬 초기화
 		KillCount = 0;
 		// 마지막 공격자 초기화
-		_lastAttacker = null;
+		LastAttacker = null;
 
 		PokemonData pokeData = null;
 		object[] data = photonView.InstantiationData;
@@ -109,16 +108,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			pokeData = Define.GetPokeData(pokeName);
 		}
-		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
 
 		PlayerManager.Instance.LocalPlayerController = this;
 
 		OnModelChanged?.Invoke(Model);
-
-		// TODO : 테스트 코드
-		GameObject.Find("Button1")?.GetComponent<Button>().onClick.AddListener(() => { StartPokeEvolution(); });
 	}
 
 	public void PlayerRespawn()
@@ -134,7 +130,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// 킬 초기화
 		KillCount = 0;
 		// 마지막 공격자 초기화
-		_lastAttacker = null;
+		LastAttacker = null;
 
 		_input.actions.Enable();
 		View.SetIsDead(false);
@@ -150,8 +146,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				pokeData = Define.GetPokeData(pokeName);
 			}
 		}
-		ActionRPC(nameof(RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
-		ActionRPC(nameof(RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
 
@@ -164,21 +160,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		Model.OnCurrentHpChanged += (hp) =>
 		{
-			ActionRPC(nameof(RPC_CurrentHpChanged), RpcTarget.All, hp);
+			RPC.ActionRPC(nameof(RPC.RPC_CurrentHpChanged), RpcTarget.All, hp);
 		};
 		Model.OnDied += () =>
 		{
 			// 사망 시간 기록
 			_endTime = Time.time;
 			// 막타친 플레이어 킬카운트 증가
-			if (_lastAttacker != null) ActionRPC(nameof(RPC_AddKillCount), _lastAttacker.photonView.Owner);
+			if (LastAttacker != null) RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
 
 			_input.actions.Disable();
 			View.SetIsDead(true);
 			Debug.LogWarning("플레이어 사망");
 			PlayerManager.Instance.PlayerDead(Model.TotalExp);
 		};
-		Model.OnPokeLevelChanged += (level) => { ActionRPC(nameof(RPC_LevelChanged), RpcTarget.All, level); };
+		Model.OnPokeLevelChanged += (level) => { RPC.ActionRPC(nameof(RPC.RPC_LevelChanged), RpcTarget.All, level); };
 		OnModelChanged += (model) =>
 		{
 			if (model != null) Rank = new PokeRankHandler(this, model);
@@ -272,7 +268,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (!photonView.IsMine) return;
 			// 스탯종류, 최신값
 			Debug.Log($"{Model.PokeData.PokeName} [{statType} : {next}] 동기화 시작");
-			ActionRPC(nameof(RPC_RankSync), RpcTarget.OthersBuffered, photonView.ViewID, (int)statType, next);
+			RPC.ActionRPC(nameof(RPC.RPC_RankSync), RpcTarget.OthersBuffered, photonView.ViewID, (int)statType, next);
 		};
 	}
 
@@ -294,7 +290,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
 		}
 
-		//_view.PlayerMove(MoveDir, _model.GetMoveSpeed());
 		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
 	}
 
@@ -356,22 +351,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 	#endregion
 
-	public void StartPokeEvolution()
-	{
-		if (!photonView.IsMine) return;
-
-		PokemonData nextPokeData = Model.GetNextEvoData();
-
-		if (nextPokeData != null)
-		{
-			photonView.RPC(nameof(RPC_PokemonEvolution), RpcTarget.All, nextPokeData.PokeNumber);
-		}
-	}
-
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		photonView.RPC(nameof(RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 
 	public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
@@ -386,14 +369,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (!attackerData.IsAI)
 		{
 			PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
-			ActionRPC(nameof(RPC_SetLastAttacker), this.photonView.Owner, attackerData.PC.photonView.ViewID);
+			RPC.ActionRPC(nameof(RPC.RPC_SetLastAttacker), this.photonView.Owner, attackerData.PC.photonView.ViewID);
 		}
 		else if (attackerData.IsAI)
 		{
-			ActionRPC(nameof(RPC_SetLastAttacker), this.photonView.Owner, -1);
+			RPC.ActionRPC(nameof(RPC.RPC_SetLastAttacker), this.photonView.Owner, -1);
 		}
 
-		ActionRPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
+		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
 	}
 
@@ -424,114 +407,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Model.AddExp(value);
 		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {value}", Color.blue);
 	}
-	public void ActionRPC(string funcName, RpcTarget target, params object[] value) => photonView.RPC(funcName, target, value);
-	public void ActionRPC(string funcName, Player targetPlayer, params object[] value) => photonView.RPC(funcName, targetPlayer, value);
-
-	[PunRPC]
-	public void RPC_PokemonEvolution(int pokeNumber, PhotonMessageInfo info)
-	{
-		PokemonData pokeData = Define.GetPokeData(pokeNumber);
-		Model.PokemonEvolution(pokeData);
-		View.SetAnimator(pokeData.AnimController);
-		// TODO : 진화 연출
-	}
-	[PunRPC]
-	public void RPC_ChangePokemonData(int pokeNumber)
-	{
-		var pokeData = Define.GetPokeData(pokeNumber);
-		Model = new PlayerModel(Model.PlayerName, pokeData);
-		View?.SetAnimator(pokeData.AnimController);
-		if (PhotonNetwork.LocalPlayer.IsLocal) OnModelChanged?.Invoke(Model);
-	}
-	[PunRPC]
-	public void RPC_CurrentHpChanged(int value)
-	{
-		if (!photonView.IsMine) Model.SetCurrentHp(value);
-	}
-	[PunRPC]
-	public void RPC_LevelChanged(int value, PhotonMessageInfo info)
-	{
-		if (!photonView.IsMine)
-		{
-			Model.SetLevel(value);
-		}
-		else
-		{
-			var currentData = Model.PokeData;
-			var nextData = Model.PokeData.NextEvoData;
-			if (nextData != null && value >= currentData.EvoLevel)
-			{
-				Debug.Log($"{value} >= {currentData.EvoLevel}");
-				ActionRPC(nameof(RPC_PokemonEvolution), RpcTarget.All, nextData.PokeNumber);
-			}
-		}
-	}
-	[PunRPC]
-	public void RPC_TakeDamage(int value)
-	{
-		if (value > 0) View.SetIsHit();
-		Debug.Log($"{value} 대미지 입음");
-		if (photonView.IsMine)
-		{
-			Model.SetCurrentHp(Model.CurrentHp - value);
-		}
-		PlayerManager.Instance.ShowDamageText(transform, value, Color.red);
-	}
-	[PunRPC]
-	public void RPC_SyncToNewPlayer(int pokeNumber, int level, int currentHp)
-	{
-		Debug.Log("새로운 플레이어 입장");
-		var pokeData = Define.GetPokeData(pokeNumber);
-		Model = new PlayerModel(Model.PlayerName, pokeData, level, 0, currentHp);
-		Rank = new PokeRankHandler(this, Model);
-		View?.SetAnimator(pokeData.AnimController);
-
-		if (PhotonNetwork.LocalPlayer.IsLocal) OnModelChanged?.Invoke(Model);
-	}
-	[PunRPC]
-	public void RPC_PlayerSetActive(bool value)
-	{
-		gameObject.SetActive(value);
-	}
-	[PunRPC]
-	public void RPC_SetLastAttacker(int viewId)
-	{
-		if (!photonView.IsMine) return;
-		if (viewId < 0) _lastAttacker = null;
-
-		var pv = PhotonView.Find(viewId);
-		if (pv != null) _lastAttacker = pv.GetComponent<PlayerController>();
-	}
-	[PunRPC]
-	public void RPC_AddKillCount()
-	{
-		Debug.Log($"킬 증가! 현재 킬 : {KillCount}");
-		KillCount++;
-	}
-	[PunRPC]
-	public void RPC_RankSync(int viewId, int statTypeIndex, int value)
-	{
-		var pv = PhotonView.Find(viewId);
-		if (pv == null)
-		{
-			Debug.LogWarning("RPC_RankSync : photonView == null");
-			return;
-		}
-		var pc = pv.GetComponent<PlayerController>();
-		if (pc == null)
-		{
-			Debug.LogWarning("RPC_RankSync : PlayerController == null");
-			return;
-		}
-		if (pc.Rank == null)
-		{
-			Debug.LogWarning("RPC_RankSync : Rank == null");
-			pc.Rank = new PokeRankHandler(pc, pc.Model);
-		}
-		StatType statType = (StatType)statTypeIndex;
-		Debug.Log($"{viewId} : [{statType} : {value}] 동기화 시작");
-		pc.Rank.RankSync(statType, value);
-	}
+	public void SetModel(PlayerModel model) => Model = model;
+	public void SetView(PlayerView view) => View = view;
+	public void SetRank(PokeRankHandler rank) => Rank = rank;
+	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
+	public void AddKillCount() => KillCount++;
 	////////////////////////////////// 스탯 변경
 
 	public void ApplyStat(ItemData item)

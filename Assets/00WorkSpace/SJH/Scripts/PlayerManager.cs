@@ -92,7 +92,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		Debug.Log("플레이어 사망 > 로비로 이동");
 		_playerFollowCam.Follow = null;
 		yield return new WaitForSeconds(_objectDeleteTime);
-		LocalPlayerController.ActionRPC(nameof(LocalPlayerController.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
+		LocalPlayerController.RPC.ActionRPC(nameof(LocalPlayerController.RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
 	}
 	public void PlayerToLobby()
 	{

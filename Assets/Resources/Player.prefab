@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1916248991119624999}
   - component: {fileID: 914685384404484978}
   - component: {fileID: 8753687014485769211}
+  - component: {fileID: 3518850844711382646}
   - component: {fileID: 6668238674274505865}
   - component: {fileID: 594678277303412792}
   - component: {fileID: 3657061122933037175}
@@ -186,6 +187,7 @@ MonoBehaviour:
   <View>k__BackingField: {fileID: 0}
   <Rank>k__BackingField:
     _rankDebug: []
+  <RPC>k__BackingField: {fileID: 0}
   _input: {fileID: 0}
   _flipX: 0
   <MoveDir>k__BackingField: {x: 0, y: 0}
@@ -205,7 +207,19 @@ MonoBehaviour:
     PC: {fileID: 0}
   Test_Level: 0
   _lastDir: {x: 0, y: -1}
-  _lastAttacker: {fileID: 0}
+  <LastAttacker>k__BackingField: {fileID: 0}
+--- !u!114 &3518850844711382646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946410855236059956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d805ab1aba65e0469a75140d6182f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6668238674274505865
 MonoBehaviour:
   m_ObjectHideFlags: 0
