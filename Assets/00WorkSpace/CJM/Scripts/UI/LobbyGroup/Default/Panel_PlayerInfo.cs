@@ -80,8 +80,8 @@ public class Panel_PlayerInfo : MonoBehaviour
     {
         // юс╫ц
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.gameObject);
-        um.OpenPanel(um.InitializeGroup.gameObject);
+        um.LobbyGroup.gameObject.SetActive(false);
+        um.InitializeGroup.gameObject.SetActive(true);
         um.OpenPanel(um.InitializeGroup.panel_LogIn.gameObject);
     }
 
