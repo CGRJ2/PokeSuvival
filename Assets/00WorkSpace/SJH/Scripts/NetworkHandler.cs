@@ -30,6 +30,7 @@ public class NetworkHandler: MonoBehaviour
 		var pokeData = Define.GetPokeData(pokeNumber);
 		PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData));
 		PC.View?.SetAnimator(pokeData.AnimController);
+		PC.View?.SetColliderSize(pokeData.PokeSize);
 		if (PhotonNetwork.LocalPlayer.IsLocal) PC.OnModelChanged?.Invoke(PC.Model);
 	}
 	[PunRPC]
@@ -74,6 +75,7 @@ public class NetworkHandler: MonoBehaviour
 		PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData, level, 0, currentHp));
 		PC.SetRank(new PokeRankHandler(PC, PC.Model));
 		PC.View?.SetAnimator(pokeData.AnimController);
+		PC.View?.SetColliderSize(pokeData.PokeSize);
 
 		if (PhotonNetwork.LocalPlayer.IsLocal) PC.OnModelChanged?.Invoke(PC.Model);
 	}
