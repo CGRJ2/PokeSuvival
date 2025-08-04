@@ -20,4 +20,15 @@ public class UIGroup_Lobby : MonoBehaviour
         panel_RoomMaking.Init();
         panel_RoomInside.Init();
     }
+
+    
+
+    public void OnJoinedLobbyDefaultSetting()
+    {
+        panel_LobbyDefault.gameObject.SetActive(true);
+        panel_MatchMaking.SetDefaultSetting();
+        panel_RoomInfo.SetDefaultSetting();
+        panel_RoomMaking.SetDefaultSetting();
+        panel_RoomInside.SetDefaultSetting();
+    }
 }

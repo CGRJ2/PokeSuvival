@@ -140,12 +140,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd7acc007ce5c24ca7fcd61a22be31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefabs:
-  - {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
-  - {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
-  dropProbabilities:
-  - 0
-  - 0
+  dropTable:
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: 4fbeed77944829043a3583bb68edf93e, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: 578a0b1c3db285e4cab873d6654ed9a7, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: cc88d8b271af0e54fa26a6c8af701714, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: ca4d40f3d9624c54e8c8cc0981d71522, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: 60d9cfa0db01c714f92f60341a39f3fe, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: ddc3fa66d3805064a9f0395914ad76f8, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: 9a5b50445da215a488719635653c298d, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: 3dfdc425b04361e429ccd21ce22a4cd1, type: 2}
+    dropProbability: 1
+  - prefab: {fileID: 917355742058428109, guid: a9e6d2cec49392c42a618234746a0e87, type: 3}
+    itemData: {fileID: 11400000, guid: f3c3bfa4ccfdef9418cedc9fc8366ae0, type: 2}
+    dropProbability: 1
   maxHp: 10
   currentHp: 10
 --- !u!58 &-1713756809837424617

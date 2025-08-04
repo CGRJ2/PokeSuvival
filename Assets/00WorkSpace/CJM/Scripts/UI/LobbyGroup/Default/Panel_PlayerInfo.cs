@@ -46,6 +46,8 @@ public class Panel_PlayerInfo : MonoBehaviour
         tmp_UserId.text = $"User Id: {user.UserId}";
         panel_Loading.SetActive(false);
     }
+    private void OnDestroy() => StopAllCoroutines();
+
 
     public void UpdatePlayerInfoView()
     {
@@ -78,8 +80,8 @@ public class Panel_PlayerInfo : MonoBehaviour
     {
         // 임시
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.gameObject);
-        um.OpenPanel(um.InitializeGroup.gameObject);
+        um.LobbyGroup.gameObject.SetActive(false);
+        um.InitializeGroup.gameObject.SetActive(true);
         um.OpenPanel(um.InitializeGroup.panel_LogIn.gameObject);
     }
 
@@ -88,8 +90,8 @@ public class Panel_PlayerInfo : MonoBehaviour
         BackendManager.Auth.SignOut();
         PhotonNetwork.LocalPlayer.CustomProperties = new ExitGames.Client.Photon.Hashtable(); // 커스텀 프로퍼티 초기화
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.gameObject);
-        um.OpenPanel(um.InitializeGroup.gameObject);
+        um.LobbyGroup.gameObject.SetActive(false);
+        um.InitializeGroup.gameObject.SetActive(true);
     }
 
     
