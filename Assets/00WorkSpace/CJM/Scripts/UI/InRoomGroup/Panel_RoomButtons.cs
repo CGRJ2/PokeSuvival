@@ -15,37 +15,12 @@ public class Panel_RoomButtons : MonoBehaviour
         btn_Ready.onClick.AddListener(Ready);
         btn_Start.onClick.AddListener(StartWithParty);
     }
-
-    /*public void InitButtons(bool isMaster)
-    {
-        // 방장 or Not 설정
-        if (isMaster)
-        {
-            btn_Ready.interactable = false;
-            btn_Ready.gameObject.SetActive(false);
-
-            btn_Start.interactable = true;
-            btn_Start.gameObject.SetActive(true);
-        }
-        else
-        {
-            btn_Ready.interactable = true;
-            btn_Ready.gameObject.SetActive(true);
-
-            btn_Start.interactable = false;
-            btn_Start.gameObject.SetActive(false);
-        }
-
-        // 이거 그냥 모든 인원이 Ready 상태일 때, 방장만 Start 버튼이 활성화 되도록 하자.
-    }*/
-
     public void ExitRoom()
     {
         PhotonNetwork.LeaveRoom();
         UIManager um = UIManager.Instance;
         um.ClosePanel(um.LobbyGroup.panel_RoomInside.gameObject);
     }
-
     public void Ready()
     {
         //// 룸 커스텀 프로퍼티 설정
@@ -92,10 +67,14 @@ public class Panel_RoomButtons : MonoBehaviour
     public void StartWithParty()
     {
         // 임시
-        // 인게임 서버 중 비어있는 곳을 찾아 접속해야함.
-        // 인게임 서버들의 인원 상태를 저장해두는 중계자 필요 => firebase DB 설계 진행하자
+        // 인게임 서버 리스트를 받아와서 선택할 수 있는 UI를 만들자
         NetworkManager nm = NetworkManager.Instance;
-        string inGameSceneName = nm.temp_InGameSceneName;
-        nm.MoveToInGameScene(inGameSceneName);
+        nm.MoveToInGameScene("In Game Server 03 (KR)"); // 우선 임시 테스트용으로 3번 서버로 이동하게 함
+
+        // 1. 맵에서 선택한 서버에 입장 가능한지 판단 => 인게임 서버 리스트 표현을 우선으로 진행
+
+        // 2. 입장 불가능하면 불가능 팝업 표시
+
+        // 3. 입장 가능하면 동시에 해당 서버로 이동
     }
 }

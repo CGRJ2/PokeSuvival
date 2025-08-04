@@ -11,8 +11,6 @@ public class UIManager : Singleton<UIManager>
 
     Stack<GameObject> activedPanelStack = new Stack<GameObject>();
 
-    private void Awake() => Init();
-
     public void Init()
     {
         base.SingletonInit();

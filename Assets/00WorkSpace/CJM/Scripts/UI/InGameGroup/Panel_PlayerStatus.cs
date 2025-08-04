@@ -18,7 +18,7 @@ public class Panel_PlayerStatus : MonoBehaviour
 
     void Update()
     {
-        if (NetworkManager.Instance.CurServer.type != ServerType.InGame) return;
+        if (NetworkManager.Instance.CurServer.type != (int)ServerType.InGame) return;
 
 
         PlayerManager pm = PlayerManager.Instance;

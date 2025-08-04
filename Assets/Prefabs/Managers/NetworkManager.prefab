@@ -45,39 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04a13c7873eecd448164323e6394791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temp_InGameSceneName: SJH_GameScene
-  isTestServer: 1
+  inGameSceneName: SJH_GameScene
+  lobbySceneName: LobbyScene(CJM)
+  isTestServer: 0
   testServerIndex: 1
   tmp_State: {fileID: 3219345820266472805}
-  testServerDatas:
-  - type: 3
-    name: Test Server 01
-    id: 48eca52a-aeec-4db0-aa8a-8196654f94c8
-  - type: 2
-    name: SJH Test Server
-    id: f0992c9c-d55b-4754-9509-0045a9058505
-  - type: 2
-    name: "\uBCC4\uB3C4\uB85C \uC11C\uBC84\uB97C \uBD84\uB9AC\uD574 \uD14C\uC2A4\uD2B8\uB97C
-      \uC9C4\uD589\uD558\uACE0 \uC2F6\uB2E4\uBA74"
-    id: "\uC774\uACF3\uC5D0 \uBCF8\uC778 \uACC4\uC815\uC73C\uB85C \uB9CC\uB4E0 \uC11C\uBC84
-      ID \uB123\uACE0 \uC778\uB371\uC2A4 \uC801\uC6A9"
-  lobbyServerDatas:
-  - type: 0
-    name: Lobby Server 01 (KR)
-    id: e4d01a07-2d0c-41bb-bc2d-59723abc27fc
-  - type: 0
-    name: Lobby Server 02 (KR)
-    id: 4b17f092-1646-4668-9356-580cdb2e8529
-  inGameServerDatas:
-  - type: 1
-    name: In Game Server 01 (KR)
-    id: f4af81c0-1b09-4d04-b4d6-ded79cac2991
-  - type: 1
-    name: In Game Server 02 (KR)
-    id: ebb39345-172c-4fe6-814b-f9a959a78382
-  - type: 1
-    name: SJH_In Game Server 03 (KR)
-    id: 63fc88d5-6bf3-443b-b1b8-b1f440ba2063
 --- !u!1 &6330299637708813691
 GameObject:
   m_ObjectHideFlags: 0
