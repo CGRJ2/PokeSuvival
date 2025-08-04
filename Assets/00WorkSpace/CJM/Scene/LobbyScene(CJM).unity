@@ -122,6 +122,75 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &15371961
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1946410855236059956, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946410855236059956, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247333484499435158, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0663f6dcba5e1d74e9e006e28b357c69, type: 2}
+    - target: {fileID: 3657061122933037175, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.082
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695844974462809470, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8a74e248815645c48a01a90ea795fabd, type: 3}
 --- !u!114 &359598162 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4707523169094455476, guid: 1ede5832d8ae8ba4cb5031f137a61769, type: 3}
@@ -674,3 +743,4 @@ SceneRoots:
   - {fileID: 1454573451503400698}
   - {fileID: 1272132428}
   - {fileID: 1288119154}
+  - {fileID: 15371961}

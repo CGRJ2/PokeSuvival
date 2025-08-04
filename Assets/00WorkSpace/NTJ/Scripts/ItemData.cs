@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace NTJ
 {
-    public enum ItemType { Buff, Heal, LevelUp, StatBuff }
-    public enum StatType { HP, Atk, Def, SpA, SpD, Spe }
 
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
     public class ItemData : ScriptableObject
@@ -15,5 +14,9 @@ namespace NTJ
         public float value; // 증가량 또는 회복량
         public float duration; // 버프 지속시간
         public Sprite sprite;
+        public string description; //아이템 설명
+        public List<StatBonus> passiveStatBonuses; // 패시브 효과
+        [Header("가격")]
+        public int price;
     }
 }

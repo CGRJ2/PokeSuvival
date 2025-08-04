@@ -26,7 +26,19 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		}
 	}
 
-	public BattleDataTable BattleData => new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp);
+	[SerializeField] BattleDataTable _battleData;
+	public BattleDataTable BattleData
+	{
+		get
+		{
+			//if (!_battleData.IsVaild()) _battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+			//return _battleData;
+
+			// 매번 갱신으로 변경
+			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+			return _battleData;
+		}
+	}
 
 	void Update()
 	{
@@ -52,7 +64,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		int pokeNumber = (int)data[0];
 		int pokeLevel = (int)data[1];
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
-		EnemyData = new EnemyData(this, pokeData.PokeName, pokeData, pokeLevel);
+		EnemyData = new EnemyData(this, pokeData, pokeLevel);
 		_anim.runtimeAnimatorController = EnemyData.PokeData.AnimController;
 		_anim.SetFloat("X", MoveDir.x);
 		_anim.SetFloat("Y", MoveDir.y);
@@ -86,13 +98,16 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	}
 
 	[PunRPC]
-	public void RPC_EnemyDead()
+	public void RPC_EnemyDead(int deadExp)
 	{
 		Debug.Log("몬스터 사망");
 		SetIsDead(EnemyData.IsDead);
-		// TODO : 경험치 드랍
 
-		if (PhotonNetwork.IsMasterClient) StartCoroutine(EnemyDeleteRoutine());
+		if (PhotonNetwork.IsMasterClient)
+		{
+			StartCoroutine(EnemyDeleteRoutine());
+			PhotonNetwork.InstantiateRoomObject("ExpOrb", transform.position, Quaternion.identity, 0, new object[] { deadExp });
+		}
 	}
 	IEnumerator EnemyDeleteRoutine()
 	{
@@ -134,6 +149,10 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	public void Attack(SkillSlot slot)
 	{
+		var target = EnemyAI.TargetPlayer;
+		var targetPC = EnemyAI.TargetPC;
+		if (target == null && targetPC == null) return;
+
 		PokemonSkill skill = EnemyData.GetSkill((int)slot);
 		if(skill == null) return;
 
@@ -145,8 +164,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		EnemyData.SetSkillCooldown(slot, skill.Cooldown);
 
-		var damagable = EnemyAI.TargetPlayer?.GetComponent<IDamagable>();
-		if (damagable != null) attack.Attack(transform, LastDir, damagable.BattleData, skill);
+		attack.Attack(transform, LastDir, BattleData, skill);
 		Debug.Log($"몬스터 {skill.SkillName} 사용!");
 	}
 
