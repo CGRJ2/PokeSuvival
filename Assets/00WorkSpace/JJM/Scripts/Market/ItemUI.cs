@@ -27,6 +27,8 @@ public class ItemUI : MonoBehaviour // 아이템 패널 UI 제어 클래스
         itemPriceText.text = price.ToString(); // 가격 텍스트 설정
         itemDescriptionText.text = description; // 설명 표시
         onClickAction = onClick; // 클릭 시 실행할 델리게이트 저장
+
+
     }
 
     // 패널이 클릭되었을 때 호출되는 함수

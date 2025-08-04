@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 660ba9737aef9b44e9233d306a68ab75, type: 3}
-  m_Name: ItemData 2
+  m_Name: SharpBeak
   m_EditorClassIdentifier: 
-  id: 10003
-  itemName: SellItem3
-  itemType: 4
-  affectedStat: 3
+  id: 10019
+  itemName: "\uC608\uB9AC\uD55C\uBD80\uB9AC"
+  itemType: 0
+  affectedStat: 1
   value: 0
   duration: 0
-  sprite: {fileID: 21300000, guid: 867470e1664747442b51cc06ae0c45ff, type: 3}
-  description: SpA + 10
-  price: 10000
+  sprite: {fileID: 21300000, guid: 84e6f0a0d136077409ed2cb927d1d711, type: 3}
+  description: "\uBE44\uD589 \uAE30\uC220\uC758 \uC704\uB825\uC774 10%\uC0C1\uC2B9\uD55C\uB2E4"
+  price: 0
