@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
 		// test
 		if (!PhotonNetwork.IsMasterClient) return;
-		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(13f, 0), Quaternion.identity, 0,
+		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(100f, 100f), Quaternion.identity, 0,
 			new object[]
 			{
 				7, // pokeNumber
@@ -92,7 +92,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		Debug.Log("플레이어 사망 > 로비로 이동");
 		_playerFollowCam.Follow = null;
 		yield return new WaitForSeconds(_objectDeleteTime);
-		LocalPlayerController.ActionRPC(nameof(LocalPlayerController.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
+		LocalPlayerController.RPC.ActionRPC(nameof(LocalPlayerController.RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
 	}
 	public void PlayerToLobby()
 	{

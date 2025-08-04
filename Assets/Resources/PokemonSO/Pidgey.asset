@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Pidgey
+  m_EditorClassIdentifier: 
+  PokeNumber: 16
+  PokeName: "\uAD6C\uAD6C"
+  PokeTypes: 010000000a000000
+  BaseStat:
+    Hp: 40
+    Attak: 45
+    Defense: 40
+    SpecialAttack: 35
+    SpecialDefense: 35
+    Speed: 56
+  AnimController: {fileID: 9100000, guid: 11a5f6966e4fd244ebf89870ed91ef1a, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 2553628881b356f4e8187919bebef9d3, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: ad41cbaec9c1e054a9d2456d6f0b566f, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
+  Desc: 
+  EvoLevel: 18
+  NextEvoData: {fileID: 11400000, guid: 06f443d6809ad214584ac8dcdc69038a, type: 2}

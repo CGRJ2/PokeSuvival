@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: 07
+  m_EditorClassIdentifier: 
+  PokeNumber: 63
+  PokeName: "\uCE90\uC774\uC2DC"
+  PokeTypes: 0b00000000000000
+  BaseStat:
+    Hp: 25
+    Attak: 20
+    Defense: 15
+    SpecialAttack: 105
+    SpecialDefense: 55
+    Speed: 90
+  AnimController: {fileID: 9100000, guid: 8a99d3a382ae9d44a9a08c20ecb51091, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 148f0b6c5e6317e44a5be6fb6fbea6a2, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 075200b9cfba95440b17d84ce02b9673, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
+  Desc: 
+  EvoLevel: 16
+  NextEvoData: {fileID: 11400000, guid: dcacdecf2460e8543aed0dcd07ac737b, type: 2}
