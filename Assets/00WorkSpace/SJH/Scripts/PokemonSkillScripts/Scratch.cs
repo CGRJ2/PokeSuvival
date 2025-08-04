@@ -5,7 +5,9 @@ public class Scratch : IAttack
 {
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
-		var enemies = Physics2D.OverlapCircleAll((Vector2)attacker.position, skill.Range + attackerData.PokeData.PokeSize);
+		float size = attackerData.PokeData.PokeSize;
+		float radius = size > 1 ? skill.Range + size : skill.Range;
+		var enemies = Physics2D.OverlapCircleAll((Vector2)attacker.position, radius);
 		if (enemies.Length <= 0) return;
 
 		foreach (var enemy in enemies)

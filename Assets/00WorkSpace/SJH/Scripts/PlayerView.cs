@@ -5,12 +5,14 @@ public class PlayerView : MonoBehaviour
 	[SerializeField] private Rigidbody2D _rigid;
 	[SerializeField] private SpriteRenderer _sprite;
 	[SerializeField] private Animator _anim;
+	[SerializeField] private CircleCollider2D _coll;
 
 	void Awake()
 	{
 		_rigid = GetComponent<Rigidbody2D>();
 		_sprite = GetComponent<SpriteRenderer>();
 		_anim = GetComponent<Animator>();
+		_coll = GetComponent<CircleCollider2D>();
 	}
 
 	public void PlayerMove(Vector2 dir, Vector2 lastDir, float moveSpeed)
@@ -37,4 +39,5 @@ public class PlayerView : MonoBehaviour
 		if (isMine) _sprite.sortingOrder = 11;
 		else _sprite.sortingOrder = 10;
 	}
+	public void SetColliderSize(float size) => _coll.radius = size;
 }
