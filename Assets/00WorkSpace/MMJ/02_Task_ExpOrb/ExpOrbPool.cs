@@ -7,7 +7,7 @@ public class ExpOrbPool : MonoBehaviourPun
     public static ExpOrbPool Instance { get; private set; }
 
     [SerializeField] private ExpOrb orbPrefab;
-    [SerializeField] private Transform parentTransform;
+
     [SerializeField] private int initialPoolSize = 50;
 
     private Queue<ExpOrb> pool = new Queue<ExpOrb>();
@@ -32,7 +32,7 @@ public class ExpOrbPool : MonoBehaviourPun
     {
         for (int i = 0; i < count; i++)
         {
-            ExpOrb orb = Instantiate(orbPrefab, parentTransform);
+            ExpOrb orb = Instantiate(orbPrefab);
             orb.gameObject.SetActive(false);
             pool.Enqueue(orb);
         }
@@ -61,7 +61,7 @@ public class ExpOrbPool : MonoBehaviourPun
 		}
 
         // 일단~ 부족하면 새로 생성
-        GameObject go = PhotonNetwork.InstantiateRoomObject("Candy", new Vector3(999999, 999999), Quaternion.identity);
+        GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrbParents", new Vector3(999999, 999999), Quaternion.identity);
 		ExpOrb orb = go.GetComponent<ExpOrb>();
 		orb.gameObject.SetActive(false);
 		return orb;
