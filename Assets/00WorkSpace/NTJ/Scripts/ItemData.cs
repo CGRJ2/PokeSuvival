@@ -3,14 +3,6 @@ using UnityEngine;
 
 namespace NTJ
 {
-    public enum ItemType { Buff, Heal, LevelUp, StatBuff, Passive }
-    public enum StatType { HP, Atk, Def, SpA, SpD, Spe }
-
-    public struct StatBonus
-    {
-        public StatType statType;
-        public float value;
-    }
 
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
     public class ItemData : ScriptableObject
