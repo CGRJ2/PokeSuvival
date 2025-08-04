@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace NTJ
 {
+    public struct StatBonus
+    {
+        public StatType statType;
+        public float value;
+    }
 
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
     public class ItemData : ScriptableObject
