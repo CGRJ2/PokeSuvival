@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PokeNumber: 175
   PokeName: "\uD1A0\uAC8C\uD53C"
-  PokeTypes: 0100000000000000
+  PokeTypes: 1200000000000000
   BaseStat:
     Hp: 35
     Attak: 20
