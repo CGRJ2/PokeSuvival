@@ -30,5 +30,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
   - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
   Desc: 
-  EvoLevel: 4
+  EvoLevel: 16
   NextEvoData: {fileID: 11400000, guid: ea032df30ac82b6478258b05994b605b, type: 2}
