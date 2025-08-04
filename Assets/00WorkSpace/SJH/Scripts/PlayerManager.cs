@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		// TODO : 사망 UI 활성화
 		_playerDeleteRoutine = StartCoroutine(PlayerDeadRoutine(totalExp));
-        UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController.Model);
+        UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController);
     }
     IEnumerator PlayerDeadRoutine(int totalExp)
 	{

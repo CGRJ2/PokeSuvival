@@ -64,12 +64,8 @@ public class Panel_LogIn : MonoBehaviour
                 else
                 {
                     Debug.Log("유저 데이터 동기화 진행");
-                    PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
-
-                    // 스타팅 포켓몬 동기화 해주기 => 이거 유저 데이터로 바꾸자
-                    ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
-                    playerProperty["StartingPokemon"] = userData.startingPokemonName;
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+                    // 서버의 유저데이터를 클라이언트에 동기화
+                    NetworkManager.Instance.UpdateUserDataToClient(userData);
 
                     // 커스텀 프로퍼티 동기화 완료 시 까지 대기했다가 로비로 이동
                     StartCoroutine(JoinLobbyAfterDataUpdated());

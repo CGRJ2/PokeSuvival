@@ -35,6 +35,10 @@ public class Panel_PlayerInit : MonoBehaviour
         }
 
         PhotonNetwork.NickName = inputField_Name.text;
+
+        // 유저 데이터 필드 초기화
+        NetworkManager.Instance.UpdateUserDataToClient(new UserData(inputField_Name.text));
+
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);
         inputField_Name.text = "";

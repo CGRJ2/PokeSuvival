@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 
 	// 킬 카운트
-	public int KillCount { get; private set; }
+	[field: SerializeField] public int KillCount { get; private set; }
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
 	#endregion
 
@@ -215,7 +215,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			// 사망 시간 기록
 			_endTime = Time.time;
 			// 막타친 플레이어 킬카운트 증가
-			if (LastAttacker != null) RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+			if (LastAttacker != null)
+			{
+				Debug.Log($"{LastAttacker.Model.PokeData.PokeName} 의 킬 카운트 증가 시도");
+				RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+			}
 
 			_input.actions.Disable();
 			View.SetIsDead(true);

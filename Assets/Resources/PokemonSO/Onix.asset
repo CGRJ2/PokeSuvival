@@ -32,3 +32,4 @@ MonoBehaviour:
   Desc: 
   EvoLevel: 35
   NextEvoData: {fileID: 11400000, guid: 0a49ae5539419fd4e84f9daa2fe54b8e, type: 2}
+  PokeSize: 2
