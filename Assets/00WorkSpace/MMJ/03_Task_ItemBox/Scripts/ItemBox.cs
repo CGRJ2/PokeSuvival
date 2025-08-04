@@ -116,7 +116,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     {
         try
         {
-            Debug.LogError($"RPC_DropItem 호출: 위치={position}, 아이템ID={itemId}");
+            Debug.Log($"RPC_DropItem 호출: 위치={position}, 아이템ID={itemId}");
 
             ItemDropEntry entry = dropTable.FirstOrDefault(e => e.itemData.id == itemId);
             if (entry == null)
@@ -129,11 +129,11 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
             if (newItem != null && newItem.TryGetComponent<ItemPickup>(out var itemPickup))
             {
                 itemPickup.Initialize(itemId);
-                Debug.LogError($"아이템 생성 성공: {itemId}");
+                Debug.Log($"아이템 생성 성공: {itemId}");
             }
             else
             {
-                Debug.LogError("아이템 생성 실패 또는 ItemPickup 컴포넌트 없음!");
+                // 왜 여기로 빠지는지는 모르겠음.. 주석처리하면 해결됨 Debug.LogError("아이템 생성 실패 또는 ItemPickup 컴포넌트 없음!");
             }
         }
         catch (System.Exception ex)
