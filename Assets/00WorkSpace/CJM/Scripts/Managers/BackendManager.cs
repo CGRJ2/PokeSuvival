@@ -19,14 +19,14 @@ public class BackendManager : Singleton<BackendManager>
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            LoadUserDataFromDB((data) => Debug.Log(data.name));
+            //LoadUserDataFromDB((data) => Debug.Log(data.name));
+            Debug.Log(NetworkManager.Instance.CurServer.sceneName);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            //InitServerDataToServerInfoDB(new ServerData("In Game Server 01 (KR)", "인게임 서버 01", 1, "f4af81c0-1b09-4d04-b4d6-ded79cac2991", 20));
-            //InitServerDataToServerInfoDB(new ServerData("In Game Server 02 (KR)", "인게임 서버 02", 1, "ebb39345-172c-4fe6-814b-f9a959a78382", 20));
-            //InitServerDataToServerInfoDB(new ServerData("In Game Server 03 (KR)", "인게임 서버 03", 1, "f3701beb-1956-416d-9a20-f3e8d9f8b59d", 20));
+            //InitServerDataToServerInfoDB(new ServerData("Lobby Server 01 (KR)", "LobbyScene(CJM)", "로비 01", 0, "e4d01a07-2d0c-41bb-bc2d-59723abc27fc", 20));
+            //InitServerDataToServerInfoDB(new ServerData("Lobby Server 02 (KR)", "LobbyScene(CJM)", "로비 02", 0, "4b17f092-1646-4668-9356-580cdb2e8529", 20));
         }
     }
 
@@ -211,13 +211,13 @@ public class BackendManager : Singleton<BackendManager>
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)data.type).Child(data.key);
 
-        ServerData serverInfo = new ServerData(data.key, data.name, data.type, data.id, 20);
+        ServerData serverInfo = new ServerData(data.key, data.sceneName, data.name, data.type, data.id, 20);
         string json = JsonUtility.ToJson(serverInfo);
         reference.SetRawJsonValueAsync(json);
     }
 
     // 서버 입장 시, 서버 인원에 본인 추가
-    public void OnEnterServerCapacityUpdate(ServerData curServerData, Action<string> onFail = null)
+    public void OnEnterServerCapacityUpdate(ServerData curServerData, int multipleEnter = 1, Action onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -226,14 +226,27 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (mutableData.Value == null)
             {
-                mutableData.Value = 1;
+                mutableData.Value = multipleEnter;
                 return TransactionResult.Success(mutableData);
             }
             else
             {
                 long curUserCount = (long)mutableData.Value;
-                mutableData.Value = curUserCount + 1;
+                mutableData.Value = curUserCount + multipleEnter;
                 return TransactionResult.Success(mutableData);
+            }
+        }).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled || task.IsFaulted)
+            {
+                Debug.LogError("서버 인원 추가 실패, 트랜잭션 처리 중 오류 발생");
+                onFail?.Invoke("서버 인원 추가/예약 실패");
+                return;
+            }
+            
+            if (task.IsCompletedSuccessfully)
+            {
+                onSuccess?.Invoke();
             }
         });
     }
@@ -302,6 +315,50 @@ public class BackendManager : Singleton<BackendManager>
                 if(curPlayerCount < maxPlayerCount)
                     onSuccess?.Invoke(true);
                 else 
+                    onSuccess?.Invoke(false);
+            }
+            else
+            {
+                Debug.LogWarning("해당 서버가 데이터베이스에 존재하지 않음.");
+                onFail?.Invoke("해당 서버가 데이터베이스에 없다는 메시지 전송");
+            }
+        });
+    }
+
+    public void IsAbleToConnectMultipleUserIntoServer(ServerData curServerData, int multiUserCount, Action<bool> onSuccess = null, Action<string> onFail = null)
+    {
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
+
+
+        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+
+            if (task.IsCanceled)
+            {
+                Debug.LogError("서버 데이터 불러오기 취소됨.");
+                onFail?.Invoke("취소 메시지 전달용");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"서버 데이터 불러오기 실패: {task.Exception}");
+                onFail?.Invoke("실패 메시지 전달용");
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
+                long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
+
+                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
+
+                if (curPlayerCount < maxPlayerCount - multiUserCount + 1)
+                    onSuccess?.Invoke(true);
+                else
                     onSuccess?.Invoke(false);
             }
             else
@@ -447,6 +504,7 @@ public class UserData
 public class ServerData
 {
     public string key;
+    public string sceneName;
     public string name;
     public string id;
     public int type;
@@ -455,9 +513,10 @@ public class ServerData
 
     public ServerData() { }
 
-    public ServerData(string key , string name, int type, string id, int maxPlayerCount)
+    public ServerData(string key, string sceneName,  string name, int type, string id, int maxPlayerCount)
     {
         this.key = key;
+        this.sceneName = sceneName;
         this.name = name;
         this.id = id;
         this.type = type;

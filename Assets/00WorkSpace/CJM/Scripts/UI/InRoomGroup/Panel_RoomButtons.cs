@@ -2,6 +2,8 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class Panel_RoomButtons : MonoBehaviour
@@ -18,8 +20,6 @@ public class Panel_RoomButtons : MonoBehaviour
     public void ExitRoom()
     {
         PhotonNetwork.LeaveRoom();
-        UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.panel_RoomInside.gameObject);
     }
     public void Ready()
     {
@@ -67,14 +67,29 @@ public class Panel_RoomButtons : MonoBehaviour
     public void StartWithParty()
     {
         // 임시
-        // 인게임 서버 리스트를 받아와서 선택할 수 있는 UI를 만들자
-        NetworkManager nm = NetworkManager.Instance;
-        nm.MoveToInGameScene("In Game Server 03 (KR)"); // 우선 임시 테스트용으로 3번 서버로 이동하게 함
+        string selectedMapKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+        int memberCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        // 1. 맵에서 선택한 서버에 입장 가능한지 판단 => 인게임 서버 리스트 표현을 우선으로 진행
-
-        // 2. 입장 불가능하면 불가능 팝업 표시
-
-        // 3. 입장 가능하면 동시에 해당 서버로 이동
+        BackendManager.Instance.GetServerData(selectedMapKey, ServerType.InGame, (targetServer) =>
+        {
+            BackendManager.Instance.IsAbleToConnectMultipleUserIntoServer(targetServer, memberCount, (accessable) =>
+            {
+                if (accessable)
+                {
+                    // 서버에 자리 예약
+                    BackendManager.Instance.OnEnterServerCapacityUpdate(targetServer, memberCount, () =>
+                    {
+                        // 자리 예약 성공 시 => 룸 커스텀 프로퍼티에 시작가능 갱신
+                        ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+                        roomProperty["Start"] = true;
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
+                    });
+                }
+                else
+                {
+                    Debug.LogError("파티에 모든 멤버가 이동하기에 서버에 자리가 부족합니다.");
+                }
+            });
+        });
     }
 }

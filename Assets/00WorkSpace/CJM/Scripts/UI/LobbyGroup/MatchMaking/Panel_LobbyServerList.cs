@@ -20,15 +20,20 @@ public class Panel_LobbyServerList : MonoBehaviour
         panel_ServerInfo.Init();
 
         btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
-        btn_Refresh.onClick.AddListener(UpdateRoomListView);
+        btn_Refresh.onClick.AddListener(UpdateServerListView);
+    }
+
+    public void SetDefaultSetting()
+    {
+        panel_ServerInfo.gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        UpdateRoomListView();
+        UpdateServerListView();
     }
 
-    public void UpdateRoomListView()
+    public void UpdateServerListView()
     {
         List<ServerData> serverList = new List<ServerData>();
 

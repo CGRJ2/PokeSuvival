@@ -45,11 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04a13c7873eecd448164323e6394791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inGameSceneName: SJH_GameScene
-  lobbySceneName: LobbyScene(CJM)
+  tmp_State: {fileID: 3219345820266472805}
   isTestServer: 0
   testServerIndex: 1
-  tmp_State: {fileID: 3219345820266472805}
 --- !u!1 &6330299637708813691
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +108,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!114 &1516701455287567178
 MonoBehaviour:

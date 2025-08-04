@@ -10,22 +10,29 @@ public class Panel_MapSettings : MonoBehaviour
 {
     [SerializeField] TMP_Text tmp_MapName;
     [SerializeField] Image image_Map;
-    [SerializeField] Button btn_MapLeft;
-    [SerializeField] Button btn_MapRight;
-    
+    [SerializeField] Button btn_ChangeMap;
 
-    int mapIndex;
-
-    [Header("나중에 데이터베이스 분리 필요")]
-    [SerializeField] MapData[] mapDatas; // 나중에 데이터베이스에서 불러오는 방식으로 수정해야될 듯
-
+    string selectedServerKey;
 
     public void Init()
     {
-        btn_MapLeft.onClick.AddListener(ClickLeftMapButton);
-        btn_MapRight.onClick.AddListener(ClickRightMapButton);
+        btn_ChangeMap.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_InGameServerList.gameObject));
     }
 
+
+    public void MasterClientViewUpdate(bool isMaster)
+    {
+        if (isMaster)
+        {
+            btn_ChangeMap.interactable = true;
+            btn_ChangeMap.gameObject.SetActive(true);
+        }
+        else
+        {
+            btn_ChangeMap.interactable = false;
+            btn_ChangeMap.gameObject.SetActive(false);
+        }
+    }
 
     public void InitRoomSettings(bool isMaster)
     {
@@ -34,58 +41,60 @@ public class Panel_MapSettings : MonoBehaviour
         playerProperty["Ready"] = false;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
-        // 방장 or Not 설정
-        if (isMaster)
-        {
-            btn_MapLeft.interactable = true;
-            btn_MapLeft.gameObject.SetActive(true);
-
-            btn_MapRight.interactable = true;
-            btn_MapRight.gameObject.SetActive(true);
-        }
-        else
-        {
-            btn_MapLeft.interactable = false;
-            btn_MapLeft.gameObject.SetActive(false);
-
-            btn_MapRight.interactable = false;
-            btn_MapRight.gameObject.SetActive(false);
-        }
-
+        MasterClientViewUpdate(isMaster);
     }
 
-    public void ClickLeftMapButton()
+    public void ChangeMap(string mapKey)
     {
-        if (mapIndex - 1 < 0) mapIndex = 0;
-        else mapIndex--;
-
         ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-        roomProperty["Map"] = mapIndex;
+        roomProperty["Map"] = mapKey;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
-
-        UpdateRoomProperty();
-    }
-
-    public void ClickRightMapButton()
-    {
-        if (mapIndex + 1 > mapDatas.Length - 1) mapIndex = mapDatas.Length - 1;
-        else mapIndex++;
-
-        ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-        roomProperty["Map"] = mapIndex;
-        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
-
-        UpdateRoomProperty();
     }
 
     public void UpdateRoomProperty()
     {
         if (PhotonNetwork.CurrentRoom.CustomProperties["Map"] != null)
         {
-            mapIndex = (int)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+            selectedServerKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+
+            BackendManager.Instance.GetServerData(selectedServerKey, ServerType.InGame, (ServerData) =>
+            {
+                SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
+                image_Map.sprite = spritesDB.dic[ServerData.name];
+                tmp_MapName.text = ServerData.name;
+            });
         }
-        image_Map.sprite = mapDatas[mapIndex].sprite;
-        tmp_MapName.text = mapDatas[mapIndex].name;
+        else
+        {
+            BackendManager.Instance.LoadAllTargetTypeServers(ServerType.InGame, (data) =>
+            {
+                foreach (var kvp in data)
+                {
+                    // 데이터가 있는 맨앞 녀석만 가져가기
+                    if (!string.IsNullOrEmpty(kvp.Value.key))
+                    {
+                        selectedServerKey = kvp.Value.key;
+                        break;
+                    }
+                }
+
+                ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+                roomProperty["Map"] = selectedServerKey;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
+
+                BackendManager.Instance.GetServerData(selectedServerKey, ServerType.InGame, (ServerData) =>
+                {
+                    SpritesDB spritesDB = Resources.Load<SpritesDB>("SpriteDicSO/SpritesDB");
+                    image_Map.sprite = spritesDB.dic[ServerData.name];
+                    tmp_MapName.text = ServerData.name;
+                });
+            });
+
+
+            
+        }
+        
+        
     }
 
 }

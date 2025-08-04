@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +18,7 @@ public class Slot_ServerInfo_Lobby : MonoBehaviour
 
     private void SetSelectedServerData()
     {
-        if (serverData == NetworkManager.Instance.CurServer) { Debug.Log("이미 해당 서버에 존재합니다."); return; }
+        if (serverData.name == NetworkManager.Instance.CurServer.name) { Debug.Log("이미 해당 서버에 존재합니다."); return; }
 
         if (serverData != null)
         {
@@ -41,8 +39,9 @@ public class Slot_ServerInfo_Lobby : MonoBehaviour
         tmp_ServerName.text = serverData.name;
         tmp_PlayerCount.text = $"{serverData.curPlayerCount} / {serverData.maxPlayerCount}";
 
-        if (serverData == NetworkManager.Instance.CurServer)
+        if (serverData.name == NetworkManager.Instance.CurServer.name)
         {
+            Debug.Log("현재 서버인 슬롯은 표시해주기");
             slotImage.color = Color.green;
         }
         else

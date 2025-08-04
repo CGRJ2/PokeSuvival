@@ -15,7 +15,11 @@ public class Panel_RoomMaking : MonoBehaviour
     {
         btn_RoomCreate.onClick.AddListener(CreateRoom);
     }
-
+    public void SetDefaultSetting()
+    {
+        tmp_RoomName.text = "";
+        gameObject.SetActive(false);
+    }
     public void CreateRoom()
     {
         if (string.IsNullOrWhiteSpace(tmp_RoomName.text))

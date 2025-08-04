@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb13ee9a7dd21864db4eb6ca2c595fda, type: 3}
+  m_Name: SpritesDB
+  m_EditorClassIdentifier: 
+  spriteDatas:
+  - key: "\uAD00\uB3D9 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: e1798bd3ac2d8614b93e081856541240, type: 3}
+  - key: "\uC131\uB3C4 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: 54238c45d2b59a041812d275834a2faa, type: 3}
+  - key: "\uD638\uC5F0 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: 35dc0c1aa68ee204f9cb8cff5df36f37, type: 3}
+  - key: "\uC2E0\uC624 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: f256ad21550a47b409512fc34877c021, type: 3}
+  - key: "\uD558\uB098 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: 06577383319857946a35b2ce4e3fa489, type: 3}
+  - key: "\uCE7C\uB85C\uC2A4 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: a8255ad1d0290034287960bb38d0f1b9, type: 3}
+  - key: "\uC54C\uB85C\uB77C \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: 0d08aa36218cc0a4fb32111ab546cc77, type: 3}
+  - key: "\uAC00\uB77C\uB974 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: 6f17487eea318a14099d073093fadead, type: 3}
+  - key: "\uD314\uB370\uC544 \uC9C0\uBC29"
+    sprite: {fileID: 21300000, guid: 2b30c048f75cfec46ae16190dcad40c8, type: 3}
