@@ -16,10 +16,24 @@ public class Panel_SelectStarting : MonoBehaviour
         panel_PokemonInfo.Init();
         btn_Confirm.onClick.AddListener(SelectConfirm);
         btn_Cancel.onClick.AddListener(CloseSelectPanel);
+    }
 
-        // 맨 처음 보여줄 몬스터 (일단 1번인 이상해씨를 넣었습니다)
-        panel_PokemonInfo.UpdateView(Define.GetPokeData("이상해씨"));
-        selectedPokemon = Define.GetPokeData("이상해씨");
+    private void OnEnable()
+    {
+        // 패널을 열 때, 맨 처음 보여줄 몬스터 
+        string savedPokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+        if (string.IsNullOrEmpty(savedPokemonName))
+        {
+            PokemonData tempData = Define.GetPokeData("이상해씨");
+            panel_PokemonInfo.UpdateView(tempData);
+            selectedPokemon = tempData;
+        }
+        else
+        {
+            PokemonData tempData = Define.GetPokeData(savedPokemonName);
+            panel_PokemonInfo.UpdateView(tempData);
+            selectedPokemon = tempData;
+        }
     }
 
     void SelectConfirm()
@@ -35,7 +49,7 @@ public class Panel_SelectStarting : MonoBehaviour
         if (BackendManager.Auth.CurrentUser != null)
         {
             // UserData에 업데이트
-            BackendManager.Instance.UpdateUserData("startingPokemonName", selectedPokemon.PokeName);
+            BackendManager.Instance.UpdateUserDataValue("startingPokemonName", selectedPokemon.PokeName);
         }
 
         // LobbyDefault에 스타팅 포켓몬 View 업데이트

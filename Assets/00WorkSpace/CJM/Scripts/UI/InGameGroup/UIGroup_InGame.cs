@@ -33,8 +33,8 @@ public class UIGroup_InGame : MonoBehaviour
         panel_HUD.gameObject.SetActive(false);
         panel_GameOver.gameObject.SetActive(true);
 
-        // 킬수는 잠시 임시로 넣어둠
-        panel_GameOver.UpdateResultView(playerModel.TotalExp, playerModel.PokeLevel, 99);
+        // 킬수&생존시간은 잠시 임시로 넣어둠
+        panel_GameOver.UpdateResultView(playerModel.TotalExp, playerModel.PokeLevel, 99, playerModel.EndTime - playerModel.StartTime);
     }
 
     public void UpdateSkillSlots(PlayerModel playerModel)

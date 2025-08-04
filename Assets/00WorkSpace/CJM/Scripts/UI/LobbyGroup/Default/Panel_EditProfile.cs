@@ -32,11 +32,12 @@ public class Panel_EditProfile : MonoBehaviour
             BackendManager.Instance.UpdateUserProfile(inputField_EditName.text);
 
             // DB
-            BackendManager.Instance.UpdateUserData("name", inputField_EditName.text);
+            BackendManager.Instance.UpdateUserDataValue("name", inputField_EditName.text);
         }
 
         PhotonNetwork.NickName = inputField_EditName.text;
-
+        
+        UIManager.Instance.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
         UIManager.Instance.ClosePanel(gameObject);
     }
 }
