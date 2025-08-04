@@ -46,8 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnInterval: 5
+  itemBoxPrefabPath: ItemBox
   targetTilemap: {fileID: 0}
-  spawnHeight: 1
+  spawnParentTransform: {fileID: 0}
+  spawnHeight: -0.1
+  spawnTimer: 0
 --- !u!114 &8110664866577649931
 MonoBehaviour:
   m_ObjectHideFlags: 0

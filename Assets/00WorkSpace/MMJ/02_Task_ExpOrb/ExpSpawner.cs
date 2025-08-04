@@ -91,7 +91,7 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient) return;
         orbPool.NetworkInit();
 
-		SpawnOrbsImmediate(); // 처음에 한방에 뿌리게 하는 디버그용
+		SpawnOrbsImmediate(); // 처음에 한방에 뿌리게 하는 용도
 		InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
 	}
 
@@ -115,23 +115,46 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
 
     private void SpawnOrbs()
     {
-        int currentCount = activeOrbs.Count;
+        // 마스터 클라이언트만 실행
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        if (currentCount >= maxOrbs)
-            return;
+        int currentCount = activeOrbs.Count;
+        if (currentCount >= maxOrbs) return;
 
         int spawnCount = Mathf.Min(spawnAmountPerInterval, maxOrbs - currentCount);
 
         for (int i = 0; i < spawnCount; i++)
         {
             ExpOrb orb = orbPool.GetOrb();
-            orb.transform.position = GetRandomTilePosition();
-			orb.Init(Random.Range(_orbMinExp, _orbMaxExp));
-			orb.gameObject.SetActive(true);
+            Vector3 spawnPosition = GetRandomTilePosition();
+
+            // 구슬 ID와 위치를 모든 클라이언트에 동기화
+            int orbViewID = orb.GetComponent<PhotonView>().ViewID;
+            int expValue = Random.Range(_orbMinExp, _orbMaxExp);
+
+            // RPC로 모든 클라이언트에게 구슬 활성화 명령 전송
+            photonView.RPC(nameof(RPC_ActivateOrb), RpcTarget.AllBuffered, orbViewID, spawnPosition, expValue);
+
+            // 활성화 상태 추적 (마스터만)
             activeOrbs.Add(orb);
             orb.OnDespawned += HandleOrbDespawned;
         }
     }
+
+    [PunRPC]
+    private void RPC_ActivateOrb(int viewID, Vector3 position, int expValue)
+    {
+        // ViewID로 해당 구슬 찾기
+        PhotonView orbView = PhotonView.Find(viewID);
+        if (orbView != null)
+        {
+            ExpOrb orb = orbView.GetComponent<ExpOrb>();
+            orb.transform.position = position;
+            orb.Init(expValue);
+            orb.gameObject.SetActive(true);
+        }
+    }
+
 
     // 타일맵의 유효한 위치 중 랜덤한 위치 반환
     private Vector3 GetRandomTilePosition()
