@@ -28,13 +28,12 @@ public class UIGroup_InGame : MonoBehaviour
     }
 
     // 플레이어 사망 시 호출
-    public void GameOverViewUpdate(PlayerModel playerModel)
+    public void GameOverViewUpdate(PlayerController pc)
     {
         panel_HUD.gameObject.SetActive(false);
         panel_GameOver.gameObject.SetActive(true);
 
-        // 킬수는 잠시 임시로 넣어둠
-        panel_GameOver.UpdateResultView(playerModel.TotalExp, playerModel.PokeLevel, 99);
+        panel_GameOver.UpdateResultView(pc.Model.TotalExp, pc.Model.PokeLevel, pc.KillCount, pc.SurvivalTime);
     }
 
     public void UpdateSkillSlots(PlayerModel playerModel)

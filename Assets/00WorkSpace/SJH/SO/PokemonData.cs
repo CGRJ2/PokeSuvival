@@ -16,5 +16,5 @@ public class PokemonData : ScriptableObject
 	public int EvoLevel;
 	public PokemonData NextEvoData;
 	public bool IsCanEvo => NextEvoData != null;
-	// TODO : 패시브
+	public float PokeSize;
 }

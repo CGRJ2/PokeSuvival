@@ -346,4 +346,9 @@ public enum StatType
 	SpDefense,	// 특방
 	Speed		// 스피드
 }
+public struct StatBonus
+{
+	public StatType statType;
+	public float value;
+}
 #endregion

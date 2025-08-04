@@ -2,9 +2,10 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
-using Google.MiniJSON;
+using Photon.Pun;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -74,9 +75,9 @@ public class BackendManager : Singleton<BackendManager>
         });
     }
 
-    #region User Data
+    #region User Data 관리
 
-    // Auth - 유저 프로필 업데이트
+    // Auth - 로그인 유저 프로필 업데이트
     public void UpdateUserProfile(string name)
     {
         FirebaseUser user = Auth.CurrentUser;
@@ -107,7 +108,7 @@ public class BackendManager : Singleton<BackendManager>
     }
 
     // DB - UserData 생성(SetRawJsonValueAsync)
-    public void InitUserDataToDB(UserData data)
+    public void InitUserDataToDB(UserData data, Action onSuccess = null, Action<string> onFail = null)
     {
         Debug.Log("DB에 UserData 첫 생성");
 
@@ -117,11 +118,29 @@ public class BackendManager : Singleton<BackendManager>
         DatabaseReference root = Database.RootReference;
         DatabaseReference userInfo = root.Child("UserData").Child(userId);
 
-        userInfo.SetRawJsonValueAsync(json);
+        userInfo.SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("UserData 저장 작업이 취소되었습니다.");
+                onFail?.Invoke("작업 취소됨");
+                return;
+            }
+
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"UserData 저장 실패: {task.Exception}");
+                onFail?.Invoke("저장 실패");
+                return;
+            }
+
+            Debug.Log("UserData 저장 성공");
+            onSuccess?.Invoke();
+        });
     }
 
     // DB - UserData 내부 값 변경(UpdateChildrenAsync)
-    public void UpdateUserData(string key, object value)
+    public void UpdateUserDataValue(string key, object value)
     {
         Debug.Log($"UserData의 {key} 데이터 변경");
 
@@ -136,7 +155,8 @@ public class BackendManager : Singleton<BackendManager>
         userInfo.UpdateChildrenAsync(dic);
     }
 
-    // DB - 유저 데이터 불러오기(GetValueAsync)
+
+    // DB - Auth.CurrentUser.UserId를 키값으로 유저 데이터 불러오기(GetValueAsync)
     public void LoadUserDataFromDB(Action<UserData> onSuccess = null, Action<string> onFail = null)
     {
         string userId = Auth.CurrentUser.UserId;
@@ -177,7 +197,7 @@ public class BackendManager : Singleton<BackendManager>
 
     #endregion
 
-    #region Server State Data
+    #region Server Data 관리
 
     // 서버 종류별 DatabaseReference Root 지정
     public DatabaseReference GetServerBaseRef(ServerType serverType)
@@ -221,7 +241,7 @@ public class BackendManager : Singleton<BackendManager>
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
-        
+
         reference.Child("curPlayerCount").RunTransaction(mutableData =>
         {
             if (mutableData.Value == null)
@@ -243,7 +263,7 @@ public class BackendManager : Singleton<BackendManager>
                 onFail?.Invoke("서버 인원 추가/예약 실패");
                 return;
             }
-            
+
             if (task.IsCompletedSuccessfully)
             {
                 onSuccess?.Invoke();
@@ -312,9 +332,9 @@ public class BackendManager : Singleton<BackendManager>
 
                 Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
 
-                if(curPlayerCount < maxPlayerCount)
+                if (curPlayerCount < maxPlayerCount)
                     onSuccess?.Invoke(true);
-                else 
+                else
                     onSuccess?.Invoke(false);
             }
             else
@@ -475,6 +495,147 @@ public class BackendManager : Singleton<BackendManager>
         }
     }
     #endregion
+
+    #region 랭킹 시스템
+
+    // 유저 랭킹 데이터 생성 (로그인 or 게스트 무관 => 그냥 점수랑 유저 아이디, 닉네임만 있으면 됨)
+    public void InitLocalPlayerRankingData(RankData rankData)
+    {
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference reference = root.Child("RankingBoardData").Child(rankData.userId);
+
+        string json = JsonUtility.ToJson(rankData);
+        reference.SetRawJsonValueAsync(json);
+    }
+
+    // 유저 랭킹 데이터 불러오기 (점수 비교용)
+    public void LoadLocalPlayerRankData(string userId, Action<RankData> onSuccess = null, Action<string> onFail = null)
+    {
+        //Debug.LogWarning("랭킹 데이터 받아오기");
+
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference reference = root.Child("RankingBoardData").Child(userId);
+
+        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("랭킹 데이터 불러오기 취소됨.");
+                onFail?.Invoke("취소 메시지 전달용");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"랭킹 데이터 불러오기 실패: {task.Exception}");
+                onFail?.Invoke("실패 메시지 전달용");
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+
+            if (snapshot.Exists)
+            {
+                string json = snapshot.GetRawJsonValue();
+                RankData data = JsonUtility.FromJson<RankData>(json);
+                Debug.Log($"랭킹 데이터 불러오기 성공: {json}");
+                onSuccess?.Invoke(data);
+            }
+            else
+            {
+                Debug.LogWarning("랭킹 데이터가 존재하지 않음.");
+                onFail?.Invoke("랭킹 데이터가 없다는 메시지 전송");
+            }
+        });
+
+    }
+
+    // 유저 신기록을 해당 유저의 랭킹 데이터에 업데이트
+    public void UpdateHighScore(int newScore, string UserId)
+    {
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference reference = root.Child("RankingBoardData").Child(UserId);
+
+        Dictionary<string, object> dic = new Dictionary<string, object>();
+        dic["highScore"] = newScore;
+
+        reference.UpdateChildrenAsync(dic);
+    }
+
+    // 랭킹 데이터를 정렬해서 1 ~ 10위까지 반환
+    public void UpdateRankingBoard_SortedByScore(Action<List<KeyValuePair<string, RankData>>> onSuccess = null)
+    {
+        LoadAllRankData((dic) =>
+        {
+            // highScore 기준 내림차순 정렬
+            var top10List = dic
+                .OrderByDescending(kvp => kvp.Value.highScore)
+                .Take(10)
+                .ToList();
+
+            //Debug.Log("랭킹 Top 10:");
+            for (int i = 0; i < top10List.Count; i++)
+            {
+                var entry = top10List[i];
+                //Debug.Log($"{i + 1}위 - {entry.Value.userName} / 점수: {entry.Value.highScore}");
+            }
+
+            onSuccess?.Invoke(top10List);
+        });
+    }
+
+    // 본인의 순위 받아오기
+    public void GetRankNumb(string userId,Action<int> onSuccess = null, Action<string> onFail = null)
+    {
+        //Debug.LogWarning("랭크 순위 받아오기");
+        LoadAllRankData((dic) =>
+        {
+            // highScore 기준 내림차순 정렬
+            var sortedList = dic.OrderByDescending(kvp => kvp.Value.highScore).ToList();
+
+            for (int i = 0; i < sortedList.Count; i++)
+            {
+                if (sortedList[i].Value.userId == userId)
+                {
+                    //Debug.LogWarning("내 데이터 발견, 순위 반환");
+                    onSuccess?.Invoke(i);
+                    return;
+                }
+            }
+            Debug.LogWarning("내 데이터 발견 못함");
+            onFail?.Invoke("랭킹에 내 정보 없음");
+        });
+    }
+
+
+    public void LoadAllRankData(Action<Dictionary<string, RankData>> onSuccess = null, Action<string> onFail = null)
+    {
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference serverRoot = root.Child("RankingBoardData");
+        serverRoot.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled || task.IsFaulted)
+            {
+                Debug.LogError("랭크 데이터들 불러오기 실패");
+                onFail?.Invoke("불러오기 실패");
+                return;
+            }
+
+            DataSnapshot snapshot = task.Result;
+            var rankDataDict = new Dictionary<string, RankData>();
+
+            foreach (var child in snapshot.Children)
+            {
+                string key = child.Key; // => userId
+                string json = child.GetRawJsonValue();
+                RankData data = JsonUtility.FromJson<RankData>(json);
+
+                rankDataDict[key] = data;
+            }
+
+            onSuccess?.Invoke(rankDataDict);
+        });
+    }
+    #endregion
 }
 
 [Serializable]
@@ -496,7 +657,7 @@ public class UserData
         this.kills = 0;
         this.suvivalTime = 0;
         this.highScore = 0;
-        this.startingPokemonName = "None";
+        this.startingPokemonName = "";
     }
 }
 
@@ -513,7 +674,7 @@ public class ServerData
 
     public ServerData() { }
 
-    public ServerData(string key, string sceneName,  string name, int type, string id, int maxPlayerCount)
+    public ServerData(string key, string sceneName, string name, int type, string id, int maxPlayerCount)
     {
         this.key = key;
         this.sceneName = sceneName;
@@ -527,15 +688,17 @@ public class ServerData
 public enum ServerType { Lobby, InGame, TestServer, FunctionTestServer };
 
 [Serializable]
-public class LeaderBoardData
+public class RankData
 {
-    [Serializable]
-    public class Rank
+    public string userId;
+    public string userName;
+    public int highScore;
+
+    public RankData(string userId, string userName, int highScore)
     {
-
+        this.userId = userId;
+        this.userName = userName;
+        this.highScore = highScore;
     }
-
-
-
 }
 
