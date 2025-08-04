@@ -80,7 +80,7 @@ public class ExpOrbPool : MonoBehaviourPun
 		if (!PhotonNetwork.IsMasterClient) return;
 		for (int i = 0; i < initialPoolSize; i++)
 		{
-			GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity);
+			GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity, 0, new object[] { });
             if (go == null)
             {
                 Debug.LogError("게임 오브젝트 null");

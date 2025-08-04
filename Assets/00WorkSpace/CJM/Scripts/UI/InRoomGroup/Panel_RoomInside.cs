@@ -41,6 +41,11 @@ public class Panel_RoomInside : MonoBehaviour
         panel_RoomButtons.Init();
     }
 
+    public void SetDefaultSetting()
+    {
+        tmp_RoomName.text = "";
+        gameObject.SetActive(false);
+    }
 
     public void InitRoomView()
     {
@@ -101,11 +106,15 @@ public class Panel_RoomInside : MonoBehaviour
     // 방 입장 직 후에 바로 불러오면, 딜레이에 의해 설정 전의 값이 불러와지므로. 해당 프로퍼티 값 설정될 때 까지 대기
     IEnumerator DelayedLoadCustomProperties(Player player, RoomMemberSlot roomMemberSlot)
     {
+        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
+
+
         yield return new WaitUntil(() => player.CustomProperties["Ready"] != null);
 
         bool ready = (bool)player.CustomProperties["Ready"];
         roomMemberSlot.UpdateReadyStateView(ready);
     }
+    private void OnDestroy() => StopAllCoroutines();
 
 
 }

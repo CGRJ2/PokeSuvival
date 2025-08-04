@@ -7,12 +7,15 @@ public class UIGroup_InGame : MonoBehaviour
 {
     [SerializeField] private Panel_HUD panel_HUD;
     [SerializeField] private Panel_GameOver panel_GameOver;
+    public Panel_ReturnToLobbyConfirm panel_ReturnToLobbyConfirm;
+
 
 
     public void Init()
     {
         panel_HUD.Init();
         panel_GameOver.Init();
+        panel_ReturnToLobbyConfirm.Init();
     }
 
     // 인게임 시작 시 호출

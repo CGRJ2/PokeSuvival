@@ -2,7 +2,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class ExpOrb : MonoBehaviourPun
+public class ExpOrb : MonoBehaviourPun, IPunInstantiateMagicCallback
 {
     public int amount;
     public bool isActive;
@@ -188,4 +188,13 @@ public class ExpOrb : MonoBehaviourPun
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, magnetRadius);
     }
+
+	public void OnPhotonInstantiate(PhotonMessageInfo info)
+	{
+        var data = photonView.InstantiationData;
+        if (data.Length == 0) return;
+        int exp = (int)data[0];
+        amount = exp;
+        isActive = true;
+	}
 }

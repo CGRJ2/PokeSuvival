@@ -15,20 +15,27 @@ public class Panel_PlayerInfo : MonoBehaviour
 
     [SerializeField] Button btn_LogOut;
     [SerializeField] Button btn_EditProfile;
-    [SerializeField] GameObject panel_Loading;
-
+    
     [SerializeField] Button btn_LogIn;
+
+    [SerializeField] GameObject panel_Loading;
+    [SerializeField] Panel_EditProfile panel_EditProfile;
 
 
     public void Init()
     {
+        panel_EditProfile.Init();
+
         btn_LogOut.onClick.AddListener(LogOut);
-        btn_EditProfile.onClick.AddListener(EditProfile);
         btn_LogIn.onClick.AddListener(OpenLonInPanel);
+        btn_EditProfile.onClick.AddListener(() => UIManager.Instance.OpenPanel(panel_EditProfile.gameObject));
     }
 
     private IEnumerator WaitUntilUserInfoLoaded()
     {
+        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
+
+
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         panel_Loading.SetActive(true);
         Debug.Log("아직 이름 설정 안되어서 기다림");
@@ -39,6 +46,8 @@ public class Panel_PlayerInfo : MonoBehaviour
         tmp_UserId.text = $"User Id: {user.UserId}";
         panel_Loading.SetActive(false);
     }
+    private void OnDestroy() => StopAllCoroutines();
+
 
     public void UpdatePlayerInfoView()
     {
@@ -71,21 +80,19 @@ public class Panel_PlayerInfo : MonoBehaviour
     {
         // 임시
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.gameObject);
-        um.OpenPanel(um.InitializeGroup.gameObject);
+        um.LobbyGroup.gameObject.SetActive(false);
+        um.InitializeGroup.gameObject.SetActive(true);
         um.OpenPanel(um.InitializeGroup.panel_LogIn.gameObject);
     }
 
     private void LogOut()
     {
         BackendManager.Auth.SignOut();
+        PhotonNetwork.LocalPlayer.CustomProperties = new ExitGames.Client.Photon.Hashtable(); // 커스텀 프로퍼티 초기화
         UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.gameObject);
-        um.OpenPanel(um.InitializeGroup.gameObject);
+        um.LobbyGroup.gameObject.SetActive(false);
+        um.InitializeGroup.gameObject.SetActive(true);
     }
 
-    private void EditProfile()
-    {
-
-    }
+    
 }

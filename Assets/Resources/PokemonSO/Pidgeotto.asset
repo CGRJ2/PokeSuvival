@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Pidgeotto
+  m_EditorClassIdentifier: 
+  PokeNumber: 17
+  PokeName: "\uD53C\uC8E4"
+  PokeTypes: 010000000a000000
+  BaseStat:
+    Hp: 63
+    Attak: 60
+    Defense: 55
+    SpecialAttack: 50
+    SpecialDefense: 50
+    Speed: 71
+  AnimController: {fileID: 9100000, guid: 42697cec3be952c48b5f8790e80912bd, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 5853048669676ce4a96ebd140bd76947, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 8df1e842318b04644bcf145381ec79a6, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
+  Desc: 
+  EvoLevel: 36
+  NextEvoData: {fileID: 11400000, guid: e34522042aa31744fa74428115a4cdf7, type: 2}
