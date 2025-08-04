@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace NTJ
 {
+    public struct StatBonus
+    {
+        public StatType statType;
+        public float value;
+    }
 
     [CreateAssetMenu(fileName = "ItemData", menuName = "ScriptableObjects/ItemData")]
     public class ItemData : ScriptableObject
@@ -15,7 +20,6 @@ namespace NTJ
         public float duration; // 버프 지속시간
         public Sprite sprite;
         public string description; //아이템 설명
-        public List<StatBonus> passiveStatBonuses; // 패시브 효과
         [Header("가격")]
         public int price;
     }
