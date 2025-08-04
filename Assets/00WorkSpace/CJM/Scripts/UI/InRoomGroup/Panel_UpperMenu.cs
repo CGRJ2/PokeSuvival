@@ -21,7 +21,7 @@ public class Panel_UpperMenu : MonoBehaviour
         rect = GetComponent<RectTransform>();
 
         btn_Option.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_Option.gameObject));
-        btn_Lobby.onClick.AddListener(() => NetworkManager.Instance.MoveToLobby());
+        btn_Lobby.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.InGameGroup.panel_ReturnToLobbyConfirm.gameObject));
         btn_DropDown.onClick.AddListener(SwitchToggleDropDownButton);
     }
 

@@ -6,6 +6,7 @@ using WebSocketSharp;
 public class Panel_LobbyDefault : MonoBehaviour
 {
     [SerializeField] Button btn_QuickMatch;
+    [SerializeField] Button btn_SelectMatch;
     [SerializeField] Button btn_MatchMaking;
 
     public Panel_SelectedPokemonView panel_PokemonView;
@@ -17,10 +18,16 @@ public class Panel_LobbyDefault : MonoBehaviour
         panel_PlayerInfo.Init();
 
         btn_QuickMatch.onClick.AddListener(QuickMatch);
+        btn_SelectMatch.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_InGameServerList.gameObject));
         btn_MatchMaking.onClick.AddListener(OpenMatchMakingPanel);
 
         if (!gameObject.activeSelf)
             gameObject.SetActive(true);
+    }
+
+    public void SetDefaultSetting()
+    {
+        
     }
 
     public void QuickMatch()
@@ -50,7 +57,7 @@ public class Panel_LobbyDefault : MonoBehaviour
 
     }
 
-    public void OpenMatchMakingPanel()
+    private void OpenMatchMakingPanel()
     {
         UIManager um = UIManager.Instance;
         um.OpenPanel(um.LobbyGroup.panel_MatchMaking.gameObject);
