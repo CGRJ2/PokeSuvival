@@ -264,6 +264,16 @@ public struct PokemonStat
 	public int Speed;
 
 	public float GetMoveSpeed() => Speed / 10f;
+	public int GetBaseStat() => Hp + Attak + Defense + SpecialAttack + SpecialDefense + Speed;
+	public bool IsEqual(PokemonStat stat)
+	{
+		return Hp == stat.Hp &&
+			   Attak == stat.Attak &&
+			   Defense == stat.Defense &&
+			   SpecialAttack == stat.SpecialAttack &&
+			   SpecialDefense == stat.SpecialDefense &&
+			   Speed == stat.Speed;
+	}
 }
 public enum SkillSlot
 {
@@ -278,6 +288,7 @@ public enum SkillType
 	Special,
 	Status,
 }
+[Serializable]
 public struct BattleDataTable
 {
 	public int Level;
@@ -286,21 +297,52 @@ public struct BattleDataTable
 	public int MaxHp;
 	public int CurrentHp;
 
+	public bool IsAI;
+	public PlayerController PC;
+
 	// TODO : 상태이상
 	// TODO : 아이템 장착
 
-	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp)
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false, PlayerController pc = null)
 	{
 		Level = level;
 		PokeData = pokeData;
 		AllStat = pokeStat;
 		MaxHp = maxHp;
 		CurrentHp = currentHp;
+		IsAI = isAI;
+		PC = pc;
 	}
+
+	public bool IsVaild() => PokeData != null;
 }
 public enum SkillAnimType
 {
 	Attack,
 	SpeAttack,
+}
+public enum AIState
+{
+	None,
+	Idle,
+	Move,
+	Attack,
+	Die,
+}
+public enum ItemType
+{
+	Buff,		// 도구
+	Heal,		// 회복약
+	LevelUp,	// 이상한사탕
+	StatBuff,	// 스탯 상승 도구
+}
+public enum StatType
+{
+	HP,			// 체력은 없음
+	Attack,		// 공격
+	Defense,	// 방어
+	SpAttack,	// 특공
+	SpDefense,	// 특방
+	Speed		// 스피드
 }
 #endregion

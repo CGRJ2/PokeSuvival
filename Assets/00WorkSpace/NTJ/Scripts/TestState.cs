@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +16,11 @@ namespace NTJ
         private Dictionary<StatType, float> buffEndTime = new();
 
         // 최종 스탯 계산용 (기본스탯 * 버프배율)
-        public float atk => playerModel.AllStat.Attak * GetBuffMultiplier(StatType.Atk);
-        public float def => playerModel.AllStat.Defense * GetBuffMultiplier(StatType.Def);
-        public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpA);
-        public float spD => playerModel.AllStat.SpecialDefense * GetBuffMultiplier(StatType.SpD);
-        public float spe => playerModel.AllStat.Speed * GetBuffMultiplier(StatType.Spe);
+        public float atk => playerModel.AllStat.Attak * GetBuffMultiplier(StatType.Attack);
+        public float def => playerModel.AllStat.Defense * GetBuffMultiplier(StatType.Defense);
+        public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpAttack);
+        public float spD => playerModel.AllStat.SpecialDefense * GetBuffMultiplier(StatType.SpDefense);
+        public float spe => playerModel.AllStat.Speed * GetBuffMultiplier(StatType.Speed);
 
 
         public void ApplyStat(ItemData item)
