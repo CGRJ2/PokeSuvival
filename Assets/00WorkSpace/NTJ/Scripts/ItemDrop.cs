@@ -1,55 +1,52 @@
 ﻿using Photon.Pun;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace NTJ
 {
     public class ItemDrop : MonoBehaviourPun
     {
-        [SerializeField] private List<ItemData> possibleDrops;
-        [SerializeField][Range(0f, 1f)] private float dropChance = 0.3f;
-
-        private void Awake()
-        {
-            if (possibleDrops == null || possibleDrops.Count == 0)
-            {
-                //possibleDrops = new List<ItemData>(ItemDatabase.Instance.items);
-            }
-        }
+        [SerializeField] private List<ItemDropEntry> dropTable;
 
         public void OnDeath()
         {
             if (!PhotonNetwork.IsMasterClient) return;
 
-            if (possibleDrops == null || possibleDrops.Count == 0)
+            if (dropTable == null || dropTable.Count == 0)
             {
-                Debug.LogWarning("[ItemDrop] 드롭 가능한 아이템이 없음.");
+                Debug.LogWarning("드롭 테이블이 비어 있음");
                 return;
             }
 
-            if (Random.value < dropChance)
-            {
-                int index = Random.Range(0, possibleDrops.Count);
-                int itemId = possibleDrops[index].id;
+            int selectedIndex = GetRandomIndex();
+            if (selectedIndex < 0) return;
 
-                SpawnItemWithForce(transform.position, itemId);
-            }
+            int itemId = dropTable[selectedIndex].itemData.id;
+            Vector3 spawnPos = transform.position;
+            SpawnItem(spawnPos, itemId);
         }
-        public void SpawnItemWithForce(Vector3 position, int itemId)
+
+        private int GetRandomIndex()
         {
-            var item = ItemDataManager.Instance.SpawnItem(position, itemId);
+            float total = dropTable.Sum(e => e.dropProbability);
+            float rand = Random.value * total;
+            float cumulative = 0f;
 
-            if (item != null && item.TryGetComponent<Rigidbody2D>(out var rb))
+            for (int i = 0; i < dropTable.Count; i++)
             {
-                // 랜덤 방향의 단위 벡터 생성
-                Vector2 randomDir = Random.insideUnitCircle.normalized;
-
-                // 힘 크기 설정
-                float forceMagnitude = 3f;
-
-                // 힘 적용
-                rb.AddForce(randomDir * forceMagnitude, ForceMode2D.Impulse);
+                cumulative += dropTable[i].dropProbability;
+                if (rand <= cumulative)
+                    return i;
             }
+
+            return -1;
+        }
+
+        private void SpawnItem(Vector3 position, int itemId)
+        {
+            object[] data = new object[] { itemId };
+            PhotonNetwork.Instantiate("Items/ItemPrefab", position, Quaternion.identity, 0, data);
         }
     }
 }
