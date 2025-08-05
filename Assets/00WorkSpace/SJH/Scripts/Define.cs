@@ -334,7 +334,8 @@ public enum ItemType
 	Buff,		// 도구
 	Heal,		// 회복약
 	LevelUp,	// 이상한사탕
-	StatBuff,	// 스탯 상승 도구
+	StatBuff,   // 스탯 상승 도구
+    Passive     // 패시브 장비
 }
 public enum StatType
 {
@@ -344,5 +345,10 @@ public enum StatType
 	SpAttack,	// 특공
 	SpDefense,	// 특방
 	Speed		// 스피드
+}
+public struct StatBonus
+{
+	public StatType statType;
+	public float value;
 }
 #endregion

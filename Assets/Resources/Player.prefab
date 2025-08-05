@@ -236,6 +236,7 @@ MonoBehaviour:
   _rigid: {fileID: 0}
   _sprite: {fileID: 0}
   _anim: {fileID: 0}
+  _coll: {fileID: 0}
 --- !u!114 &594678277303412792
 MonoBehaviour:
   m_ObjectHideFlags: 0

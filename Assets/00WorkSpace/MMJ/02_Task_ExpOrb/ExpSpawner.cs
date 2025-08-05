@@ -13,7 +13,7 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
     [Header("타일맵 설정")]
     [SerializeField] private Tilemap targetTilemap; // 스폰할 타일맵 참조
 
-    private List<Vector3> validSpawnPositions = new List<Vector3>(); // 유효한 스폰 위치들을 저장할 리스트
+    [SerializeField] private List<Vector3> validSpawnPositions = new List<Vector3>(); // 유효한 스폰 위치들을 저장할 리스트
     private List<ExpOrb> activeOrbs = new List<ExpOrb>();
 
     [SerializeField] private int _orbMinExp;

@@ -68,6 +68,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 테스트 용
         if (Input.GetKeyDown(KeyCode.T))
         {
+            //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser}");
         }
     }
 
@@ -167,12 +168,14 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 {
                     //Debug.Log("로비씬 플레이어 정보 갱신");
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
+                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerRecords.UpdateView();
                 }
                 else
                 {
                     //Debug.Log("로비씬 플레이어 정보 없으니 게스트 버전 업데이트");
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.ClearView();
                     um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateGuestInfoView();
+                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerRecords.UpdateView();
                 }
             }
 
@@ -359,6 +362,21 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
     }
     #endregion
+
+    public void UpdateUserDataToClient(UserData userData)
+    {
+        PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
+
+        // 유저 데이터 동기화 해주기
+        ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+        playerProperty["StartingPokemon"] = userData.startingPokemonName;
+        playerProperty["Money"] = userData.money;
+        playerProperty["Kills"] = userData.kills;
+        playerProperty["Level"] = userData.level;
+        playerProperty["SuvivalTime"] = userData.suvivalTime;
+        playerProperty["HighScore"] = userData.highScore;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+    }
 
     // 서버 이동 처리
     public void ChangeServer(ServerData serverData)

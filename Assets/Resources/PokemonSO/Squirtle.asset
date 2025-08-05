@@ -30,5 +30,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
   - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
   Desc: 
-  EvoLevel: 4
+  EvoLevel: 16
   NextEvoData: {fileID: 11400000, guid: 09f8c4aac11a5b74286eb7212bb61b87, type: 2}
+  PokeSize: 0.6

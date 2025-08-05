@@ -5,17 +5,30 @@ using WebSocketSharp;
 
 public class Panel_LobbyDefault : MonoBehaviour
 {
+    
+    [Header("왼쪽 패널 버튼들")]
+    [SerializeField] Button btn_Ranking;
+    [SerializeField] Button btn_Shop;
+    [SerializeField] Button btn_Option;
+
+
+    [Header("매치 메이킹 관련 버튼")]
     [SerializeField] Button btn_QuickMatch;
     [SerializeField] Button btn_SelectMatch;
     [SerializeField] Button btn_MatchMaking;
 
+    [Header("패널")]
     public Panel_SelectedPokemonView panel_PokemonView;
     public Panel_PlayerInfo panel_PlayerInfo;
+    public Panel_PlayerRecords panel_PlayerRecords;
 
     public void Init()
     {
         panel_PokemonView.Init();
         panel_PlayerInfo.Init();
+        panel_PlayerRecords.Init();
+
+        btn_Ranking.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_RankingBoard.gameObject));
 
         btn_QuickMatch.onClick.AddListener(QuickMatch);
         btn_SelectMatch.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_InGameServerList.gameObject));
@@ -27,7 +40,8 @@ public class Panel_LobbyDefault : MonoBehaviour
 
     public void SetDefaultSetting()
     {
-        
+        if (panel_PlayerRecords.isOpened)
+            panel_PlayerRecords.SwitchToggleDropDownButton();
     }
 
     public void QuickMatch()
@@ -36,7 +50,7 @@ public class Panel_LobbyDefault : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
         {
             // 스타팅 포켓몬 커스텀 프로퍼티의 내용이 누락된 상태라면
-            if ((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == "None" ||
+            if ((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == "" ||
                 string.IsNullOrEmpty((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"]))
             {
                 Debug.LogError("스타팅 포켓몬 커스텀 프로퍼티는 존재하지만, 내용물이 누락됨!");

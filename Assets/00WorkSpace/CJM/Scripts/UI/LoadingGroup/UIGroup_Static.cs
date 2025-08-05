@@ -8,6 +8,8 @@ public class UIGroup_Static : MonoBehaviour
     public Panel_SelectStarting panel_SelectStarting;
     public Panel_Option panel_Option;
     public Panel_InGameServerList panel_InGameServerList;
+    public Panel_RankingBoard panel_RankingBoard;
+
     //public LoadingPanel serverPanel;
 
     public void Init()
@@ -15,6 +17,7 @@ public class UIGroup_Static : MonoBehaviour
         panel_SelectStarting.Init();
         panel_Option.Init();
         panel_InGameServerList.Init();
+        panel_RankingBoard.Init();
     }
 
 

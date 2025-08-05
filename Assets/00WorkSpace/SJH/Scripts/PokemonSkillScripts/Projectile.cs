@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Projectile : MonoBehaviourPun
@@ -9,6 +10,7 @@ public class Projectile : MonoBehaviourPun
 	[SerializeField] private PokemonSkill _skill;
 	[SerializeField] private Vector2 _startPos;
     [SerializeField] private float _speed;
+    [SerializeField] private float _endDistance;
 
 	public void Init(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
     {
@@ -18,14 +20,17 @@ public class Projectile : MonoBehaviourPun
         _startPos = transform.position;
 
         _rigid.velocity = attackDir * _speed;
-    }
+        float size = attackerData.PokeData.PokeSize;
+		_endDistance = size > 1 ? _skill.Range + size : _skill.Range;
+
+	}
 
 	void Update()
 	{
 		if (!photonView.IsMine) return;
 
         float distance = Vector2.Distance(_startPos, transform.position);
-        if (distance >= _skill.Range) PhotonNetwork.Destroy(gameObject);
+        if (distance >= _endDistance) PhotonNetwork.Destroy(gameObject);
 	}
 
 	void OnTriggerEnter2D(Collider2D collision)

@@ -15,9 +15,11 @@ public class Tackle : IAttack
 		float duration = 0.2f;
 		float time = 0f;
 		float radius = skill.Range / 2;
+		float size = attackerData.PokeData.PokeSize;
+		float range = size > 1 ? skill.Range + size : skill.Range;
 
 		Vector2 startPos = attacker.position;
-		Vector2 targetPos = startPos + attackDir * skill.Range;
+		Vector2 targetPos = startPos + attackDir * range;
 		List<Transform> hitTargets = new();
 
 		while (time < duration)

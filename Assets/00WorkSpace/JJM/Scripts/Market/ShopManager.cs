@@ -40,9 +40,10 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 
         // 구매하지 않은 아이템이 먼저, 구매한 아이템이 아래로 오도록 정렬
         var sortedItems = sellItems
+            .Where(item => !buyItems.Contains(item)) // 구매 예정에 없는 아이템만 표시
             .OrderBy(item => purchasedItemIds.Contains(item.id) ? 1 : 0)
             .ToList();
-
+         
         foreach (Transform child in sellItemContent)
             Destroy(child.gameObject); // 기존 패널 모두 삭제
 
@@ -74,11 +75,21 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 
     public void AddToBuyItems(ItemData item) // 판매 아이템 클릭 시 구매 목록에 추가
     {
+        if (buyItems.Any(x => x.id == item.id))// id 기준 중복 방지
+            return; // 이미 구매 목록에 있으면 추가하지 않음
         buyItems.Add(item); // 구매 목록에 아이템 추가
         var go = Instantiate(shopItemPrefab, buyItemContent); // BuyItemContent에 프리팹 생성
         var ui = go.GetComponent<ItemUI>(); // ItemUI 컴포넌트 가져오기
-        ui.Setup(item.sprite, item.itemName, item.price, item.description, null); // 아이템 정보 세팅 (구매 목록은 클릭 이벤트 없음)
+        ui.Setup(item.sprite, item.itemName, item.price, item.description, () => RemoveFromBuyItems(item, go)); // 아이템 정보 세팅
         UpdateBuyTotal(); // 구매 총합 가격 갱신
+        PopulateSellItems(); // 선택한 아이템은 왼쪽에서 제외
+    }
+    public void RemoveFromBuyItems(ItemData item, GameObject buyPanel)
+    {
+        buyItems.RemoveAll(x => x.id == item.id); // id 기준 삭제
+        Destroy(buyPanel);
+        UpdateBuyTotal();
+        PopulateSellItems(); // 취소한 아이템을 다시 왼쪽에 표시
     }
 
     void UpdateBuyTotal() // 구매 목록의 총 가격을 buyCoinText에 표시
@@ -113,12 +124,14 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
             }
 
             // 2. 상점 UI 갱신 (기존 아이템 패널 모두 삭제 후 다시 생성)
-            PopulateSellItems();
+            
 
             buyItems.Clear(); // 구매 목록 초기화
             foreach (Transform child in buyItemContent) // 구매 목록 UI 삭제
                 Destroy(child.gameObject);
             buyCoinText.text = "0"; // 구매 총합 텍스트 초기화
+                                    
+            PopulateSellItems();// 구매 직후 상점정보를 한 번 더 갱신
         }
         else
         {
