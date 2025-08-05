@@ -268,6 +268,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			ConnectRankEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
+		Model.OnTotalExpChanged += (exp) => { RPC.ActionRPC(nameof(RPC.RPC_TotalExpChanged), RpcTarget.All, exp); };
 
 		ConnectSkillEvent();
 		ConnectRankEvent();

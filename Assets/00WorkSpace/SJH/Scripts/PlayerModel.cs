@@ -21,7 +21,19 @@ public class PlayerModel : PokeBaseData
 	[SerializeField] private int _pokeExp;
 	public int PokeExp { get => _pokeExp; }
 	[field: SerializeField] public int NextExp { get; private set; }
-	[field: SerializeField] public int TotalExp { get; private set; }
+	[SerializeField] private int _totalExp;
+	public int TotalExp
+	{
+		get => _totalExp;
+		private set
+		{
+			if (_totalExp == value) return;
+			Debug.Log($"총 경험치 증가 {_totalExp} => {value}");
+			_totalExp = value;
+			OnTotalExpChanged?.Invoke(value);
+		}
+	}
+	public Action<int> OnTotalExpChanged;
 	public override int CurrentHp
 	{
 		get => _currentHp;
@@ -121,4 +133,5 @@ public class PlayerModel : PokeBaseData
 
 		Debug.Log($"{value} 만큼 회복! 현재 체력 : {_currentHp}");
 	}
+	public void SetTotalExp(int value) => _totalExp = value;
 }

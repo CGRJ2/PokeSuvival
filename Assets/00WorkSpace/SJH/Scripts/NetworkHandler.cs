@@ -125,4 +125,9 @@ public class NetworkHandler: MonoBehaviour
 		Debug.Log($"{viewId} : [{statType} : {value}] 동기화 시작");
 		pc.Rank.RankSync(statType, value);
 	}
+	[PunRPC]
+	public void RPC_TotalExpChanged(int value)
+	{
+		if (!PV.IsMine) PC.Model.SetTotalExp(value);
+	}
 }
