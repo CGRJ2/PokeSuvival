@@ -464,9 +464,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				break;
 			case ItemType.Buff:
 				Debug.Log($"TODO : 도구, 열매 등 스탯을 제외한 버프 획득");
+				// 랭크 아이템 획득시 이벤트 실행
+				OnBuffUpdate?.Invoke(item.sprite, item.duration);
 				break;
 			case ItemType.StatBuff:
 				Debug.Log($"{item.affectedStat} 랭크 상승");
+				// 랭크 아이템 획득시 이벤트 실행
+				OnBuffUpdate?.Invoke(item.sprite, item.duration);
 				Rank?.SetRank(item.affectedStat, (int)item.value, item.duration);
 				break;
 		}
