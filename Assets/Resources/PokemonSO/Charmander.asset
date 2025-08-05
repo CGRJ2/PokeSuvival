@@ -28,8 +28,8 @@ MonoBehaviour:
   Skills:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
-  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
   - {fileID: 11400000, guid: 45d35cac52825724cae2709ce7f121ad, type: 2}
+  - {fileID: 11400000, guid: 0ee59c83cac3ab34fa38bb2f71646572, type: 2}
   Desc: 
   EvoLevel: 16
   NextEvoData: {fileID: 11400000, guid: ea032df30ac82b6478258b05994b605b, type: 2}

@@ -61,6 +61,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 킬 카운트
 	[field: SerializeField] public int KillCount { get; private set; }
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
+
+	// 이동 제어
+	public bool IsCanMove = true;
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -157,7 +160,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				pokeData = Define.GetPokeData(pokeName);
 			}
 		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
 		RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();

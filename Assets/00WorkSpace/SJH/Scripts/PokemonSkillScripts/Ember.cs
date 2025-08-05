@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class Ember : IAttack
@@ -10,6 +11,15 @@ public class Ember : IAttack
 		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, rot);
 		ProjectileHitEffect projectile = go.GetComponent<ProjectileHitEffect>();
 		if (projectile != null) projectile.Init(attacker, attackDir, attackerData, skill);
-		else PhotonNetwork.Destroy(go);
+		else
+		{
+			if (PhotonNetwork.IsMasterClient) attackerData.PC.StartCoroutine(DestroyPrefab(go));
+		}
+	}
+
+	IEnumerator DestroyPrefab(GameObject go)
+	{
+		yield return null;
+		PhotonNetwork.Destroy(go);
 	}
 }

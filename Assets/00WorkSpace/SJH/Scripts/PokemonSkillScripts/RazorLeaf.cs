@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class RazorLeaf : IAttack
@@ -10,6 +11,15 @@ public class RazorLeaf : IAttack
 		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, rot);
 		Projectile projectile = go.GetComponent<Projectile>();
 		if (projectile != null) projectile.Init(attacker, attackDir, attackerData, skill);
-		else PhotonNetwork.Destroy(go);
+		else
+		{
+			if (PhotonNetwork.IsMasterClient) attackerData.PC.StartCoroutine(DestroyPrefab(go));
+		}
+	}
+
+	IEnumerator DestroyPrefab(GameObject go)
+	{
+		yield return null;
+		PhotonNetwork.Destroy(go);
 	}
 }
