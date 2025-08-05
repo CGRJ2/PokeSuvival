@@ -2,9 +2,11 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,7 +65,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
 
 	// 이동 제어
-	public bool IsCanMove = true;
+	[field: SerializeField] public bool CanMove { get; private set; }
+	private Coroutine _canMoveRoutine;
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -90,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 	void MoveInput()
 	{
+
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
 		if (MoveDir != Vector2.zero)
@@ -98,7 +102,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
 		}
 
-		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
+		if (!CanMove) View.PlayerMove(MoveDir, _lastDir, 0);
+		else View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
 	}
 
 	#region Player Init, Respawn
@@ -455,6 +460,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
+	}
+	public void SetCanMove(bool value, float delay = 0)
+	{
+		StopCoroutine(nameof(CanMoveRoutine)); // 중복 방지
+		if (delay > 0)
+			StartCoroutine(CanMoveRoutine(value, delay));
+		else
+			CanMove = value;
+	}
+	IEnumerator CanMoveRoutine(bool value, float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		CanMove = value;
 	}
 	#endregion
 }
