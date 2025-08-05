@@ -48,6 +48,7 @@ public class PlayerModel : PokeBaseData
 
 	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
 	{
+		Debug.Log($"이름 [{playerName}] 할당");
 		PlayerName = playerName;
 		PokeData = pokemonData;
 		PokeLevel = level;

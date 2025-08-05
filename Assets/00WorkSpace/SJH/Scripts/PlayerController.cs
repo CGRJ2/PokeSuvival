@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			pokeData = Define.GetPokeData(pokeName);
 		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
 
@@ -197,6 +197,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
+		// 1. B 클라이언트 입장
+		// 2. 이미 접속해있는 로컬 클라이언트(A)의 오브젝트에서 실행
+		// 3. B 클라이언트에 있는 A 오브젝트의 포톤함수 실행으로 동기화 (B클라에서 A의 이름, 포켓몬, 레벨, 체력 동기화)
+		// 4. 하지만 A 클라이언트에서 B 오브젝트의 이름은 동기화가 안됨
+
 		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 	#endregion
