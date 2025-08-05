@@ -44,7 +44,6 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         {
             Debug.Log("아이템박스 부셔짐 방장 호출");
             photonView.RPC(nameof(RPC_OnHit), RpcTarget.MasterClient);
-            return false;
         }
 
         return true;

@@ -2,9 +2,11 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -61,6 +63,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 킬 카운트
 	[field: SerializeField] public int KillCount { get; private set; }
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
+
+	// 이동 제어
+	[field: SerializeField] public bool CanMove { get; private set; }
+	private Coroutine _canMoveRoutine;
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -87,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 	void MoveInput()
 	{
+
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
 		if (MoveDir != Vector2.zero)
@@ -95,7 +102,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
 		}
 
-		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
+		if (!CanMove) View.PlayerMove(MoveDir, _lastDir, 0);
+		else View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
 	}
 
 	#region Player Init, Respawn
@@ -122,7 +130,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			pokeData = Define.GetPokeData(pokeName);
 		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
 
@@ -157,7 +165,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				pokeData = Define.GetPokeData(pokeName);
 			}
 		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
 		RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		ConnectEvent();
@@ -197,7 +205,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		// 1. B 클라이언트 입장
+		// 2. 이미 접속해있는 로컬 클라이언트(A)의 오브젝트에서 실행
+		// 3. B 클라이언트에 있는 A 오브젝트의 포톤함수 실행으로 동기화 (B클라에서 A의 이름, 포켓몬, 레벨, 체력 동기화)
+		// 4. 하지만 A 클라이언트에서 B 오브젝트의 이름은 동기화가 안됨
+
+		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 	#endregion
 
@@ -218,7 +231,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (LastAttacker != null)
 			{
 				Debug.Log($"{LastAttacker.Model.PokeData.PokeName} 의 킬 카운트 증가 시도");
-				RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+				/*	A -> B 를 죽였을 때
+				 *	B의 포톤뷰에서 A의 RPC_AddKillCount 함수를 실행하는게 아니라
+				 *	실행을 보낸 B의 포톤뷰에서 RPC_AddKillCount 함수를 실행
+				 *	
+				 *	그래서 보낼 때 A 포톤뷰에서 RPC를 해야함
+				 */
+				//RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+				LastAttacker.photonView.RPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
 			}
 
 			_input.actions.Disable();
@@ -440,6 +460,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
+	}
+	public void SetCanMove(bool value, float delay = 0)
+	{
+		StopCoroutine(nameof(CanMoveRoutine)); // 중복 방지
+		if (delay > 0)
+			StartCoroutine(CanMoveRoutine(value, delay));
+		else
+			CanMove = value;
+	}
+	IEnumerator CanMoveRoutine(bool value, float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		CanMove = value;
 	}
 	#endregion
 }
