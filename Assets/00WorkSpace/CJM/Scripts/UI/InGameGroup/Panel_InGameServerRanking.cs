@@ -8,7 +8,6 @@ public class Panel_InGameServerRanking : MonoBehaviour
     Slot_RankData[] slots;
     [SerializeField] Transform slotParent;
 
-    public List<PlayerController> activedPlayerList = new List<PlayerController>();
 
     public void Init()
     {
@@ -23,6 +22,8 @@ public class Panel_InGameServerRanking : MonoBehaviour
 
     private void CheckRankChange()
     {
+        List<PlayerController> activedPlayerList = UIManager.Instance.InGameGroup.activedPlayerList;
+
         for (int i = 0; i < activedPlayerList.Count; i++)
         {
             if (i > 0)
@@ -39,6 +40,8 @@ public class Panel_InGameServerRanking : MonoBehaviour
 
     private void SortPlayerListOrederByScore(PlayerController player)
     {
+        List<PlayerController> activedPlayerList = UIManager.Instance.InGameGroup.activedPlayerList;
+
         activedPlayerList.Remove(player);
 
         // 정확한 위치까지 찾기
@@ -57,7 +60,9 @@ public class Panel_InGameServerRanking : MonoBehaviour
 
     private void UpdateRankingView()
     {
-        for(int i =0; i < slots.Length; i++)
+        List<PlayerController> activedPlayerList = UIManager.Instance.InGameGroup.activedPlayerList;
+
+        for (int i =0; i < slots.Length; i++)
         {
             if (i < activedPlayerList.Count)
             {

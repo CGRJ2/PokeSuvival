@@ -9,6 +9,7 @@ public class UIGroup_InGame : MonoBehaviour
     [SerializeField] private Panel_GameOver panel_GameOver;
     public Panel_ReturnToLobbyConfirm panel_ReturnToLobbyConfirm;
 
+    public List<PlayerController> activedPlayerList = new List<PlayerController>();
 
 
     public void Init()
