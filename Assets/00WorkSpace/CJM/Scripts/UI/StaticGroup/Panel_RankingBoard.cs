@@ -47,7 +47,7 @@ public class Panel_RankingBoard : MonoBehaviour
         // ³» ·©Å· Ç¥½Ã
         string userId = "";
         if (BackendManager.Auth.CurrentUser != null)
-            userId = $"{BackendManager.Auth.CurrentUser.DisplayName}({BackendManager.Auth.CurrentUser.UserId})";
+            userId = $"{BackendManager.Auth.CurrentUser.UserId}";
         else
             userId = $"Guest({PhotonNetwork.LocalPlayer.UserId})";
 
