@@ -61,8 +61,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(100f, 100f), Quaternion.identity, 0,
 			new object[]
 			{
-				7, // pokeNumber
-				3 // level
+				7,	// pokeNumber
+				3	// level
 			});
 	}
 
