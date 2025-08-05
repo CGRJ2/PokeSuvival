@@ -218,7 +218,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (LastAttacker != null)
 			{
 				Debug.Log($"{LastAttacker.Model.PokeData.PokeName} 의 킬 카운트 증가 시도");
-				RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+				/*	A -> B 를 죽였을 때
+				 *	B의 포톤뷰에서 A의 RPC_AddKillCount 함수를 실행하는게 아니라
+				 *	실행을 보낸 B의 포톤뷰에서 RPC_AddKillCount 함수를 실행
+				 *	
+				 *	그래서 보낼 때 A 포톤뷰에서 RPC를 해야함
+				 */
+				//RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+				LastAttacker.photonView.RPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
 			}
 
 			_input.actions.Disable();
