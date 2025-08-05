@@ -197,7 +197,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 	#endregion
 

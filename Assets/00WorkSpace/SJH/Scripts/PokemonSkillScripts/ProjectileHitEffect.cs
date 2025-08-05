@@ -1,9 +1,16 @@
 ﻿using Photon.Pun;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class ProjectileHitEffect : Projectile
 {
+	// Rigidbody2D _rigid;
+	// Transform _attacker;
+	// BattleDataTable _attackerData;
+	// PokemonSkill _skill;
+	// Vector2 _startPos;
+	// float _speed;
+	// float _endDistance;
+
 	void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (!photonView.IsMine) return;
@@ -19,7 +26,7 @@ public class ProjectileHitEffect : Projectile
 				Debug.Log($"{_skill.name}Effect 생성!");
 				var mono = target as MonoBehaviour;
 				Vector3 spawnPos = mono.transform.position + (Vector3)Random.insideUnitCircle * 0.5f;
-				PhotonNetwork.Instantiate( $"PokemonSkillPrefabs/{_skill.name}Effect", spawnPos, Quaternion.identity );
+				PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{_skill.name}Effect", spawnPos, Quaternion.identity);
 
 				PhotonNetwork.Destroy(gameObject);
 			}

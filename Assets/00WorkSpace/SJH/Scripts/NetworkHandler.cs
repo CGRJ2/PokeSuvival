@@ -28,7 +28,8 @@ public class NetworkHandler: MonoBehaviour
 	public void RPC_ChangePokemonData(int pokeNumber)
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);
-		PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData));
+		//PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData));
+		PC.SetModel(new PlayerModel(PhotonNetwork.NickName, pokeData));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
 		if (PhotonNetwork.LocalPlayer.IsLocal) PC.OnModelChanged?.Invoke(PC.Model);
@@ -68,11 +69,11 @@ public class NetworkHandler: MonoBehaviour
 		PlayerManager.Instance.ShowDamageText(PC.transform, value, Color.red);
 	}
 	[PunRPC]
-	public void RPC_SyncToNewPlayer(int pokeNumber, int level, int currentHp)
+	public void RPC_SyncToNewPlayer(string nickName, int pokeNumber, int level, int currentHp)
 	{
 		Debug.Log("새로운 플레이어 입장");
 		var pokeData = Define.GetPokeData(pokeNumber);
-		PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData, level, 0, currentHp));
+		PC.SetModel(new PlayerModel(nickName, pokeData, level, 0, currentHp));
 		PC.SetRank(new PokeRankHandler(PC, PC.Model));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
