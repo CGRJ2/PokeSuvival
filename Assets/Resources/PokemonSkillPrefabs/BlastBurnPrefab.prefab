@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1085665180733330936}
   - component: {fileID: 7360697488992825110}
   - component: {fileID: 2118193906887713123}
-  - component: {fileID: 7825366713599980874}
   - component: {fileID: 737025395688990488}
   - component: {fileID: 3733888857327246888}
+  - component: {fileID: 6194033933904544804}
+  - component: {fileID: 473584789872396188}
   m_Layer: 0
   m_Name: BlastBurnPrefab
   m_TagString: Untagged
@@ -141,45 +142,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 473584789872396188}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &7825366713599980874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8155541776483518026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31ea02e0f0b2e5a4cbe766d923b7ecd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigid: {fileID: 737025395688990488}
-  _attacker: {fileID: 0}
-  _attackerData:
-    Level: 0
-    PokeData: {fileID: 0}
-    AllStat:
-      Hp: 0
-      Attak: 0
-      Defense: 0
-      SpecialAttack: 0
-      SpecialDefense: 0
-      Speed: 0
-    MaxHp: 0
-    CurrentHp: 0
-    IsAI: 0
-    PC: {fileID: 0}
-  _skill: {fileID: 0}
-  _startPos: {x: 0, y: 0}
-  _speed: 0
-  _size: 0
-  _radius: 0
-  _enemies: []
-  _hitTargets: []
 --- !u!50 &737025395688990488
 Rigidbody2D:
   serializedVersion: 4
@@ -242,3 +209,51 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6194033933904544804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8155541776483518026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16686566367b930469055061e548fe8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigid: {fileID: 737025395688990488}
+  _attacker: {fileID: 0}
+  _attackerData:
+    Level: 0
+    PokeData: {fileID: 0}
+    AllStat:
+      Hp: 0
+      Attak: 0
+      Defense: 0
+      SpecialAttack: 0
+      SpecialDefense: 0
+      Speed: 0
+    MaxHp: 0
+    CurrentHp: 0
+    IsAI: 0
+    PC: {fileID: 0}
+  _skill: {fileID: 0}
+  _size: 0
+  _enemies: []
+  _hitTargets: []
+--- !u!114 &473584789872396188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8155541776483518026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1

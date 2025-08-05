@@ -72,6 +72,9 @@ public class PokeRankHandler
 			Debug.Log($"더는 {statType} 랭크를 {text} 수 없음");
 		}
 
+		// 독립적으로 코루틴 실행
+		// TODO : 사망시 모든 코루틴이 정지된다면 Dictionary<StatType, List<Coroutine>> 으로 관리
+		// TODO : 플레이어의 코루틴 중 정지되면 안될게 있으면 _routineClass를 플레이어컨트롤러가 아닌 다른 컴포넌트를 할당
 		_routineClass.StartCoroutine(RankDurationRoutine(statType, value, duration));
 
 		RankDebug();
