@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 		Debug.Log(pokemonName);
-
+		// TODO : 아이템 아이디로 지닌 도구 정보 가져오기
 		PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
 				new object[]
 				{

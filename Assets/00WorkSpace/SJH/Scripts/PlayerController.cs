@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,6 +67,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 이동 제어
 	[field: SerializeField] public bool CanMove { get; private set; }
 	private Coroutine _canMoveRoutine;
+
+	// 지닌 도구
+	// TODO : 기술을 사용할 때 HeldItem 체크하기
+	[field: SerializeField] public ItemData HeldItem { get; private set; }
+
+	// 버프 획득용 이벤트 // 랭크업, 버프, 아이템버프, 디버프 등
+	public Action<Sprite, float> OnBuffUpdate;
+	
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -137,6 +145,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		PlayerManager.Instance.LocalPlayerController = this;
 
 		OnModelChanged?.Invoke(Model);
+
+		CanMove = true;
 	}
 
 	public void PlayerRespawn()
@@ -171,6 +181,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		ConnectEvent();
 
 		PlayerManager.Instance.LocalPlayerController = this;
+
+		CanMove = true;
 	}
 	#endregion
 
@@ -239,6 +251,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				 */
 				//RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
 				LastAttacker.photonView.RPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+
+				// 랭크 초기화
+				Rank?.RankAllClear();
 			}
 
 			_input.actions.Disable();

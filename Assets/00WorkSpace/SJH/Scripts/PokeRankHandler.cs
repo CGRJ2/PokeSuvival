@@ -24,8 +24,8 @@ public class PokeRankHandler
 	public PokeBaseData BaseData { get; private set; }
 
 	public Dictionary<StatType, int> RankUpdic { get; private set; }
-	public Dictionary<StatType, float> RankEndTimes { get; private set; }
-	public Dictionary<StatType, Coroutine> RankRoutines { get; private set; }
+	//public Dictionary<StatType, float> RankEndTimes { get; private set; }
+	//public Dictionary<StatType, Coroutine> RankRoutines { get; private set; }
 
 	public Action<StatType, int, int> OnRankChanged;	// 스탯종류, 이전값, 이후값
 	public Action<StatType, int> OnSyncToRank;			// 스탯종류, 최신값
@@ -45,8 +45,8 @@ public class PokeRankHandler
 			[StatType.SpDefense] = 0,
 			[StatType.Speed] = 0,
 		};
-		RankEndTimes = new();
-		RankRoutines = new();
+		//RankEndTimes = new();
+		//RankRoutines = new();
 	}
 
 	public void SetRank(StatType statType, int value, float duration)
@@ -55,12 +55,6 @@ public class PokeRankHandler
 
 		int prevRank = RankUpdic[statType];
 		int nextRank = Mathf.Clamp(prevRank + value, -6, 6);
-
-		float nowTime = Time.time;
-
-		// 중복일 경우 시간 중첩 or 추가
-		if (RankEndTimes.TryGetValue(statType, out float prevEndTime)) RankEndTimes[statType] = Mathf.Max(prevEndTime, nowTime) + duration;
-		else RankEndTimes[statType] = nowTime + duration;
 
 		// 랭크 적용
 		if (prevRank != nextRank)
@@ -78,38 +72,32 @@ public class PokeRankHandler
 			Debug.Log($"더는 {statType} 랭크를 {text} 수 없음");
 		}
 
-		// 지속시간 코루틴 실행
-		if (RankRoutines.TryGetValue(statType, out var routine)) _routineClass.StopCoroutine(routine);
-		RankRoutines[statType] = _routineClass.StartCoroutine(RankDurationRoutine(statType));
+		_routineClass.StartCoroutine(RankDurationRoutine(statType, value, duration));
 
 		RankDebug();
 	}
 
-	IEnumerator RankDurationRoutine(StatType statType)
+	IEnumerator RankDurationRoutine(StatType statType, int value, float duration)
 	{
-		float waitTime = RankEndTimes[statType] - Time.time;
+		yield return new WaitForSeconds(duration);
 
-		if (waitTime > 0f) yield return new WaitForSeconds(waitTime);
+		int prevRank = RankUpdic[statType];
+		int newRank = Mathf.Clamp(prevRank - value, -6, 6);
 
-		int prev = RankUpdic[statType];
-		if (prev != 0)
+		if (prevRank != newRank)
 		{
-			RankUpdic[statType] = 0;
-			OnRankChanged?.Invoke(statType, prev, 0);
-			OnSyncToRank?.Invoke(statType, 0);
-			Debug.Log($"{statType} 랭크 만료: {prev} > 0");
+			RankUpdic[statType] = newRank;
+			OnRankChanged?.Invoke(statType, prevRank, newRank);
+			OnSyncToRank?.Invoke(statType, newRank);
+			Debug.Log($"{statType} 랭크 종료 : {prevRank} -> {newRank}");
 		}
-		RankEndTimes.Remove(statType);
-		RankRoutines.Remove(statType);
+
+		RankDebug();
 	}
 
 	public void RankAllClear()
 	{
-		// 지속시간 코루틴 초기화
-		foreach (var pair in RankRoutines)
-		{
-			if (pair.Value != null) _routineClass.StopCoroutine(pair.Value);
-		}
+		_routineClass.StopAllCoroutines();
 
 		// 랭크업 초기화
 		foreach (var statType in RankUpdic.Keys.ToList())
@@ -123,9 +111,6 @@ public class PokeRankHandler
 				Debug.Log($"{statType} 랭크 초기화: {prev} > 0");
 			}
 		}
-
-		RankEndTimes.Clear();
-		RankRoutines.Clear();
 
 		RankDebug();
 		Debug.Log("모든 랭크 초기화");

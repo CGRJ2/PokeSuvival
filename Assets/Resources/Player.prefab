@@ -208,6 +208,8 @@ MonoBehaviour:
   _lastDir: {x: 0, y: -1}
   <KillCount>k__BackingField: 0
   <LastAttacker>k__BackingField: {fileID: 0}
+  <CanMove>k__BackingField: 0
+  <HeldItem>k__BackingField: {fileID: 0}
   Test_Level: 0
 --- !u!114 &3518850844711382646
 MonoBehaviour:

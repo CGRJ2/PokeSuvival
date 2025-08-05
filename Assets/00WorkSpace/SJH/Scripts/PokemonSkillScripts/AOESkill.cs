@@ -37,7 +37,7 @@ public class AOESkill : MonoBehaviourPun
 		if (!photonView.IsMine) return;
 
 		int count = Physics2D.OverlapCircleNonAlloc(transform.position, 1.5f, _enemies);
-		Debug.Log($"블라스트번 1타 : {count}");
+		//Debug.Log($"블라스트번 1타 : {count}");
 		if (count <= 0) return;
 		Attack(count);
 	}
@@ -47,7 +47,7 @@ public class AOESkill : MonoBehaviourPun
 		if (!photonView.IsMine) return;
 
 		int count = Physics2D.OverlapCircleNonAlloc(transform.position, 2f, _enemies);
-		Debug.Log($"블라스트번 2타 : {count}");
+		//Debug.Log($"블라스트번 2타 : {count}");
 		if (count <= 0) return;
 		Attack(count);
 	}
@@ -57,7 +57,7 @@ public class AOESkill : MonoBehaviourPun
 		if (!photonView.IsMine) return;
 
 		int count = Physics2D.OverlapCircleNonAlloc(transform.position, 2.5f, _enemies);
-		Debug.Log($"블라스트번 3타 : {count}");
+		//Debug.Log($"블라스트번 3타 : {count}");
 		if (count <= 0) return;
 		Attack(count);
 	}
@@ -66,7 +66,7 @@ public class AOESkill : MonoBehaviourPun
 	{
 		if (!photonView.IsMine) return;
 
-		Debug.Log($"{count} 마리 공격");
+		//Debug.Log($"{count} 마리 공격");
 		for (int i = 0; i < count; i++)
 		{
 			var enemy = _enemies[i];
