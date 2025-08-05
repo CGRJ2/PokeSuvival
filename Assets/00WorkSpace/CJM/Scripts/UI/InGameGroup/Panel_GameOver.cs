@@ -57,8 +57,7 @@ public class Panel_GameOver : MonoBehaviour
         // 유저 데이터 있음(로그인 유저)
         if (BackendManager.Auth.CurrentUser != null)
         {
-            
-            string userId = $"{BackendManager.Auth.CurrentUser.DisplayName}({BackendManager.Auth.CurrentUser.UserId})";
+            string userId = $"{BackendManager.Auth.CurrentUser.UserId}";
 
             BackendManager.Instance.LoadUserDataFromDB((userData) =>
             {

@@ -27,11 +27,17 @@ public class Panel_PlayerInit : MonoBehaviour
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
         if (BackendManager.Auth.CurrentUser != null)
         {
+            Debug.Log("로그인 사용자 닉네임 설정");
+
             // Auth => 이거 DB에서 이름 바뀌었을 때 구독해놓는 식으로 하면 될듯?
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
             
             // DB
             BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text));
+        }
+        else 
+        {
+            Debug.Log("게스트 사용자 닉네임 설정");
         }
 
         PhotonNetwork.NickName = inputField_Name.text;
