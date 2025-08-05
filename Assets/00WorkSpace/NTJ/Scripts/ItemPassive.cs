@@ -10,7 +10,7 @@ public class ItemPassive : ItemData
     public List<StatBonus> statBonuses;
 
     [Header("속성 데미지 강화")]
-    public List<PokemonType> elementalBoosts; // 속성 기술 강화
+    public List<ElementalBoost> elementalBoosts; // 속성 기술 강화
 
     private void OnEnable()
     {

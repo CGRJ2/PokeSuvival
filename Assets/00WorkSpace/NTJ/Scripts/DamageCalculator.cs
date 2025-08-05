@@ -13,9 +13,15 @@ public static class DamageCalculator
 
         foreach (var passive in equippedPassives)
         {
-            if (passive != null && passive.elementalBoosts.Contains(attackType))
+            if (passive == null || passive.elementalBoosts == null) continue;
+
+            foreach (var boost in passive.elementalBoosts)
             {
-                baseMultiplier *= 1.2f; // 속성 강화 보정 예시
+                if (boost.type == attackType)
+                {
+                    baseMultiplier *= boost.multiplier;
+                    Debug.Log($"[속성 강화] {attackType} x{boost.multiplier} → {baseMultiplier}");
+                }
             }
         }
 
