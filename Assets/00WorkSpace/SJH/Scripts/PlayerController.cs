@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -74,7 +73,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	// 버프 획득용 이벤트 // 랭크업, 버프, 아이템버프, 디버프 등
 	public Action<Sprite, float> OnBuffUpdate;
-	
+
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -94,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		MoveInput();
 
+		// TODO : 테스트 함수 변수랑 같이 삭제
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Model.SetLevel(Test_Level);
@@ -101,7 +101,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 	void MoveInput()
 	{
-
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
 		if (MoveDir != Vector2.zero)
@@ -118,6 +117,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void PlayerInit()
 	{
 		Debug.Log("플레이어 초기화");
+		PlayerSetting(false);
+	}
+
+	public void PlayerRespawn()
+	{
+		Debug.Log("플레이어 리스폰");
+		PlayerSetting(true);
+	}
+	void PlayerSetting(bool isRespawn)
+	{
 		// TODO : 플레이어 생성 연출
 
 		// 시작, 사망 시간 초기화
@@ -132,56 +141,31 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		LastAttacker = null;
 
 		PokemonData pokeData = null;
-		object[] data = photonView.InstantiationData;
-		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
-		else if (data[0] is string pokeName)
-		{
-			pokeData = Define.GetPokeData(pokeName);
-		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
-		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
-		ConnectEvent();
 
-		PlayerManager.Instance.LocalPlayerController = this;
-
-		OnModelChanged?.Invoke(Model);
-
-		CanMove = true;
-	}
-
-	public void PlayerRespawn()
-	{
-		Debug.Log("플레이어 리스폰");
-		// TODO : 플레이어 생성 연출
-
-		_startTime = -1;
-		_endTime = -1;
-
-		_startTime = Time.time;
-		KillCount = 0;
-		LastAttacker = null;
-
-		_input.actions.Enable();
-		View.SetIsDead(false);
 		// 플레이어의 커스텀프로퍼티로 사용할 포켓몬 지정
-		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-		PokemonData pokeData = Define.GetPokeData(pokemonName);
+		if (isRespawn && PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("StartingPokemon", out var startPoke) && startPoke is string pokemonName) pokeData = Define.GetPokeData(pokemonName);
+
 		if (pokeData == null)
 		{
 			object[] data = photonView.InstantiationData;
 			if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
-			else if (data[0] is string pokeName)
-			{
-				pokeData = Define.GetPokeData(pokeName);
-			}
+			else if (data[0] is string pokeName) pokeData = Define.GetPokeData(pokeName);
 		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
-		RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
-		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
-		ConnectEvent();
 
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
+
+		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		PlayerManager.Instance.LocalPlayerController = this;
 
+		if (isRespawn)
+		{
+			_input.actions.Enable();
+			View.SetIsDead(false);
+			RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
+		}
+
+		ConnectEvent();
+		OnModelChanged?.Invoke(Model);
 		CanMove = true;
 	}
 	#endregion

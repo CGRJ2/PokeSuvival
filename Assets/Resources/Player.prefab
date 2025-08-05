@@ -183,7 +183,7 @@ MonoBehaviour:
     <PlayerName>k__BackingField: 
     _pokeExp: 0
     <NextExp>k__BackingField: 0
-    <TotalExp>k__BackingField: 0
+    _totalExp: 0
   <View>k__BackingField: {fileID: 0}
   <Rank>k__BackingField:
     _rankDebug: []

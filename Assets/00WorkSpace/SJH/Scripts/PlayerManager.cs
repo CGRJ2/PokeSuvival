@@ -96,14 +96,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	}
 	public void PlayerToLobby()
 	{
+		StopPlayerRoutine();
 		LocalPlayerController.DisconnectSkillEvent();
 	}
 
 	public void PlayerRespawn()
 	{
-		StopCoroutine(_playerDeleteRoutine);
-		_playerDeleteRoutine = null;
-
+		StopPlayerRoutine();
 		LocalPlayerController.PlayerRespawn();
+	}
+
+	void StopPlayerRoutine()
+	{
+		if (_playerDeleteRoutine != null) StopCoroutine(_playerDeleteRoutine);
+		_playerDeleteRoutine = null;
 	}
 }
