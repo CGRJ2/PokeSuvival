@@ -554,6 +554,19 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         });
     }
 
+
+    public string GetUserId()
+    {
+        if (BackendManager.Auth.CurrentUser != null)
+        {
+            return $"{BackendManager.Auth.CurrentUser.UserId}";
+        }
+        else
+        {
+            return $"Guest({PhotonNetwork.LocalPlayer.UserId})";
+        }
+    }
+
     private void OnApplicationQuit()
     {
         BackendManager.Auth.SignOut();

@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +9,7 @@ public class Panel_UpperMenu : MonoBehaviour
     [SerializeField] Button btn_Option;
     [SerializeField] Button btn_Lobby;
     [SerializeField] Button btn_DropDown;
+    [SerializeField] TMP_Text tmp_State;
 
     RectTransform rect;
     [SerializeField] Vector2 closePos;
@@ -30,6 +33,7 @@ public class Panel_UpperMenu : MonoBehaviour
 
         if (isOpened)
         {
+            tmp_State.text = $"{NetworkManager.Instance.CurServer.name}";
             rect.DOAnchorPos(closePos, duration).SetEase(Ease.OutCubic);
             isOpened = false;
         }

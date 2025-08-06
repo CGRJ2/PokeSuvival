@@ -34,7 +34,6 @@ public class PlayerInstanceUI : MonoBehaviour
                 image_MiniMapPoint.color = Color.red;
             }
         }
-            
     }
 
     private void OnEnable()
