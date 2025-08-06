@@ -1,4 +1,4 @@
-using System.Collections.Generic; 
+/*using System.Collections.Generic; 
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -64,7 +64,7 @@ public class InventoryUI : MonoBehaviour // 인벤토리(도감) UI 관리 클래스
     void RegisterUnlockConditions()
     {
         // 예시: id가 10006인 아이템은 모든 상점 아이템 구매 시 해금
-        unlockConditions[10006] = () => ShopManager.Instance.sellItems.All(item => ShopManager.Instance.purchasedItemIds.Contains(item.id));
+        unlockConditions[10006] = () => Panel_Shop.Instance.sellItems.All(item => Panel_Shop.Instance.purchasedItemIds.Contains(item.id));
         // 실제 조건은 ShopManager에서 public으로 expose 필요
         // 여러 조건을 추가할 수 있음
     }
@@ -85,10 +85,10 @@ public class InventoryUI : MonoBehaviour // 인벤토리(도감) UI 관리 클래스
 
                 // 해금된 아이템을 상점에 추가
                 var unlockedItem = allItems.FirstOrDefault(x => x.id == kvp.Key);
-                if (unlockedItem != null && !ShopManager.Instance.sellItems.Contains(unlockedItem))
+                if (unlockedItem != null && !Panel_Shop.Instance.sellItems.Contains(unlockedItem))
                 {
-                    ShopManager.Instance.sellItems.Add(unlockedItem);
-                    ShopManager.Instance.PopulateSellItems(); // 상점 UI 갱신
+                    Panel_Shop.Instance.sellItems.Add(unlockedItem);
+                    Panel_Shop.Instance.PopulateSellItems(); // 상점 UI 갱신
                 }
                 // 도감(인벤토리) UI도 즉시 갱신
                 UpdatePage();
@@ -240,4 +240,4 @@ public class InventoryUI : MonoBehaviour // 인벤토리(도감) UI 관리 클래스
             UpdatePage();
         }
     }
-}
+}*/

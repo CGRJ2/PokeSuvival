@@ -11,14 +11,21 @@ public class UIGroup_Lobby : MonoBehaviour
     public Panel_RoomInfo panel_RoomInfo;
     public Panel_RoomMaking panel_RoomMaking;
     public Panel_RoomInside panel_RoomInside;
+    public Panel_Shop panel_Shop;
+    public Panel_Inventory panel_Inventory;
+
 
     public void Init()
     {
         panel_LobbyDefault.Init();
+        
         panel_MatchMaking.Init();
         panel_RoomInfo.Init();
         panel_RoomMaking.Init();
         panel_RoomInside.Init();
+
+        panel_Shop.Init();
+        panel_Inventory.Init();
     }
 
     

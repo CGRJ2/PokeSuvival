@@ -5,7 +5,7 @@ using UnityEngine;
 using NTJ;
 using UnityEngine.UI;
 
-public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
+public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 {
     public List<ItemData> sellItems; // 상점에서 판매할 아이템 데이터 리스트 (ScriptableObject)
     public Transform sellItemContent; // SellItem Scroll View의 Content Transform
@@ -13,30 +13,34 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
     public GameObject shopItemPrefab; // 아이템 패널 프리팹 (이미지, 이름, 가격, 버튼 포함)
     public TMP_Text buyCoinText; // 구매할 아이템 총합 가격을 표시할 텍스트
     public TMP_Text coinText; // 현재 플레이어가 가진 재화를 표시할 텍스트
+    public Button btn_Esc;
+    public Button btn_Buy;
     public int playerCoin = 99999; // 플레이어가 가진 현재 재화
     public GameObject notEnoughCoinPanel; // 재화 부족 안내 UI 오브젝트
-    public GameObject shopRootPanel; // 상점 전체 오브젝트
 
     private List<ItemData> buyItems = new List<ItemData>(); // 구매 목록에 추가된 아이템 리스트
 
     public HashSet<int> purchasedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
 
-    public static ShopManager Instance;
-
-    void Awake()
-    {
-        Instance = this;
-    }
-    void Start() // 게임 시작 시 호출
+    
+    public void Init() // 게임 시작 시 호출
     {
         UpdateCoinText(); // 현재 재화 텍스트 갱신
         PopulateSellItems(); // 판매 아이템 목록 UI 생성
+        btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
+        btn_Buy.onClick.AddListener(ConfirmBuy);
+    }
+
+    private void OnEnable()
+    {
+        
     }
 
     public void PopulateSellItems() // 판매 아이템 패널을 SellItemContent에 생성
     {
+        Panel_Inventory inventory = UIManager.Instance.LobbyGroup.panel_Inventory;
         // 해금 조건 체크 (상점 갱신 직전마다)
-        if (InventoryUI.Instance != null) InventoryUI.Instance.CheckUnlocks();
+        if (inventory != null) inventory.CheckUnlocks();
 
         // 구매하지 않은 아이템이 먼저, 구매한 아이템이 아래로 오도록 정렬
         var sortedItems = sellItems
@@ -100,6 +104,8 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 
     public void ConfirmBuy() // 구매 버튼 클릭 시 호출 (일괄 구매)
     {
+        Panel_Inventory inventory = UIManager.Instance.LobbyGroup.panel_Inventory;
+
         int total = buyItems.Sum(i => (int)i.price); // 구매 목록의 총 가격 계산
         if (playerCoin >= total) // 재화가 충분한지 확인
         {
@@ -107,13 +113,13 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
             UpdateCoinText(); // 현재 재화 텍스트 갱신
 
             // 도감에 구매한 아이템 등록 및 UI 갱신
-            if (InventoryUI.Instance != null)
+            if (inventory != null)
             {
                 foreach (var item in buyItems)
-                    InventoryUI.Instance.ownedItemIds.Add(item.id);
+                    inventory.ownedItemIds.Add(item.id);
 
-                InventoryUI.Instance.CheckUnlocks();
-                InventoryUI.Instance.UpdatePage();
+                inventory.CheckUnlocks();
+                inventory.UpdatePage();
             }
 
             // 1. 구매한 아이템 id를 집합에 추가
@@ -157,11 +163,6 @@ public class ShopManager : MonoBehaviour // 상점 UI 및 로직 관리 클래스
             notEnoughCoinPanel.SetActive(false); // UI 끄기
     }
 
-    public void CloseShop()//상점 닫기 버튼 클릭 시 호출
-    {
-        if (shopRootPanel != null)
-            shopRootPanel.SetActive(false); // 상점 UI 비활성화
-    }
     void UpdateCoinText() // 현재 재화 텍스트 갱신
     {
         coinText.text = playerCoin.ToString(); // coinText에 현재 재화 표시

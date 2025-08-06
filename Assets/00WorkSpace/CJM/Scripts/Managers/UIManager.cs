@@ -17,6 +17,7 @@ public class UIManager : Singleton<UIManager>
     public void Init()
     {
         base.SingletonInit();
+
         InitializeGroup.Init();
         StaticGroup.Init();
         LobbyGroup.Init();

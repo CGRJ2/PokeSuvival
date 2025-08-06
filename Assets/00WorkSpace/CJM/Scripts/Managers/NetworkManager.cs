@@ -369,7 +369,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
         if (BackendManager.Auth.CurrentUser != null) BackendManager.Instance.UpdateUserProfile(userData.name);
 
-        // 유저 데이터 동기화 해주기
+        // TODO: 보유 아이템 & 장착 아이템 저장 및 동기화 필요
+        // 유저 데이터 동기화 해주기 
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
         playerProperty["StartingPokemon"] = userData.startingPokemonName;
         playerProperty["Money"] = userData.money;

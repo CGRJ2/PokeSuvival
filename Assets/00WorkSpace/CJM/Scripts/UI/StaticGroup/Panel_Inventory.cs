@@ -10,17 +10,20 @@ using UnityEngine.UI;
 public class Panel_Inventory : MonoBehaviour
 {
     [Header("타이틀 및 선택 아이템 패널")]
-    public TMP_Text titleText; // Title Panel의 Title Text (TMP)
-    public Image chooseItemImage; // 선택된 아이템의 이미지
-    public TMP_Text chooseItemNameText; // 선택된 아이템의 이름
-    public TMP_Text chooseItemDescriptionText; // 선택된 아이템의 설명
+    [SerializeField] TMP_Text tmp_Title; // Title Panel의 Title Text (TMP)
+    [SerializeField] Image image_SelectedItem; // 선택된 아이템의 이미지
+    [SerializeField] TMP_Text tmp_SelectedItemName; // 선택된 아이템의 이름
+    [SerializeField] TMP_Text tmp_SelectedItemDescription; // 선택된 아이템의 설명
 
-    [Header("아이템 리스트 패널")]
-    public List<Image> itemSlotImages; // 아이템 리스트 패널의 각 아이템 이미지 슬롯
+    [SerializeField] Transform itemSlotsParent;
+    public Button btn_Esc; 
+
+
+    Slot_Inventory[] slots; // 아이템 리스트 패널의 각 아이템 이미지 슬롯
 
     [Header("페이지네이션")]
-    public Image leftArrowImage; // 왼쪽 화살표 이미지
-    public Image rightArrowImage; // 오른쪽 화살표 이미지
+    public Button btn_Left; // 왼쪽 화살표 이미지
+    public Button btn_Right; // 오른쪽 화살표 이미지
     public TMP_Text pageText; // 현재 페이지/전체 페이지 표시
 
     public int itemsPerPage = 6; // 한 페이지에 보여줄 아이템 개수
@@ -28,33 +31,40 @@ public class Panel_Inventory : MonoBehaviour
     private int totalPages = 1; // 전체 페이지 수
 
     [Header("데이터")]
-    public List<ItemData> allItems; // 전체 아이템 데이터 리스트
+    public List<ItemData> allItems = new List<ItemData>(); // 전체 아이템 데이터 리스트
     public HashSet<int> ownedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
 
     [Header("미획득 안내 UI")]
     public GameObject notOwnedPanel; // "아직 획득하지 않았습니다" 안내 UI
 
-    [Header("인벤토리 루트 오브젝트")]
-    public GameObject inventoryRootPanel; // 인벤토리 전체 오브젝트
 
 
     private HashSet<int> unlockedItemIds = new HashSet<int>(); // 해금된 아이템 id 집합
-    private Dictionary<int, System.Func<bool>> unlockConditions = new Dictionary<int, System.Func<bool>>();
+    private Dictionary<int, bool> unlockConditions = new Dictionary<int, bool>();
 
 
     public void Init()
     {
+        slots = itemSlotsParent.GetComponentsInChildren<Slot_Inventory>();
+        allItems.AddRange(UIManager.Instance.LobbyGroup.panel_Shop.sellItems);
+        allItems.Add(Resources.Load<ItemData>("SellItem/AmuletCoin"));
         RegisterUnlockConditions(); // 해금 조건 등록!
         totalPages = Mathf.CeilToInt((float)allItems.Count / itemsPerPage); // 전체 페이지 계산
         CheckUnlocks();
         UpdatePage(); // 첫 페이지 표시
+
+        btn_Left.onClick.AddListener(OnLeftArrowClick);
+        btn_Right.onClick.AddListener(OnRightArrowClick);
+        btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
 
     // 해금 조건 등록 예시
     void RegisterUnlockConditions()
     {
+        Panel_Shop shop = UIManager.Instance.LobbyGroup.panel_Shop;
+
         // 예시: id가 10006인 아이템은 모든 상점 아이템 구매 시 해금
-        unlockConditions[10006] = () => ShopManager.Instance.sellItems.All(item => ShopManager.Instance.purchasedItemIds.Contains(item.id));
+        unlockConditions[10006] = shop.sellItems.All(item => shop.purchasedItemIds.Contains(item.id));
         // 실제 조건은 ShopManager에서 public으로 expose 필요
         // 여러 조건을 추가할 수 있음
     }
@@ -62,9 +72,12 @@ public class Panel_Inventory : MonoBehaviour
     // 해금 체크
     public void CheckUnlocks()
     {
+        Panel_Shop shop = UIManager.Instance.LobbyGroup.panel_Shop;
+
+
         foreach (var kvp in unlockConditions)
         {
-            bool conditionMet = kvp.Value();
+            bool conditionMet = kvp.Value;
             Debug.Log($"해금 조건 체크: {kvp.Key}, 조건 결과: {conditionMet}");
 
             if (!unlockedItemIds.Contains(kvp.Key) && conditionMet)
@@ -75,10 +88,10 @@ public class Panel_Inventory : MonoBehaviour
 
                 // 해금된 아이템을 상점에 추가
                 var unlockedItem = allItems.FirstOrDefault(x => x.id == kvp.Key);
-                if (unlockedItem != null && !ShopManager.Instance.sellItems.Contains(unlockedItem))
+                if (unlockedItem != null && !shop.sellItems.Contains(unlockedItem))
                 {
-                    ShopManager.Instance.sellItems.Add(unlockedItem);
-                    ShopManager.Instance.PopulateSellItems(); // 상점 UI 갱신
+                    shop.sellItems.Add(unlockedItem);
+                    shop.PopulateSellItems(); // 상점 UI 갱신
                 }
                 // 도감(인벤토리) UI도 즉시 갱신
                 UpdatePage();
@@ -92,16 +105,12 @@ public class Panel_Inventory : MonoBehaviour
         pageText.text = $"{currentPage + 1}/{totalPages}";
 
         // 좌/우 화살표 버튼의 interactable조절 
-        var leftBtn = leftArrowImage.GetComponent<Button>();
-        if (leftBtn != null)
-            leftBtn.interactable = currentPage > 0;
+        btn_Left.interactable = currentPage > 0;
 
-        var rightBtn = rightArrowImage.GetComponent<Button>();
-        if (rightBtn != null)
-            rightBtn.interactable = currentPage < totalPages - 1;
+        btn_Right.interactable = currentPage < totalPages - 1;
 
         // 아이템 슬롯 갱신
-        for (int i = 0; i < itemSlotImages.Count; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             int itemIdx = currentPage * itemsPerPage + i;
             if (itemIdx < allItems.Count)
@@ -120,20 +129,20 @@ public class Panel_Inventory : MonoBehaviour
                     if (!unlocked)
                     {
                         // 해금 전: 검은색
-                        itemSlotImages[i].sprite = item.sprite;
-                        itemSlotImages[i].color = Color.black;
+                        slots[i].image_Item.sprite = item.sprite;
+                        slots[i].image_Item.color = Color.black;
                     }
                     else if (!owned)
                     {
                         // 해금 후, 미구매: 투명/회색
-                        itemSlotImages[i].sprite = item.sprite;
-                        itemSlotImages[i].color = new Color(1f, 1f, 1f, 0.5f);
+                        slots[i].image_Item.sprite = item.sprite;
+                        slots[i].image_Item.color = new Color(1f, 1f, 1f, 0.5f);
                     }
                     else
                     {
                         // 해금 후, 구매: 원래 스프라이트(흰색)
-                        itemSlotImages[i].sprite = item.sprite;
-                        itemSlotImages[i].color = Color.white;
+                        slots[i].image_Item.sprite = item.sprite;
+                        slots[i].image_Item.color = Color.white;
                     }
                 }
                 else
@@ -142,14 +151,14 @@ public class Panel_Inventory : MonoBehaviour
                     if (!owned)
                     {
                         // 구매 전: 검은색
-                        itemSlotImages[i].sprite = item.sprite;
-                        itemSlotImages[i].color = Color.black;
+                        slots[i].image_Item.sprite = item.sprite;
+                        slots[i].image_Item.color = Color.black;
                     }
                     else
                     {
                         // 구매 후: 원래 스프라이트(흰색)
-                        itemSlotImages[i].sprite = item.sprite;
-                        itemSlotImages[i].color = Color.white;
+                        slots[i].image_Item.sprite = item.sprite;
+                        slots[i].image_Item.color = Color.white;
                     }
                 }
 
@@ -158,15 +167,15 @@ public class Panel_Inventory : MonoBehaviour
 
                 // 클릭 이벤트 등록
                 int idx = itemIdx; // 클로저 문제 방지
-                var btn = itemSlotImages[i].GetComponent<Button>();
+                var btn = slots[i].GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(() => OnItemSlotClick(idx));
             }
             else
             {
-                itemSlotImages[i].sprite = null; // 빈 슬롯
-                itemSlotImages[i].color = new Color(1, 1, 1, 0); // 투명 처리
-                var btn = itemSlotImages[i].GetComponent<Button>();
+                slots[i].image_Item.sprite = null; // 빈 슬롯
+                slots[i].image_Item.color = new Color(1, 1, 1, 0); // 투명 처리
+                var btn = slots[i].GetComponent<Button>();
                 btn.onClick.RemoveAllListeners();
             }
         }
@@ -191,9 +200,9 @@ public class Panel_Inventory : MonoBehaviour
         if (owned)
         {
             // 아이템 정보 표시
-            chooseItemImage.sprite = item.sprite;
-            chooseItemNameText.text = item.itemName;
-            chooseItemDescriptionText.text = item.description;
+            image_SelectedItem.sprite = item.sprite;
+            tmp_SelectedItemName.text = item.itemName;
+            tmp_SelectedItemDescription.text = item.description;
         }
         else
         {

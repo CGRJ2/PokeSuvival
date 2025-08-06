@@ -12,6 +12,17 @@ public class UIGroup_InGame : MonoBehaviour
     public List<PlayerController> activedPlayerList = new List<PlayerController>();
 
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach(PlayerController pc in activedPlayerList)
+            {
+                Debug.Log($"{pc.Model.PokeData.PokeName}ÀÇ µñ¼Å³Ê¸®: {pc.Rank.RankUpdic}");
+            }
+        }
+    }
+
     public void Init()
     {
         panel_HUD.Init();
