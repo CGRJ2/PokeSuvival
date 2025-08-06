@@ -21,4 +21,6 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 139f027284f5487488b6c4a26b5d2d89, type: 3}
   description: "\uB178\uB9D0 \uAE30\uC220\uC758 \uC704\uB825\uC774 10%\uC0C1\uC2B9\uD55C\uB2E4"
   price: 20000
-  elementalBoosts: 01000000
+  elementalBoosts:
+  - type: 1
+    multiplier: 1.1
