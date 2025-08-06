@@ -8,6 +8,7 @@ public class Panel_HUD : MonoBehaviour
     public Panel_SkillSlots panel_SkillSlots;
     public Panel_UpperMenu panel_UpperMenu;
     public Panel_InGameServerRanking panel_InGameServerRanking;
+    public Panel_BuffState panel_BuffState;
 
     public void Init()
     {
@@ -15,6 +16,7 @@ public class Panel_HUD : MonoBehaviour
         panel_SkillSlots.Init();
         panel_UpperMenu.Init();
         panel_InGameServerRanking.Init();
+        panel_BuffState.Init();
     }
 
     public void OnGameStart()
