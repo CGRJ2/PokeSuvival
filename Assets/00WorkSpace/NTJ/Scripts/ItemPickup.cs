@@ -69,7 +69,8 @@ namespace NTJ
             if (!other.CompareTag("Player") || isPickedUp) return;
             isPickedUp = true;
 
-            if (!other.TryGetComponent<IStatReceiver>(out var player)) return;
+            if (!other.TryGetComponent<PlayerController>(out var player)) return;
+            if (player.Model.CurrentHp <= 0) return;
             var data = ItemDataManager.Instance.GetItemById(this.itemId); // ItemObjectPool → ItemDataManager로 변경
             player.ApplyStat(data);
             photonView.RPC(nameof(RPC_ItemDespawn), RpcTarget.AllBuffered);

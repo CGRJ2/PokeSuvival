@@ -130,4 +130,13 @@ public class NetworkHandler: MonoBehaviour
 	{
 		if (!PV.IsMine) PC.Model.SetTotalExp(value);
 	}
+	[PunRPC]
+	public void RPC_PlayerDead(int deadExp)
+	{
+		if (PhotonNetwork.IsMasterClient)
+		{
+			Debug.Log($"플레이어 사망 경험치 구슬 [{deadExp}] 생성");
+			PhotonNetwork.InstantiateRoomObject("ExpOrb", transform.position, Quaternion.identity, 0, new object[] { deadExp });
+		}
+	}
 }

@@ -212,6 +212,12 @@ MonoBehaviour:
   isAttracted: 0
   playerTransform: {fileID: 0}
   currentSpeed: 0
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _searchDelay: 0.1
+  _nextSearchTime: 0
+  _isEntityOrb: 0
 --- !u!58 &8868402063865904813
 CircleCollider2D:
   m_ObjectHideFlags: 0

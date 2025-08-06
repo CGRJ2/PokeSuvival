@@ -238,6 +238,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 				// 랭크 초기화
 				Rank?.RankAllClear();
+
+				// 총 경험치의 일부분 드랍
+				RPC.ActionRPC(nameof(RPC.RPC_PlayerDead), RpcTarget.AllBuffered, Model.GetDeathExp());
 			}
 
 			_input.actions.Disable();

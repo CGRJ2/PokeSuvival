@@ -134,4 +134,18 @@ public class PlayerModel : PokeBaseData
 		Debug.Log($"{value} 만큼 회복! 현재 체력 : {_currentHp}");
 	}
 	public void SetTotalExp(int value) => _totalExp = value;
+	public int GetDeathExp()
+	{
+		// 사망 경험치
+
+		// 종족값
+		int totalBaseStat = PokeData.BaseStat.GetBaseStat();
+
+		// 가중치
+		float modifyValue = totalBaseStat / 600f; // 600족기준
+
+		// 총 경험치 * 가중치
+		// 종족값이 높으면 경험치를 더 생성
+		return Mathf.RoundToInt(PokeLevel + (_totalExp * modifyValue));
+	}
 }
