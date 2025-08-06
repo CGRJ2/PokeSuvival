@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -1034429909342335824}
   - component: {fileID: 4620987876505244578}
   - component: {fileID: 4109238673117079376}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EmberPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

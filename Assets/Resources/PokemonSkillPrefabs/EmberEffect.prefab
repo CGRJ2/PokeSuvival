@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 743406041808320551}
   - component: {fileID: 309663444166403269}
   - component: {fileID: 8072700038133714063}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EmberEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
