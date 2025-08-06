@@ -192,6 +192,7 @@ MonoBehaviour:
   _skill: {fileID: 0}
   _startPos: {x: 0, y: 0}
   _speed: 10
+  _endDistance: 0
 --- !u!114 &4836089660170118115
 MonoBehaviour:
   m_ObjectHideFlags: 0
