@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Photon.Pun.Demo.Cockpit;
+using System;
 using UnityEngine;
 
 [Serializable]
 public class PlayerModel : PokeBaseData
 {
 	[field: SerializeField] public string PlayerName { get; private set; }
+	[field: SerializeField] public string UserId { get; private set; }
 	public override int PokeLevel
 	{
 		get => _pokeLevel;
@@ -58,10 +60,11 @@ public class PlayerModel : PokeBaseData
 
 	// TODO : 패시브 아이템 리스트
 
-	public PlayerModel(string playerName, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
+	public PlayerModel(string playerName, string userId, PokemonData pokemonData, int level = 1, int exp = 0, int currentHp = -1)
 	{
 		Debug.Log($"이름 [{playerName}] 할당");
 		PlayerName = playerName;
+		UserId = userId;
 		PokeData = pokemonData;
 		PokeLevel = level;
 		_pokeExp = exp;

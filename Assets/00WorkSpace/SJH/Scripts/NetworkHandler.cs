@@ -25,11 +25,11 @@ public class NetworkHandler: MonoBehaviour
 		// TODO : 진화 연출
 	}
 	[PunRPC]
-	public void RPC_ChangePokemonData(string nickName, int pokeNumber)
+	public void RPC_ChangePokemonData(string nickName, string userId, int pokeNumber)
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);
 		//PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData));
-		PC.SetModel(new PlayerModel(nickName, pokeData));
+		PC.SetModel(new PlayerModel(nickName, userId, pokeData));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
 
@@ -70,11 +70,11 @@ public class NetworkHandler: MonoBehaviour
 		PlayerManager.Instance.ShowDamageText(PC.transform, value, Color.red);
 	}
 	[PunRPC]
-	public void RPC_SyncToNewPlayer(string nickName, int pokeNumber, int level, int currentHp)
+	public void RPC_SyncToNewPlayer(string nickName, string userId, int pokeNumber, int level, int currentHp)
 	{
 		// 새로 접속한 클라이언트에서 기존 플레이어 오브젝트 데이터 초기화
 		var pokeData = Define.GetPokeData(pokeNumber);
-		PC.SetModel(new PlayerModel(nickName, pokeData, level, 0, currentHp));
+		PC.SetModel(new PlayerModel(nickName, userId, pokeData, level, 0, currentHp));
 		PC.SetRank(new PokeRankHandler(PC, PC.Model));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
