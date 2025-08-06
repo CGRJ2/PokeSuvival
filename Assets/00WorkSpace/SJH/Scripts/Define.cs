@@ -6,8 +6,8 @@ public static class Define
 {
 	// TODO : 임시 데이터베이스
 	private static bool _isDataInit;
-	private static Dictionary<int, PokemonData> _numberToPokeData = new();
-	private static Dictionary<string, PokemonData> _nameToPokeData = new();
+	public static Dictionary<int, PokemonData> NumberToPokeData { get; private set; }
+	public static Dictionary<string, PokemonData> NameToPokeData { get; private set; }
 	private static bool _isTypeInit;
 	private const float Weak = 0.5f;
 	private const float Strong = 2f;
@@ -22,24 +22,24 @@ public static class Define
 
 		foreach (var data in all)
 		{
-			if (_numberToPokeData == null) _numberToPokeData = new();
-			if (!_numberToPokeData.ContainsKey(data.PokeNumber)) _numberToPokeData.Add(data.PokeNumber, data);
+			if (NumberToPokeData == null) NumberToPokeData = new();
+			if (!NumberToPokeData.ContainsKey(data.PokeNumber)) NumberToPokeData.Add(data.PokeNumber, data);
 
-			if (_nameToPokeData == null) _nameToPokeData = new();
-			if (!_nameToPokeData.ContainsKey(data.PokeName)) _nameToPokeData.Add(data.PokeName, data);
+			if (NameToPokeData == null) NameToPokeData = new();
+			if (!NameToPokeData.ContainsKey(data.PokeName)) NameToPokeData.Add(data.PokeName, data);
 		}
-		Debug.Log($"PokemonData 초기화 {_numberToPokeData.Count} / {_nameToPokeData.Count}");
+		Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {NameToPokeData.Count}");
 		_isDataInit = true;
 	}
 	public static PokemonData GetPokeData(int pokeNumber)
 	{
 		PokeDataInit();
-		return _numberToPokeData.TryGetValue(pokeNumber, out var data) && data != null ? data : null;
+		return NumberToPokeData.TryGetValue(pokeNumber, out var data) && data != null ? data : null;
 	}
 	public static PokemonData GetPokeData(string pokeName)
 	{
 		PokeDataInit();
-		return _nameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
+		return NameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
 	}
 
 	static void PokeTypeInit()

@@ -304,12 +304,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		if (Rank == null) return;
 
-		Rank.OnRankChanged += (statType, prev, next) =>
+		if (Rank.OnRankChanged == null) Rank.OnRankChanged += (statType, prev, next) =>
 		{
 			// 스탯종류, 이전값, 이후값
 		};
 
-		Rank.OnSyncToRank += (statType, next) =>
+		if (Rank.OnSyncToRank == null) Rank.OnSyncToRank += (statType, next) =>
 		{
 			if (!photonView.IsMine) return;
 			// 스탯종류, 최신값

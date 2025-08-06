@@ -532,6 +532,7 @@ MonoBehaviour:
     _totalExp: 0
   <View>k__BackingField: {fileID: 0}
   <Rank>k__BackingField:
+    _routineClass: {fileID: 0}
     _rankDebug: []
   <RPC>k__BackingField: {fileID: 0}
   _input: {fileID: 0}

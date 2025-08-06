@@ -159,7 +159,7 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
 
 
     // 타일맵의 유효한 위치 중 랜덤한 위치 반환
-    private Vector3 GetRandomTilePosition()
+    public Vector3 GetRandomTilePosition()
     {
         if (validSpawnPositions.Count == 0)
             return Vector3.zero;

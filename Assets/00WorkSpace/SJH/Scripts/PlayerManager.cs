@@ -57,14 +57,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 					// 아이템 아이디
 				});
 
-		if (!PhotonNetwork.IsMasterClient) return;
 		// 필요 조건 : 생성위치, 도감번호, 레벨
-		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(100f, 100f), Quaternion.identity, 0,
-			new object[]
-			{
-				7,	// pokeNumber
-				3	// level
-			});
+		if (PhotonNetwork.IsMasterClient) EnemySpawner.Instance.SpawnInit();
 	}
 
 	public void ShowDamageText(Transform spawnPos, int damage, Color color)
