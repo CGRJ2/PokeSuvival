@@ -36,10 +36,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (!_prevRankedStat.IsEqual(newStat))
 			{
 				_prevRankedStat = newStat;
-				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this);
+				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this, HeldItem);
 			}
 			return _battleData;
 		}
+		private set { _battleData = value; }
 	}
 	private int _maxLogCount = 10;
 	[SerializeField] private Queue<Vector2> _moveHistory = new();
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 	// 지닌 도구
 	// TODO : 기술을 사용할 때 HeldItem 체크하기
-	[field: SerializeField] public ItemData HeldItem { get; private set; }
+	[field: SerializeField] public ItemPassive HeldItem { get; private set; }
 
 	// 버프 획득용 이벤트 // 랭크업, 버프, 아이템버프, 디버프 등
 	public Action<Sprite, float> OnBuffUpdate;
@@ -151,6 +152,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
 			else if (data[0] is string pokeName) pokeData = Define.GetPokeData(pokeName);
 		}
+
+		// 아이템 장착
+		object[] datas = photonView.InstantiationData;
+		if (datas.Length > 1 && datas[1] is int itemId && itemId > 0 && ItemDataManager.Instance.GetItemById(itemId) is ItemPassive heldItem) HeldItem = heldItem;
 
 		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, NetworkManager.Instance.GetUserId(), pokeData.PokeNumber);
 

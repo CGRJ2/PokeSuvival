@@ -11,6 +11,7 @@ public static class PokeUtils
 
 	public static int CalculateDamage(BattleDataTable attackerData, BattleDataTable defenderData, PokemonSkill skill)
 	{
+		#region 대미지 계산식
 		// 대미지 계산식
 		// 이 페이지에서 나오는 모든 공식은 왼쪽에서 오른쪽 순서대로 계산하며, 각 계산을 실행하기 전에 소수점 이하를 버린다.
 		// (데미지 = (((((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어) × Mod1) + 2) × [[급소]] × Mod2 ×  랜덤수 ÷ 100) × 자속보정 × 타입상성1 × 타입상성2 × Mod3)
@@ -21,6 +22,7 @@ public static class PokeUtils
 		// Mod1 : 상태이상 ex) 화상
 		// Mod2 : 생구, 메트로놈
 		// Mod3 : 달인의띠,	위력 반감 열매
+		#endregion
 
 		int attackStat = 0;
 		int defendStat = 0;
@@ -35,16 +37,52 @@ public static class PokeUtils
 				defendStat = defenderData.AllStat.SpecialDefense;
 				break;
 		}
-		float step1 = Mathf.Floor((attackerData.Level * 2f) / 5f) + 2f; // ((레벨 × 2 ÷ 5) + 2)
-		float step2 = step1 * skill.Damage * attackStat;                // ((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격
-		float step3 = Mathf.Floor(step2 / 50f);							// (((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50)
-		float step4 = Mathf.Floor(step3 / defendStat);                  // ((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어)
-
-		float mod1 = 1f; // 상태이상 ex) 화상
 
 		float ran = Random.Range(0.85f, 1f);
 		float sameTypeBonus = GetSameTypeBonus(skill.PokeType, attackerData.PokeData.PokeTypes);	// 자속 보정
-		float typeBonus = GetTypeBonus(skill.PokeType, defenderData.PokeData.PokeTypes);			// 타입 보정
+		float typeBonus = GetTypeBonus(skill.PokeType, defenderData.PokeData.PokeTypes);            // 타입 보정
+
+		int skillDamage = skill.Damage;
+
+		// 지닌 도구 물공 특공 보정
+		float itemBonus = 1f;
+		if (attackerData.HeldItem != null)
+		{
+			var item = attackerData.HeldItem;
+			// 힘의머리띠
+			if (item.id == 10032 && skill.SkillType == SkillType.Physical)
+			{
+				itemBonus += item.value;
+				Debug.Log($"{item.itemName} 보정! 기술 위력 {(int)(item.value * 100)}% 증가");
+			}
+			// 박식안경
+			else if (item.id == 10028 && skill.SkillType == SkillType.Special)
+			{
+				itemBonus += item.value;
+				Debug.Log($"{item.itemName} 보정! 기술 위력 {(int)(item.value * 100)}% 증가");
+			}
+			// 달인의 띠
+			else if (item.id == 10027)
+			{
+				if (typeBonus >= 2f)
+				{
+					itemBonus += item.value;
+					Debug.Log($"달인의 띠 보정! 효과가 굉장한 기술 위력 {(int)(item.value * 100)}% 증가");
+				}
+			}
+			else if (item.BonusType == skill.PokeType)
+			{
+				itemBonus += item.value;
+				Debug.Log($"{item.itemName} 보정! {item.BonusType} 타입 대미지 {(int)(item.value * 100)}% 증가");
+			}
+		}
+
+		float step1 = Mathf.Floor((attackerData.Level * 2f) / 5f) + 2f;						// ((레벨 × 2 ÷ 5) + 2)
+		float step2 = step1 * skillDamage * attackStat * itemBonus;    // ((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격
+		float step3 = Mathf.Floor(step2 / 50f);												// (((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50)
+		float step4 = Mathf.Floor(step3 / defendStat);										// ((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어)
+
+		float mod1 = 1f; // 상태이상 ex) 화상
 		float totalDamage = step4 * mod1 * sameTypeBonus * typeBonus * ran;
 
 		return typeBonus == 0 ? 0 : Mathf.Max((int)totalDamage, 1);

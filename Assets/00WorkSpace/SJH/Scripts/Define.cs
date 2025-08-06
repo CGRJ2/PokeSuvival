@@ -306,16 +306,19 @@ public struct BattleDataTable
 
 	// TODO : 상태이상
 	// TODO : 아이템 장착
+	public ItemPassive HeldItem;
 
-	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false, PlayerController pc = null)
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null)
 	{
 		Level = level;
 		PokeData = pokeData;
 		AllStat = pokeStat;
 		MaxHp = maxHp;
 		CurrentHp = currentHp;
+
 		IsAI = isAI;
 		PC = pc;
+		HeldItem = heldItem;
 	}
 
 	public bool IsVaild() => PokeData != null;

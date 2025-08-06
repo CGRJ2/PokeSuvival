@@ -552,6 +552,7 @@ MonoBehaviour:
     CurrentHp: 0
     IsAI: 0
     PC: {fileID: 0}
+    HeldItem: {fileID: 0}
   _lastDir: {x: 0, y: -1}
   <KillCount>k__BackingField: 0
   <LastAttacker>k__BackingField: {fileID: 0}

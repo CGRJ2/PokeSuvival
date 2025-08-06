@@ -1,4 +1,4 @@
-using NTJ;
+ï»¿using NTJ;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +6,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemPassive", menuName = "ScriptableObjects/ItemPassive")]
 public class ItemPassive : ItemData
 {
-    [Header("ÆĞ½Ãºê ½ºÅÈ º¸³Ê½º")]
+    [Header("íŒ¨ì‹œë¸Œ ìŠ¤íƒ¯ ë³´ë„ˆìŠ¤")]
     public List<StatBonus> statBonuses;
 
-    [Header("¼Ó¼º µ¥¹ÌÁö °­È­")]
-    public List<ElementalBoost> elementalBoosts; // ¼Ó¼º ±â¼ú °­È­
+    [Header("ì†ì„± ë°ë¯¸ì§€ ê°•í™”")]
+    public List<ElementalBoost> elementalBoosts; // ì†ì„± ê¸°ìˆ  ê°•í™”
+
+    public PokemonType BonusType;
 
     private void OnEnable()
     {
-        itemType = ItemType.Passive; // ÀÚµ¿À¸·Î Passive ¼³Á¤
+        itemType = ItemType.Passive; // ìë™ìœ¼ë¡œ Passive ì„¤ì •
     }
 }
