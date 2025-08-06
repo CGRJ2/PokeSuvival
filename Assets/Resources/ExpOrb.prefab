@@ -214,7 +214,7 @@ MonoBehaviour:
   currentSpeed: 0
   _playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   _searchDelay: 0.1
   _nextSearchTime: 0
   _isEntityOrb: 0
