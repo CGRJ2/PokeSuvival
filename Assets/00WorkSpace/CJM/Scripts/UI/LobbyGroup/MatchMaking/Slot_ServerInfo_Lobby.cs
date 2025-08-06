@@ -37,7 +37,7 @@ public class Slot_ServerInfo_Lobby : MonoBehaviour
 
         this.serverData = serverData;
         tmp_ServerName.text = serverData.name;
-        tmp_PlayerCount.text = $"{serverData.curPlayerCount} / {serverData.maxPlayerCount}";
+        tmp_PlayerCount.text = $"{serverData.curPlayerList.Count} / {serverData.maxPlayerCount}";
 
         if (serverData.name == NetworkManager.Instance.CurServer.name)
         {

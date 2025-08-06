@@ -1,6 +1,7 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -27,6 +28,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     UIManager um;
 
+    Action<string> ForcedQuitEvent;
+
     public void Init()
     {
         base.SingletonInit();
@@ -47,8 +50,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
         yield return new WaitUntil(() => BackendManager.Auth != null);
         yield return new WaitUntil(() => BackendManager.Database != null);
-
+        //yield return new WaitUntil(() => PhotonNetwork.LocalPlayer != null);
         // 로비 서버로 연결
+        Debug.Log("서버 최초 연결 시도");
         ConnectToBestServer(ServerType.Lobby);
     }
     private void OnDestroy() => StopAllCoroutines();
@@ -68,7 +72,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 테스트 용
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
+            //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
         }
     }
 
@@ -82,6 +86,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     {
         base.OnConnectedToMaster();
         Debug.Log("마스터 연결");
+
+        // 연결 후 서버 입장 처리
+        BackendManager.Instance.OnEnterServerCapacityUpdate(CurServer, new List<string>() { GetUserId() });
 
         // 현재 접속한 서버가 로비라면
         if (CurServer.type == (int)ServerType.Lobby)
@@ -367,11 +374,21 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     {
         PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
 
-        if (BackendManager.Auth.CurrentUser != null) BackendManager.Instance.UpdateUserProfile(userData.name);
+        ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+        // 로그인 유저라면
+        if (BackendManager.Auth.CurrentUser != null)
+        {
+            BackendManager.Instance.UpdateUserProfile(userData.name);
+        }
+        // 게스트 유저라면
+        else
+        {
+
+        }
 
         // TODO: 보유 아이템 & 장착 아이템 저장 및 동기화 필요
         // 유저 데이터 동기화 해주기 
-        ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+        playerProperty["Id"] = userData.userId;
         playerProperty["StartingPokemon"] = userData.startingPokemonName;
         playerProperty["Money"] = userData.money;
         playerProperty["Kills"] = userData.kills;
@@ -402,7 +419,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                         customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
                     // 연결 해제 이전에 서버 퇴장 처리
-                    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
+                    Debug.LogWarning("퇴장처리 진행 해주니?");
+                    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
 
                     // 로딩창 활성화
                     if (um.StaticGroup != null)
@@ -424,9 +442,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 // 연결 후 커스텀 프로퍼티 복원
                 if (customPropsDB_Player != null)
                     PhotonNetwork.LocalPlayer.CustomProperties = customPropsDB_Player;
-
-                // 연결 후 서버 입장 처리
-                BackendManager.Instance.OnEnterServerCapacityUpdate(serverData);
             }
             else
             {
@@ -450,7 +465,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
             // 연결 해제 이전에 서버 퇴장 처리
-            BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
+            BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
 
             // 로딩창 활성화
             if (um.StaticGroup != null)
@@ -568,16 +583,18 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
     }
 
+    // 앱 종료 시점에서 비동기 작업을 실행해서 오류가 나는 듯 함
     private void OnApplicationQuit()
     {
         BackendManager.Auth.SignOut();
 
-        if (CurServer != null)
-        {
-            // 서버 퇴장 처리
-            BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
-        }
+        //if (CurServer != null)
+        //{
+        //    // 서버 퇴장 처리
+        //    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
+        //}
     }
+
 }
 
 

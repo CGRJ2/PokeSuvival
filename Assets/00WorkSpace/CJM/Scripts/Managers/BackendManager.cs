@@ -4,6 +4,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 using Photon.Pun;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -237,65 +238,102 @@ public class BackendManager : Singleton<BackendManager>
     }
 
     // 서버 입장 시, 서버 인원에 본인 추가
-    public void OnEnterServerCapacityUpdate(ServerData curServerData, int multipleEnter = 1, Action onSuccess = null, Action<string> onFail = null)
+    public void OnEnterServerCapacityUpdate(ServerData curServerData, List<string> memberIdList, Action onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
 
-        reference.Child("curPlayerCount").RunTransaction(mutableData =>
+        reference.Child("curPlayerList").RunTransaction(mutableData =>
         {
+            //Debug.LogWarning($"왜 이거 자꾸 null만 뜨지? 서버에 데이터 있는데? {mutableData.Value}");
             if (mutableData.Value == null)
             {
-                mutableData.Value = multipleEnter;
+                Debug.Log("curPlayerList가 없어서 새로 생성함");
+                mutableData.Value = memberIdList.Cast<object>().ToList();
                 return TransactionResult.Success(mutableData);
             }
             else
             {
-                long curUserCount = (long)mutableData.Value;
-                mutableData.Value = curUserCount + multipleEnter;
-                return TransactionResult.Success(mutableData);
-            }
-        }).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCanceled || task.IsFaulted)
-            {
-                Debug.LogError("서버 인원 추가 실패, 트랜잭션 처리 중 오류 발생");
-                onFail?.Invoke("서버 인원 추가/예약 실패");
-                return;
-            }
+                try
+                {
+                    // Firebase에서는 object 리스트로 반환됨
+                    var existingList = new List<string>();
+                    foreach (var item in (IEnumerable)mutableData.Value)
+                    {
+                        if (item != null)
+                            existingList.Add(item.ToString());
+                    }
 
-            if (task.IsCompletedSuccessfully)
-            {
-                onSuccess?.Invoke();
+                    List<string> curUserList = existingList.Select(o => o.ToString()).ToList();
+
+                    Debug.Log("현재 유저 리스트에 추가함");
+                    foreach (string id in memberIdList)
+                    {
+                        if (!curUserList.Contains(id))
+                            curUserList.Add(id);
+                        else Debug.LogError($"이미 서버에 존재하는 Id를 또 추가하려고함: {id}");
+                    }
+                    
+                    mutableData.Value = curUserList.Cast<object>().ToList(); // Firebase는 object 리스트로 저장됨
+                    return TransactionResult.Success(mutableData);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"서버 인원 추가 실패 - 형변환 오류: {e.Message}");
+                    return TransactionResult.Abort();
+                }
             }
         });
     }
 
     // 서버 퇴장 시, 서버 인원에 본인 제거
-    public void OnExitServerCapacityUpdate(ServerData curServerData, Action<string> onFail = null)
+    public void OnExitServerCapacityUpdate(ServerData curServerData, string userId, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
 
-        reference.Child("curPlayerCount").RunTransaction(mutableData =>
+        reference.Child("curPlayerList").RunTransaction(mutableData =>
         {
-            if (mutableData.Value == null)
+            try
             {
-                mutableData.Value = 1;
+                if (mutableData.Value == null)
+                {
+                    // 아무 리스트도 없다면 빈 리스트로 초기화
+                    mutableData.Value = new List<object>();
+                    return TransactionResult.Success(mutableData);
+                }
+
+                // Firebase에서는 object 리스트로 반환됨
+                var existingList = new List<string>();
+                foreach (var item in (IEnumerable)mutableData.Value)
+                {
+                    if (item != null)
+                        existingList.Add(item.ToString());
+                }
+                List<string> curUserList = existingList.Select(o => o.ToString()).ToList();
+
+
+                // 현재 유저 ID 제거
+                if (curUserList.Contains(userId))
+                    curUserList.Remove(userId);
+                else Debug.LogError($"서버에 제거하려는 Id가 존재하지 않음: {userId}");
+
+                Debug.Log($"현재 유저 리스트에서 제거 후 새 리스트 Count: {curUserList.Count}");
+
+
+                // 다시 object 리스트로 저장
+                if (curUserList.Count < 1)
+                    mutableData.Value = null;
+                else
+                    mutableData.Value = curUserList.Cast<object>().ToList();
+
                 return TransactionResult.Success(mutableData);
             }
-            else if ((long)mutableData.Value <= 0)
+            catch (Exception e)
             {
-                long curUserCount = (long)mutableData.Value;
-                mutableData.Value = 0;
-                Debug.LogError("서버 인원 수가 음수로 나오려고 함. 우선 예외처리로 기능 작동에는 문제 없지만 확인 필요.");
-                return TransactionResult.Success(mutableData);
-            }
-            else
-            {
-                long curUserCount = (long)mutableData.Value;
-                mutableData.Value = curUserCount - 1;
-                return TransactionResult.Success(mutableData);
+                Debug.LogError($"서버 인원 제거 실패 - 형변환 오류: {e.Message}");
+                onFail?.Invoke("인원 제거 중 오류 발생");
+                return TransactionResult.Abort();
             }
         });
     }
@@ -306,10 +344,8 @@ public class BackendManager : Singleton<BackendManager>
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
 
-
         reference.GetValueAsync().ContinueWithOnMainThread(task =>
         {
-
             if (task.IsCanceled)
             {
                 Debug.LogError("서버 데이터 불러오기 취소됨.");
@@ -327,12 +363,13 @@ public class BackendManager : Singleton<BackendManager>
 
             if (snapshot.Exists)
             {
-                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
+                var rawList = snapshot.Child("curPlayerList").Value as IEnumerable<object>;
+                List<string> curPlayerList = rawList?.Select(o => o.ToString()).ToList() ?? new List<string>();
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
-                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
+                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerList.Count}/{maxPlayerCount}");
 
-                if (curPlayerCount < maxPlayerCount)
+                if (curPlayerList.Count < maxPlayerCount)
                     onSuccess?.Invoke(true);
                 else
                     onSuccess?.Invoke(false);
@@ -371,12 +408,13 @@ public class BackendManager : Singleton<BackendManager>
 
             if (snapshot.Exists)
             {
-                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
+                var rawList = snapshot.Child("curPlayerList").Value as IEnumerable<object>;
+                List<string> curPlayerList = rawList?.Select(o => o.ToString()).ToList() ?? new List<string>();
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
-                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
+                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerList.Count}/{maxPlayerCount}");
 
-                if (curPlayerCount < maxPlayerCount - multiUserCount + 1)
+                if (curPlayerList.Count < maxPlayerCount - multiUserCount + 1)
                     onSuccess?.Invoke(true);
                 else
                     onSuccess?.Invoke(false);
@@ -445,6 +483,7 @@ public class BackendManager : Singleton<BackendManager>
             {
                 string key = child.Key; // ex) "In Game Server 01 (KR)"
                 string json = child.GetRawJsonValue();
+                //Debug.Log($"서버 JSON: {json}");
                 ServerData data = JsonUtility.FromJson<ServerData>(json);
 
                 serverDict[key] = data;
@@ -473,11 +512,11 @@ public class BackendManager : Singleton<BackendManager>
         {
             ServerData server = kvp.Value;
 
-            if (server.curPlayerCount < server.maxPlayerCount)
+            if (server.curPlayerList.Count < server.maxPlayerCount)
             {
-                if (server.curPlayerCount > highestPlayerCount)
+                if (server.curPlayerList.Count > highestPlayerCount)
                 {
-                    highestPlayerCount = server.curPlayerCount;
+                    highestPlayerCount = server.curPlayerList.Count;
                     bestServer = server;
                 }
             }
@@ -485,7 +524,7 @@ public class BackendManager : Singleton<BackendManager>
 
         if (bestServer != null)
         {
-            Debug.Log($"QuickSearch 결과: {bestServer.name} (접속 가능 인원: {bestServer.curPlayerCount}/{bestServer.maxPlayerCount})");
+            Debug.Log($"QuickSearch 결과: {bestServer.name} (접속 가능 인원: {bestServer.curPlayerList.Count}/{bestServer.maxPlayerCount})");
             onSuccess?.Invoke(bestServer);
         }
         else
@@ -644,6 +683,7 @@ public class BackendManager : Singleton<BackendManager>
 public class UserData
 {
     public string name;
+    public string userId;
     public int level;
     public int money;
     public int kills;
@@ -651,15 +691,17 @@ public class UserData
     public float highScore;
     public string startingPokemonName;
 
-    public UserData(string name)
+    public UserData(string name, string userId)
     {
         this.name = name;
+        this.userId = userId;
         this.level = 1;
         this.money = 0;
         this.kills = 0;
         this.suvivalTime = 0;
         this.highScore = 0;
         this.startingPokemonName = "";
+        this.userId = userId;
     }
 }
 
@@ -672,7 +714,8 @@ public class ServerData
     public string id;
     public int type;
     public int maxPlayerCount;
-    public int curPlayerCount;
+    //public int curPlayerCount;
+    public List<string> curPlayerList;
 
     public ServerData() { }
 
@@ -684,7 +727,8 @@ public class ServerData
         this.id = id;
         this.type = type;
         this.maxPlayerCount = maxPlayerCount;
-        curPlayerCount = 0;
+        //curPlayerCount = 0;
+        this.curPlayerList = new List<string>();
     }
 }
 public enum ServerType { Lobby, InGame, TestServer, FunctionTestServer };

@@ -30,7 +30,7 @@ public class Slot_InGameServer : MonoBehaviour
         Debug.Log("개별 슬롯 업데이트 실행");
         if (!gameObject.activeSelf) gameObject.SetActive(true);
         
-        tmp_PlayerCount.text = $"{serverData.curPlayerCount} / {serverData.maxPlayerCount}";
+        tmp_PlayerCount.text = $"{serverData.curPlayerList.Count} / {serverData.maxPlayerCount}";
 
         if (serverData.name == NetworkManager.Instance.CurServer.name)
         {
