@@ -9,9 +9,8 @@ public class Slot_Buff : MonoBehaviour
 {
     [SerializeField] Image image_Buff;
     [SerializeField] TMP_Text tmp_Duration;
-    float startTime;
-    float duration;
-
+    public float startTime;
+    public float duration;
     private void OnDisable()
     {
         // 슬롯 비활성화 시, 맨 마지막 순서로 이동
@@ -20,7 +19,7 @@ public class Slot_Buff : MonoBehaviour
 
     private void Update()
     {
-        if (!gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             UpdateView();
         }
@@ -37,19 +36,17 @@ public class Slot_Buff : MonoBehaviour
 
     public void UpdateView()
     {
-        float remainTime = duration - (Time.time - startTime);
+        duration -= Time.deltaTime;
 
         // 버프 지속시간 종료 시
-        if (remainTime < 0)
+        if (duration < 0)
         {
             gameObject.SetActive(false);
         }
         // 버프 지속시간 동안
         else
         {
-            int minutes = Mathf.FloorToInt(remainTime / 60f);
-            int seconds = Mathf.FloorToInt(remainTime % 60f);
-            tmp_Duration.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            tmp_Duration.text = $"{Mathf.Clamp((int)duration, 0, 999)}";
         }
 
     }
