@@ -34,12 +34,10 @@ public class Panel_PlayerInfo : MonoBehaviour
     private IEnumerator WaitUntilUserInfoLoaded()
     {
         // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
-
-
         FirebaseUser user = BackendManager.Auth.CurrentUser;
         panel_Loading.SetActive(true);
         Debug.Log("아직 이름 설정 안되어서 기다림");
-        yield return new WaitUntil(() => !user.DisplayName.IsNullOrEmpty());
+        yield return new WaitUntil(() => !string.IsNullOrEmpty(PhotonNetwork.NickName) && (user.DisplayName == PhotonNetwork.NickName));
         Debug.Log("정보 갱신할거 기다리는중");
         tmp_Name.text = $"Name: {user.DisplayName}";
         tmp_Email.text = $"E-Mail: {user.Email}";

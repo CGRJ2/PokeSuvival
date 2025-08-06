@@ -263,7 +263,11 @@ public struct PokemonStat
 	public int SpecialDefense;
 	public int Speed;
 
-	public float GetMoveSpeed() => Speed / 10f;
+	public float GetMoveSpeed()
+	{
+		// TODO : 이속 보정줘야하나 종족값 너무 낮으면 최소치, 너무빠르면 제한걸던가
+		return Speed / 10f;
+	}
 	public int GetBaseStat() => Hp + Attak + Defense + SpecialAttack + SpecialDefense + Speed;
 	public bool IsEqual(PokemonStat stat)
 	{

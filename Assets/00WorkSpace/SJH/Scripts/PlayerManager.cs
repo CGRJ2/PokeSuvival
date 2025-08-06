@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 		Debug.Log(pokemonName);
-
+		// TODO : 아이템 아이디로 지닌 도구 정보 가져오기
 		PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
 				new object[]
 				{
@@ -61,8 +61,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(100f, 100f), Quaternion.identity, 0,
 			new object[]
 			{
-				7, // pokeNumber
-				3 // level
+				7,	// pokeNumber
+				3	// level
 			});
 	}
 
@@ -96,14 +96,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	}
 	public void PlayerToLobby()
 	{
+		StopPlayerRoutine();
 		LocalPlayerController.DisconnectSkillEvent();
 	}
 
 	public void PlayerRespawn()
 	{
-		StopCoroutine(_playerDeleteRoutine);
-		_playerDeleteRoutine = null;
-
+		StopPlayerRoutine();
 		LocalPlayerController.PlayerRespawn();
+	}
+
+	void StopPlayerRoutine()
+	{
+		if (_playerDeleteRoutine != null) StopCoroutine(_playerDeleteRoutine);
+		_playerDeleteRoutine = null;
 	}
 }

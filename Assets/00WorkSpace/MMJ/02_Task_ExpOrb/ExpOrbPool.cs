@@ -9,9 +9,6 @@ public class ExpOrbPool : MonoBehaviourPun
     [SerializeField] private ExpOrb orbPrefab;
 
     [SerializeField] private int initialPoolSize = 50;
-
-    private Queue<ExpOrb> pool = new Queue<ExpOrb>();
-
     // SJH
     private Queue<ExpOrb> _networkPool = new();
 
@@ -24,32 +21,7 @@ public class ExpOrbPool : MonoBehaviourPun
             Destroy(gameObject);
             return;
         }
-
-        //InitPool(initialPoolSize);
 	}
-
-    public void InitPool(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            ExpOrb orb = Instantiate(orbPrefab);
-            orb.gameObject.SetActive(false);
-            pool.Enqueue(orb);
-        }
-    }
-
-    //public ExpOrb GetOrb()
-    //{
-    //    if (pool.Count > 0)
-    //    {
-    //        return pool.Dequeue();
-    //    }
-
-    //    // 일단~ 부족하면 새로 생성
-    //    ExpOrb orb = Instantiate(orbPrefab, parentTransform);
-    //    orb.gameObject.SetActive(false);
-    //    return orb;
-    //}
 
     // SJH
 	public ExpOrb GetOrb()
@@ -71,7 +43,6 @@ public class ExpOrbPool : MonoBehaviourPun
     {
 		if (!PhotonNetwork.IsMasterClient) return;
 		orb.gameObject.SetActive(false);
-        //pool.Enqueue(orb);
         _networkPool.Enqueue(orb);
     }
 

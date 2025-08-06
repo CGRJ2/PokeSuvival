@@ -68,7 +68,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 테스트 용
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser}");
+            Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
         }
     }
 
@@ -367,6 +367,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     {
         PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
 
+        if (BackendManager.Auth.CurrentUser != null) BackendManager.Instance.UpdateUserProfile(userData.name);
+
         // 유저 데이터 동기화 해주기
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
         playerProperty["StartingPokemon"] = userData.startingPokemonName;
@@ -550,6 +552,19 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 }
             });
         });
+    }
+
+
+    public string GetUserId()
+    {
+        if (BackendManager.Auth.CurrentUser != null)
+        {
+            return $"{BackendManager.Auth.CurrentUser.UserId}";
+        }
+        else
+        {
+            return $"Guest({PhotonNetwork.LocalPlayer.UserId})";
+        }
     }
 
     private void OnApplicationQuit()

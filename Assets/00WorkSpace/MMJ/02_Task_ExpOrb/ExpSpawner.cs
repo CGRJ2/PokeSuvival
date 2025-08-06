@@ -19,8 +19,11 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
     [SerializeField] private int _orbMinExp;
     [SerializeField] private int _orbMaxExp;
 
+    public static ExpOrbSpawner Instance { get; private set; }
+
     private void Awake()
     {
+        Instance = this;
         // 타일맵이 인스펙터에서 할당되었는지 확인
         if (targetTilemap == null)
         {
@@ -103,7 +106,7 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
         {
             ExpOrb orb = orbPool.GetOrb();
             orb.transform.position = GetRandomTilePosition();
-            orb.Init(Random.Range(_orbMinExp, _orbMaxExp));
+            orb.Init(GetRandomExp());
             orb.gameObject.SetActive(true);
             activeOrbs.Add(orb);
 
@@ -130,10 +133,9 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
 
             // 구슬 ID와 위치를 모든 클라이언트에 동기화
             int orbViewID = orb.GetComponent<PhotonView>().ViewID;
-            int expValue = Random.Range(_orbMinExp, _orbMaxExp);
 
             // RPC로 모든 클라이언트에게 구슬 활성화 명령 전송
-            photonView.RPC(nameof(RPC_ActivateOrb), RpcTarget.AllBuffered, orbViewID, spawnPosition, expValue);
+            photonView.RPC(nameof(RPC_ActivateOrb), RpcTarget.AllBuffered, orbViewID, spawnPosition, GetRandomExp());
 
             // 활성화 상태 추적 (마스터만)
             activeOrbs.Add(orb);
@@ -175,4 +177,6 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
             orbPool.ReturnOrb(orb); // 추가로 반환까지
         }
     }
+
+    public int GetRandomExp() => Random.Range(_orbMinExp, _orbMaxExp);
 }

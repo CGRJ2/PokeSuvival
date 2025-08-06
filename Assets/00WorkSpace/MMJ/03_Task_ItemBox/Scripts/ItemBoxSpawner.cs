@@ -157,12 +157,12 @@ public class ItemBoxSpawner : MonoBehaviourPunCallbacks
 
         // 오브젝트 풀링 대신 PhotonNetwork.Instantiate 사용
         GameObject itemBox = PhotonNetwork.InstantiateRoomObject(itemBoxPrefabPath, spawnPosition, Quaternion.identity);
-        Debug.Log("아이템 박스 생성됨: " + spawnPosition);
+        //Debug.Log("아이템 박스 생성됨: " + spawnPosition);
 
         if (PhotonNetwork.IsMasterClient)
         {
             currentActiveItemBoxes++;
-            Debug.Log($"현재 활성화된 아이템 박스 개수: {currentActiveItemBoxes}");
+            //Debug.Log($"현재 활성화된 아이템 박스 개수: {currentActiveItemBoxes}");
         }
     }
 }

@@ -2,6 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
@@ -61,6 +62,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 킬 카운트
 	[field: SerializeField] public int KillCount { get; private set; }
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
+
+	// 이동 제어
+	[field: SerializeField] public bool CanMove { get; private set; }
+	private Coroutine _canMoveRoutine;
+
+	// 지닌 도구
+	// TODO : 기술을 사용할 때 HeldItem 체크하기
+	[field: SerializeField] public ItemData HeldItem { get; private set; }
+
+	// 버프 획득용 이벤트 // 랭크업, 버프, 아이템버프, 디버프 등
+	public Action<Sprite, float> OnBuffUpdate;
+
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -80,6 +93,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		MoveInput();
 
+		// TODO : 테스트 함수 변수랑 같이 삭제
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Model.SetLevel(Test_Level);
@@ -95,13 +109,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
 		}
 
-		View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
+		if (!CanMove) View.PlayerMove(MoveDir, _lastDir, 0);
+		else View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
 	}
 
 	#region Player Init, Respawn
 	public void PlayerInit()
 	{
 		Debug.Log("플레이어 초기화");
+		PlayerSetting(false);
+	}
+
+	public void PlayerRespawn()
+	{
+		Debug.Log("플레이어 리스폰");
+		PlayerSetting(true);
+	}
+	void PlayerSetting(bool isRespawn)
+	{
 		// TODO : 플레이어 생성 연출
 
 		// 시작, 사망 시간 초기화
@@ -116,53 +141,32 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		LastAttacker = null;
 
 		PokemonData pokeData = null;
-		object[] data = photonView.InstantiationData;
-		if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
-		else if (data[0] is string pokeName)
-		{
-			pokeData = Define.GetPokeData(pokeName);
-		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
-		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
-		ConnectEvent();
 
-		PlayerManager.Instance.LocalPlayerController = this;
-
-		OnModelChanged?.Invoke(Model);
-	}
-
-	public void PlayerRespawn()
-	{
-		Debug.Log("플레이어 리스폰");
-		// TODO : 플레이어 생성 연출
-
-		_startTime = -1;
-		_endTime = -1;
-
-		_startTime = Time.time;
-		KillCount = 0;
-		LastAttacker = null;
-
-		_input.actions.Enable();
-		View.SetIsDead(false);
 		// 플레이어의 커스텀프로퍼티로 사용할 포켓몬 지정
-		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
-		PokemonData pokeData = Define.GetPokeData(pokemonName);
+		if (isRespawn && PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("StartingPokemon", out var startPoke) && startPoke is string pokemonName) pokeData = Define.GetPokeData(pokemonName);
+
 		if (pokeData == null)
 		{
 			object[] data = photonView.InstantiationData;
 			if (data[0] is int pokeNumber) pokeData = Define.GetPokeData(pokeNumber);
-			else if (data[0] is string pokeName)
-			{
-				pokeData = Define.GetPokeData(pokeName);
-			}
+			else if (data[0] is string pokeName) pokeData = Define.GetPokeData(pokeName);
 		}
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, pokeData.PokeNumber);
-		RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
-		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
-		ConnectEvent();
 
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
+
+		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		PlayerManager.Instance.LocalPlayerController = this;
+
+		if (isRespawn)
+		{
+			_input.actions.Enable();
+			View.SetIsDead(false);
+			RPC.ActionRPC(nameof(RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, true);
+		}
+
+		ConnectEvent();
+		OnModelChanged?.Invoke(Model);
+		CanMove = true;
 	}
 	#endregion
 
@@ -197,7 +201,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public override void OnPlayerEnteredRoom(Player newPlayer)
 	{
 		if (!photonView.IsMine) return;
-		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		// 1. B 클라이언트 입장
+		// 2. 이미 접속해있는 로컬 클라이언트(A)의 오브젝트에서 실행
+		// 3. B 클라이언트에 있는 A 오브젝트의 포톤함수 실행으로 동기화 (B클라에서 A의 이름, 포켓몬, 레벨, 체력 동기화)
+		// 4. 하지만 A 클라이언트에서 B 오브젝트의 이름은 동기화가 안됨
+
+		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 	#endregion
 
@@ -218,7 +227,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (LastAttacker != null)
 			{
 				Debug.Log($"{LastAttacker.Model.PokeData.PokeName} 의 킬 카운트 증가 시도");
-				RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+				/*	A -> B 를 죽였을 때
+				 *	B의 포톤뷰에서 A의 RPC_AddKillCount 함수를 실행하는게 아니라
+				 *	실행을 보낸 B의 포톤뷰에서 RPC_AddKillCount 함수를 실행
+				 *	
+				 *	그래서 보낼 때 A 포톤뷰에서 RPC를 해야함
+				 */
+				//RPC.ActionRPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+				LastAttacker.photonView.RPC(nameof(RPC.RPC_AddKillCount), LastAttacker.photonView.Owner);
+
+				// 랭크 초기화
+				Rank?.RankAllClear();
+
+				// 총 경험치의 일부분 드랍
+				RPC.ActionRPC(nameof(RPC.RPC_PlayerDead), RpcTarget.AllBuffered, Model.GetDeathExp());
 			}
 
 			_input.actions.Disable();
@@ -233,6 +255,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			ConnectRankEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
+		Model.OnTotalExpChanged += (exp) => { RPC.ActionRPC(nameof(RPC.RPC_TotalExpChanged), RpcTarget.All, exp); };
 
 		ConnectSkillEvent();
 		ConnectRankEvent();
@@ -429,9 +452,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				break;
 			case ItemType.Buff:
 				Debug.Log($"TODO : 도구, 열매 등 스탯을 제외한 버프 획득");
+				// 랭크 아이템 획득시 이벤트 실행
+				OnBuffUpdate?.Invoke(item.sprite, item.duration);
 				break;
 			case ItemType.StatBuff:
 				Debug.Log($"{item.affectedStat} 랭크 상승");
+				// 랭크 아이템 획득시 이벤트 실행
+				OnBuffUpdate?.Invoke(item.sprite, item.duration);
 				Rank?.SetRank(item.affectedStat, (int)item.value, item.duration);
 				break;
 		}
@@ -440,6 +467,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
+	}
+	public void SetCanMove(bool value, float delay = 0)
+	{
+		StopCoroutine(nameof(CanMoveRoutine)); // 중복 방지
+		if (delay > 0)
+			StartCoroutine(CanMoveRoutine(value, delay));
+		else
+			CanMove = value;
+	}
+	IEnumerator CanMoveRoutine(bool value, float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		CanMove = value;
 	}
 	#endregion
 }

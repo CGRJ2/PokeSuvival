@@ -14,9 +14,8 @@ TagManager:
   - Water
   - UI
   - Player
-
-  - Monster
-
+  - 
+  - InGameInstance
   - 
   - 
   - 
@@ -38,8 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - MiniMapPoint
   - 
   m_SortingLayers:
   - name: Default

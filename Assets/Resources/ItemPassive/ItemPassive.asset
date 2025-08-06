@@ -21,4 +21,6 @@ MonoBehaviour:
   sprite: {fileID: 0}
   description: 
   price: 0
-  elementalBoosts: 00000000
+  elementalBoosts:
+  - type: 2
+    multiplier: 1.2

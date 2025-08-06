@@ -125,9 +125,9 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		}
 
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
-		SetIsMoving(MoveDir);
 		_sprite.flipX = _flipX;
 		Vector2 movePos = MoveDir * MoveSpeed;
+		SetIsMoving(movePos.sqrMagnitude);
 		_rigid.velocity = movePos;
 
 		SetDirAnim(MoveDir);
@@ -137,8 +137,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	public void StopMove()
 	{
+		SetIsMoving(0);
 		_rigid.velocity = Vector2.zero;
-		SetIsMoving(Vector2.zero);
 
 		if (MoveDir != Vector2.zero)
 		{
@@ -182,7 +182,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	}
 
 	public void SetFlip(bool flip) => _sprite.flipX = flip;
-	public void SetIsMoving(Vector2 dir) => _anim.SetBool("IsMoving", dir != Vector2.zero);
+	public void SetIsMoving(float speed) => _anim.SetBool("IsMoving", speed > 0);
 	public void SetIsAttack() => _anim.SetTrigger("IsAttack");
 	public void SetIsSpeAttack() => _anim.SetTrigger("IsSpeAttack");
 	public void SetIsHit() => _anim.SetTrigger("IsHit");

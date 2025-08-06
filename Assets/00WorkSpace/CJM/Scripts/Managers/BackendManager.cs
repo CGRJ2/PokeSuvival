@@ -556,6 +556,8 @@ public class BackendManager : Singleton<BackendManager>
         DatabaseReference reference = root.Child("RankingBoardData").Child(UserId);
 
         Dictionary<string, object> dic = new Dictionary<string, object>();
+        
+        dic["name"] = PhotonNetwork.NickName; //닉네임을 변경했을 때 적용하는 걸 대비
         dic["highScore"] = newScore;
 
         reference.UpdateChildrenAsync(dic);
