@@ -1,5 +1,4 @@
-﻿using Photon.Pun.Demo.PunBasics;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +19,17 @@ public class StatRank
 [Serializable]
 public class PokeRankHandler
 {
-	MonoBehaviour _routineClass; // PlayerController, Enemy
-	public PokeBaseData BaseData { get; private set; }
+	[field: SerializeField] private MonoBehaviour _routineClass; // PlayerController, Enemy
+	[field: SerializeField] public PokeBaseData BaseData { get; private set; }
 
-	public Dictionary<StatType, int> RankUpdic { get; private set; }
+	public Dictionary<StatType, int> RankUpdic { get; private set; } = new()
+	{
+		[StatType.Attack] = 0,
+		[StatType.Defense] = 0,
+		[StatType.SpAttack] = 0,
+		[StatType.SpDefense] = 0,
+		[StatType.Speed] = 0,
+	};
 	//public Dictionary<StatType, float> RankEndTimes { get; private set; }
 	//public Dictionary<StatType, Coroutine> RankRoutines { get; private set; }
 
@@ -34,6 +40,10 @@ public class PokeRankHandler
 
 	public PokeRankHandler(MonoBehaviour routineClass, PokeBaseData baseData)
 	{
+		if (routineClass == null || baseData == null)
+		{
+			Debug.LogWarning($"{routineClass} / {baseData} : Rank 생성자 실패");
+		}
 		Debug.Log($"Rank 생성자 호출 baseData : {baseData}");
 		_routineClass = routineClass;
 		BaseData = baseData;
@@ -45,6 +55,7 @@ public class PokeRankHandler
 			[StatType.SpDefense] = 0,
 			[StatType.Speed] = 0,
 		};
+		RankDebug();
 		//RankEndTimes = new();
 		//RankRoutines = new();
 	}
@@ -152,6 +163,17 @@ public class PokeRankHandler
 
 	public void RankSync(StatType statType, int rank)
 	{
+		if (RankUpdic == null)
+		{
+			RankUpdic = new()
+			{
+				[StatType.Attack] = 0,
+				[StatType.Defense] = 0,
+				[StatType.SpAttack] = 0,
+				[StatType.SpDefense] = 0,
+				[StatType.Speed] = 0,
+			};
+		}
 		if (!RankUpdic.ContainsKey(statType)) return;
 		RankUpdic[statType] = rank;
 		RankDebug();

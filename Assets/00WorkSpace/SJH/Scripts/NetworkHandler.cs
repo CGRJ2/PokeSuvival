@@ -75,7 +75,7 @@ public class NetworkHandler: MonoBehaviour
 		// 새로 접속한 클라이언트에서 기존 플레이어 오브젝트 데이터 초기화
 		var pokeData = Define.GetPokeData(pokeNumber);
 		PC.SetModel(new PlayerModel(nickName, userId, pokeData, level, 0, currentHp));
-		PC.SetRank(new PokeRankHandler(PC, PC.Model));
+		//PC.SetRank(new PokeRankHandler(PC, PC.Model));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
 
@@ -119,8 +119,14 @@ public class NetworkHandler: MonoBehaviour
 		if (pc.Rank == null)
 		{
 			Debug.LogWarning("RPC_RankSync : Rank == null");
-			pc.SetRank(new PokeRankHandler(pc, pc.Model));
+			return;
 		}
+		if (pc.Model == null)
+		{
+			Debug.LogWarning("RPC_RankSync : Model == null");
+			return;
+		}
+		pc.SetRank(new PokeRankHandler(pc, pc.Model));
 		StatType statType = (StatType)statTypeIndex;
 		Debug.Log($"{viewId} : [{statType} : {value}] 동기화 시작");
 		pc.Rank.RankSync(statType, value);

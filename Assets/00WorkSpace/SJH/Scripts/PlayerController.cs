@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Model.OnPokeLevelChanged += (level) => { RPC.ActionRPC(nameof(RPC.RPC_LevelChanged), RpcTarget.All, level); };
 		OnModelChanged += (model) =>
 		{
-			if (model != null) Rank = new PokeRankHandler(this, model);
+			if (model != null && Rank == null) Rank = new PokeRankHandler(this, model);
 			ConnectRankEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
@@ -424,7 +424,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	#endregion
 
 	#region Model, View, Rank, LastAttacker, KillCount setter
-	public void SetModel(PlayerModel model) => Model = model;
+	public void SetModel(PlayerModel model)
+	{
+		Model = model;
+
+		if (model != null && model.PokeData != null) SetRank(new PokeRankHandler(this, model));
+
+		OnModelChanged?.Invoke(model);
+	}
 	public void SetView(PlayerView view) => View = view;
 	public void SetRank(PokeRankHandler rank) => Rank = rank;
 	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
