@@ -51,7 +51,7 @@ public class RoomMemberSlot : MonoBehaviour, IPointerClickHandler
             if (player.CustomProperties.ContainsKey("StartingPokemon"))
             {
                 string pokemonDataSO_Name = (string)player.CustomProperties["StartingPokemon"];
-                if (pokemonDataSO_Name == null)
+                if (string.IsNullOrEmpty(pokemonDataSO_Name))
                 {
                     image_Pokemon.sprite = sprite_PokemonDefault;
                 }

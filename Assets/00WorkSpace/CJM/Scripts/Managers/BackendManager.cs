@@ -238,7 +238,7 @@ public class BackendManager : Singleton<BackendManager>
     }
 
     // 서버 입장 시, 서버 인원에 본인 추가
-    public void OnEnterServerCapacityUpdate(ServerData curServerData, List<string> memberIdList, Action onSuccess = null, Action<string> onFail = null)
+    /*public void OnEnterServerCapacityUpdate(ServerData curServerData, List<string> memberIdList, Action onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -284,10 +284,10 @@ public class BackendManager : Singleton<BackendManager>
                 }
             }
         });
-    }
+    }*/
 
     // 서버 퇴장 시, 서버 인원에 본인 제거
-    public void OnExitServerCapacityUpdate(ServerData curServerData, string userId, Action onSucess = null, Action<string> onFail = null)
+    /*public void OnExitServerCapacityUpdate(ServerData curServerData, string userId, Action onSucess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -338,7 +338,7 @@ public class BackendManager : Singleton<BackendManager>
                 return TransactionResult.Abort();
             }
         });
-    }
+    }*/
 
     // 서버 데이터로, 현재 접속 가능한지 여부 판단
     public void IsAbleToConnectServer(ServerData curServerData, Action<bool> onSuccess = null, Action<string> onFail = null)
@@ -365,13 +365,12 @@ public class BackendManager : Singleton<BackendManager>
 
             if (snapshot.Exists)
             {
-                var rawList = snapshot.Child("curPlayerList").Value as IEnumerable<object>;
-                List<string> curPlayerList = rawList?.Select(o => o.ToString()).ToList() ?? new List<string>();
+                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
-                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerList.Count}/{maxPlayerCount}");
+                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
 
-                if (curPlayerList.Count < maxPlayerCount)
+                if (curPlayerCount < maxPlayerCount)
                     onSuccess?.Invoke(true);
                 else
                     onSuccess?.Invoke(false);
@@ -384,7 +383,7 @@ public class BackendManager : Singleton<BackendManager>
         });
     }
 
-    public void IsAbleToConnectMultipleUserIntoServer(ServerData curServerData, int multiUserCount, Action<bool> onSuccess = null, Action<string> onFail = null)
+    public void CheckMultipleUsersSpaceAndReserve(ServerData curServerData, int multiUserCount, Action<bool> onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -408,16 +407,50 @@ public class BackendManager : Singleton<BackendManager>
 
             DataSnapshot snapshot = task.Result;
 
+            
             if (snapshot.Exists)
             {
-                var rawList = snapshot.Child("curPlayerList").Value as IEnumerable<object>;
-                List<string> curPlayerList = rawList?.Select(o => o.ToString()).ToList() ?? new List<string>();
+                long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
-                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerList.Count}/{maxPlayerCount}");
+                Debug.Log($"서버 데이터 불러오기 성공. 현재 인원 / 최대 인원: {curPlayerCount}/{maxPlayerCount}");
 
-                if (curPlayerList.Count < maxPlayerCount - multiUserCount + 1)
-                    onSuccess?.Invoke(true);
+                // 자리가 있으면 예약해주기
+                if (curPlayerCount < maxPlayerCount - multiUserCount + 1)
+                {
+                    reference.Child("reservedPlayerCount").RunTransaction(mutableData =>
+                    {
+                        if (mutableData.Value == null)
+                        {
+                            mutableData.Value = (long)multiUserCount;
+                            return TransactionResult.Success(mutableData);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                long currentReservedUserCount = (long)mutableData.Value;
+                                mutableData.Value = currentReservedUserCount + (long)multiUserCount;
+                                return TransactionResult.Success(mutableData);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError($"서버 인원 갱신 실패 - 형변환 오류: {e.Message}");
+                                return TransactionResult.Abort();
+                            }
+                        }
+                    }).ContinueWithOnMainThread(task =>
+                    {
+                        if (task.IsCanceled || task.IsFaulted)
+                        {
+                            Debug.LogError("접근하려는 서버에 자리는 있는데 자리 예약에 실패함!");
+                            onSuccess?.Invoke(false);
+                        }
+                        // 자리 예약 완료되면 실행
+                        onSuccess?.Invoke(true);
+                    });
+                }
+                // 없으면 false 반환
                 else
                     onSuccess?.Invoke(false);
             }
@@ -514,11 +547,11 @@ public class BackendManager : Singleton<BackendManager>
         {
             ServerData server = kvp.Value;
 
-            if (server.curPlayerList.Count < server.maxPlayerCount)
+            if (server.curPlayerCount < server.maxPlayerCount)
             {
-                if (server.curPlayerList.Count > highestPlayerCount)
+                if (server.curPlayerCount > highestPlayerCount)
                 {
-                    highestPlayerCount = server.curPlayerList.Count;
+                    highestPlayerCount = server.curPlayerCount;
                     bestServer = server;
                 }
             }
@@ -526,7 +559,7 @@ public class BackendManager : Singleton<BackendManager>
 
         if (bestServer != null)
         {
-            Debug.Log($"QuickSearch 결과: {bestServer.name} (접속 가능 인원: {bestServer.curPlayerList.Count}/{bestServer.maxPlayerCount})");
+            Debug.Log($"QuickSearch 결과: {bestServer.name} (접속 가능 인원: {bestServer.curPlayerCount}/{bestServer.maxPlayerCount})");
             onSuccess?.Invoke(bestServer);
         }
         else
@@ -535,6 +568,40 @@ public class BackendManager : Singleton<BackendManager>
             onFail?.Invoke("접속 가능한 서버 없음");
         }
     }
+
+    public void UpdateServerUserCount(ServerData curServerData, Action onSuccess = null, Action<string> onFail = null)
+    {
+        DatabaseReference root = Database.RootReference;
+        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
+
+        reference.Child("curPlayerCount").RunTransaction(mutableData =>
+        {
+            //Debug.LogWarning($"왜 이거 자꾸 null만 뜨지? 서버에 데이터 있는데? {mutableData.Value}");
+            if (mutableData.Value == null)
+            {
+                long serverUserCount = PhotonNetwork.CountOfPlayersOnMaster + PhotonNetwork.CountOfPlayersInRooms;
+                mutableData.Value = serverUserCount;
+                return TransactionResult.Success(mutableData);
+            }
+            else
+            {
+                try
+                {
+                    long serverUserCount = PhotonNetwork.CountOfPlayersOnMaster + PhotonNetwork.CountOfPlayersInRooms;
+                    mutableData.Value = serverUserCount; 
+                    return TransactionResult.Success(mutableData);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"서버 인원 갱신 실패 - 형변환 오류: {e.Message}");
+                    return TransactionResult.Abort();
+                }
+            }
+        });
+    }
+
+
+
     #endregion
 
     #region 랭킹 시스템
@@ -720,8 +787,9 @@ public class ServerData
     public string id;
     public int type;
     public int maxPlayerCount;
-    //public int curPlayerCount;
-    public List<string> curPlayerList;
+    public int curPlayerCount;
+    public int reservedPlayerCount;
+    //public List<string> curPlayerList;
 
     public ServerData() { }
 
@@ -733,8 +801,9 @@ public class ServerData
         this.id = id;
         this.type = type;
         this.maxPlayerCount = maxPlayerCount;
-        //curPlayerCount = 0;
-        this.curPlayerList = new List<string>();
+        curPlayerCount = 0;
+        reservedPlayerCount = 0;
+        //this.curPlayerList = new List<string>();
     }
 }
 public enum ServerType { Lobby, InGame, TestServer, FunctionTestServer };

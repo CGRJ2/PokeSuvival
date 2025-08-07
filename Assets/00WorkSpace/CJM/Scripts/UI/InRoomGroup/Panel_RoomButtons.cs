@@ -1,10 +1,6 @@
 using Photon.Pun;
-using Photon.Realtime;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class Panel_RoomButtons : MonoBehaviour
@@ -28,10 +24,10 @@ public class Panel_RoomButtons : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             // 스타팅 포켓몬을 정하지 않은 상태라면 레디 못함
-            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon")) 
-            { 
-                Debug.LogError("스타팅 포켓몬을 설정하지 않아 READY를 할 수 없습니다."); 
-                return; 
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+            {
+                Debug.LogError("스타팅 포켓몬을 설정하지 않아 READY를 할 수 없습니다.");
+                return;
             }
 
             RoomMemberSlot localPlayerSlot = UIManager.Instance.LobbyGroup.panel_RoomInside.assignedSlots[PhotonNetwork.LocalPlayer];
@@ -73,25 +69,22 @@ public class Panel_RoomButtons : MonoBehaviour
 
         List<string> memberIdList = new List<string>();
 
-        foreach(var kvp in PhotonNetwork.CurrentRoom.Players)
+        foreach (var kvp in PhotonNetwork.CurrentRoom.Players)
         {
             memberIdList.Add((string)kvp.Value.CustomProperties["Id"]);
         }
 
         BackendManager.Instance.GetServerData(selectedMapKey, ServerType.InGame, (targetServer) =>
         {
-            BackendManager.Instance.IsAbleToConnectMultipleUserIntoServer(targetServer, memberCount, (accessable) =>
+            BackendManager.Instance.CheckMultipleUsersSpaceAndReserve(targetServer, memberCount, (reserveComplete) =>
             {
-                if (accessable)
+                // 서버에 자리 예약 완료
+                if (reserveComplete)
                 {
-                    // 서버에 자리 예약
-                    BackendManager.Instance.OnEnterServerCapacityUpdate(targetServer, memberIdList, () =>
-                    {
-                        // 자리 예약 성공 시 => 룸 커스텀 프로퍼티에 시작가능 갱신
-                        ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-                        roomProperty["Start"] = true;
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
-                    });
+                    // 자리 예약 성공 시 => 룸 커스텀 프로퍼티에 시작가능 갱신
+                    ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+                    roomProperty["Start"] = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
                 }
                 else
                 {

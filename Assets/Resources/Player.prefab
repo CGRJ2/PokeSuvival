@@ -535,6 +535,9 @@ MonoBehaviour:
     _routineClass: {fileID: 0}
     _rankDebug: []
   <RPC>k__BackingField: {fileID: 0}
+  <Status>k__BackingField:
+    _routineClass: {fileID: 0}
+    <CurrentStatus>k__BackingField: 
   _input: {fileID: 0}
   _flipX: 0
   <MoveDir>k__BackingField: {x: 0, y: 0}
@@ -553,6 +556,7 @@ MonoBehaviour:
     IsAI: 0
     PC: {fileID: 0}
     HeldItem: {fileID: 0}
+    CurrentStatus: 
   _lastDir: {x: 0, y: -1}
   <KillCount>k__BackingField: 0
   <LastAttacker>k__BackingField: {fileID: 0}
