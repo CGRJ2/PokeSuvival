@@ -50,8 +50,8 @@ public class Panel_LogIn : MonoBehaviour
             Debug.Log($"성공적으로 로그인 됨: {result.User.DisplayName} (UserId: {result.User.UserId}) / (Email: {result.User.Email})");
             
             // 현재 서버에 접속된 게스트Id를 로그인유저Id로 바꿔주기
-            BackendManager.Instance.OnExitServerCapacityUpdate(NetworkManager.Instance.CurServer, $"Guest({PhotonNetwork.LocalPlayer.UserId})");
-            BackendManager.Instance.OnEnterServerCapacityUpdate(NetworkManager.Instance.CurServer, new List<string>() { BackendManager.Auth.CurrentUser.UserId });
+            //BackendManager.Instance.OnExitServerCapacityUpdate(NetworkManager.Instance.CurServer, $"Guest({PhotonNetwork.LocalPlayer.UserId})");
+            //BackendManager.Instance.OnEnterServerCapacityUpdate(NetworkManager.Instance.CurServer, new List<string>() { BackendManager.Auth.CurrentUser.UserId });
 
             UIManager um = UIManager.Instance;
             FirebaseUser user = task.Result.User;

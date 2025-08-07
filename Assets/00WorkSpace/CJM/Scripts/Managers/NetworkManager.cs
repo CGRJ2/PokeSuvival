@@ -74,9 +74,25 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (Input.GetKeyDown(KeyCode.T))
         {
             //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
-            Debug.Log($"로비에 존재하는 인원 => {PhotonNetwork.CountOfPlayersOnMaster}명, 룸에 존재하는 인원 => {PhotonNetwork.CountOfPlayersInRooms}");
-            
+            //Debug.Log($"로비에 존재하는 인원 => {PhotonNetwork.CountOfPlayersOnMaster}명, 룸에 존재하는 인원 => {PhotonNetwork.CountOfPlayersInRooms}");
+            CheckServerUserNumber_InRoomMasterClient();
         }
+    }
+
+
+    public void CheckServerUserNumber_InRoomMasterClient()
+    {
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.LogWarning("인원 업데이트 실행");
+            BackendManager.Instance.UpdateServerUserCount(CurServer);
+        }
+    }
+
+    public void CheckServerUserNumber_LobbyAnyClient()
+    {
+        BackendManager.Instance.UpdateServerUserCount(CurServer);
     }
 
     public override void OnConnected()
@@ -91,11 +107,13 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         Debug.Log("마스터 연결");
 
         // 연결 후 서버 입장 처리
-        BackendManager.Instance.OnEnterServerCapacityUpdate(CurServer, new List<string>() { GetUserId() });
+        //BackendManager.Instance.OnEnterServerCapacityUpdate(CurServer, new List<string>() { GetUserId() });
 
         // 현재 접속한 서버가 로비라면
         if (CurServer.type == (int)ServerType.Lobby)
         {
+            CheckServerUserNumber_LobbyAnyClient();
+
             // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
             if (PhotonNetwork.LocalPlayer.NickName.IsNullOrEmpty())
             {
@@ -217,6 +235,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
         if (CurServer.type == (int)ServerType.InGame)
         {
+            CheckServerUserNumber_InRoomMasterClient();
+
             if (um != null)
             {
                 um.LobbyGroup.gameObject.SetActive(false);
@@ -267,7 +287,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
-        if (CurServer.type == (int)ServerType.InGame) { return; }
+        if (CurServer.type == (int)ServerType.InGame) { Debug.LogWarning("인원 업데이트: 새로운 유저 진입"); CheckServerUserNumber_InRoomMasterClient(); return; }
 
 
         if (um != null)
@@ -278,7 +298,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
-        if (CurServer.type == (int)ServerType.InGame) { return; }
+        if (CurServer.type == (int)ServerType.InGame) { Debug.LogWarning("인원 업데이트: 유저 이탈"); CheckServerUserNumber_InRoomMasterClient(); return; }
 
 
         if (um != null)
@@ -425,8 +445,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                         customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
                     // 연결 해제 이전에 서버 퇴장 처리
-                    Debug.LogWarning("퇴장처리 진행 해주니?");
-                    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
+                    //Debug.LogWarning("퇴장처리 진행 해주니?");
+                    //BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
 
                     // 로딩창 활성화
                     if (um.StaticGroup != null)
@@ -471,7 +491,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
             // 연결 해제 이전에 서버 퇴장 처리
-            BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
+            //BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
 
             // 로딩창 활성화
             if (um.StaticGroup != null)
@@ -601,9 +621,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         //}
     }
 
+
     public void GameQuit()
     {
-        BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId(), () =>
+        /*BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId(), () =>
         {
             Debug.Log("게임 종료 시도");
 #if UNITY_EDITOR
@@ -611,7 +632,14 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 #else
     Application.Quit(); // 빌드 시 실제 종료
 #endif
-        });
+        });*/
+
+        Debug.Log("게임 종료 시도");
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false; // 에디터 모드 종료
+#else
+    Application.Quit(); // 빌드 시 실제 종료
+#endif
     }
 
 }
