@@ -16,9 +16,10 @@ MonoBehaviour:
   itemName: "\uB531\uB531\uD55C\uB3CC"
   itemType: 4
   affectedStat: 1
-  value: 1.1
+  value: 0.1
   duration: 0
   sprite: {fileID: 21300000, guid: dd8a9f4cdd652e042b76ec96130218a9, type: 3}
   description: "\uBC14\uC704 \uAE30\uC220\uC758 \uC704\uB825\uC774 10%\uC0C1\uC2B9\uD55C\uB2E4"
   price: 20000
-  elementalBoosts: 0d000000
+  elementalBoosts: []
+  BonusType: 13

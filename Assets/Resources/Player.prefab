@@ -532,6 +532,7 @@ MonoBehaviour:
     _totalExp: 0
   <View>k__BackingField: {fileID: 0}
   <Rank>k__BackingField:
+    _routineClass: {fileID: 0}
     _rankDebug: []
   <RPC>k__BackingField: {fileID: 0}
   _input: {fileID: 0}
@@ -551,11 +552,12 @@ MonoBehaviour:
     CurrentHp: 0
     IsAI: 0
     PC: {fileID: 0}
+    HeldItem: {fileID: 0}
   _lastDir: {x: 0, y: -1}
   <KillCount>k__BackingField: 0
   <LastAttacker>k__BackingField: {fileID: 0}
   <CanMove>k__BackingField: 1
-  <HeldItem>k__BackingField: {fileID: 0}
+  _heldItem: {fileID: 0}
   Test_Level: 0
 --- !u!114 &3518850844711382646
 MonoBehaviour:

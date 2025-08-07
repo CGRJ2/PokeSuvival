@@ -33,6 +33,9 @@ public class EnemyData : PokeBaseData
 		{
 			IsDead = true;
 			_enemy.photonView.RPC(nameof(_enemy.RPC_EnemyDead), RpcTarget.AllBuffered, GetDeathExp());
+
+			// 풀에서 삭제
+			EnemySpawner.Instance.RemovePool(_enemy);
 		}
 	}
 	public override void SetLevel(int level) => PokeLevel = level;

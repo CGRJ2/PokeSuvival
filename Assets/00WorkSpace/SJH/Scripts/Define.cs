@@ -8,8 +8,8 @@ public static class Define
 {
 	// TODO : 임시 데이터베이스
 	private static bool _isDataInit;
-	private static Dictionary<int, PokemonData> _numberToPokeData = new();
-	private static Dictionary<string, PokemonData> _nameToPokeData = new();
+	public static Dictionary<int, PokemonData> NumberToPokeData { get; private set; }
+	public static Dictionary<string, PokemonData> NameToPokeData { get; private set; }
 	private static bool _isTypeInit;
 	private const float Weak = 0.5f;
 	private const float Strong = 2f;
@@ -24,24 +24,24 @@ public static class Define
 
 		foreach (var data in all)
 		{
-			if (_numberToPokeData == null) _numberToPokeData = new();
-			if (!_numberToPokeData.ContainsKey(data.PokeNumber)) _numberToPokeData.Add(data.PokeNumber, data);
+			if (NumberToPokeData == null) NumberToPokeData = new();
+			if (!NumberToPokeData.ContainsKey(data.PokeNumber)) NumberToPokeData.Add(data.PokeNumber, data);
 
-			if (_nameToPokeData == null) _nameToPokeData = new();
-			if (!_nameToPokeData.ContainsKey(data.PokeName)) _nameToPokeData.Add(data.PokeName, data);
+			if (NameToPokeData == null) NameToPokeData = new();
+			if (!NameToPokeData.ContainsKey(data.PokeName)) NameToPokeData.Add(data.PokeName, data);
 		}
-		Debug.Log($"PokemonData 초기화 {_numberToPokeData.Count} / {_nameToPokeData.Count}");
+		Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {NameToPokeData.Count}");
 		_isDataInit = true;
 	}
 	public static PokemonData GetPokeData(int pokeNumber)
 	{
 		PokeDataInit();
-		return _numberToPokeData.TryGetValue(pokeNumber, out var data) && data != null ? data : null;
+		return NumberToPokeData.TryGetValue(pokeNumber, out var data) && data != null ? data : null;
 	}
 	public static PokemonData GetPokeData(string pokeName)
 	{
 		PokeDataInit();
-		return _nameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
+		return NameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
 	}
 
 	static void PokeTypeInit()
@@ -332,18 +332,22 @@ public struct BattleDataTable
 	public bool IsAI;
 	public PlayerController PC;
 
-	// TODO : 상태이상
-	// TODO : 아이템 장착
+	public ItemPassive HeldItem;
+	public List<StatusType> CurrentStatus;
 
-	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false, PlayerController pc = null)
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp,
+		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null)
 	{
 		Level = level;
 		PokeData = pokeData;
 		AllStat = pokeStat;
 		MaxHp = maxHp;
 		CurrentHp = currentHp;
+
 		IsAI = isAI;
 		PC = pc;
+		HeldItem = heldItem;
+		CurrentStatus = currentStatus == null ? new List<StatusType>() { StatusType.None } : currentStatus;
 	}
 
 	public bool IsVaild() => PokeData != null;
@@ -378,9 +382,18 @@ public enum StatType
 	SpDefense,	// 특방
 	Speed		// 스피드
 }
-public struct StatBonus
+public enum StatusType
 {
-	public StatType statType;
-	public float value;
+	None,		// 기본 상태
+	// 상태이상
+	Poison,		// 독
+	Burn,		// 화상 : 물리 공격 반감
+	Paralysis,	// 마비 : 스피드 반감
+	Sleep,      // 수면 : 이동불가 회전불가
+	Freeze,		// 동상	: 이동불가 회전불가
+	// 상태변화
+	Confusion,	// 혼란	: 키입력 반대로
+	Binding,	// 속박 : 이동불가 회전가능 기술사용가능
+	Flinch,		// 풀죽음 : ?
 }
 #endregion

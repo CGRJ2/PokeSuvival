@@ -189,6 +189,7 @@ MonoBehaviour:
     CurrentHp: 0
     IsAI: 0
     PC: {fileID: 0}
+    HeldItem: {fileID: 0}
   _skill: {fileID: 0}
   _startPos: {x: 0, y: 0}
   _speed: 10

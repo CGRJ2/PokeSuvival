@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Pokemon/PokemonData")]
 public class PokemonData : ScriptableObject

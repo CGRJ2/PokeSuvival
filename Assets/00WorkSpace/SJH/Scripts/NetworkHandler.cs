@@ -28,7 +28,6 @@ public class NetworkHandler: MonoBehaviour
 	public void RPC_ChangePokemonData(string nickName, string userId, int pokeNumber)
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);
-		//PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData));
 		PC.SetModel(new PlayerModel(nickName, userId, pokeData));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
@@ -75,7 +74,7 @@ public class NetworkHandler: MonoBehaviour
 		// 새로 접속한 클라이언트에서 기존 플레이어 오브젝트 데이터 초기화
 		var pokeData = Define.GetPokeData(pokeNumber);
 		PC.SetModel(new PlayerModel(nickName, userId, pokeData, level, 0, currentHp));
-		PC.SetRank(new PokeRankHandler(PC, PC.Model));
+		//PC.SetRank(new PokeRankHandler(PC, PC.Model));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
 
@@ -119,8 +118,14 @@ public class NetworkHandler: MonoBehaviour
 		if (pc.Rank == null)
 		{
 			Debug.LogWarning("RPC_RankSync : Rank == null");
-			pc.SetRank(new PokeRankHandler(pc, pc.Model));
+			return;
 		}
+		if (pc.Model == null)
+		{
+			Debug.LogWarning("RPC_RankSync : Model == null");
+			return;
+		}
+		pc.SetRank(new PokeRankHandler(pc, pc.Model));
 		StatType statType = (StatType)statTypeIndex;
 		Debug.Log($"{viewId} : [{statType} : {value}] 동기화 시작");
 		pc.Rank.RankSync(statType, value);
@@ -138,5 +143,12 @@ public class NetworkHandler: MonoBehaviour
 			Debug.Log($"플레이어 사망 경험치 구슬 [{deadExp}] 생성");
 			PhotonNetwork.InstantiateRoomObject("ExpOrb", transform.position, Quaternion.identity, 0, new object[] { deadExp });
 		}
+	}
+	[PunRPC]
+	public void RPC_SetStatus(string skillName, int statusIndex, float duration)
+	{
+		// TODO : 스킬이름으로 스킬 SO 받아오기
+		if (PC.Status == null) PC.SetStatus(new PokeStatusHandler(this, PC.Model));
+		PC.Status.SetStatus(skillName, (StatusType)statusIndex, duration);
 	}
 }

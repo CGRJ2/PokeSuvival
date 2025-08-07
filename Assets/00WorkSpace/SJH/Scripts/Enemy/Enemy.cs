@@ -71,6 +71,9 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		EnemyAI = new EnemyAI(this, EnemyData);
 
+		// 풀에 자신 추가
+		EnemySpawner.Instance.AddPool(this);
+
 		IsInit = true;
 		Debug.Log($"Lv.{pokeLevel} {pokeData.PokeName} 적 생성");
 	}
