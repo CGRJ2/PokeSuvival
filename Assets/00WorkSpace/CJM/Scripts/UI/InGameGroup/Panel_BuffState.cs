@@ -10,7 +10,12 @@ public class Panel_BuffState : MonoBehaviour
     {
         slots = slotsParent.GetComponentsInChildren<Slot_Buff>();
 
-        // 일단 초기화 시, 모든 버프 슬롯 비활성화
+        InitSlots();
+    }
+
+    public void InitSlots()
+    {
+        // 초기화 시, 모든 버프 슬롯 비활성화
         foreach (Slot_Buff slot in slots)
         {
             if (slot.gameObject.activeSelf)

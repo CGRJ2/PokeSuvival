@@ -8,11 +8,6 @@ public class Slot_Buff : MonoBehaviour
     [SerializeField] TMP_Text tmp_Duration;
     public float startTime;
     public float duration;
-    private void OnDisable()
-    {
-        // 슬롯 비활성화 시, 맨 마지막 순서로 이동
-        transform.SetAsLastSibling();
-    }
 
     private void Update()
     {
@@ -57,6 +52,10 @@ public class Slot_Buff : MonoBehaviour
             // 버프 지속시간 종료 시
             if (duration < 0)
             {
+                // 맨 마지막 순서로 이동
+                if (transform.parent.gameObject.activeSelf)
+                    transform.SetAsLastSibling();
+
                 gameObject.SetActive(false);
             }
             // 버프 지속시간 동안
