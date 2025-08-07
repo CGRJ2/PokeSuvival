@@ -5,7 +5,6 @@ using UnityEngine;
 using NTJ;
 using UnityEngine.UI;
 using Photon.Pun;
-using static UnityEditor.Progress;
 
 public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 {
