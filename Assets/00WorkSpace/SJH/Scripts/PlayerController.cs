@@ -148,7 +148,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// 마지막 공격자 초기화
 		LastAttacker = null;
 
-		transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
+		// 랜덤위치 스폰
+		//transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
 
 		PokemonData pokeData = null;
 
@@ -428,9 +429,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 
-		if (Status == null) Status = new PokeStatusHandler(this, Model);
-		Status.SetStatus(skill);
-
 		// 플레이어들과 AI를 구분해야함
 		if (!attackerData.IsAI)
 		{
@@ -442,7 +440,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			RPC.ActionRPC(nameof(RPC.RPC_SetLastAttacker), this.photonView.Owner, -1);
 		}
 
-		if (Status.CanApply(skill.StatusEffect)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName, (int)skill.StatusEffect, skill.StatusDuration);
+		// 상태이상
+		if (Status == null) Status = new PokeStatusHandler(this, Model);
+		if (Status.SetStatus(skill)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName);
+
+		// 대미지 처리
 		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
 	}
@@ -515,5 +517,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		yield return new WaitForSeconds(delay);
 		CanMove = value;
 	}
+
 	#endregion
 }

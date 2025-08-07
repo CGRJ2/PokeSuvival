@@ -145,10 +145,35 @@ public class NetworkHandler: MonoBehaviour
 		}
 	}
 	[PunRPC]
-	public void RPC_SetStatus(string skillName, int statusIndex, float duration)
+	public void RPC_SetStatus(string skillName)
 	{
-		// TODO : 스킬이름으로 스킬 SO 받아오기
 		if (PC.Status == null) PC.SetStatus(new PokeStatusHandler(this, PC.Model));
-		PC.Status.SetStatus(skillName, (StatusType)statusIndex, duration);
+
+		// 상태이상 UI를 업데이트할 클라이언트
+		if (PC.photonView.IsMine)
+		{
+			PC.Status.SetStatus(skillName, true);
+			// TODO : 상태이상에 따라 디버프 적용
+			var skill = Define.GetPokeSkillData(skillName);
+			if (skill == null) return;
+			switch (skill.StatusEffect)
+			{
+				case StatusType.Burn: Debug.Log("화상 걸림"); PC.Status.SetBurnDamage(skill.StatusDuration); break;
+				case StatusType.Poison: Debug.Log("독 걸림"); PC.Status.SetPoisonDamage(skill.StatusDuration); break;
+				case StatusType.Freeze: Debug.Log("동상 걸림"); break;
+				case StatusType.Binding: Debug.Log("속박 걸림"); break;
+				case StatusType.Paralysis: Debug.Log("마비 걸림"); break;
+				case StatusType.Confusion: Debug.Log("혼란 걸림"); break;
+			}
+		}
+		else
+		{
+			PC.Status.SetStatus(skillName, false);
+		}
+	}
+	[PunRPC]
+	public void RPC_SetHit()
+	{
+		PC.View.SetIsHit();
 	}
 }
