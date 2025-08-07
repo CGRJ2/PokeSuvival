@@ -1,5 +1,5 @@
 using NTJ;
-using System.Collections;
+using Photon.Pun;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -16,7 +16,7 @@ public class Panel_Inventory : MonoBehaviour
     [SerializeField] TMP_Text tmp_SelectedItemDescription; // 선택된 아이템의 설명
 
     [SerializeField] Transform itemSlotsParent;
-    public Button btn_Esc; 
+    public Button btn_Esc;
 
 
     Slot_Inventory[] slots; // 아이템 리스트 패널의 각 아이템 이미지 슬롯
@@ -32,7 +32,7 @@ public class Panel_Inventory : MonoBehaviour
 
     [Header("데이터")]
     public List<ItemData> allItems = new List<ItemData>(); // 전체 아이템 데이터 리스트
-    public HashSet<int> ownedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
+    //public HashSet<int> ownedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
 
     [Header("미획득 안내 UI")]
     public GameObject notOwnedPanel; // "아직 획득하지 않았습니다" 안내 UI
@@ -58,13 +58,23 @@ public class Panel_Inventory : MonoBehaviour
         btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
 
+    private void OnEnable()
+    {
+        UpdatePage();
+    }
+
     // 해금 조건 등록 예시
     void RegisterUnlockConditions()
     {
         Panel_Shop shop = UIManager.Instance.LobbyGroup.panel_Shop;
 
         // 예시: id가 10006인 아이템은 모든 상점 아이템 구매 시 해금
-        unlockConditions[10006] = shop.sellItems.All(item => shop.purchasedItemIds.Contains(item.id));
+        List<int> purchasedItemIds = new List<int>();
+        int[] owneditemsArray = (int[])PhotonNetwork.LocalPlayer.CustomProperties["OwnedItems"];
+        if (owneditemsArray != null)
+            purchasedItemIds = owneditemsArray.ToList();
+
+        unlockConditions[10006] = shop.sellItems.All(item => purchasedItemIds.Contains(item.id));
         // 실제 조건은 ShopManager에서 public으로 expose 필요
         // 여러 조건을 추가할 수 있음
     }
@@ -116,6 +126,12 @@ public class Panel_Inventory : MonoBehaviour
             if (itemIdx < allItems.Count)
             {
                 var item = allItems[itemIdx];
+
+                int[] owneditemsArray = (int[])PhotonNetwork.LocalPlayer.CustomProperties["OwnedItems"];
+                List<int> ownedItemIds = new List<int>();
+                if (owneditemsArray != null)
+                    ownedItemIds = owneditemsArray.ToList();
+
                 bool owned = ownedItemIds.Contains(item.id);
                 // 해금 조건이 등록된 아이템만 해금 체크, 그렇지 않으면 항상 해금된 것으로 처리
 
@@ -184,6 +200,12 @@ public class Panel_Inventory : MonoBehaviour
     public void OnItemSlotClick(int itemIdx)
     {
         var item = allItems[itemIdx];
+
+        int[] owneditemsArray = (int[])PhotonNetwork.LocalPlayer.CustomProperties["OwnedItems"];
+        List<int> ownedItemIds = new List<int>();
+        if (owneditemsArray != null)
+            ownedItemIds = owneditemsArray.ToList();
+
         bool owned = ownedItemIds.Contains(item.id);
         bool isUnlockItem = unlockConditions.ContainsKey(item.id);
         bool unlocked = unlockedItemIds.Contains(item.id);

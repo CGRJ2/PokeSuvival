@@ -396,6 +396,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         playerProperty["Level"] = userData.level;
         playerProperty["SuvivalTime"] = userData.suvivalTime;
         playerProperty["HighScore"] = userData.highScore;
+        int[] ownedItemIds = userData.owndItemList.ToArray();
+        playerProperty["OwnedItems"] = ownedItemIds;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
     }
 

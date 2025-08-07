@@ -692,6 +692,8 @@ public class UserData
     public float suvivalTime;
     public float highScore;
     public string startingPokemonName;
+    public List<int> owndItemList;
+
 
     public UserData(string name, string userId)
     {
@@ -704,6 +706,7 @@ public class UserData
         this.highScore = 0;
         this.startingPokemonName = "";
         this.userId = userId;
+        owndItemList = new List<int>();
     }
 }
 

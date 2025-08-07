@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine; 
 using NTJ;
 using UnityEngine.UI;
+using Photon.Pun;
+using static UnityEditor.Progress;
 
 public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 {
@@ -20,7 +22,7 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 
     private List<ItemData> buyItems = new List<ItemData>(); // 구매 목록에 추가된 아이템 리스트
 
-    public HashSet<int> purchasedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
+    //public HashSet<int> purchasedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
 
     
     public void Init() // 게임 시작 시 호출
@@ -33,12 +35,18 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 
     private void OnEnable()
     {
-        
+        UpdateShopSlotsView();
     }
 
     public void PopulateSellItems() // 판매 아이템 패널을 SellItemContent에 생성
     {
         Panel_Inventory inventory = UIManager.Instance.LobbyGroup.panel_Inventory;
+
+        List<int> purchasedItemIds = new List<int>();
+        int[] owneditemsArray = (int[])PhotonNetwork.LocalPlayer.CustomProperties["OwnedItems"];
+        if (owneditemsArray != null)
+            purchasedItemIds = owneditemsArray.ToList();
+
         // 해금 조건 체크 (상점 갱신 직전마다)
         if (inventory != null) inventory.CheckUnlocks();
 
@@ -115,29 +123,31 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
             // 도감에 구매한 아이템 등록 및 UI 갱신
             if (inventory != null)
             {
+                List<int> ownedItemIds = new List<int>();
+                int[] owneditemsArray = (int[])PhotonNetwork.LocalPlayer.CustomProperties["OwnedItems"];
+                if (owneditemsArray != null)
+                    ownedItemIds = owneditemsArray.ToList();
+
                 foreach (var item in buyItems)
-                    inventory.ownedItemIds.Add(item.id);
+                {
+                    ownedItemIds.Add(item.id);
+                }
+
+                // 커스텀 프로퍼티에 저장
+                ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+                playerProperty["OwnedItems"] = ownedItemIds.ToArray();
+                PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+
+                // 로그인 유저는 DB까지 저장
+                if (BackendManager.Auth.CurrentUser != null)
+                    BackendManager.Instance.UpdateUserDataValue("owndItemList", ownedItemIds);
 
                 inventory.CheckUnlocks();
                 inventory.UpdatePage();
             }
 
-            // 1. 구매한 아이템 id를 집합에 추가
-            // 구매한 아이템 id를 집합에 추가
-            foreach (var item in buyItems)
-            {
-                purchasedItemIds.Add(item.id);
-            }
-
-            // 2. 상점 UI 갱신 (기존 아이템 패널 모두 삭제 후 다시 생성)
-            
-
-            buyItems.Clear(); // 구매 목록 초기화
-            foreach (Transform child in buyItemContent) // 구매 목록 UI 삭제
-                Destroy(child.gameObject);
-            buyCoinText.text = "0"; // 구매 총합 텍스트 초기화
-                                    
-            PopulateSellItems();// 구매 직후 상점정보를 한 번 더 갱신
+            // 상점 UI 갱신 (기존 아이템 패널 모두 삭제 후 다시 생성)
+            UpdateShopSlotsView();
         }
         else
         {
@@ -154,7 +164,18 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
             }
         }
     }
-    
+
+    // 상점 UI 갱신 (기존 아이템 패널 모두 삭제 후 다시 생성)
+    void UpdateShopSlotsView()
+    {
+        buyItems.Clear(); // 구매 목록 초기화
+        foreach (Transform child in buyItemContent) // 구매 목록 UI 삭제
+            Destroy(child.gameObject);
+        buyCoinText.text = "0"; // 구매 총합 텍스트 초기화
+
+        PopulateSellItems();// 구매 직후 상점정보를 한 번 더 갱신
+    }
+
     // 재화 부족 안내 UI를 3초 후 자동으로 끄는 코루틴
     private System.Collections.IEnumerator HideInsufficientCoinPanel()
     {
