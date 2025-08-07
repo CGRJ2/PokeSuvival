@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 {
 	public EnemyData EnemyData;
 	public EnemyAI EnemyAI;
+	public PokeRankHandler Rank;
+	public PokeStatusHandler Status;
 	[SerializeField] private Rigidbody2D _rigid;
 	[SerializeField] private SpriteRenderer _sprite;
 	[SerializeField] private Animator _anim;
@@ -22,7 +24,9 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		get
 		{
 			if (_moveSpeed == 0 && EnemyData != null) _moveSpeed = EnemyData.GetMoveSpeed();
-			return _moveSpeed;
+			float speed = _moveSpeed;
+			if (Status != null && Status.IsParalysis()) speed *= 0.5f;
+			return speed;
 		}
 	}
 
@@ -35,7 +39,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 			//return _battleData;
 
 			// 매번 갱신으로 변경
-			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
+			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true, null, null, Status?.CurrentStatus);
 			return _battleData;
 		}
 	}
@@ -70,6 +74,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		_anim.SetFloat("Y", MoveDir.y);
 
 		EnemyAI = new EnemyAI(this, EnemyData);
+		Rank = new PokeRankHandler(this, EnemyData);
+		Status = new PokeStatusHandler(this, EnemyData);
 
 		// 풀에 자신 추가
 		EnemySpawner.Instance.AddPool(this);
@@ -84,10 +90,14 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		BattleDataTable defenderData = ((IDamagable)this).BattleData;
 		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
+
 		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+
 		photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.AllBuffered, damage);
 
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
+		
+		if (Status != null && Status.SetStatus(skill)) photonView.RPC(nameof(RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName);
 		return true;
 	}
 
@@ -121,6 +131,23 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	public void Move()
 	{
+		if (Status != null)
+		{
+			if (Status.IsConfusion()) MoveDir *= -1f;
+
+			if (Status.IsFreeze())
+			{
+				StopMove();
+				return;
+			}
+			if (Status.IsBinding())
+			{
+				if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
+				_sprite.flipX = _flipX;
+				StopMove();
+				return;
+			}
+		}
 		if (MoveDir == Vector2.zero)
 		{
 			StopMove();
@@ -152,6 +179,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	public void Attack(SkillSlot slot)
 	{
+		if (Status != null && Status.IsFreeze()) return;
+
 		var target = EnemyAI.TargetPlayer;
 		var targetPC = EnemyAI.TargetPC;
 		if (target == null && targetPC == null) return;
@@ -174,14 +203,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
 		// 수동 동기화
-		if (stream.IsWriting)
-		{
-			stream.SendNext(_flipX);
-		}
-		else
-		{
-			SetFlip(_flipX = (bool)stream.ReceiveNext());
-		}
+		if (stream.IsWriting) stream.SendNext(_flipX);
+		else SetFlip(_flipX = (bool)stream.ReceiveNext());
 	}
 
 	public void SetFlip(bool flip) => _sprite.flipX = flip;
@@ -194,5 +217,33 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	{
 		_anim.SetFloat("X", dir.x);
 		_anim.SetFloat("Y", dir.y);
+	}
+
+	[PunRPC]
+	public void RPC_SetStatus(string skillName)
+	{
+		if (Status == null) Status = new PokeStatusHandler(this, EnemyData);
+
+		// 상태이상 UI를 업데이트할 클라이언트
+		if (photonView.IsMine)
+		{
+			Status.SetStatus(skillName, true);
+			// TODO : 상태이상에 따라 디버프 적용
+			var skill = Define.GetPokeSkillData(skillName);
+			if (skill == null) return;
+			switch (skill.StatusEffect)
+			{
+				case StatusType.Burn: Debug.Log("화상 걸림"); Status.SetBurnDamage(skill.StatusDuration); break;
+				case StatusType.Poison: Debug.Log("독 걸림"); Status.SetPoisonDamage(skill.StatusDuration); break;
+				case StatusType.Freeze: Debug.Log("동상 걸림"); Status.SetFreeze(skill.StatusDuration); break;
+				case StatusType.Binding: Debug.Log("속박 걸림"); Status.SetBinding(skill.StatusDuration); break;
+				case StatusType.Paralysis: Debug.Log("마비 걸림"); Status.SetParalysis(skill.StatusDuration); break;
+				case StatusType.Confusion: Debug.Log("혼란 걸림"); Status.SetConfusion(skill.StatusDuration); break;
+			}
+		}
+		else
+		{
+			Status.SetStatus(skillName, false);
+		}
 	}
 }
