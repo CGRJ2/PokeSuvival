@@ -26,14 +26,18 @@ public class Slot_Buff : MonoBehaviour
     {
         if (duration <= -98)
         {
+            gameObject.SetActive(true);
+            Debug.LogWarning("패시브 버프 실행");
             image_Buff.sprite = sprite;
             this.duration = duration;
-            tmp_Duration.gameObject.SetActive(false);
+            tmp_Duration.transform.parent.gameObject.SetActive(false);
         }
         else
         {
+            Debug.LogWarning("쿨타임 버프 실행");
+
             gameObject.SetActive(true);
-            tmp_Duration.gameObject.SetActive(true);
+            tmp_Duration.transform.parent.gameObject.SetActive(true);
 
             image_Buff.sprite = sprite;
 
@@ -46,10 +50,12 @@ public class Slot_Buff : MonoBehaviour
     {
         if (duration <= -98)
         {
-
+            Debug.LogWarning("패시브라 시간 연산 안함");
         }
         else
         {
+            Debug.LogWarning("지속시간 계산 진행");
+
             duration -= Time.deltaTime;
 
             // 버프 지속시간 종료 시
