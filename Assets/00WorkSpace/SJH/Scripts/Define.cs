@@ -15,6 +15,8 @@ public static class Define
 	private const float Strong = 2f;
 	private const float NoDamage = 0f;
 	private static Dictionary<PokemonType, Dictionary<PokemonType, float>> _pokeTypeChart = new();
+	private static bool _isSkillInit;
+	private static Dictionary<string, PokemonSkill> _pokeSkillDic = new();
 
 	static void PokeDataInit()
 	{
@@ -232,6 +234,25 @@ public static class Define
 		return _pokeTypeChart.TryGetValue(attackType, out var chart) && chart.TryGetValue(defenderType, out float result) ? result : 1f;
 	}
 
+	static void PokeSkillInit()
+	{
+		if (_isSkillInit) return;
+
+		PokemonSkill[] all = Resources.LoadAll<PokemonSkill>("PokemonSkillSO");
+
+		foreach (var data in all)
+		{
+			if (_pokeSkillDic == null) _pokeSkillDic = new();
+			if (!_pokeSkillDic.ContainsKey(data.SkillName)) _pokeSkillDic.Add(data.SkillName, data);
+		}
+		Debug.Log($"PokemonSkillData 초기화 {_pokeSkillDic.Count}");
+		_isSkillInit = true;
+	}
+	public static PokemonSkill GetPokeSkillData(string skillName)
+	{
+		PokeSkillInit();
+		return _pokeSkillDic.TryGetValue(skillName, out var data) ? data : null;
+	}
     #region Item DB
 
     public static ItemDatabase ItemDatabase { get; private set; }

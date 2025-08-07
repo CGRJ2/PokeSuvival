@@ -441,6 +441,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			RPC.ActionRPC(nameof(RPC.RPC_SetLastAttacker), this.photonView.Owner, -1);
 		}
+
 		if (Status.CanApply(skill.StatusEffect)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName, (int)skill.StatusEffect, skill.StatusDuration);
 		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
