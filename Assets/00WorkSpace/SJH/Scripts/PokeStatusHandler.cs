@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
 
 [Serializable]
 public class PokeStatusHandler
@@ -92,6 +91,15 @@ public class PokeStatusHandler
 		return true;
 	}
 
+	public void RemoveStatus(StatusType status) => CurrentStatus.Remove(status);
+
+	public bool IsBurn() => CurrentStatus.Contains(StatusType.Burn);
+	public bool IsPoison() => CurrentStatus.Contains(StatusType.Poison);
+	public bool IsFreeze() => CurrentStatus.Contains(StatusType.Freeze);
+	public bool IsConfusion() => CurrentStatus.Contains(StatusType.Confusion);
+	public bool IsBinding() => CurrentStatus.Contains(StatusType.Binding);
+	public bool IsParalysis() => CurrentStatus.Contains(StatusType.Paralysis);
+
 	IEnumerator StatusRoutine(StatusType status, float duration)
 	{
 		yield return new WaitForSeconds(duration);
@@ -103,14 +111,13 @@ public class PokeStatusHandler
 	public void StatusAllClear()
 	{
 		_routineClass.StopAllCoroutines();
+		CurrentStatus.Clear();
+		CurrentStatus = new List<StatusType>() { StatusType.None };
 		Debug.Log("모든 상태 해제");
 	}
 
-	public void SetBurnDamage(float duration)
-	{
-		_routineClass.StartCoroutine(BurnRoutine(duration));
-	}
-
+	// 상태이상 적용
+	public void SetBurnDamage(float duration) => _routineClass?.StartCoroutine(BurnRoutine(duration));
 	IEnumerator BurnRoutine(float duration)
 	{
 		float dur = duration;
@@ -140,11 +147,7 @@ public class PokeStatusHandler
 		}
 	}
 
-	public void SetPoisonDamage(float duration)
-	{
-		_routineClass.StartCoroutine(PoisonRoutine(duration));
-	}
-
+	public void SetPoisonDamage(float duration) => _routineClass?.StartCoroutine(PoisonRoutine(duration));
 	IEnumerator PoisonRoutine(float duration)
 	{
 		float dur = duration;
@@ -161,7 +164,7 @@ public class PokeStatusHandler
 			BaseData.SetCurrentHp(BaseData.CurrentHp - poisonDamage);
 			if (pc != null)
 			{
-				pc.View.SetIsHit();
+				pc.RPC.ActionRPC(nameof(pc.RPC.RPC_SetHit), RpcTarget.All);
 			}
 			else if (enemy != null)
 			{
@@ -169,5 +172,40 @@ public class PokeStatusHandler
 			}
 			PlayerManager.Instance.ShowDamageText(_routineClass.transform, poisonDamage, Color.red);
 		}
+	}
+
+	public void SetBinding(float duration) => _routineClass?.StartCoroutine(BindingRoutine(duration));
+
+	IEnumerator BindingRoutine(float duration)
+	{
+		CurrentStatus.Add(StatusType.Binding);
+		yield return new WaitForSeconds(duration);
+		CurrentStatus.Remove(StatusType.Binding);
+	}
+
+	public void SetFreeze(float duration) => _routineClass?.StartCoroutine(FreezeRoutine(duration));
+
+	IEnumerator FreezeRoutine(float duration)
+	{
+		CurrentStatus.Add(StatusType.Freeze);
+		yield return new WaitForSeconds(duration);
+		CurrentStatus.Remove(StatusType.Freeze);
+	}
+
+	public void SetParalysis(float duration) => _routineClass?.StartCoroutine(ParalysisRoutine(duration));
+
+	IEnumerator ParalysisRoutine(float duration)
+	{
+		CurrentStatus.Add(StatusType.Paralysis);
+		yield return new WaitForSeconds(duration);
+		CurrentStatus.Remove(StatusType.Paralysis);
+	}
+
+	public void SetConfusion(float duration) => _routineClass?.StartCoroutine(ConfusionRoutine(duration));
+	IEnumerator ConfusionRoutine(float duration)
+	{
+		CurrentStatus.Add(StatusType.Confusion);
+		yield return new WaitForSeconds(duration);
+		CurrentStatus.Remove(StatusType.Confusion);
 	}
 }

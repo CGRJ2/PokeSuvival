@@ -160,10 +160,10 @@ public class NetworkHandler: MonoBehaviour
 			{
 				case StatusType.Burn: Debug.Log("화상 걸림"); PC.Status.SetBurnDamage(skill.StatusDuration); break;
 				case StatusType.Poison: Debug.Log("독 걸림"); PC.Status.SetPoisonDamage(skill.StatusDuration); break;
-				case StatusType.Freeze: Debug.Log("동상 걸림"); break;
-				case StatusType.Binding: Debug.Log("속박 걸림"); break;
-				case StatusType.Paralysis: Debug.Log("마비 걸림"); break;
-				case StatusType.Confusion: Debug.Log("혼란 걸림"); break;
+				case StatusType.Freeze: Debug.Log("동상 걸림"); PC.Status.SetFreeze(skill.StatusDuration); break;
+				case StatusType.Binding: Debug.Log("속박 걸림"); PC.Status.SetBinding(skill.StatusDuration); break;
+				case StatusType.Paralysis: Debug.Log("마비 걸림"); PC.Status.SetParalysis(skill.StatusDuration); break;
+				case StatusType.Confusion: Debug.Log("혼란 걸림"); PC.Status.SetConfusion(skill.StatusDuration); break;
 			}
 		}
 		else

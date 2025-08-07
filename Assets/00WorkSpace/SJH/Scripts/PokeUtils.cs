@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class PokeUtils
@@ -80,9 +81,11 @@ public static class PokeUtils
 		float step1 = Mathf.Floor((attackerData.Level * 2f) / 5f) + 2f;						// ((레벨 × 2 ÷ 5) + 2)
 		float step2 = step1 * skillDamage * attackStat * itemBonus;    // ((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격
 		float step3 = Mathf.Floor(step2 / 50f);												// (((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50)
-		float step4 = Mathf.Floor(step3 / defendStat);										// ((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어)
+		float step4 = Mathf.Floor(step3 / defendStat);                                      // ((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어)
 
-		float mod1 = 1f; // 상태이상 ex) 화상
+		// 상태이상 화상
+		float mod1 = (skill.SkillType == SkillType.Physical && attackerData.CurrentStatus?.Contains(StatusType.Burn) == true) ? 0.5f : 1f;
+
 		float totalDamage = step4 * mod1 * sameTypeBonus * typeBonus * ran;
 
 		return typeBonus == 0 ? 0 : Mathf.Max((int)totalDamage, 1);

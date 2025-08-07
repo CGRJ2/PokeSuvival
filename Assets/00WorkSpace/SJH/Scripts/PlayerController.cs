@@ -72,8 +72,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
 
 	// 이동 제어
-	[field: SerializeField] public bool CanMove { get; private set; }
-	private Coroutine _canMoveRoutine;
+	// TODO : 스테이터스 핸들러에서 바인딩, 얼음 두가지 추가해서 제어
 
 	// 지닌 도구
 	[SerializeField] private ItemPassive _heldItem;
@@ -106,9 +105,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			Model.SetLevel(Test_Level);
 		}
+		if (Input.GetKeyDown(KeyCode.B)) Status?.RemoveStatus(StatusType.Freeze);
+		if (Input.GetKeyDown(KeyCode.N)) Status?.StatusAllClear();
 	}
 	void MoveInput()
 	{
+		if (Status == null) Status = new PokeStatusHandler(this, Model);
+
+		// 동상 : 이동 불가
+		if (Status.IsFreeze()) return;
+
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
 		if (MoveDir != Vector2.zero)
@@ -117,8 +123,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
 		}
 
-		if (!CanMove) View.PlayerMove(MoveDir, _lastDir, 0);
-		else View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
+		// 속박 : 방향만 전환
+		if (Status.IsBinding())
+		{
+			View.PlayerMove(MoveDir, _lastDir, 0);
+		}
+		else
+		{
+			// 마비 : 속도 반감
+			float speed = Model.GetMoveSpeed();
+			if (Status.IsParalysis()) speed *= 0.5f;
+			View.PlayerMove(MoveDir, _lastDir, speed);
+		}
 	}
 
 	#region Player Init, Respawn
@@ -185,7 +201,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		ConnectEvent();
 		OnModelChanged?.Invoke(Model);
-		CanMove = true;
 	}
 	#endregion
 
@@ -193,16 +208,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
 		// 수동 동기화
-		if (stream.IsWriting)
-		{
-			stream.SendNext(_flipX);
-			// TODO : 실시간 동기화
-		}
-		else
-		{
-			View.SetFlip(_flipX = (bool)stream.ReceiveNext());
-			// TODO : 실시간 동기화
-		}
+		if (stream.IsWriting) stream.SendNext(_flipX);
+		else View.SetFlip(_flipX = (bool)stream.ReceiveNext());
 	}
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -356,6 +363,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		MoveDir = value.Get<Vector2>();
 		Model.SetMoving(MoveDir != Vector2.zero);
 
+		if (Status != null && Status.IsConfusion()) MoveDir *= -1f;
+
 		if (MoveDir != Vector2.zero) _lastDir = MoveDir;
 
 		// 두 키를 뗐을 때
@@ -387,7 +396,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void OnSkill(SkillSlot slot, InputAction.CallbackContext ctx)
 	{
 		if (!photonView.IsMine) return;
-
+		if (Status.IsFreeze()) return;
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
@@ -503,19 +512,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
-	}
-	public void SetCanMove(bool value, float delay = 0)
-	{
-		StopCoroutine(nameof(CanMoveRoutine)); // 중복 방지
-		if (delay > 0)
-			StartCoroutine(CanMoveRoutine(value, delay));
-		else
-			CanMove = value;
-	}
-	IEnumerator CanMoveRoutine(bool value, float delay)
-	{
-		yield return new WaitForSeconds(delay);
-		CanMove = value;
 	}
 
 	#endregion
