@@ -16,8 +16,8 @@ public class AOE_BlastBurn : AOE_Skill
 		_hitTargets.Add(_attacker);
 
 		var pc = attackerData.PC;
-		if (pc == null) attacker.GetComponent<PlayerController>();
-		pc.Status.SetFreeze(1);
+		if (pc != null) pc.Status.SetStun(1);
+		else attacker.GetComponent<Enemy>()?.Status?.SetStun(1);
 	}
 
 	// 애니메이션 이벤트 함수로 연결
