@@ -287,7 +287,7 @@ public class BackendManager : Singleton<BackendManager>
     }
 
     // 서버 퇴장 시, 서버 인원에 본인 제거
-    public void OnExitServerCapacityUpdate(ServerData curServerData, string userId, Action<string> onFail = null)
+    public void OnExitServerCapacityUpdate(ServerData curServerData, string userId, Action onSucess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -300,6 +300,7 @@ public class BackendManager : Singleton<BackendManager>
                 {
                     // 아무 리스트도 없다면 빈 리스트로 초기화
                     mutableData.Value = new List<object>();
+                    onSucess?.Invoke();
                     return TransactionResult.Success(mutableData);
                 }
 
@@ -327,6 +328,7 @@ public class BackendManager : Singleton<BackendManager>
                 else
                     mutableData.Value = curUserList.Cast<object>().ToList();
 
+                onSucess?.Invoke();
                 return TransactionResult.Success(mutableData);
             }
             catch (Exception e)

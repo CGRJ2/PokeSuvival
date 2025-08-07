@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
@@ -593,6 +594,19 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         //    // 서버 퇴장 처리
         //    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
         //}
+    }
+
+    public void GameQuit()
+    {
+        BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId(), () =>
+        {
+            Debug.Log("게임 종료 시도");
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false; // 에디터 모드 종료
+#else
+    Application.Quit(); // 빌드 시 실제 종료
+#endif
+        });
     }
 
 }

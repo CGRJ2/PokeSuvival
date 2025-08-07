@@ -9,6 +9,7 @@ public class UIGroup_Static : MonoBehaviour
     public Panel_Option panel_Option;
     public Panel_InGameServerList panel_InGameServerList;
     public Panel_RankingBoard panel_RankingBoard;
+    public Panel_UpperMenu panel_UpperMenu;
 
     //public LoadingPanel serverPanel;
 
@@ -18,6 +19,7 @@ public class UIGroup_Static : MonoBehaviour
         panel_Option.Init();
         panel_InGameServerList.Init();
         panel_RankingBoard.Init();
+        panel_UpperMenu.Init();
     }
 
 

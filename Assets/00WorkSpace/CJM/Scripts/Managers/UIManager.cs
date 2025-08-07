@@ -34,6 +34,10 @@ public class UIManager : Singleton<UIManager>
             {
                 ClosePanel();
             }
+            else
+            {
+                UIManager.Instance.StaticGroup.panel_UpperMenu.SwitchToggleDropDownButton();
+            }
         }
     }
     private void OnDestroy()
