@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NTJ;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Define
@@ -229,6 +231,32 @@ public static class Define
 		PokeTypeInit();
 		return _pokeTypeChart.TryGetValue(attackType, out var chart) && chart.TryGetValue(defenderType, out float result) ? result : 1f;
 	}
+
+    #region Item DB
+
+    public static ItemDatabase ItemDatabase { get; private set; }
+    [Header("아이템 DB")]
+    public static ItemData[] items;
+    private static Dictionary<int, ItemData> _itemDict;
+
+    public static void ItemDatabaseInit()
+    {
+        ItemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+        _itemDict = ItemDatabase.items.ToDictionary(i => i.id);
+        foreach (var kvp in _itemDict)
+        {
+            Debug.Log($"Key : {kvp.Key} / Value : {kvp.Value.itemName}");
+        }
+        Debug.Log($"아이템 데이터 {_itemDict.Count}개 초기화 완료");
+    }
+
+    public static ItemData GetItemById(int id)
+    {
+        if (ItemDatabase == null) ItemDatabaseInit();
+        return _itemDict != null && _itemDict.TryGetValue(id, out var data) ? data : null;
+    }
+
+    #endregion
 }
 #region SJH
 public enum PokemonType

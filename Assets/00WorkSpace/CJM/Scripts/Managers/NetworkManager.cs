@@ -74,6 +74,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (Input.GetKeyDown(KeyCode.T))
         {
             //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
+            Debug.Log($"로비에 존재하는 인원 => {PhotonNetwork.CountOfPlayersOnMaster}명, 룸에 존재하는 인원 => {PhotonNetwork.CountOfPlayersInRooms}");
+            
         }
     }
 
@@ -398,6 +400,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         playerProperty["HighScore"] = userData.highScore;
         int[] ownedItemIds = userData.owndItemList.ToArray();
         playerProperty["OwnedItems"] = ownedItemIds;
+        playerProperty["HeldItem"] = userData.heldItem;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
     }
 

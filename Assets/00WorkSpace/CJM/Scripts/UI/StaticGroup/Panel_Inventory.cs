@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 
 public class Panel_Inventory : MonoBehaviour
@@ -14,6 +15,7 @@ public class Panel_Inventory : MonoBehaviour
     [SerializeField] Image image_SelectedItem; // 선택된 아이템의 이미지
     [SerializeField] TMP_Text tmp_SelectedItemName; // 선택된 아이템의 이름
     [SerializeField] TMP_Text tmp_SelectedItemDescription; // 선택된 아이템의 설명
+    
 
     [SerializeField] Transform itemSlotsParent;
     public Button btn_Esc;
@@ -61,6 +63,12 @@ public class Panel_Inventory : MonoBehaviour
     private void OnEnable()
     {
         UpdatePage();
+        int equipedItemKey = (int)PhotonNetwork.LocalPlayer.CustomProperties["HeldItem"];
+        Debug.Log($"현재 지닌 물건 {Define.GetItemById(equipedItemKey)}");
+        if (PhotonNetwork.LocalPlayer.CustomProperties["HeldItem"] == null)
+            UpdateSelectedItemInfoView(null);
+        else 
+            UpdateSelectedItemInfoView(Define.GetItemById(equipedItemKey));
     }
 
     // 해금 조건 등록 예시
@@ -222,9 +230,21 @@ public class Panel_Inventory : MonoBehaviour
         if (owned)
         {
             // 아이템 정보 표시
-            image_SelectedItem.sprite = item.sprite;
-            tmp_SelectedItemName.text = item.itemName;
-            tmp_SelectedItemDescription.text = item.description;
+            UpdateSelectedItemInfoView(item);
+
+            // 선택
+            // 여기서 장착아이템 프로퍼티 설정
+
+            // 커스텀 프로퍼티에 저장
+            ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+            playerProperty["HeldItem"] = item.id;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+
+            // 로그인 유저라면 DB에 장착아이템 정보 업데이트
+            if (BackendManager.Auth.CurrentUser != null)
+            {
+                BackendManager.Instance.UpdateUserDataValue("heldItem", item.id);
+            }
         }
         else
         {
@@ -234,6 +254,24 @@ public class Panel_Inventory : MonoBehaviour
                 notOwnedPanel.SetActive(true);
                 StartCoroutine(HideNotOwnedPanel());
             }
+        }
+    }
+
+    private void UpdateSelectedItemInfoView(ItemData item)
+    {
+        if (item == null)
+        {
+            image_SelectedItem.gameObject.SetActive(false);
+            image_SelectedItem.sprite = null;
+            tmp_SelectedItemName.text = "";
+            tmp_SelectedItemDescription.text = "";
+        }
+        else
+        {
+            image_SelectedItem.gameObject.SetActive(true);
+            image_SelectedItem.sprite = item.sprite;
+            tmp_SelectedItemName.text = item.itemName;
+            tmp_SelectedItemDescription.text = item.description;
         }
     }
 

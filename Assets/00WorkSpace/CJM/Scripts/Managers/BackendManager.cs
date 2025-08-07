@@ -693,6 +693,7 @@ public class UserData
     public float highScore;
     public string startingPokemonName;
     public List<int> owndItemList;
+    public int heldItem;
 
 
     public UserData(string name, string userId)
