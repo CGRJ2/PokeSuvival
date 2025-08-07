@@ -23,6 +23,7 @@ public class SkillStrategyAttack : IAttack
 			case "잎날가르기": return new RazorLeaf();
 			case "불꽃세례": return new Ember();
 			case "블라스트번": return new BlastBurn();
+			case "도깨비불": return new WillOWisp();
 			default: return null;
 		}
 	}

@@ -28,7 +28,6 @@ public class NetworkHandler: MonoBehaviour
 	public void RPC_ChangePokemonData(string nickName, string userId, int pokeNumber)
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);
-		//PC.SetModel(new PlayerModel(PC.Model.PlayerName, pokeData));
 		PC.SetModel(new PlayerModel(nickName, userId, pokeData));
 		PC.View?.SetAnimator(pokeData.AnimController);
 		PC.View?.SetColliderSize(pokeData.PokeSize);
@@ -144,5 +143,12 @@ public class NetworkHandler: MonoBehaviour
 			Debug.Log($"플레이어 사망 경험치 구슬 [{deadExp}] 생성");
 			PhotonNetwork.InstantiateRoomObject("ExpOrb", transform.position, Quaternion.identity, 0, new object[] { deadExp });
 		}
+	}
+	[PunRPC]
+	public void RPC_SetStatus(string skillName, int statusIndex, float duration)
+	{
+		// TODO : 스킬이름으로 스킬 SO 받아오기
+		if (PC.Status == null) PC.SetStatus(new PokeStatusHandler(this, PC.Model));
+		PC.Status.SetStatus(skillName, (StatusType)statusIndex, duration);
 	}
 }

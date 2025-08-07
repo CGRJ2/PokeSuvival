@@ -304,11 +304,11 @@ public struct BattleDataTable
 	public bool IsAI;
 	public PlayerController PC;
 
-	// TODO : 상태이상
-	// TODO : 아이템 장착
 	public ItemPassive HeldItem;
+	public List<StatusType> CurrentStatus;
 
-	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp, bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null)
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp,
+		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null)
 	{
 		Level = level;
 		PokeData = pokeData;
@@ -319,6 +319,7 @@ public struct BattleDataTable
 		IsAI = isAI;
 		PC = pc;
 		HeldItem = heldItem;
+		CurrentStatus = currentStatus == null ? new List<StatusType>() { StatusType.None } : currentStatus;
 	}
 
 	public bool IsVaild() => PokeData != null;
@@ -353,9 +354,18 @@ public enum StatType
 	SpDefense,	// 특방
 	Speed		// 스피드
 }
-public struct StatBonus
+public enum StatusType
 {
-	public StatType statType;
-	public float value;
+	None,		// 기본 상태
+	// 상태이상
+	Poison,		// 독
+	Burn,		// 화상 : 물리 공격 반감
+	Paralysis,	// 마비 : 스피드 반감
+	Sleep,      // 수면 : 이동불가 회전불가
+	Freeze,		// 동상	: 이동불가 회전불가
+	// 상태변화
+	Confusion,	// 혼란	: 키입력 반대로
+	Binding,	// 속박 : 이동불가 회전가능 기술사용가능
+	Flinch,		// 풀죽음 : ?
 }
 #endregion

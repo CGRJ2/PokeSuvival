@@ -9,6 +9,9 @@ public class EnemySpawner : MonoBehaviourPunCallbacks
 {
     public static EnemySpawner Instance { get; private set; }
 
+	[SerializeField] private int _minLevel = 1;
+	[SerializeField] private int _maxLevel = 2;
+
 	[SerializeField] private float _spawnDelay = 5f;
 	[SerializeField] private int _spawnCount = 30;
 
@@ -79,7 +82,7 @@ public class EnemySpawner : MonoBehaviourPunCallbacks
 		Vector3 spawnPos = ExpOrbSpawner.Instance.GetRandomTilePosition();
 
 		// 레벨 선택
-		int level = Random.Range(1, 51);
+		int level = Random.Range(_minLevel, _maxLevel);
 
 		// 도감 선택
 		// 딕셔너리에서 n번째 포켓몬 데이터 반환

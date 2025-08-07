@@ -43,6 +43,7 @@ public class PokeRankHandler
 		if (routineClass == null || baseData == null)
 		{
 			Debug.LogWarning($"{routineClass} / {baseData} : Rank 생성자 실패");
+			return;
 		}
 		Debug.Log($"Rank 생성자 호출 baseData : {baseData}");
 		_routineClass = routineClass;
