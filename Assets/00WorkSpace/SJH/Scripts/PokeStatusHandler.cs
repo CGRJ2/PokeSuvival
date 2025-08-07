@@ -99,6 +99,8 @@ public class PokeStatusHandler
 	public bool IsConfusion() => CurrentStatus.Contains(StatusType.Confusion);
 	public bool IsBinding() => CurrentStatus.Contains(StatusType.Binding);
 	public bool IsParalysis() => CurrentStatus.Contains(StatusType.Paralysis);
+	public bool IsSleep() => CurrentStatus.Contains(StatusType.Sleep);
+	public bool IsStun() => CurrentStatus.Contains(StatusType.Stun);
 
 	IEnumerator StatusRoutine(StatusType status, float duration)
 	{
@@ -179,6 +181,10 @@ public class PokeStatusHandler
 	IEnumerator BindingRoutine(float duration)
 	{
 		CurrentStatus.Add(StatusType.Binding);
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+		if (pc != null) pc.View.SetStop();
+		if (enemy != null) enemy.StopMove();
 		yield return new WaitForSeconds(duration);
 		CurrentStatus.Remove(StatusType.Binding);
 	}
@@ -188,6 +194,10 @@ public class PokeStatusHandler
 	IEnumerator FreezeRoutine(float duration)
 	{
 		CurrentStatus.Add(StatusType.Freeze);
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+		if (pc != null) pc.View.SetStop();
+		if (enemy != null) enemy.StopMove();
 		yield return new WaitForSeconds(duration);
 		CurrentStatus.Remove(StatusType.Freeze);
 	}
@@ -207,5 +217,28 @@ public class PokeStatusHandler
 		CurrentStatus.Add(StatusType.Confusion);
 		yield return new WaitForSeconds(duration);
 		CurrentStatus.Remove(StatusType.Confusion);
+	}
+
+	public void SetStun(float duration) => _routineClass?.StartCoroutine(StunRoutine(duration));
+	IEnumerator StunRoutine(float duration)
+	{
+		CurrentStatus.Add(StatusType.Stun);
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+		if (pc != null) pc.View.SetStop();
+		if (enemy != null) enemy.StopMove();
+		yield return new WaitForSeconds(duration);
+		CurrentStatus.Remove(StatusType.Stun);
+	}
+	public void SetSleep(float duration) => _routineClass?.StartCoroutine(SleepRoutine(duration));
+	IEnumerator SleepRoutine(float duration)
+	{
+		CurrentStatus.Add(StatusType.Sleep);
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+		if (pc != null) pc.View.SetStop();
+		if (enemy != null) enemy.StopMove();
+		yield return new WaitForSeconds(duration);
+		CurrentStatus.Remove(StatusType.Sleep);
 	}
 }

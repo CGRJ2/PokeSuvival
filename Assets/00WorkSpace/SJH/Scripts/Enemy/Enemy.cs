@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		{
 			if (Status.IsConfusion()) MoveDir *= -1f;
 
-			if (Status.IsFreeze())
+			if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun())
 			{
 				StopMove();
 				return;
@@ -179,7 +179,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 	public void Attack(SkillSlot slot)
 	{
-		if (Status != null && Status.IsFreeze()) return;
+		if (Status != null && Status.IsFreeze() || Status.IsSleep() || Status.IsStun()) return;
 
 		var target = EnemyAI.TargetPlayer;
 		var targetPC = EnemyAI.TargetPC;

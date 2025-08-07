@@ -24,6 +24,7 @@ public class SkillStrategyAttack : IAttack
 			case "불꽃세례": return new Ember();
 			case "블라스트번": return new BlastBurn();
 			case "도깨비불": return new WillOWisp();
+			case "불대문자": return new FireBlast();
 			default: return null;
 		}
 	}

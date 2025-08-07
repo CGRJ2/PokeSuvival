@@ -259,6 +259,12 @@ MonoBehaviour:
     _searchRange: 0
     TargetPlayer: {fileID: 0}
     TargetPC: {fileID: 0}
+  Rank:
+    _routineClass: {fileID: 0}
+    _rankDebug: []
+  Status:
+    _routineClass: {fileID: 0}
+    <CurrentStatus>k__BackingField: 
   _rigid: {fileID: 0}
   _sprite: {fileID: 0}
   _anim: {fileID: 0}

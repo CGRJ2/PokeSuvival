@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (Status == null) Status = new PokeStatusHandler(this, Model);
 
 		// 동상 : 이동 불가
-		if (Status.IsFreeze()) return;
+		if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun()) return;
 
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
@@ -396,7 +396,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void OnSkill(SkillSlot slot, InputAction.CallbackContext ctx)
 	{
 		if (!photonView.IsMine) return;
-		if (Status.IsFreeze()) return;
+		if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun()) return;
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:

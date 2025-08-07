@@ -416,5 +416,7 @@ public enum StatusType
 	Confusion,	// 혼란	: 키입력 반대로
 	Binding,	// 속박 : 이동불가 회전가능 기술사용가능
 	Flinch,		// 풀죽음 : ?
+	// 제자리 스탑
+	Stun,
 }
 #endregion
