@@ -26,19 +26,21 @@ public class Slot_Buff : MonoBehaviour
     {
         if (duration <= -98)
         {
+            gameObject.SetActive(true);
+            tmp_Duration.transform.parent.gameObject.SetActive(false);
+
             image_Buff.sprite = sprite;
             this.duration = duration;
-            tmp_Duration.gameObject.SetActive(false);
         }
         else
         {
             gameObject.SetActive(true);
-            tmp_Duration.gameObject.SetActive(true);
+            tmp_Duration.transform.parent.gameObject.SetActive(true);
 
             image_Buff.sprite = sprite;
+            this.duration = duration;
 
             startTime = Time.time;
-            this.duration = duration;
         }
     }
 
