@@ -1,6 +1,3 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +6,14 @@ public class PlayerInstanceUI : MonoBehaviour
     PlayerController pc;
     [SerializeField] PlayerHeadUI headUI;
     [SerializeField] Image image_MiniMapPoint;
+    [SerializeField] Canvas canvasSelf;
 
     private void Awake() => Init();
 
     public void Init()
     {
         pc = GetComponentInParent<PlayerController>();
+        pc.OnBuffUpdate += UIManager.Instance.InGameGroup.panel_HUD.panel_BuffState.ActiveBuffUIView;
     }
 
     private void Update()
@@ -24,14 +23,16 @@ public class PlayerInstanceUI : MonoBehaviour
             headUI.UpdateView(pc.Model);
 
             // 본인이라면
-            if (PhotonNetwork.NickName == pc.Model.PlayerName)
+            if (pc.Model.UserId == NetworkManager.Instance.GetUserId())
             {
                 image_MiniMapPoint.color = Color.green;
+                canvasSelf.sortingOrder = 90;
             }
             // 적들이라면
             else
             {
                 image_MiniMapPoint.color = Color.red;
+                canvasSelf.sortingOrder = 80;
             }
         }
     }

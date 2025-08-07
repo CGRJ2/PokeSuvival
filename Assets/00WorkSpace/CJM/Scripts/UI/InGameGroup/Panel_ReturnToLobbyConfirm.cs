@@ -10,7 +10,11 @@ public class Panel_ReturnToLobbyConfirm : MonoBehaviour
 
     public void Init()
     {
-        btn_Confirm.onClick.AddListener(() => NetworkManager.Instance.MoveToLobby());
+        btn_Confirm.onClick.AddListener(() =>
+        {
+            UIManager.Instance.StaticGroup.panel_UpperMenu.SwitchToggleDropDownButton();
+            NetworkManager.Instance.MoveToLobby();
+        });
         btn_Cancel.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
 }

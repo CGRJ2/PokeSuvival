@@ -19,7 +19,7 @@ public class PlayerHeadUI : MonoBehaviour
         image_HPBar.fillAmount = Mathf.Clamp01((float)model.CurrentHp / (float)model.MaxHp);
 
         // 본인이라면
-        if (PhotonNetwork.NickName == model.PlayerName)
+        if (model.UserId == NetworkManager.Instance.GetUserId())
         {
             image_HPBar.color = Color.green;
         }

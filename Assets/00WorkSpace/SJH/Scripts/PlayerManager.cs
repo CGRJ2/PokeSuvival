@@ -48,22 +48,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	public void PlayerInstaniate()
 	{
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+		int heldItem = (int)PhotonNetwork.LocalPlayer.CustomProperties["HeldItem"];
 		Debug.Log(pokemonName);
-		// TODO : 아이템 아이디로 지닌 도구 정보 가져오기
 		PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
 				new object[]
 				{
-					pokemonName
+					pokemonName,	// 스타팅 포켓몬 이름
+					heldItem		// 아이템 아이디
 				});
 
-		// test
-		if (!PhotonNetwork.IsMasterClient) return;
-		PhotonNetwork.InstantiateRoomObject("Enemy", new Vector3(100f, 100f), Quaternion.identity, 0,
-			new object[]
-			{
-				7,	// pokeNumber
-				3	// level
-			});
+		// 필요 조건 : 생성위치, 도감번호, 레벨
+		if (PhotonNetwork.IsMasterClient) EnemySpawner.Instance.SpawnInit();
 	}
 
 	public void ShowDamageText(Transform spawnPos, int damage, Color color)

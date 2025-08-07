@@ -51,7 +51,7 @@ public class Panel_GameOver : MonoBehaviour
         tmp_Kills.text = $"Kills: {kills}";
 
         // 돈 계산 수식 여기에 업데이트 (현재는 임시로 넣어두었습니다)
-        int rewardMoneyValue = (int)(score / 10) + level + kills;
+        int rewardMoneyValue = (int)score + level * 100 + kills * 100;
 
         // 유저 데이터 업데이트
         // 유저 데이터 있음(로그인 유저)

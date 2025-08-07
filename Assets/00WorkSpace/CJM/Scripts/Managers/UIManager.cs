@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -14,15 +14,37 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField] List<GameObject> DebugStackView = new List<GameObject>();
 
+
     public void Init()
     {
         base.SingletonInit();
+
         InitializeGroup.Init();
         StaticGroup.Init();
         LobbyGroup.Init();
         InGameGroup.Init();
+
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (activedPanelStack.Count > 0)
+            {
+                ClosePanel();
+            }
+            else
+            {
+                UIManager.Instance.StaticGroup.panel_UpperMenu.SwitchToggleDropDownButton();
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        //pauseAction.performed -= OnEsc;
+        //pauseAction.Disable();
+    }
 
     public void OpenPanel(GameObject gameObject)
     {
@@ -79,5 +101,10 @@ public class UIManager : Singleton<UIManager>
         DebugStackView = activedPanelStack.ToList();
     }
 
+    public void OnEsc()
+    {
+        if (activedPanelStack.Count > 0)
+            ClosePanel();
+    }
 
 }

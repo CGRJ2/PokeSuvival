@@ -10,12 +10,14 @@ public class Panel_SelectedPokemonView : MonoBehaviour
     [SerializeField] TMP_Text tmp_Name;
     [SerializeField] Image image_Sprite;
     [SerializeField] Button btn_changePokemon;
+    [SerializeField] Button btn_equipItem;
     [SerializeField] Sprite sprite_noneSettedImage;
 
 
     public void Init()
     {
         btn_changePokemon.onClick.AddListener(OpenPokemonListPanel);
+        btn_equipItem.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_Inventory.gameObject));
     }
 
     public void UpdateView()

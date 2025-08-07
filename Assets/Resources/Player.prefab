@@ -526,13 +526,18 @@ MonoBehaviour:
     _currentHp: 0
     <MaxHp>k__BackingField: 0
     <PlayerName>k__BackingField: 
+    <UserId>k__BackingField: 
     _pokeExp: 0
     <NextExp>k__BackingField: 0
     _totalExp: 0
   <View>k__BackingField: {fileID: 0}
   <Rank>k__BackingField:
+    _routineClass: {fileID: 0}
     _rankDebug: []
   <RPC>k__BackingField: {fileID: 0}
+  <Status>k__BackingField:
+    _routineClass: {fileID: 0}
+    <CurrentStatus>k__BackingField: 
   _input: {fileID: 0}
   _flipX: 0
   <MoveDir>k__BackingField: {x: 0, y: 0}
@@ -550,11 +555,13 @@ MonoBehaviour:
     CurrentHp: 0
     IsAI: 0
     PC: {fileID: 0}
+    HeldItem: {fileID: 0}
+    CurrentStatus: 
   _lastDir: {x: 0, y: -1}
   <KillCount>k__BackingField: 0
   <LastAttacker>k__BackingField: {fileID: 0}
-  <CanMove>k__BackingField: 0
-  <HeldItem>k__BackingField: {fileID: 0}
+  <CanMove>k__BackingField: 1
+  _heldItem: {fileID: 0}
   Test_Level: 0
 --- !u!114 &3518850844711382646
 MonoBehaviour:
@@ -944,7 +951,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!114 &8924755891625919194
 MonoBehaviour:
@@ -1047,7 +1054,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_TargetDisplay: 0
 --- !u!114 &5523075100869831461
 MonoBehaviour:
@@ -1103,3 +1110,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headUI: {fileID: 9095404598076037530}
   image_MiniMapPoint: {fileID: 6708261077782687566}
+  canvasSelf: {fileID: 1828062485210868179}

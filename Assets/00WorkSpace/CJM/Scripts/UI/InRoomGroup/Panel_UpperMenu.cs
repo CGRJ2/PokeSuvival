@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class Panel_UpperMenu : MonoBehaviour
 {
+    public Panel_ReturnToLobbyConfirm panel_ReturnToLobbyConfirm;
+
     [SerializeField] Button btn_Option;
     [SerializeField] Button btn_Lobby;
+    [SerializeField] Button btn_Quit;
     [SerializeField] Button btn_DropDown;
     [SerializeField] TMP_Text tmp_State;
 
@@ -21,28 +24,37 @@ public class Panel_UpperMenu : MonoBehaviour
 
     public void Init()
     {
+        panel_ReturnToLobbyConfirm.Init();
+
         rect = GetComponent<RectTransform>();
 
         btn_Option.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_Option.gameObject));
-        btn_Lobby.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.InGameGroup.panel_ReturnToLobbyConfirm.gameObject));
+        btn_Lobby.onClick.AddListener(() => UIManager.Instance.OpenPanel(panel_ReturnToLobbyConfirm.gameObject));
+        btn_Quit.onClick.AddListener(() => NetworkManager.Instance.GameQuit());
         btn_DropDown.onClick.AddListener(SwitchToggleDropDownButton);
     }
 
-    private void SwitchToggleDropDownButton()
+    public void SwitchToggleDropDownButton()
     {
-
         if (isOpened)
         {
-            tmp_State.text = $"{NetworkManager.Instance.CurServer.name}";
             rect.DOAnchorPos(closePos, duration).SetEase(Ease.OutCubic);
             isOpened = false;
         }
         else
         {
+            if (NetworkManager.Instance.CurServer.type != (int)ServerType.InGame)
+                btn_Lobby.gameObject.SetActive(false);
+            else
+                btn_Lobby.gameObject.SetActive(true);
+
+            tmp_State.text = $"{NetworkManager.Instance.CurServer.name}";
+
             rect.DOAnchorPos(openPos, duration).SetEase(Ease.OutCubic);
             isOpened = true;
         }
     }
 
+    
 
 }

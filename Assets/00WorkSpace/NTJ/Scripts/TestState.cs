@@ -154,34 +154,34 @@ namespace NTJ
             return 0;
         }
 
-        public void ApplyPassive(ItemPassive passive)
-        {
-            foreach (var bonus in passive.statBonuses)
-            {
-                if (passiveBonuses.ContainsKey(bonus.statType))
-                    passiveBonuses[bonus.statType] += bonus.value;
-                else
-                    passiveBonuses[bonus.statType] = bonus.value;
+        //public void ApplyPassive(ItemPassive passive)
+        //{
+        //    foreach (var bonus in passive.statBonuses)
+        //    {
+        //        if (passiveBonuses.ContainsKey(bonus.statType))
+        //            passiveBonuses[bonus.statType] += bonus.value;
+        //        else
+        //            passiveBonuses[bonus.statType] = bonus.value;
 
-                Debug.Log($"[패시브 적용] {bonus.statType}: +{bonus.value}");
-            }
-        }
+        //        Debug.Log($"[패시브 적용] {bonus.statType}: +{bonus.value}");
+        //    }
+        //}
 
-        public void RemovePassive(ItemPassive passive)
-        {
-            foreach (var bonus in passive.statBonuses)
-            {
-                if (passiveBonuses.ContainsKey(bonus.statType))
-                {
-                    passiveBonuses[bonus.statType] -= bonus.value;
-                    if (Mathf.Approximately(passiveBonuses[bonus.statType], 0))
-                        passiveBonuses.Remove(bonus.statType);
+        //public void RemovePassive(ItemPassive passive)
+        //{
+        //    foreach (var bonus in passive.statBonuses)
+        //    {
+        //        if (passiveBonuses.ContainsKey(bonus.statType))
+        //        {
+        //            passiveBonuses[bonus.statType] -= bonus.value;
+        //            if (Mathf.Approximately(passiveBonuses[bonus.statType], 0))
+        //                passiveBonuses.Remove(bonus.statType);
 
-                    Debug.Log($"[패시브 제거] {bonus.statType}: -{bonus.value}");
-                }
-            }
+        //            Debug.Log($"[패시브 제거] {bonus.statType}: -{bonus.value}");
+        //        }
+        //    }
 
-        }
+        //}
         private float GetPassiveMultiplier(StatType stat)
         {
             return passiveBonuses.TryGetValue(stat, out float bonus) ? 1f + bonus : 1f;

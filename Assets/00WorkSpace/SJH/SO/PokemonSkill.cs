@@ -15,4 +15,9 @@ public class PokemonSkill : ScriptableObject
 
 	public GameObject EffectPrefab;
     public AudioClip SFX;
+
+    public StatusType StatusEffect;
+    public Sprite StatusSprite;
+    public float StatusRate; // 0 ~ 1f;
+    public float StatusDuration;
 }

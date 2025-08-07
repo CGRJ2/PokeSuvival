@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3733888857327246888}
   - component: {fileID: 6194033933904544804}
   - component: {fileID: 473584789872396188}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlastBurnPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,6 +237,7 @@ MonoBehaviour:
     CurrentHp: 0
     IsAI: 0
     PC: {fileID: 0}
+    HeldItem: {fileID: 0}
   _skill: {fileID: 0}
   _size: 0
   _enemies: []

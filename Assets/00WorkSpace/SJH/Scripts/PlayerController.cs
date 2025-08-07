@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PlayerView View { get; private set; }
 	[field: SerializeField] public PokeRankHandler Rank { get; private set; }
 	[field: SerializeField] public NetworkHandler RPC { get; private set; }
+	[field: SerializeField] public PokeStatusHandler Status { get; private set; }
 
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
@@ -29,17 +30,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			if (Rank == null || Rank.BaseData == null)
 			{
+				Debug.Log("Rank == null 초기화 시작");
 				Rank = new PokeRankHandler(this, Model);
 				ConnectRankEvent();
+			}
+			if (Status == null || Status.BaseData == null)
+			{
+				Debug.Log("Status == null 초기화 시작");
+				Status = new PokeStatusHandler(this, Model);
 			}
 			var newStat = Rank.GetRankedStat();
 			if (!_prevRankedStat.IsEqual(newStat))
 			{
 				_prevRankedStat = newStat;
-				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this);
+				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this, _heldItem, Status.CurrentStatus);
 			}
 			return _battleData;
 		}
+		private set { _battleData = value; }
 	}
 	private int _maxLogCount = 10;
 	[SerializeField] private Queue<Vector2> _moveHistory = new();
@@ -68,8 +76,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	private Coroutine _canMoveRoutine;
 
 	// 지닌 도구
-	// TODO : 기술을 사용할 때 HeldItem 체크하기
-	[field: SerializeField] public ItemData HeldItem { get; private set; }
+	[SerializeField] private ItemPassive _heldItem;
+	public ItemPassive HeldItem { get => _heldItem; private set { _heldItem = value; _prevRankedStat = default; } }
 
 	// 버프 획득용 이벤트 // 랭크업, 버프, 아이템버프, 디버프 등
 	public Action<Sprite, float> OnBuffUpdate;
@@ -140,6 +148,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// 마지막 공격자 초기화
 		LastAttacker = null;
 
+		transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
+
 		PokemonData pokeData = null;
 
 		// 플레이어의 커스텀프로퍼티로 사용할 포켓몬 지정
@@ -152,7 +162,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			else if (data[0] is string pokeName) pokeData = Define.GetPokeData(pokeName);
 		}
 
-		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, pokeData.PokeNumber);
+		// 아이템 장착
+		object[] datas = photonView.InstantiationData;
+		if (datas.Length > 1 && datas[1] is int itemId && itemId > 0 && ItemDataManager.Instance.GetItemById(itemId) is ItemPassive heldItem)
+		{
+			HeldItem = heldItem;
+			OnBuffUpdate?.Invoke(HeldItem.sprite, -99f);
+		}
+
+		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, NetworkManager.Instance.GetUserId(), pokeData.PokeNumber);
 
 		PlayerManager.Instance.PlayerFollowCam.Follow = transform;
 		PlayerManager.Instance.LocalPlayerController = this;
@@ -205,8 +223,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// 2. 이미 접속해있는 로컬 클라이언트(A)의 오브젝트에서 실행
 		// 3. B 클라이언트에 있는 A 오브젝트의 포톤함수 실행으로 동기화 (B클라에서 A의 이름, 포켓몬, 레벨, 체력 동기화)
 		// 4. 하지만 A 클라이언트에서 B 오브젝트의 이름은 동기화가 안됨
-
-		photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		RPC.ActionRPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.UserId, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
+		//photonView.RPC(nameof(RPC.RPC_SyncToNewPlayer), newPlayer, Model.PlayerName, Model.UserId, Model.PokeData.PokeNumber, Model.PokeLevel, Model.CurrentHp);
 	}
 	#endregion
 
@@ -238,6 +256,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 				// 랭크 초기화
 				Rank?.RankAllClear();
+				// 상태 초기화
+				Status?.StatusAllClear();
 
 				// 총 경험치의 일부분 드랍
 				RPC.ActionRPC(nameof(RPC.RPC_PlayerDead), RpcTarget.AllBuffered, Model.GetDeathExp());
@@ -251,7 +271,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		Model.OnPokeLevelChanged += (level) => { RPC.ActionRPC(nameof(RPC.RPC_LevelChanged), RpcTarget.All, level); };
 		OnModelChanged += (model) =>
 		{
-			if (model != null) Rank = new PokeRankHandler(this, model);
+			if (model != null && Rank == null) Rank = new PokeRankHandler(this, model);
+			if (model != null && Status == null) Status = new PokeStatusHandler(this, model);
 			ConnectRankEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
@@ -304,12 +325,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		if (Rank == null) return;
 
-		Rank.OnRankChanged += (statType, prev, next) =>
+		if (Rank.OnRankChanged == null) Rank.OnRankChanged += (statType, prev, next) =>
 		{
 			// 스탯종류, 이전값, 이후값
 		};
 
-		Rank.OnSyncToRank += (statType, next) =>
+		if (Rank.OnSyncToRank == null) Rank.OnSyncToRank += (statType, next) =>
 		{
 			if (!photonView.IsMine) return;
 			// 스탯종류, 최신값
@@ -380,7 +401,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	}
 	#endregion
 
-	#region Battle Attack, SkillCheck, TakeDamage
+	#region Battle Attack, SkillCheck, TakeDamage, StatusCheck
 	public void Attack(SkillSlot slot)
 	{
 		IAttack attack = SkillCheck(slot, out var skill);
@@ -407,6 +428,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 
+		if (Status == null) Status = new PokeStatusHandler(this, Model);
+		Status.SetStatus(skill);
+
 		// 플레이어들과 AI를 구분해야함
 		if (!attackerData.IsAI)
 		{
@@ -417,16 +441,25 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			RPC.ActionRPC(nameof(RPC.RPC_SetLastAttacker), this.photonView.Owner, -1);
 		}
-
+		if (Status.CanApply(skill.StatusEffect)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName, (int)skill.StatusEffect, skill.StatusDuration);
 		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
 	}
 	#endregion
 
 	#region Model, View, Rank, LastAttacker, KillCount setter
-	public void SetModel(PlayerModel model) => Model = model;
+	public void SetModel(PlayerModel model)
+	{
+		Model = model;
+
+		if (model != null && model.PokeData != null) SetRank(new PokeRankHandler(this, model));
+		if (model != null && model.PokeData != null) SetStatus(new PokeStatusHandler(this, model));
+
+		OnModelChanged?.Invoke(model);
+	}
 	public void SetView(PlayerView view) => View = view;
 	public void SetRank(PokeRankHandler rank) => Rank = rank;
+	public void SetStatus(PokeStatusHandler status) => Status = status;
 	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
 	public void AddKillCount() => KillCount++;
 	#endregion

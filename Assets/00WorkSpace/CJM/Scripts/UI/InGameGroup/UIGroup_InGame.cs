@@ -7,16 +7,25 @@ public class UIGroup_InGame : MonoBehaviour
 {
     public Panel_HUD panel_HUD;
     [SerializeField] private Panel_GameOver panel_GameOver;
-    public Panel_ReturnToLobbyConfirm panel_ReturnToLobbyConfirm;
 
     public List<PlayerController> activedPlayerList = new List<PlayerController>();
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach(PlayerController pc in activedPlayerList)
+            {
+                Debug.Log($"{pc.Model.PokeData.PokeName}의 딕셔너리: {pc.Rank.RankUpdic}");
+            }
+        }
+    }
 
     public void Init()
     {
         panel_HUD.Init();
         panel_GameOver.Init();
-        panel_ReturnToLobbyConfirm.Init();
     }
 
     // 인게임 시작 시 호출
