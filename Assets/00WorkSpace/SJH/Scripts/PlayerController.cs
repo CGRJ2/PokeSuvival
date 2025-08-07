@@ -164,7 +164,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		// 아이템 장착
 		object[] datas = photonView.InstantiationData;
-		if (datas.Length > 1 && datas[1] is int itemId && itemId > 0 && ItemDataManager.Instance.GetItemById(itemId) is ItemPassive heldItem) HeldItem = heldItem;
+		if (datas.Length > 1 && datas[1] is int itemId && itemId > 0 && ItemDataManager.Instance.GetItemById(itemId) is ItemPassive heldItem)
+		{
+			HeldItem = heldItem;
+			OnBuffUpdate?.Invoke(HeldItem.sprite, -99f);
+		}
 
 		RPC.ActionRPC(nameof(RPC.RPC_ChangePokemonData), RpcTarget.All, PhotonNetwork.NickName, NetworkManager.Instance.GetUserId(), pokeData.PokeNumber);
 
