@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PokeRankHandler Rank { get; private set; }
 	[field: SerializeField] public NetworkHandler RPC { get; private set; }
 	[field: SerializeField] public PokeStatusHandler Status { get; private set; }
+	[field: SerializeField] public PokeBuffHandler Buff { get; private set; }
 
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
@@ -38,6 +39,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			{
 				Debug.Log("Status == null 초기화 시작");
 				Status = new PokeStatusHandler(this, Model);
+			}
+			if (Buff == null || Buff.BaseData == null)
+			{
+				Debug.Log("Buff == null 초기화 시작");
+				Buff = new PokeBuffHandler(this, Model);
 			}
 			var newStat = Rank.GetRankedStat();
 			if (!_prevRankedStat.IsEqual(newStat))
@@ -266,6 +272,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				Rank?.RankAllClear();
 				// 상태 초기화
 				Status?.StatusAllClear();
+				// 버프 초기화
+				Buff?.BuffAllClear();
 
 				// 총 경험치의 일부분 드랍
 				RPC.ActionRPC(nameof(RPC.RPC_PlayerDead), RpcTarget.AllBuffered, Model.GetDeathExp());
@@ -281,6 +289,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			if (model != null && Rank == null) Rank = new PokeRankHandler(this, model);
 			if (model != null && Status == null) Status = new PokeStatusHandler(this, model);
+			if (model != null && Buff == null) Buff = new PokeBuffHandler(this, model);
 			ConnectRankEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};

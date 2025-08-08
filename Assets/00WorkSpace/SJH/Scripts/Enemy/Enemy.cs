@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	public EnemyAI EnemyAI;
 	public PokeRankHandler Rank;
 	public PokeStatusHandler Status;
+	public PokeBuffHandler Buff;
+
 	[SerializeField] private Rigidbody2D _rigid;
 	[SerializeField] private SpriteRenderer _sprite;
 	[SerializeField] private Animator _anim;
@@ -35,10 +37,6 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	{
 		get
 		{
-			//if (!_battleData.IsVaild()) _battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true);
-			//return _battleData;
-
-			// 매번 갱신으로 변경
 			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true, null, null, Status?.CurrentStatus);
 			return _battleData;
 		}
@@ -76,6 +74,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		EnemyAI = new EnemyAI(this, EnemyData);
 		Rank = new PokeRankHandler(this, EnemyData);
 		Status = new PokeStatusHandler(this, EnemyData);
+		Buff = new PokeBuffHandler(this, EnemyData);
 
 		// 풀에 자신 추가
 		EnemySpawner.Instance.AddPool(this);
@@ -97,7 +96,20 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 		
-		if (Status != null && Status.SetStatus(skill)) photonView.RPC(nameof(RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName);
+		// 공격을 실행한 클라이언트에서 상태이상 적용
+		if (Status != null && Status.SetStatus(skill))
+		{
+			switch (skill.StatusEffect)
+			{
+				case StatusType.Burn: Debug.Log("화상 걸림"); Status.SetBurnDamage(skill.StatusDuration); break;
+				case StatusType.Poison: Debug.Log("독 걸림"); Status.SetPoisonDamage(skill.StatusDuration); break;
+				case StatusType.Freeze: Debug.Log("동상 걸림"); Status.SetFreeze(skill.StatusDuration); break;
+				case StatusType.Binding: Debug.Log("속박 걸림"); Status.SetBinding(skill.StatusDuration); break;
+				case StatusType.Paralysis: Debug.Log("마비 걸림"); Status.SetParalysis(skill.StatusDuration); break;
+				case StatusType.Confusion: Debug.Log("혼란 걸림"); Status.SetConfusion(skill.StatusDuration); break;
+			}
+			photonView.RPC(nameof(RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName);
+		}
 		return true;
 	}
 
@@ -218,32 +230,20 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		_anim.SetFloat("X", dir.x);
 		_anim.SetFloat("Y", dir.y);
 	}
-
 	[PunRPC]
 	public void RPC_SetStatus(string skillName)
 	{
 		if (Status == null) Status = new PokeStatusHandler(this, EnemyData);
+		Status.SetStatus(skillName, false);
+	}
+	[PunRPC]
+	public void RPC_SetBuff(string skillName)
+	{
+		if (Buff == null) new PokeBuffHandler(this, EnemyData);
 
-		// 상태이상 UI를 업데이트할 클라이언트
 		if (photonView.IsMine)
 		{
-			Status.SetStatus(skillName, true);
-			// TODO : 상태이상에 따라 디버프 적용
-			var skill = Define.GetPokeSkillData(skillName);
-			if (skill == null) return;
-			switch (skill.StatusEffect)
-			{
-				case StatusType.Burn: Debug.Log("화상 걸림"); Status.SetBurnDamage(skill.StatusDuration); break;
-				case StatusType.Poison: Debug.Log("독 걸림"); Status.SetPoisonDamage(skill.StatusDuration); break;
-				case StatusType.Freeze: Debug.Log("동상 걸림"); Status.SetFreeze(skill.StatusDuration); break;
-				case StatusType.Binding: Debug.Log("속박 걸림"); Status.SetBinding(skill.StatusDuration); break;
-				case StatusType.Paralysis: Debug.Log("마비 걸림"); Status.SetParalysis(skill.StatusDuration); break;
-				case StatusType.Confusion: Debug.Log("혼란 걸림"); Status.SetConfusion(skill.StatusDuration); break;
-			}
-		}
-		else
-		{
-			Status.SetStatus(skillName, false);
+
 		}
 	}
 }
