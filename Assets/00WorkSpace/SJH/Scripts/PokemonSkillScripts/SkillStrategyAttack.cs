@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SkillStrategyAttack : IAttack
 {
@@ -24,6 +25,7 @@ public class SkillStrategyAttack : IAttack
 			// 풀
 			case "잎날가르기": return new RazorLeaf();
 			case "덩굴채찍": return new VineWhip();
+			case "에너지볼": return new EnergyBall();
 			// 불꽃
 			case "불꽃세례": return new Ember();
 			case "블라스트번": return new BlastBurn();

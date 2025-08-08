@@ -24,7 +24,7 @@ public class VineWhip : IAttack
 				var iD = enemy.GetComponent<IDamagable>();
 				if (iD == null) continue;
 				iD.TakeDamage(attackerData, skill);
-				PhotonNetwork.Instantiate($"PokemonSkillPrefabs/VineWhipEffect", enemy.transform.position, Quaternion.identity);
+				PhotonNetwork.Instantiate($"PokemonSkillPrefabs/GrassHitEffect1", enemy.transform.position, Quaternion.identity);
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");
