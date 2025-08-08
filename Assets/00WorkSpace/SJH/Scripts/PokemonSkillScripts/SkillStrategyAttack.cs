@@ -34,6 +34,15 @@ public class SkillStrategyAttack : IAttack
 			case "도깨비불": return new WillOWisp();
 			case "불대문자": return new FireBlast();
 			case "쾌청": return new SunnyDay();
+			// 물
+			case "거품광선": return new BubbleBeam();
+			case "아쿠아커터": return new AquaCutter();
+			case "하이드로펌프": return new HydorPump();
+			// 비행
+			case "에어커터": return new AirCutter();
+			case "폭풍": return new Hurricane();
+
+			default: return null;
 
             // 전기
             case "전기쇼크": return new Thundershock();

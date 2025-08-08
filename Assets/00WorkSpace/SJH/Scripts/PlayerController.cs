@@ -109,12 +109,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		MoveInput();
 
 		// TODO : 테스트 함수 변수랑 같이 삭제
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			Model.SetLevel(Test_Level);
-		}
-		if (Input.GetKeyDown(KeyCode.B)) Status?.RemoveStatus(StatusType.Freeze);
-		if (Input.GetKeyDown(KeyCode.N)) Status?.StatusAllClear();
+		//if (Input.GetKeyDown(KeyCode.Space))
+		//{
+		//	Model.SetLevel(Test_Level);
+		//}
+		//if (Input.GetKeyDown(KeyCode.B)) Status?.RemoveStatus(StatusType.Freeze);
+		//if (Input.GetKeyDown(KeyCode.N)) Status?.StatusAllClear();
 	}
 	void MoveInput()
 	{

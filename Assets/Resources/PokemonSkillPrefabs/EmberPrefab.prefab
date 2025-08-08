@@ -207,6 +207,7 @@ MonoBehaviour:
     PC: {fileID: 0}
     HeldItem: {fileID: 0}
     CurrentStatus: 
+    CurrentBuffs: []
   _skill: {fileID: 0}
   _startPos: {x: 0, y: 0}
   _speed: 10
