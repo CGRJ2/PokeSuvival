@@ -13,12 +13,11 @@ public class Hurricane : IAttack
 		// 폭풍 스프라이트 발사
 
 		// 이펙트용
-		PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, Quaternion.identity);
-		Debug.Log("폭풍 이펙트 생성");
-		PlayerManager.Instance.StartCoroutine(ShootRoutine(spawnPos, attacker, attackDir, attackerData, skill));
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, Quaternion.identity);
+		PlayerManager.Instance.StartCoroutine(ShootRoutine(go, spawnPos, attacker, attackDir, attackerData, skill));
 	}
 
-	IEnumerator ShootRoutine(Vector2 spawnPos, Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
+	IEnumerator ShootRoutine(GameObject effect, Vector2 spawnPos, Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
 		var pc = attackerData.PC;
 		if (pc != null) pc.Status.SetStun(1);
@@ -26,8 +25,9 @@ public class Hurricane : IAttack
 
 		yield return new WaitForSeconds(1f);
 
+		PhotonNetwork.Destroy(effect);
 		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/HurricaneEffect", spawnPos, Quaternion.identity);
-		AOE_Hurricane aoe = go.GetComponent<AOE_Hurricane>();
+		Projectile aoe = go.GetComponent<Projectile>();
 		if (aoe != null) aoe.Init(attacker, attackDir, attackerData, skill);
 		else
 		{

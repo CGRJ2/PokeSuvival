@@ -14,9 +14,8 @@ GameObject:
   - component: {fileID: 1597516012338935163}
   - component: {fileID: 8368308348147673557}
   - component: {fileID: 3784276069349295822}
-  - component: {fileID: 1762314289625588952}
   - component: {fileID: 1640005678000128733}
-  - component: {fileID: 8141559882124962978}
+  - component: {fileID: 923218902912491886}
   m_Layer: 9
   m_Name: HurricanePrefab
   m_TagString: Untagged
@@ -178,18 +177,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1762314289625588952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1095620674529007286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1640005678000128733
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -235,7 +222,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.6, y: 5}
   m_EdgeRadius: 0
---- !u!114 &8141559882124962978
+--- !u!114 &923218902912491886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,33 +231,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095620674529007286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 158e1d78f70f02b42aa5cdc0ef677588, type: 3}
+  m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigid: {fileID: 4018530452708672695}
-  _attacker: {fileID: 0}
-  _attackerData:
-    Level: 0
-    PokeData: {fileID: 0}
-    AllStat:
-      Hp: 0
-      Attak: 0
-      Defense: 0
-      SpecialAttack: 0
-      SpecialDefense: 0
-      Speed: 0
-    MaxHp: 0
-    CurrentHp: 0
-    IsAI: 0
-    PC: {fileID: 0}
-    HeldItem: {fileID: 0}
-    CurrentStatus: 
-    CurrentBuffs: []
-  _skill: {fileID: 0}
-  _size: 0
-  _enemies: []
-  _hitTargets: []
-  _coll: {fileID: 1640005678000128733}
-  _speed: 10
-  _startPos: {x: 0, y: 0}
-  _endDistance: 0

@@ -34,11 +34,9 @@ public class Projectile : MonoBehaviourPun
 	void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (!photonView.IsMine) return;
-
+		if (_attacker == collision.transform) return;
 		if (collision.TryGetComponent(out IDamagable target))
 		{
-			if (_attacker == collision.transform) return;
-
 			if (target.TakeDamage(_attackerData, _skill)) PhotonNetwork.Destroy(gameObject);
 		}
 	}
