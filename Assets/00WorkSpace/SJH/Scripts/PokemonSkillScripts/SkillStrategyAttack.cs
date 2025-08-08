@@ -42,7 +42,6 @@ public class SkillStrategyAttack : IAttack
 			case "에어커터": return new AirCutter();
 			case "폭풍": return new Hurricane();
 
-			default: return null;
 
             // 전기
             case "전기쇼크": return new Thundershock();
