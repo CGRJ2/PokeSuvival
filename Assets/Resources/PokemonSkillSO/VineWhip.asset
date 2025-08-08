@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: VineWhip
+  m_EditorClassIdentifier: 
+  SkillName: "\uB369\uAD74\uCC44\uCC0D"
+  Desc: 
+  Damage: 45
+  Cooldown: 0.5
+  Range: 2.5
+  PokeType: 4
+  SkillType: 0
+  SkillAnimType: 0
+  EffectPrefab: {fileID: 2428354002094551669, guid: b1eab95fb122ba247bbd6d654914afff, type: 3}
+  SFX: {fileID: 0}
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

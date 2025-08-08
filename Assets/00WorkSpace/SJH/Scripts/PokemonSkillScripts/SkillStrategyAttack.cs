@@ -18,9 +18,13 @@ public class SkillStrategyAttack : IAttack
 	{
 		switch (skillName)
 		{
+			// 노말
 			case "할퀴기": return new Scratch();
 			case "몸통박치기": return new Tackle();
+			// 풀
 			case "잎날가르기": return new RazorLeaf();
+			case "덩굴채찍": return new VineWhip();
+			// 불꽃
 			case "불꽃세례": return new Ember();
 			case "블라스트번": return new BlastBurn();
 			case "도깨비불": return new WillOWisp();
