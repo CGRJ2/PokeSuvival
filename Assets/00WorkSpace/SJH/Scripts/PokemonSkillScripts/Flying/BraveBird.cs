@@ -20,6 +20,7 @@ public class BraveBird : IAttack
 			int damage = Mathf.Max(1, (int)(attackerData.PC.Model.CurrentHp * 0.25f));
 			attackerData.PC.Model.SetCurrentHp(Mathf.Max(1, attackerData.PC.Model.CurrentHp - damage));
 			attackerData.PC.Status.SetStun(duration);
+			Debug.Log($"{damage} 반동대미지");
 		}
 		else
 		{
