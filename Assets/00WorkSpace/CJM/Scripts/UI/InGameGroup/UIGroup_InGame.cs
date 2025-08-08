@@ -48,9 +48,7 @@ public class UIGroup_InGame : MonoBehaviour
     }
 
     public void UpdateSkillSlots(PlayerModel playerModel)
-    { 
-        // 이렇게 사용하면 됩니다
-        // UIManager.Instance.InGameGroup.UpdateSkillSlots();
+    {
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             panel_HUD.panel_SkillSlots.UpdateSkillSlotsView(playerModel);
