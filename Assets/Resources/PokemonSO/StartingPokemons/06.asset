@@ -25,10 +25,8 @@ MonoBehaviour:
   AnimController: {fileID: 9100000, guid: 9ad7d74233c901641a123c630e62010d, type: 2}
   PokemonIconSprite: {fileID: 21300000, guid: db6b1707fa568b74d836e095319a3387, type: 3}
   PokemonInfoSprite: {fileID: 21300000, guid: 1b9ecb687a31d2d42b4d69ba0e1c5955, type: 3}
-  Skills:
-  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
-  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
-  - {fileID: 11400000, guid: 0e51d0f47f1ff0d43ab498b879e613ba, type: 2}
+  Skills: []
   Desc: 
   EvoLevel: 26
   NextEvoData: {fileID: 11400000, guid: 907c77839cd0705449a2591d95a7a798, type: 2}
+  PokeSize: 0
