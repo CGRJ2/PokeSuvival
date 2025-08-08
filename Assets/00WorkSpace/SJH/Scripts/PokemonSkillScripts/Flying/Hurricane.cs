@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public class Hurricane : IAttack
@@ -7,7 +8,25 @@ public class Hurricane : IAttack
 	{
 		Vector2 spawnPos = (Vector2)attacker.position + attackDir;
 		//Quaternion rot = Quaternion.FromToRotation(Vector2.up, attackDir.normalized);
-		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, Quaternion.identity);
+
+		// 플레이어 1초 스턴 및 이펙트용 스프라이트 재생
+		// 폭풍 스프라이트 발사
+
+		// 이펙트용
+		PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, Quaternion.identity);
+		Debug.Log("폭풍 이펙트 생성");
+		PlayerManager.Instance.StartCoroutine(ShootRoutine(spawnPos, attacker, attackDir, attackerData, skill));
+	}
+
+	IEnumerator ShootRoutine(Vector2 spawnPos, Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
+	{
+		var pc = attackerData.PC;
+		if (pc != null) pc.Status.SetStun(1);
+		else attacker.GetComponent<Enemy>()?.Status?.SetStun(1);
+
+		yield return new WaitForSeconds(1f);
+
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/HurricaneEffect", spawnPos, Quaternion.identity);
 		AOE_Hurricane aoe = go.GetComponent<AOE_Hurricane>();
 		if (aoe != null) aoe.Init(attacker, attackDir, attackerData, skill);
 		else

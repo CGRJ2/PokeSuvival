@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00WorkSpace/MMJ/MMJ_GameScene.unity
     guid: 2826593b5aca94b408a714094d13af93
+  - enabled: 1
+    path: Assets/00WorkSpace/MMJ/MMJ_GameScene_New.unity
+    guid: 5c9b13abd5fe0fd42b02e65d6b2160ce
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 61ef2b17c67d4cf4fa150ae02e7c7606, type: 2}

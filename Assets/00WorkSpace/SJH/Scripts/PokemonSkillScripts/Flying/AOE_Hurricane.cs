@@ -16,7 +16,7 @@ public class AOE_Hurricane : AOE_Skill
 	public override void Init(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
 		base.Init(attacker, attackDir, attackerData, skill);
-
+		Debug.Log("폭풍 투사체 생성");
 		_enemies = new Collider2D[30];
 		_hitTargets = new();
 		_hitTargets.Add(transform);
@@ -26,12 +26,9 @@ public class AOE_Hurricane : AOE_Skill
 		if (pc != null) pc.Status.SetStun(1);
 		else attacker.GetComponent<Enemy>()?.Status?.SetStun(1);
 
-		_coll.enabled = false;
-
 		_startPos = transform.position;
 		float size = attackerData.PokeData.PokeSize;
 		_endDistance = size > 1 ? _skill.Range + size : _skill.Range;
-
 		_rigid.velocity = attackDir * _speed;
 	}
 	void Update()
@@ -54,7 +51,4 @@ public class AOE_Hurricane : AOE_Skill
 			if (target.TakeDamage(_attackerData, _skill)) _hitTargets.Add(collision.transform);
 		}
 	}
-
-	public void OnCollider() => _coll.enabled = true;
-	public void OffCollider() => _coll.enabled = false;
 }
