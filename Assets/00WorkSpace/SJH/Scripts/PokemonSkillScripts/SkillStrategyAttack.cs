@@ -39,6 +39,7 @@ public class SkillStrategyAttack : IAttack
 			case "하이드로펌프": return new HydorPump();
 			// 비행
 			case "에어커터": return new AirCutter();
+			case "폭풍": return new Hurricane();
 
 			default: return null;
 		}
