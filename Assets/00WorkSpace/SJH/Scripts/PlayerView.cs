@@ -40,4 +40,9 @@ public class PlayerView : MonoBehaviour
 		else _sprite.sortingOrder = 10;
 	}
 	public void SetColliderSize(float size) => _coll.radius = size;
+	public void SetStop()
+	{
+		SetIsMoving(0);
+		_rigid.velocity = Vector3.zero;
+	}
 }

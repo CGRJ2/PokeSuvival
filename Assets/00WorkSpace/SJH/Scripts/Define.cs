@@ -15,6 +15,8 @@ public static class Define
 	private const float Strong = 2f;
 	private const float NoDamage = 0f;
 	private static Dictionary<PokemonType, Dictionary<PokemonType, float>> _pokeTypeChart = new();
+	private static bool _isSkillInit;
+	private static Dictionary<string, PokemonSkill> _pokeSkillDic = new();
 
 	static void PokeDataInit()
 	{
@@ -232,6 +234,25 @@ public static class Define
 		return _pokeTypeChart.TryGetValue(attackType, out var chart) && chart.TryGetValue(defenderType, out float result) ? result : 1f;
 	}
 
+	static void PokeSkillInit()
+	{
+		if (_isSkillInit) return;
+
+		PokemonSkill[] all = Resources.LoadAll<PokemonSkill>("PokemonSkillSO");
+
+		foreach (var data in all)
+		{
+			if (_pokeSkillDic == null) _pokeSkillDic = new();
+			if (!_pokeSkillDic.ContainsKey(data.SkillName)) _pokeSkillDic.Add(data.SkillName, data);
+		}
+		Debug.Log($"PokemonSkillData 초기화 {_pokeSkillDic.Count}");
+		_isSkillInit = true;
+	}
+	public static PokemonSkill GetPokeSkillData(string skillName)
+	{
+		PokeSkillInit();
+		return _pokeSkillDic.TryGetValue(skillName, out var data) ? data : null;
+	}
     #region Item DB
 
     public static ItemDatabase ItemDatabase { get; private set; }
@@ -334,9 +355,10 @@ public struct BattleDataTable
 
 	public ItemPassive HeldItem;
 	public List<StatusType> CurrentStatus;
+	public List<string> CurrentBuffs;
 
 	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp,
-		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null)
+		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null, List<string> currentBuffs = null)
 	{
 		Level = level;
 		PokeData = pokeData;
@@ -348,6 +370,7 @@ public struct BattleDataTable
 		PC = pc;
 		HeldItem = heldItem;
 		CurrentStatus = currentStatus == null ? new List<StatusType>() { StatusType.None } : currentStatus;
+		CurrentBuffs = currentBuffs == null ? new List<string>() : currentBuffs;
 	}
 
 	public bool IsVaild() => PokeData != null;
@@ -395,5 +418,7 @@ public enum StatusType
 	Confusion,	// 혼란	: 키입력 반대로
 	Binding,	// 속박 : 이동불가 회전가능 기술사용가능
 	Flinch,		// 풀죽음 : ?
+	// 제자리 스탑
+	Stun,
 }
 #endregion

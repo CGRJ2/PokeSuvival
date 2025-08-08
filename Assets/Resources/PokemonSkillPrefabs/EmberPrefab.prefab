@@ -206,6 +206,7 @@ MonoBehaviour:
     IsAI: 0
     PC: {fileID: 0}
     HeldItem: {fileID: 0}
+    CurrentStatus: 
   _skill: {fileID: 0}
   _startPos: {x: 0, y: 0}
   _speed: 10
@@ -242,6 +243,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.9}
+  m_Offset: {x: 0, y: 0.6}
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.7

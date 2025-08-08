@@ -23,5 +23,6 @@ MonoBehaviour:
   EffectPrefab: {fileID: 2363575178043162110, guid: 01dafcf9c170fde4482987083b89bd16, type: 3}
   SFX: {fileID: 0}
   StatusEffect: 2
-  StatusSprite: {fileID: 0}
+  StatusSprite: {fileID: 21300000, guid: 8c26bf52720388a45b69d2ea481a052d, type: 3}
+  StatusRate: 1
   StatusDuration: 10

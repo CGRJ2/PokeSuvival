@@ -145,10 +145,69 @@ public class NetworkHandler: MonoBehaviour
 		}
 	}
 	[PunRPC]
-	public void RPC_SetStatus(string skillName, int statusIndex, float duration)
+	public void RPC_SetStatus(string skillName)
 	{
-		// TODO : 스킬이름으로 스킬 SO 받아오기
 		if (PC.Status == null) PC.SetStatus(new PokeStatusHandler(this, PC.Model));
-		PC.Status.SetStatus(skillName, (StatusType)statusIndex, duration);
+
+		// 상태이상 UI를 업데이트할 클라이언트
+		if (PC.photonView.IsMine)
+		{
+			PC.Status.SetStatus(skillName, true);
+			// TODO : 상태이상에 따라 디버프 적용
+			var skill = Define.GetPokeSkillData(skillName);
+			if (skill == null) return;
+			switch (skill.StatusEffect)
+			{
+				case StatusType.Burn: Debug.Log("화상 걸림"); PC.Status.SetBurnDamage(skill.StatusDuration); break;
+				case StatusType.Poison: Debug.Log("독 걸림"); PC.Status.SetPoisonDamage(skill.StatusDuration); break;
+				case StatusType.Freeze: Debug.Log("동상 걸림"); PC.Status.SetFreeze(skill.StatusDuration); break;
+				case StatusType.Binding: Debug.Log("속박 걸림"); PC.Status.SetBinding(skill.StatusDuration); break;
+				case StatusType.Paralysis: Debug.Log("마비 걸림"); PC.Status.SetParalysis(skill.StatusDuration); break;
+				case StatusType.Confusion: Debug.Log("혼란 걸림"); PC.Status.SetConfusion(skill.StatusDuration); break;
+			}
+		}
+		else
+		{
+			PC.Status.SetStatus(skillName, false);
+		}
+	}
+	[PunRPC]
+	public void RPC_RemoveStatus(string skillName)
+	{
+
+	}
+	[PunRPC]
+	public void RPC_SetHit()
+	{
+		PC.View.SetIsHit();
+	}
+	[PunRPC]
+	public void RPC_BuffSync(int viewId, string skillName)
+	{
+		var pv = PhotonView.Find(viewId);
+		if (pv == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : photonView == null");
+			return;
+		}
+		var pc = pv.GetComponent<PlayerController>();
+		if (pc == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : PlayerController == null");
+			return;
+		}
+		if (pc.Buff == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : Buff == null");
+			return;
+		}
+		if (pc.Model == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : Model == null");
+			return;
+		}
+		pc.SetBuff(new PokeBuffHandler(pc, pc.Model));
+		Debug.Log($"{viewId} : [{skillName} 버프] 동기화 시작");
+		pc.Buff.SetBuff(skillName);
 	}
 }

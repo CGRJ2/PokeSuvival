@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public static class PokeUtils
@@ -45,45 +47,21 @@ public static class PokeUtils
 		int skillDamage = skill.Damage;
 
 		// 지닌 도구 물공 특공 보정
-		float itemBonus = 1f;
-		if (attackerData.HeldItem != null)
-		{
-			var item = attackerData.HeldItem;
-			// 힘의머리띠
-			if (item.id == 10032 && skill.SkillType == SkillType.Physical)
-			{
-				itemBonus += item.value;
-				Debug.Log($"{item.itemName} 보정! 기술 위력 {(int)(item.value * 100)}% 증가");
-			}
-			// 박식안경
-			else if (item.id == 10028 && skill.SkillType == SkillType.Special)
-			{
-				itemBonus += item.value;
-				Debug.Log($"{item.itemName} 보정! 기술 위력 {(int)(item.value * 100)}% 증가");
-			}
-			// 달인의 띠
-			else if (item.id == 10027)
-			{
-				if (typeBonus >= 2f)
-				{
-					itemBonus += item.value;
-					Debug.Log($"달인의 띠 보정! 효과가 굉장한 기술 위력 {(int)(item.value * 100)}% 증가");
-				}
-			}
-			else if (item.BonusType == skill.PokeType)
-			{
-				itemBonus += item.value;
-				Debug.Log($"{item.itemName} 보정! {item.BonusType} 타입 대미지 {(int)(item.value * 100)}% 증가");
-			}
-		}
+		float itemBonus = GetItemBonus(attackerData.HeldItem, skill, typeBonus);
+		// 공격자 버프 보정
+		float attackerBuffBonus = GetAttackerBuffBonus(attackerData.CurrentBuffs, skill);
+		// 피격자 버프 보정
+		float defenderBuffBonus = GetDefenderBuffBonus(defenderData.CurrentBuffs, skill);
 
 		float step1 = Mathf.Floor((attackerData.Level * 2f) / 5f) + 2f;						// ((레벨 × 2 ÷ 5) + 2)
 		float step2 = step1 * skillDamage * attackStat * itemBonus;    // ((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격
 		float step3 = Mathf.Floor(step2 / 50f);												// (((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50)
-		float step4 = Mathf.Floor(step3 / defendStat);										// ((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어)
+		float step4 = Mathf.Floor(step3 / defendStat);                                      // ((((레벨 × 2 ÷ 5) + 2) × 위력 × 특수공격 ÷ 50) ÷ 특수방어)
 
-		float mod1 = 1f; // 상태이상 ex) 화상
-		float totalDamage = step4 * mod1 * sameTypeBonus * typeBonus * ran;
+		// 상태이상 화상
+		float mod1 = (skill.SkillType == SkillType.Physical && attackerData.CurrentStatus?.Contains(StatusType.Burn) == true) ? 0.5f : 1f;
+
+		float totalDamage = step4 * mod1 * sameTypeBonus * typeBonus * ran * attackerBuffBonus * defenderBuffBonus;
 
 		return typeBonus == 0 ? 0 : Mathf.Max((int)totalDamage, 1);
 	}
@@ -123,8 +101,85 @@ public static class PokeUtils
 		return stat;
 	}
 
-	public static int GetNextLevelExp(int currentLevel)
+	public static int GetNextLevelExp(int currentLevel) => (int)(5 * Mathf.Pow(currentLevel + 1, 3) / 4);
+
+	static float GetItemBonus(ItemPassive heldItem, PokemonSkill skill, float typeBonus)
 	{
-		return (int)(5 * Mathf.Pow(currentLevel + 1, 3) / 4);
+		float itemBonus = 1f;
+		if (heldItem != null)
+		{
+			// 힘의머리띠
+			if (heldItem.id == 10032 && skill.SkillType == SkillType.Physical)
+			{
+				itemBonus += heldItem.value;
+				Debug.Log($"{heldItem.itemName} 보정! 기술 위력 {(int)(heldItem.value * 100)}% 증가");
+			}
+			// 박식안경
+			else if (heldItem.id == 10028 && skill.SkillType == SkillType.Special)
+			{
+				itemBonus += heldItem.value;
+				Debug.Log($"{heldItem.itemName} 보정! 기술 위력 {(int)(heldItem.value * 100)}% 증가");
+			}
+			// 달인의 띠
+			else if (heldItem.id == 10027)
+			{
+				if (typeBonus >= 2f)
+				{
+					itemBonus += heldItem.value;
+					Debug.Log($"달인의 띠 보정! 효과가 굉장한 기술 위력 {(int)(heldItem.value * 100)}% 증가");
+				}
+			}
+			else if (heldItem.BonusType == skill.PokeType)
+			{
+				itemBonus += heldItem.value;
+				Debug.Log($"{heldItem.itemName} 보정! {heldItem.BonusType} 타입 대미지 {(int)(heldItem.value * 100)}% 증가");
+			}
+		}
+		return itemBonus;
+	}
+	static float GetAttackerBuffBonus(List<string> currentBuffs, PokemonSkill skill)
+	{
+		float buffBonus = 1f;
+
+		if (currentBuffs == null) return buffBonus;
+
+		foreach (var buff in currentBuffs)
+		{
+			switch (buff)
+			{
+				case "쾌청":
+					// 공격할 때 불 1.5배 물 0.5배
+					Debug.Log("쾌청 상태! 공격 대미지 보정");
+					if (skill.PokeType == PokemonType.Fire) buffBonus *= 1.5f;
+					else if (skill.PokeType == PokemonType.Water) buffBonus *= 0.5f;
+					break;
+
+				// TODO : 버프에 따른 상태이상 및 적용
+			}
+		}
+
+		return buffBonus;
+	}
+	static float GetDefenderBuffBonus(List<string> currentBuffs, PokemonSkill skill)
+	{
+		float buffBonus = 1f;
+
+		if (currentBuffs == null) return buffBonus;
+
+		foreach (var buff in currentBuffs)
+		{
+			switch (buff)
+			{
+				case "쾌청":
+					// 맞을 때 물타입 0.5배
+					Debug.Log("쾌청 상태! 받는 대미지 보정");
+					if (skill.PokeType == PokemonType.Water) buffBonus *= 0.5f;
+					break;
+
+					// TODO : 버프에 따른 상태이상 및 적용
+			}
+		}
+
+		return buffBonus;
 	}
 }

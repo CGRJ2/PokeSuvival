@@ -53,4 +53,14 @@ public class EnemyData : PokeBaseData
 
 		return Mathf.RoundToInt(PokeLevel * baseValue * (1f + modifyValue));
 	}
+	public void SetHeal(int value)
+	{
+		if (IsDead || value <= 0) return;
+
+		int newHp = Mathf.Min(_currentHp + value, MaxHp);
+		CurrentHp = newHp;
+
+		Debug.Log($"{value} 만큼 회복! 현재 체력 : {_currentHp}");
+		_enemy.photonView.RPC(nameof(_enemy.RPC_SyncToCurrentHp), RpcTarget.AllBuffered, newHp);
+	}
 }

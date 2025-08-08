@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PokeRankHandler Rank { get; private set; }
 	[field: SerializeField] public NetworkHandler RPC { get; private set; }
 	[field: SerializeField] public PokeStatusHandler Status { get; private set; }
+	[field: SerializeField] public PokeBuffHandler Buff { get; private set; }
 
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
@@ -39,11 +40,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				Debug.Log("Status == null 초기화 시작");
 				Status = new PokeStatusHandler(this, Model);
 			}
+			if (Buff == null || Buff.BaseData == null)
+			{
+				Debug.Log("Buff == null 초기화 시작");
+				Buff = new PokeBuffHandler(this, Model);
+				ConnectBuffEvent();
+			}
 			var newStat = Rank.GetRankedStat();
 			if (!_prevRankedStat.IsEqual(newStat))
 			{
 				_prevRankedStat = newStat;
-				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this, _heldItem, Status.CurrentStatus);
+				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp,
+					false, this, _heldItem, Status.CurrentStatus, Buff.CurrentBuffs);
 			}
 			return _battleData;
 		}
@@ -72,8 +80,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public PlayerController LastAttacker { get; private set; }
 
 	// 이동 제어
-	[field: SerializeField] public bool CanMove { get; private set; }
-	private Coroutine _canMoveRoutine;
+	// TODO : 스테이터스 핸들러에서 바인딩, 얼음 두가지 추가해서 제어
 
 	// 지닌 도구
 	[SerializeField] private ItemPassive _heldItem;
@@ -106,9 +113,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			Model.SetLevel(Test_Level);
 		}
+		if (Input.GetKeyDown(KeyCode.B)) Status?.RemoveStatus(StatusType.Freeze);
+		if (Input.GetKeyDown(KeyCode.N)) Status?.StatusAllClear();
 	}
 	void MoveInput()
 	{
+		if (Status == null) Status = new PokeStatusHandler(this, Model);
+
+		// 동상 : 이동 불가
+		if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun()) return;
+
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
 		if (MoveDir != Vector2.zero)
@@ -117,8 +131,18 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (_moveHistory.Count > _maxLogCount) _moveHistory.Dequeue();
 		}
 
-		if (!CanMove) View.PlayerMove(MoveDir, _lastDir, 0);
-		else View.PlayerMove(MoveDir, _lastDir, Model.GetMoveSpeed());
+		// 속박 : 방향만 전환
+		if (Status.IsBinding())
+		{
+			View.PlayerMove(MoveDir, _lastDir, 0);
+		}
+		else
+		{
+			// 마비 : 속도 반감
+			float speed = Model.GetMoveSpeed();
+			if (Status.IsParalysis()) speed *= 0.5f;
+			View.PlayerMove(MoveDir, _lastDir, speed);
+		}
 	}
 
 	#region Player Init, Respawn
@@ -148,7 +172,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		// 마지막 공격자 초기화
 		LastAttacker = null;
 
-		transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
+		// 랜덤위치 스폰
+		//transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
 
 		PokemonData pokeData = null;
 
@@ -184,7 +209,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		ConnectEvent();
 		OnModelChanged?.Invoke(Model);
-		CanMove = true;
 	}
 	#endregion
 
@@ -192,16 +216,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 	{
 		// 수동 동기화
-		if (stream.IsWriting)
-		{
-			stream.SendNext(_flipX);
-			// TODO : 실시간 동기화
-		}
-		else
-		{
-			View.SetFlip(_flipX = (bool)stream.ReceiveNext());
-			// TODO : 실시간 동기화
-		}
+		if (stream.IsWriting) stream.SendNext(_flipX);
+		else View.SetFlip(_flipX = (bool)stream.ReceiveNext());
 	}
 
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -258,6 +274,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 				Rank?.RankAllClear();
 				// 상태 초기화
 				Status?.StatusAllClear();
+				// 버프 초기화
+				Buff?.BuffAllClear();
 
 				// 총 경험치의 일부분 드랍
 				RPC.ActionRPC(nameof(RPC.RPC_PlayerDead), RpcTarget.AllBuffered, Model.GetDeathExp());
@@ -273,13 +291,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			if (model != null && Rank == null) Rank = new PokeRankHandler(this, model);
 			if (model != null && Status == null) Status = new PokeStatusHandler(this, model);
+			if (model != null && Buff == null) Buff = new PokeBuffHandler(this, model);
 			ConnectRankEvent();
+			ConnectBuffEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
 		Model.OnTotalExpChanged += (exp) => { RPC.ActionRPC(nameof(RPC.RPC_TotalExpChanged), RpcTarget.All, exp); };
 
 		ConnectSkillEvent();
 		ConnectRankEvent();
+		ConnectBuffEvent();
 	}
 
 	public void DisconnectEvent()
@@ -338,6 +359,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			RPC.ActionRPC(nameof(RPC.RPC_RankSync), RpcTarget.OthersBuffered, photonView.ViewID, (int)statType, next);
 		};
 	}
+	public void ConnectBuffEvent()
+	{
+		if (Buff == null) return;
+
+		if (Buff.OnSyncToBuff == null) Buff.OnSyncToBuff += (skillName) =>
+		{
+			if (!photonView.IsMine) return;
+			Debug.Log($"{Model.PokeData.PokeName} [{skillName} 버프] 동기화 시작");
+			RPC.ActionRPC(nameof(RPC.RPC_BuffSync), RpcTarget.OthersBuffered, photonView.ViewID, skillName);
+		};
+	}
 
 	public void DisconnectRankEvent()
 	{
@@ -354,6 +386,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (!photonView.IsMine) return;
 		MoveDir = value.Get<Vector2>();
 		Model.SetMoving(MoveDir != Vector2.zero);
+
+		if (Status != null && Status.IsConfusion()) MoveDir *= -1f;
 
 		if (MoveDir != Vector2.zero) _lastDir = MoveDir;
 
@@ -386,7 +420,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void OnSkill(SkillSlot slot, InputAction.CallbackContext ctx)
 	{
 		if (!photonView.IsMine) return;
-
+		if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun()) return;
 		switch (ctx.phase)
 		{
 			case InputActionPhase.Started:
@@ -428,9 +462,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		int damage = PokeUtils.CalculateDamage(attackerData, defenderData, skill);
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 
-		if (Status == null) Status = new PokeStatusHandler(this, Model);
-		Status.SetStatus(skill);
-
 		// 플레이어들과 AI를 구분해야함
 		if (!attackerData.IsAI)
 		{
@@ -441,7 +472,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		{
 			RPC.ActionRPC(nameof(RPC.RPC_SetLastAttacker), this.photonView.Owner, -1);
 		}
-		if (Status.CanApply(skill.StatusEffect)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName, (int)skill.StatusEffect, skill.StatusDuration);
+
+		// 상태이상
+		if (Status == null) Status = new PokeStatusHandler(this, Model);
+		if (Status.SetStatus(skill)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName);
+
+		// 대미지 처리
 		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
 		return true;
 	}
@@ -460,6 +496,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void SetView(PlayerView view) => View = view;
 	public void SetRank(PokeRankHandler rank) => Rank = rank;
 	public void SetStatus(PokeStatusHandler status) => Status = status;
+	public void SetBuff(PokeBuffHandler buff) => Buff = buff;
 	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
 	public void AddKillCount() => KillCount++;
 	#endregion
@@ -501,18 +538,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
 	}
-	public void SetCanMove(bool value, float delay = 0)
-	{
-		StopCoroutine(nameof(CanMoveRoutine)); // 중복 방지
-		if (delay > 0)
-			StartCoroutine(CanMoveRoutine(value, delay));
-		else
-			CanMove = value;
-	}
-	IEnumerator CanMoveRoutine(bool value, float delay)
-	{
-		yield return new WaitForSeconds(delay);
-		CanMove = value;
-	}
+
 	#endregion
 }

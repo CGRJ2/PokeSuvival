@@ -538,6 +538,9 @@ MonoBehaviour:
   <Status>k__BackingField:
     _routineClass: {fileID: 0}
     <CurrentStatus>k__BackingField: 
+  <Buff>k__BackingField:
+    _routineClass: {fileID: 0}
+    <CurrentBuffs>k__BackingField: []
   _input: {fileID: 0}
   _flipX: 0
   <MoveDir>k__BackingField: {x: 0, y: 0}
@@ -557,10 +560,10 @@ MonoBehaviour:
     PC: {fileID: 0}
     HeldItem: {fileID: 0}
     CurrentStatus: 
+    CurrentBuffs: []
   _lastDir: {x: 0, y: -1}
   <KillCount>k__BackingField: 0
   <LastAttacker>k__BackingField: {fileID: 0}
-  <CanMove>k__BackingField: 1
   _heldItem: {fileID: 0}
   Test_Level: 0
 --- !u!114 &3518850844711382646
