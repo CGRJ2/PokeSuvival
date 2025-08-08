@@ -31,6 +31,7 @@ public class Panel_LobbyDefault : MonoBehaviour
 
         btn_Ranking.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_RankingBoard.gameObject));
         btn_Shop.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_Shop.gameObject));
+        btn_Option.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_Option.gameObject));
 
         btn_QuickMatch.onClick.AddListener(QuickMatch);
         btn_SelectMatch.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_InGameServerList.gameObject));
