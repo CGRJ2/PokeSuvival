@@ -18,7 +18,7 @@ public class WillOWisp : IAttack
 
 	IEnumerator DestroyPrefab(GameObject go)
 	{
-		yield return null;
+		yield return new WaitForSeconds(0.1f);
 		PhotonNetwork.Destroy(go);
 	}
 }

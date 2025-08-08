@@ -44,12 +44,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			{
 				Debug.Log("Buff == null 초기화 시작");
 				Buff = new PokeBuffHandler(this, Model);
+				ConnectBuffEvent();
 			}
 			var newStat = Rank.GetRankedStat();
 			if (!_prevRankedStat.IsEqual(newStat))
 			{
 				_prevRankedStat = newStat;
-				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp, false, this, _heldItem, Status.CurrentStatus);
+				_battleData = new BattleDataTable(Model.PokeLevel, Model.PokeData, _prevRankedStat, Model.MaxHp, Model.CurrentHp,
+					false, this, _heldItem, Status.CurrentStatus, Buff.CurrentBuffs);
 			}
 			return _battleData;
 		}
@@ -291,12 +293,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			if (model != null && Status == null) Status = new PokeStatusHandler(this, model);
 			if (model != null && Buff == null) Buff = new PokeBuffHandler(this, model);
 			ConnectRankEvent();
+			ConnectBuffEvent();
 			UIManager.Instance.InGameGroup.UpdateSkillSlots(model);
 		};
 		Model.OnTotalExpChanged += (exp) => { RPC.ActionRPC(nameof(RPC.RPC_TotalExpChanged), RpcTarget.All, exp); };
 
 		ConnectSkillEvent();
 		ConnectRankEvent();
+		ConnectBuffEvent();
 	}
 
 	public void DisconnectEvent()
@@ -353,6 +357,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			// 스탯종류, 최신값
 			Debug.Log($"{Model.PokeData.PokeName} [{statType} : {next}] 동기화 시작");
 			RPC.ActionRPC(nameof(RPC.RPC_RankSync), RpcTarget.OthersBuffered, photonView.ViewID, (int)statType, next);
+		};
+	}
+	public void ConnectBuffEvent()
+	{
+		if (Buff == null) return;
+
+		if (Buff.OnSyncToBuff == null) Buff.OnSyncToBuff += (skillName) =>
+		{
+			if (!photonView.IsMine) return;
+			Debug.Log($"{Model.PokeData.PokeName} [{skillName} 버프] 동기화 시작");
+			RPC.ActionRPC(nameof(RPC.RPC_BuffSync), RpcTarget.OthersBuffered, photonView.ViewID, skillName);
 		};
 	}
 
@@ -481,6 +496,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void SetView(PlayerView view) => View = view;
 	public void SetRank(PokeRankHandler rank) => Rank = rank;
 	public void SetStatus(PokeStatusHandler status) => Status = status;
+	public void SetBuff(PokeBuffHandler buff) => Buff = buff;
 	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
 	public void AddKillCount() => KillCount++;
 	#endregion

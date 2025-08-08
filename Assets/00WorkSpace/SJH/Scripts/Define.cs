@@ -355,9 +355,10 @@ public struct BattleDataTable
 
 	public ItemPassive HeldItem;
 	public List<StatusType> CurrentStatus;
+	public List<string> CurrentBuffs;
 
 	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp,
-		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null)
+		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null, List<string> currentBuffs = null)
 	{
 		Level = level;
 		PokeData = pokeData;
@@ -369,6 +370,7 @@ public struct BattleDataTable
 		PC = pc;
 		HeldItem = heldItem;
 		CurrentStatus = currentStatus == null ? new List<StatusType>() { StatusType.None } : currentStatus;
+		CurrentBuffs = currentBuffs == null ? new List<string>() : currentBuffs;
 	}
 
 	public bool IsVaild() => PokeData != null;

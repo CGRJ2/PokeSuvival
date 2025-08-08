@@ -140,12 +140,12 @@ public class PokeStatusHandler
 			{
 				// 힛 트리거도 RPC로 동기화해야함
 				pc.RPC.ActionRPC(nameof(pc.RPC.RPC_SetHit), RpcTarget.All);
+				PlayerManager.Instance.ShowDamageText(_routineClass.transform, burnDamage, Color.red);
 			}
 			else if (enemy != null && hitCount % 2 == 0)
 			{
-				enemy.SetIsHit();
+				enemy.photonView.RPC(nameof(enemy.RPC_TakeDamage), RpcTarget.All, burnDamage);
 			}
-			PlayerManager.Instance.ShowDamageText(_routineClass.transform, burnDamage, Color.red);
 		}
 	}
 
@@ -153,6 +153,7 @@ public class PokeStatusHandler
 	IEnumerator PoisonRoutine(float duration)
 	{
 		float dur = duration;
+		int hitCount = 0;
 
 		PlayerController pc = _routineClass as PlayerController;
 		Enemy enemy = _routineClass as Enemy;
@@ -161,18 +162,20 @@ public class PokeStatusHandler
 		{
 			yield return _sec;
 			dur -= 1f;
+			hitCount++;
 
 			int poisonDamage = Mathf.Max(1, BaseData.MaxHp / 8);
 			BaseData.SetCurrentHp(BaseData.CurrentHp - poisonDamage);
-			if (pc != null)
+			if (pc != null && hitCount % 2 == 0)
 			{
+				// 힛 트리거도 RPC로 동기화해야함
 				pc.RPC.ActionRPC(nameof(pc.RPC.RPC_SetHit), RpcTarget.All);
+				PlayerManager.Instance.ShowDamageText(_routineClass.transform, poisonDamage, Color.red);
 			}
-			else if (enemy != null)
+			else if (enemy != null && hitCount % 2 == 0)
 			{
-				enemy.SetIsHit();
+				enemy.photonView.RPC(nameof(enemy.RPC_TakeDamage), RpcTarget.All, poisonDamage);
 			}
-			PlayerManager.Instance.ShowDamageText(_routineClass.transform, poisonDamage, Color.red);
 		}
 	}
 

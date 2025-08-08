@@ -37,7 +37,8 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	{
 		get
 		{
-			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp, true, null, null, Status?.CurrentStatus);
+			_battleData = new BattleDataTable(EnemyData.PokeLevel, EnemyData.PokeData, EnemyData.AllStat, EnemyData.MaxHp, EnemyData.CurrentHp,
+				true, null, null, Status?.CurrentStatus, Buff?.CurrentBuffs);
 			return _battleData;
 		}
 	}
@@ -240,10 +241,6 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	public void RPC_SetBuff(string skillName)
 	{
 		if (Buff == null) new PokeBuffHandler(this, EnemyData);
-
-		if (photonView.IsMine)
-		{
-
-		}
+		Buff.SetBuff(skillName);
 	}
 }

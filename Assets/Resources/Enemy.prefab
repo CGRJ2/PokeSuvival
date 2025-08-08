@@ -265,6 +265,9 @@ MonoBehaviour:
   Status:
     _routineClass: {fileID: 0}
     <CurrentStatus>k__BackingField: 
+  Buff:
+    _routineClass: {fileID: 0}
+    <CurrentBuffs>k__BackingField: []
   _rigid: {fileID: 0}
   _sprite: {fileID: 0}
   _anim: {fileID: 0}
@@ -293,6 +296,7 @@ MonoBehaviour:
     PC: {fileID: 0}
     HeldItem: {fileID: 0}
     CurrentStatus: 
+    CurrentBuffs: []
 --- !u!114 &8225710933803408137
 MonoBehaviour:
   m_ObjectHideFlags: 0

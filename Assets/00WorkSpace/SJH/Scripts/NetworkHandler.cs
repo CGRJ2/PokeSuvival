@@ -172,8 +172,42 @@ public class NetworkHandler: MonoBehaviour
 		}
 	}
 	[PunRPC]
+	public void RPC_RemoveStatus(string skillName)
+	{
+
+	}
+	[PunRPC]
 	public void RPC_SetHit()
 	{
 		PC.View.SetIsHit();
+	}
+	[PunRPC]
+	public void RPC_BuffSync(int viewId, string skillName)
+	{
+		var pv = PhotonView.Find(viewId);
+		if (pv == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : photonView == null");
+			return;
+		}
+		var pc = pv.GetComponent<PlayerController>();
+		if (pc == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : PlayerController == null");
+			return;
+		}
+		if (pc.Buff == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : Buff == null");
+			return;
+		}
+		if (pc.Model == null)
+		{
+			Debug.LogWarning("RPC_BuffSync : Model == null");
+			return;
+		}
+		pc.SetBuff(new PokeBuffHandler(pc, pc.Model));
+		Debug.Log($"{viewId} : [{skillName} 버프] 동기화 시작");
+		pc.Buff.SetBuff(skillName);
 	}
 }

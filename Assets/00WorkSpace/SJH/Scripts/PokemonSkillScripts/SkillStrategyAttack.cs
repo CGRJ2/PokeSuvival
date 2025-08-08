@@ -25,6 +25,7 @@ public class SkillStrategyAttack : IAttack
 			case "블라스트번": return new BlastBurn();
 			case "도깨비불": return new WillOWisp();
 			case "불대문자": return new FireBlast();
+			case "쾌청": return new SunnyDay();
 			default: return null;
 		}
 	}
