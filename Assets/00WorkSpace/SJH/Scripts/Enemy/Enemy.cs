@@ -243,4 +243,6 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		if (Buff == null) new PokeBuffHandler(this, EnemyData);
 		Buff.SetBuff(skillName);
 	}
+	[PunRPC]
+	public void RPC_SyncToCurrentHp(int curHp) => EnemyData.SetCurrentHp(curHp);
 }

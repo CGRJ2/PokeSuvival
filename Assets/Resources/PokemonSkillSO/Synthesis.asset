@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
-  m_Name: EnergyBall
+  m_Name: Synthesis
   m_EditorClassIdentifier: 
-  SkillName: "\uC5D0\uB108\uC9C0\uBCFC"
+  SkillName: "\uAD11\uD569\uC131"
   Desc: 
-  Damage: 90
+  Damage: 0
   Cooldown: 0.5
-  Range: 10
+  Range: 0
   PokeType: 4
-  SkillType: 1
+  SkillType: 2
   SkillAnimType: 1
-  EffectPrefab: {fileID: 813501559018612470, guid: de9bd9865d71c4f48a2790143b711ee1, type: 3}
+  EffectPrefab: {fileID: 6103489140373721307, guid: 015e26d1df285e94db3dc77c4b10ab76, type: 3}
   SFX: {fileID: 0}
-  StatusEffect: 7
-  StatusSprite: {fileID: 21300000, guid: 84717e88618650441b7899ee748d8495, type: 3}
-  StatusRate: 0.2
-  StatusDuration: 3
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0
