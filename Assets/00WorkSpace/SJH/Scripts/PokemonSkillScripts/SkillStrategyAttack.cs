@@ -41,6 +41,7 @@ public class SkillStrategyAttack : IAttack
 			// 비행
 			case "에어커터": return new AirCutter();
 			case "폭풍": return new Hurricane();
+			case "브레이브버드": return new BraveBird();
 
 
             // 전기
