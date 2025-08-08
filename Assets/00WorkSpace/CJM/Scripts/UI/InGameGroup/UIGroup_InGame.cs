@@ -44,12 +44,11 @@ public class UIGroup_InGame : MonoBehaviour
         panel_GameOver.gameObject.SetActive(true);
 
         panel_GameOver.UpdateResultView(pc.Model.TotalExp, pc.Model.PokeLevel, pc.KillCount, pc.SurvivalTime);
+        panel_HUD.panel_BuffState.InitSlots();
     }
 
     public void UpdateSkillSlots(PlayerModel playerModel)
-    { 
-        // 이렇게 사용하면 됩니다
-        // UIManager.Instance.InGameGroup.UpdateSkillSlots();
+    {
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             panel_HUD.panel_SkillSlots.UpdateSkillSlotsView(playerModel);

@@ -65,7 +65,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (tmp_State != null)
         {
             if (CurServer != null)
-                tmp_State.text = $"현재 서버 : {CurServer.name}, Current State : {PhotonNetwork.NetworkClientState}";
+                //tmp_State.text = $"현재 서버 : {CurServer.name}, Current State : {PhotonNetwork.NetworkClientState}";
+                tmp_State.text = $"현재 서버 : {CurServer.name}";
             else
                 tmp_State.text = "현재 접속된 서버 없음";
         }

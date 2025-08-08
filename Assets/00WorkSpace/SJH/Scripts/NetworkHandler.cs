@@ -22,9 +22,11 @@ public class NetworkHandler: MonoBehaviour
 		PokemonData pokeData = Define.GetPokeData(pokeNumber);
 		PC.Model.PokemonEvolution(pokeData);
 		PC.View.SetAnimator(pokeData.AnimController);
-		// TODO : 진화 연출
-	}
-	[PunRPC]
+
+        if (PhotonNetwork.LocalPlayer.IsLocal) PC.OnModelChanged?.Invoke(PC.Model);
+        // TODO : 진화 연출
+    }
+    [PunRPC]
 	public void RPC_ChangePokemonData(string nickName, string userId, int pokeNumber)
 	{
 		var pokeData = Define.GetPokeData(pokeNumber);

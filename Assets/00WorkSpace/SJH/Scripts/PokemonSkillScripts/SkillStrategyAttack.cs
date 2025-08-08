@@ -22,6 +22,7 @@ public class SkillStrategyAttack : IAttack
 			// 노말
 			case "할퀴기": return new Scratch();
 			case "몸통박치기": return new Tackle();
+			case "트라이어택": return new TriAttack();
 			// 풀
 			case "잎날가르기": return new RazorLeaf();
 			case "덩굴채찍": return new VineWhip();
@@ -41,7 +42,24 @@ public class SkillStrategyAttack : IAttack
 			case "에어커터": return new AirCutter();
 			case "폭풍": return new Hurricane();
 
-			default: return null;
+
+            // 전기
+            case "전기쇼크": return new Thundershock();
+
+            // 땅
+            case "진흙뿌리기": return new MudSlap();
+
+            // 드래곤
+            case "용의숨결": return new DragonBreath();
+            // 고스트
+            case "섀도볼": return new ShadowBall();
+            // 에스퍼
+            case "사이코키네시스": return new Psychic();
+
+            // 독
+            case "오물폭탄": return new SludgeBomb();
+
+            default: return null;
 		}
 	}
 }

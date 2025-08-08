@@ -28,11 +28,13 @@ public class Panel_SkillSlots : MonoBehaviour
             // 해당 슬롯에 넣을 스킬이 있다면
             if (skillSlots[i].actived)
             {
+                //Debug.Log($"{i+1}번 스킬슬롯 활성화");
                 skillSlots[i].UpdateSlotView(pokemonData.Skills[i]);
             }
             // 해당 슬롯에 넣을 스킬이 없다면
             else
             {
+                //Debug.Log($"{i+1}번 스킬슬롯 비활성화");
                 skillSlots[i].BlockSlotView();
             }
         }
