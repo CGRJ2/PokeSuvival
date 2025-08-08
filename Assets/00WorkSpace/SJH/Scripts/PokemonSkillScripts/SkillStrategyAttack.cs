@@ -37,6 +37,8 @@ public class SkillStrategyAttack : IAttack
 			case "거품광선": return new BubbleBeam();
 			case "아쿠아커터": return new AquaCutter();
 			case "하이드로펌프": return new HydorPump();
+			// 비행
+			case "에어커터": return new AirCutter();
 
 			default: return null;
 		}
