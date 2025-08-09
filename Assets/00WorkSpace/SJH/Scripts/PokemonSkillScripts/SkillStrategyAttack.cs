@@ -90,7 +90,11 @@ public class SkillStrategyAttack : IAttack
 			case "얼음뭉치": return new IceShard();
 			case "얼음엄니": return new IceFang();
 
+			// 페어리
 			case "치근거리기": return new PlayRough();
+
+			// 강철
+			case "불릿펀치": return new BulletPunch();
 
 
 			default: return null;

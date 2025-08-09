@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: BulletPunch
+  m_EditorClassIdentifier: 
+  SkillName: "\uBD88\uB9BF\uD380\uCE58"
+  Desc: 
+  Damage: 40
+  Cooldown: 0.5
+  Range: 3
+  PokeType: 17
+  SkillType: 0
+  SkillAnimType: 0
+  EffectPrefab: {fileID: 0}
+  SFX: {fileID: 0}
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0
