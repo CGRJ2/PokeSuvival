@@ -5,6 +5,10 @@ using UnityEngine;
 using NTJ;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.SocialPlatforms.Impl;
+using System.Collections;
+using System;
 
 public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 {
@@ -16,17 +20,20 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
     public TMP_Text coinText; // 현재 플레이어가 가진 재화를 표시할 텍스트
     public Button btn_Esc;
     public Button btn_Buy;
-    public int playerCoin = 99999; // 플레이어가 가진 현재 재화
+    public int playerCoin; // 플레이어가 가진 현재 재화
     public GameObject notEnoughCoinPanel; // 재화 부족 안내 UI 오브젝트
 
     private List<ItemData> buyItems = new List<ItemData>(); // 구매 목록에 추가된 아이템 리스트
 
     //public HashSet<int> purchasedItemIds = new HashSet<int>(); // 구매한 아이템 id 집합
 
-    
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     public void Init() // 게임 시작 시 호출
     {
-        UpdateCoinText(); // 현재 재화 텍스트 갱신
         PopulateSellItems(); // 판매 아이템 목록 UI 생성
         btn_Esc.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
         btn_Buy.onClick.AddListener(ConfirmBuy);
@@ -35,6 +42,8 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
     private void OnEnable()
     {
         UpdateShopSlotsView();
+        
+        UpdateCoinText();
     }
 
     public void PopulateSellItems() // 판매 아이템 패널을 SellItemContent에 생성
@@ -109,6 +118,14 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         buyCoinText.text = total.ToString(); // 총합 텍스트 갱신
     }
 
+
+    // 이거 좋은듯?
+    IEnumerator WaitUntilCustomPropertyChanged(string key, Action action, object preValue)
+    {
+        yield return new WaitUntil(() => PhotonNetwork.LocalPlayer.CustomProperties[key] != preValue);
+        action?.Invoke();
+    }
+
     public void ConfirmBuy() // 구매 버튼 클릭 시 호출 (일괄 구매)
     {
         Panel_Inventory inventory = UIManager.Instance.LobbyGroup.panel_Inventory;
@@ -116,8 +133,37 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
         int total = buyItems.Sum(i => (int)i.price); // 구매 목록의 총 가격 계산
         if (playerCoin >= total) // 재화가 충분한지 확인
         {
-            playerCoin -= total; // 재화 차감
-            UpdateCoinText(); // 현재 재화 텍스트 갱신
+            // 로그인 유저라면 DB까지 돈 차감
+            if (BackendManager.Auth.CurrentUser != null)
+            {
+                BackendManager.Instance.LoadUserDataFromDB((userData) =>
+                {
+                    UserData updatedUserData = userData;
+                    updatedUserData.money -= total;
+
+                    object preValue = PhotonNetwork.LocalPlayer.CustomProperties["Money"];
+
+                    // 서버에 유저 데이터를 갱신
+                    BackendManager.Instance.InitUserDataToDB(updatedUserData, () =>
+                    {
+                        // 갱신 완료 시 서버의 유저데이터를 클라이언트에 동기화(커스텀 프로퍼티에도 이 함수에서 적용 됨)
+                        NetworkManager.Instance.UpdateUserDataToClient(userData);
+
+                        // 커스텀 프로퍼티 설정될 때까지 기다렸다가, 현재 재화 텍스트 갱신
+                        StartCoroutine(WaitUntilCustomPropertyChanged("Money", () => UpdateCoinText(), preValue));
+                    });
+                });
+            }
+            // 게스트 유저면 커스텀 프로퍼티에만 적용
+            else
+            {
+                object preValue = PhotonNetwork.LocalPlayer.CustomProperties["Money"];
+                PhotonNetwork.LocalPlayer.CustomProperties["Money"] = (int)preValue - total;
+
+                // 커스텀 프로퍼티 설정될 때까지 기다렸다가, 현재 재화 텍스트 갱신
+                StartCoroutine(WaitUntilCustomPropertyChanged("Money", () => UpdateCoinText(), preValue));
+            }
+
 
             // 도감에 구매한 아이템 등록 및 UI 갱신
             if (inventory != null)
@@ -185,6 +231,8 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
 
     void UpdateCoinText() // 현재 재화 텍스트 갱신
     {
+        int curMoney = (int)PhotonNetwork.LocalPlayer.CustomProperties["Money"];
+        playerCoin = curMoney;
         coinText.text = playerCoin.ToString(); // coinText에 현재 재화 표시
     }
 }

@@ -17,6 +17,12 @@ public class Slot_Buff : MonoBehaviour
         }
     }
 
+    public void InitSlotData()
+    {
+        startTime = 0;
+        duration = 0;
+    }
+
     public void UpdateBuffSlot(Sprite sprite, float duration)
     {
         if (duration <= -98)

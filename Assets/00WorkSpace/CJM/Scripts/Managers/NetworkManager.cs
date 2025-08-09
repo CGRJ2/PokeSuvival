@@ -402,7 +402,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         // 로그인 유저라면
         if (BackendManager.Auth.CurrentUser != null)
         {
-            BackendManager.Instance.UpdateUserProfile(userData.name);
+            if (userData.name != BackendManager.Auth.CurrentUser.DisplayName)
+                BackendManager.Instance.UpdateUserProfile(userData.name);
         }
         // 게스트 유저라면
         else
