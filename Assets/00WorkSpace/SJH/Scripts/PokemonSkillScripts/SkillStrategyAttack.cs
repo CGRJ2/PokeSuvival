@@ -68,6 +68,7 @@ public class SkillStrategyAttack : IAttack
 			// 격투
 			case "진공파": return new VacuumWave();
 			case "크로스촙": return new CrossChop();
+			case "폭발펀치": return new DynamicPunch();
 
             default: return null;
 		}
