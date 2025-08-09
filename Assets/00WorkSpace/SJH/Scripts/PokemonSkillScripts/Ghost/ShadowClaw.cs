@@ -1,7 +1,9 @@
 ﻿using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class DynamicPunch : IAttack
+public class ShadowClaw : IAttack
 {
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
@@ -24,7 +26,6 @@ public class DynamicPunch : IAttack
 				var iD = enemy.GetComponent<IDamagable>();
 				if (iD == null) continue;
 				iD.TakeDamage(attackerData, skill);
-				PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.name}Effect", enemy.transform.position, Quaternion.identity);
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");
