@@ -77,6 +77,7 @@ public class SkillStrategyAttack : IAttack
 
 			// 독
 			case "오물폭탄": return new SludgeBomb();
+			case "오물웨이브": return new SludgeWave();
 
 			// 격투
 			case "진공파": return new VacuumWave();
