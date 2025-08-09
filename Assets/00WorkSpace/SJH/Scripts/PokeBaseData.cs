@@ -21,8 +21,7 @@ public abstract class PokeBaseData
 	}
 	[field: SerializeField] public int MaxHp { get; protected set; }
 	[field: SerializeField] public Dictionary<SkillSlot, float> SkillCooldownDic { get; protected set; }
-
-	public bool IsDead { get; protected set; }
+	[field: SerializeField] public bool IsDead { get; protected set; }
 
 	public virtual float GetMoveSpeed() => PokeData.BaseStat.GetMoveSpeed();
 
