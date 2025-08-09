@@ -40,7 +40,7 @@ public class Panel_GameOver : MonoBehaviour
 
     private void ReturnToLobbyServer()
     {
-        gameObject.SetActive(false); // SJH
+        gameObject.SetActive(false); 
         NetworkManager.Instance.MoveToLobby();
     }
 
@@ -131,9 +131,5 @@ public class Panel_GameOver : MonoBehaviour
                 BackendManager.Instance.InitLocalPlayerRankingData(new RankData(userId, PhotonNetwork.NickName, (int)score));
             });
         }
-
-
-
-
     }
 }

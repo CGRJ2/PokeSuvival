@@ -7,6 +7,7 @@ public class UIGroup_InGame : MonoBehaviour
 {
     public Panel_HUD panel_HUD;
     [SerializeField] private Panel_GameOver panel_GameOver;
+    public Panel_GameOverAutoReturnLobby panel_GameOverAutoReturnLobby;
 
     public List<PlayerController> activedPlayerList = new List<PlayerController>();
 

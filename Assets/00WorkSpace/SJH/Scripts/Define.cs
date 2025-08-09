@@ -265,11 +265,11 @@ public static class Define
     {
         ItemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
         _itemDict = ItemDatabase.items.ToDictionary(i => i.id);
-        foreach (var kvp in _itemDict)
+        /*foreach (var kvp in _itemDict)
         {
             Debug.Log($"Key : {kvp.Key} / Value : {kvp.Value.itemName}");
         }
-        Debug.Log($"아이템 데이터 {_itemDict.Count}개 초기화 완료");
+        Debug.Log($"아이템 데이터 {_itemDict.Count}개 초기화 완료");*/
     }
 
     public static ItemData GetItemById(int id)

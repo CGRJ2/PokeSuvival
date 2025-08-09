@@ -616,11 +616,15 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     {
         BackendManager.Auth.SignOut();
 
-        //if (CurServer != null)
-        //{
-        //    // 서버 퇴장 처리
-        //    BackendManager.Instance.OnExitServerCapacityUpdate(CurServer);
-        //}
+
+        // 접속 종료 시 죽이긴 해야함
+        PlayerController pc = PlayerManager.Instance?.LocalPlayerController;
+
+        if (pc == null) return;
+        if (pc.Model == null) return;
+
+        if (!pc.Model.IsDead)
+            pc.Model.SetCurrentHp(-1);
     }
 
 
