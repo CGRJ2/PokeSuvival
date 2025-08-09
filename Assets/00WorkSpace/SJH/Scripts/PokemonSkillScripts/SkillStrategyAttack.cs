@@ -60,13 +60,11 @@ public class SkillStrategyAttack : IAttack
 
 			// 드래곤
 			case "용의숨결": return new DragonBreath();
+			case "드래곤클로": return new DragonClaw();
 
-            // 바위
-            case "돌떨구기": return new RockThrow();
+			// 바위
+			case "돌떨구기": return new RockThrow();
             case "록블라스트": return new RockBlast();
-
-            // 드래곤
-            case "용의숨결": return new DragonBreath();
 			
             // 고스트
 			case "섀도볼": return new ShadowBall();
