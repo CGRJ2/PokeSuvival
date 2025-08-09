@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 public class ExpOrbSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private ExpOrbPool orbPool;
-    [SerializeField] private int maxOrbs = 50;
-    [SerializeField] private float spawnInterval = 1f;
+    [SerializeField] private int maxOrbs = 100;
+    [SerializeField] private float spawnInterval = 0.2f;
     [SerializeField] private int spawnAmountPerInterval = 5;
 
     [Header("타일맵 설정")]
