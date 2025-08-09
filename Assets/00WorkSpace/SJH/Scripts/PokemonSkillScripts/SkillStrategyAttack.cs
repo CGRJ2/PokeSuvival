@@ -95,6 +95,7 @@ public class SkillStrategyAttack : IAttack
 
 			// 강철
 			case "불릿펀치": return new BulletPunch();
+			case "아이언헤드": return new IronHead();
 
 
 			default: return null;

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
-  m_Name: BulletPunch
+  m_Name: IronHead
   m_EditorClassIdentifier: 
-  SkillName: "\uBD88\uB9BF\uD380\uCE58"
+  SkillName: "\uC544\uC774\uC5B8\uD5E4\uB4DC"
   Desc: 
-  Damage: 40
+  Damage: 80
   Cooldown: 0.5
-  Range: 3
+  Range: 10
   PokeType: 17
   SkillType: 0
   SkillAnimType: 0
-  EffectPrefab: {fileID: 2888940760327810441, guid: 0c9eed138818fbb4cb88e50d6f1a74e6, type: 3}
+  EffectPrefab: {fileID: 7125481200652831164, guid: c9622b6fafcdce24d80fa31a63b794d4, type: 3}
   SFX: {fileID: 0}
-  StatusEffect: 0
-  StatusSprite: {fileID: 0}
-  StatusRate: 0
-  StatusDuration: 0
+  StatusEffect: 9
+  StatusSprite: {fileID: 21300000, guid: 0284c9444481bf045bdb5d7550dfdf3d, type: 3}
+  StatusRate: 0.3
+  StatusDuration: 3

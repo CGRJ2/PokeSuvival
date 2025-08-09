@@ -29,6 +29,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   - {fileID: 11400000, guid: 6c2df34eb0419b142975df3665d9c910, type: 2}
   - {fileID: 11400000, guid: d1faf30582e667a41a06c93f56fc473f, type: 2}
+  - {fileID: 11400000, guid: 23c3894af1385704c8102564e6905936, type: 2}
   Desc: 
   EvoLevel: 35
   NextEvoData: {fileID: 11400000, guid: 0a49ae5539419fd4e84f9daa2fe54b8e, type: 2}
