@@ -59,6 +59,7 @@ public class SkillStrategyAttack : IAttack
             case "섀도볼": return new ShadowBall();
             // 에스퍼
             case "사이코키네시스": return new Psychic();
+			case "환상빔": return new Psybeam();
 
             // 독
             case "오물폭탄": return new SludgeBomb();
