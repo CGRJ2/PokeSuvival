@@ -23,7 +23,6 @@ public class AOE_SandTomb : AOE_Skill
 		if (pc != null) pc.Status.SetStun(1);
 		else attacker.GetComponent<Enemy>()?.Status?.SetStun(1);
 
-		Random.InitState(attacker.GetInstanceID());
 		_tickCount = Random.Range(4, 6);
 		_currentCount = 0;
 	}

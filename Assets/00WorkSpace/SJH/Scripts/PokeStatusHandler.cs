@@ -35,16 +35,15 @@ public class PokeStatusHandler
 
 		// TODO : 확률 계산 0 ~ 1f
 		var rate = skill.StatusRate;
-		UnityEngine.Random.InitState(BaseData.PokeData.PokeNumber + BaseData.PokeLevel);
 		var ran = UnityEngine.Random.value;
 		if (ran > rate)
 		{
-			Debug.Log($"{skill.SkillName} 의 상태이상은 실패!");
+			Debug.Log($"{skill.SkillName} 의 상태이상은 실패! / {ran} > {rate}");
 			return false;
 		}
 
 		CurrentStatus.Add(skill.StatusEffect);
-		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {skill.StatusEffect} 상태!");
+		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {skill.StatusEffect} 상태! / {ran} <= {rate}");
 
 		_routineClass.StartCoroutine(StatusRoutine(skill.StatusEffect, skill.StatusDuration));
 		return true;

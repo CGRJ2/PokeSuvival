@@ -60,9 +60,10 @@ public class SkillStrategyAttack : IAttack
             // 에스퍼
             case "사이코키네시스": return new Psychic();
 			case "환상빔": return new Psybeam();
+			case "최면술": return new Hypnosis();
 
-            // 독
-            case "오물폭탄": return new SludgeBomb();
+			// 독
+			case "오물폭탄": return new SludgeBomb();
 
             default: return null;
 		}
