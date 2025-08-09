@@ -31,8 +31,9 @@ public static class Define
 
 			if (NameToPokeData == null) NameToPokeData = new();
 			if (!NameToPokeData.ContainsKey(data.PokeName)) NameToPokeData.Add(data.PokeName, data);
-		}
-		Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {NameToPokeData.Count}");
+            Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length} / {data.PokeName} /{data.name}");
+        }
+        Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length}");
 		_isDataInit = true;
 	}
 	public static PokemonData GetPokeData(int pokeNumber)
