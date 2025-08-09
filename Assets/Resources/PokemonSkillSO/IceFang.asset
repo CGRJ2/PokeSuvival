@@ -21,8 +21,7 @@ MonoBehaviour:
   SkillType: 0
   SkillAnimType: 0
   EffectPrefab: {fileID: 7085815885985528199, guid: 18af256767064834c9042f3a7a0891fb, type: 3}
-  SFX: {fileID: 0}
   StatusEffect: 5
-  StatusSprite: {fileID: 907459971, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  StatusSprite: {fileID: 21300000, guid: 32066ec07980a184ebebaf0559f63495, type: 3}
   StatusRate: 0.1
   StatusDuration: 3
