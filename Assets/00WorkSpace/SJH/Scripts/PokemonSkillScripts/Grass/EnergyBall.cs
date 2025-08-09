@@ -9,7 +9,7 @@ public class EnergyBall : IAttack
 		Vector2 spawnPos = (Vector2)attacker.position + attackDir;
 		Quaternion rot = Quaternion.FromToRotation(Vector2.right, attackDir.normalized);
 		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, rot);
-		ProjectileHitEffect projectile = go.GetComponent<ProjectileHitEffect>();
+		ProjectileHitEffectNoDestroy projectile = go.GetComponent<ProjectileHitEffectNoDestroy>();
 		if (projectile != null) projectile.Init(attacker, attackDir, attackerData, skill);
 		else
 		{
