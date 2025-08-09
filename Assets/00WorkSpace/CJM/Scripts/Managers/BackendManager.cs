@@ -17,20 +17,20 @@ public class BackendManager : Singleton<BackendManager>
     public static FirebaseDatabase Database { get; private set; }
 
     // 테스트용
-    private void Update()
+    /*private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        *//*if (Input.GetKeyDown(KeyCode.X))
         {
             //LoadUserDataFromDB((data) => Debug.Log(data.name));
             Debug.Log(NetworkManager.Instance.CurServer.sceneName);
-        }
+        }*/
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        /*if (Input.GetKeyDown(KeyCode.Z))
         {
             //InitServerDataToServerInfoDB(new ServerData("Lobby Server 01 (KR)", "LobbyScene(CJM)", "로비 01", 0, "e4d01a07-2d0c-41bb-bc2d-59723abc27fc", 20));
             //InitServerDataToServerInfoDB(new ServerData("Lobby Server 02 (KR)", "LobbyScene(CJM)", "로비 02", 0, "4b17f092-1646-4668-9356-580cdb2e8529", 20));
-        }
-    }
+        }*//*
+    }*/
 
     public void Init()
     {
