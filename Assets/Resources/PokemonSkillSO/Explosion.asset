@@ -16,11 +16,11 @@ MonoBehaviour:
   Desc: 
   Damage: 250
   Cooldown: 0.5
-  Range: 0
+  Range: 3
   PokeType: 1
   SkillType: 0
   SkillAnimType: 0
-  EffectPrefab: {fileID: 8155541776483518026, guid: fc2f939da3e659d4ab3215c86121d580, type: 3}
+  EffectPrefab: {fileID: 8378764100285602662, guid: 8eb9864c1d52d7f44828778469fab2d2, type: 3}
   SFX: {fileID: 0}
   StatusEffect: 0
   StatusSprite: {fileID: 0}
