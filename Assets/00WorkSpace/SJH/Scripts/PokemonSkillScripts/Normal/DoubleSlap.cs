@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class ShadowClaw : IAttack
+public class DoubleSlap : IAttack
 {
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
@@ -23,7 +23,9 @@ public class ShadowClaw : IAttack
 			{
 				var iD = enemy.GetComponent<IDamagable>();
 				if (iD == null) continue;
-				iD.TakeDamage(attackerData, skill);
+				PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.name}Effect", enemy.transform.position, Quaternion.identity);
+				int ran = Random.Range(2, 6);
+				for (int i = 0; i < ran; i++) iD.TakeDamage(attackerData, skill);
 			}
 		}
 		Debug.Log($"{skill.SkillName} 공격!");
