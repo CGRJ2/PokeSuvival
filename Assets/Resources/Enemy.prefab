@@ -253,6 +253,7 @@ MonoBehaviour:
     _pokeLevel: 0
     _currentHp: 0
     <MaxHp>k__BackingField: 0
+    <IsDead>k__BackingField: 0
   EnemyAI:
     _prevState: 0
     CurrentState: 0

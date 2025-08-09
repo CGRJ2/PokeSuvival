@@ -525,6 +525,7 @@ MonoBehaviour:
     _pokeLevel: 0
     _currentHp: 0
     <MaxHp>k__BackingField: 0
+    <IsDead>k__BackingField: 0
     <PlayerName>k__BackingField: 
     <UserId>k__BackingField: 
     _pokeExp: 0

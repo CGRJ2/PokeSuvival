@@ -47,6 +47,7 @@ public class SkillStrategyAttack : IAttack
             // 전기
             case "전기쇼크": return new Thundershock();
 			case "방전": return new Discharge();
+			case "번개": return new Thunder();
 
 			// 땅
 			case "진흙뿌리기": return new MudSlap();

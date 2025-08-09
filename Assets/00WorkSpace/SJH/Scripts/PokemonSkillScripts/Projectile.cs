@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviourPun
 	[SerializeField] protected float _speed;
 	[SerializeField] protected float _endDistance;
 
-	public void Init(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
+	public virtual void Init(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
 		_attacker = attacker;
 		_attackerData = attackerData;
