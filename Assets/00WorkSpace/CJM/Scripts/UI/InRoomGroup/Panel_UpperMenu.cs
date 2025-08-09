@@ -69,7 +69,8 @@ public class Panel_UpperMenu : MonoBehaviour
                     btn_Dead.gameObject.SetActive(true);
                     btn_Dead.onClick.AddListener(() =>
                     {
-                        pc.Model.OnDied?.Invoke();
+                        //pc.Model.OnDied?.Invoke();
+                        pc.Model.SetCurrentHp(-1);
                         SwitchToggleDropDownButton();
                         btn_Dead.onClick.RemoveAllListeners();
                     });

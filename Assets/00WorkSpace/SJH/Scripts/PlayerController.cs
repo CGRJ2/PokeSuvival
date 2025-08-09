@@ -283,8 +283,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 			_input.actions.Disable();
 			View.SetIsDead(true);
-			Debug.LogWarning("플레이어 사망");
 			PlayerManager.Instance.PlayerDead(Model.TotalExp);
+			Debug.LogWarning("플레이어 사망");
 		};
 		Model.OnPokeLevelChanged += (level) => { RPC.ActionRPC(nameof(RPC.RPC_LevelChanged), RpcTarget.All, level); };
 		OnModelChanged += (model) =>
