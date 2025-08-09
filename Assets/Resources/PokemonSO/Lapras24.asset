@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
-  m_Name: Lapras
+  m_Name: Lapras24
   m_EditorClassIdentifier: 
   PokeNumber: 131
   PokeName: "\uB77C\uD504\uB77C\uC2A4"
@@ -29,7 +29,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
   - {fileID: 11400000, guid: 2ebcb6f9ab11cc24e9cffdd1bbbeaffc, type: 2}
   - {fileID: 11400000, guid: 06b871ba85f7b3842b17d42350a5533c, type: 2}
+  - {fileID: 11400000, guid: ce9341f0771ff7e4a9c84af1a2d3fbd1, type: 2}
   Desc: 
-  EvoLevel: 24
-  NextEvoData: {fileID: 11400000, guid: f5911422a0c58814c823649604588412, type: 2}
+  EvoLevel: 0
+  NextEvoData: {fileID: 0}
   PokeSize: 1.5

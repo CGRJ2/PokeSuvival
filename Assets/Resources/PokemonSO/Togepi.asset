@@ -26,7 +26,7 @@ MonoBehaviour:
   PokemonIconSprite: {fileID: 21300000, guid: 9c368158c3d212e48af86609e5a8351a, type: 3}
   PokemonInfoSprite: {fileID: 21300000, guid: 782d007c840ac3543bf2a92df4552947, type: 3}
   Skills:
-  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 12699d40f21f13a488100a7d4e5a79e9, type: 2}
   - {fileID: 11400000, guid: 93b4b8c9b9240dc4aad213d87591303d, type: 2}
   Desc: 
   EvoLevel: 20
