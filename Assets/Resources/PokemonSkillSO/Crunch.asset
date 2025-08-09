@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: Crunch
+  m_EditorClassIdentifier: 
+  SkillName: "\uAE68\uBB3C\uC5B4\uBD80\uC218\uAE30"
+  Desc: 
+  Damage: 80
+  Cooldown: 0.5
+  Range: 2
+  PokeType: 16
+  SkillType: 0
+  SkillAnimType: 0
+  EffectPrefab: {fileID: 3444783215057723299, guid: 44fd32043a2304b44b15b5674541ff15, type: 3}
+  SFX: {fileID: 0}
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

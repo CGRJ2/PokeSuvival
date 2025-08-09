@@ -77,7 +77,11 @@ public class SkillStrategyAttack : IAttack
 			case "크로스촙": return new CrossChop();
 			case "폭발펀치": return new DynamicPunch();
 
-            default: return null;
+			// 악
+			case "깨물어부수기": return new Crunch();
+
+
+			default: return null;
 		}
 	}
 }
