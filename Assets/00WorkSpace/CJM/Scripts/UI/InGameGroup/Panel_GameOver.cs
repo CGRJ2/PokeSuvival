@@ -8,6 +8,7 @@ public class Panel_GameOver : MonoBehaviour
     [SerializeField] TMP_Text tmp_EXP;
     [SerializeField] TMP_Text tmp_Level;
     [SerializeField] TMP_Text tmp_Kills;
+    [SerializeField] TMP_Text tmp_Money;
     [SerializeField] Button btn_Restart;
     [SerializeField] Button btn_ChangePok;
     [SerializeField] Button btn_Lobby;
@@ -46,12 +47,17 @@ public class Panel_GameOver : MonoBehaviour
     // 플레이어 사망 시 호출
     public void UpdateResultView(float score, int level, int kills, float suvivalTime)
     {
-        tmp_EXP.text = $"EXP: {score}";
-        tmp_Level.text = $"Level: {level}";
-        tmp_Kills.text = $"Kills: {kills}";
+        tmp_EXP.text = $"EXP: {score} = {score} G";
+        tmp_Level.text = $"Level: {level - 1} (x 100) = {(level - 1) * 100} G";
+        tmp_Kills.text = $"Kills: {kills} (x 100) = {kills * 100} G";
+
+        int curMoney = (int)PhotonNetwork.LocalPlayer.CustomProperties["Money"];
 
         // 돈 계산 수식 여기에 업데이트 (현재는 임시로 넣어두었습니다)
-        int rewardMoneyValue = (int)score + level * 100 + kills * 100;
+        int rewardMoneyValue = (int)score + (level - 1) * 100 + kills * 100;
+
+        tmp_Money.text = $"{curMoney} + {rewardMoneyValue} G";
+
 
         // 유저 데이터 업데이트
         // 유저 데이터 있음(로그인 유저)
@@ -127,7 +133,7 @@ public class Panel_GameOver : MonoBehaviour
         }
 
 
-        
+
 
     }
 }

@@ -13,6 +13,7 @@ public class Panel_ReturnToLobbyConfirm : MonoBehaviour
         btn_Confirm.onClick.AddListener(() =>
         {
             UIManager.Instance.StaticGroup.panel_UpperMenu.SwitchToggleDropDownButton();
+            UIManager.Instance.InGameGroup.panel_HUD.panel_BuffState.InitSlots();
             NetworkManager.Instance.MoveToLobby();
         });
         btn_Cancel.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));

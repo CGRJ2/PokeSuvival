@@ -19,7 +19,10 @@ public class Panel_BuffState : MonoBehaviour
         foreach (Slot_Buff slot in slots)
         {
             if (slot.gameObject.activeSelf)
+            {
+                slot.InitSlotData();
                 slot.gameObject.SetActive(false);
+            }
         }
     }
 
