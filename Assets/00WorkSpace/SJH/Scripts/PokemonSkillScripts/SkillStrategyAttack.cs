@@ -80,6 +80,10 @@ public class SkillStrategyAttack : IAttack
 			// 악
 			case "깨물어부수기": return new Crunch();
 
+			// 얼음
+			case "얼음뭉치": return new IceShard();
+			case "얼음엄니": return new IceFang();
+
 
 			default: return null;
 		}

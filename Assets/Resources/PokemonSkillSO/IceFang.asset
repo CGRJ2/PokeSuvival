@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: IceFang
+  m_EditorClassIdentifier: 
+  SkillName: "\uC5BC\uC74C\uC5C4\uB2C8"
+  Desc: 
+  Damage: 65
+  Cooldown: 0.5
+  Range: 2
+  PokeType: 8
+  SkillType: 0
+  SkillAnimType: 0
+  EffectPrefab: {fileID: 7085815885985528199, guid: 18af256767064834c9042f3a7a0891fb, type: 3}
+  SFX: {fileID: 0}
+  StatusEffect: 5
+  StatusSprite: {fileID: 907459971, guid: 142458ac048501a46b1238fa09a87d26, type: 3}
+  StatusRate: 0.1
+  StatusDuration: 3
