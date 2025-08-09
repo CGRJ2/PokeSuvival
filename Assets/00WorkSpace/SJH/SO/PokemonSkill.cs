@@ -14,7 +14,6 @@ public class PokemonSkill : ScriptableObject
     public SkillAnimType SkillAnimType;
 
 	public GameObject EffectPrefab;
-    public AudioClip SFX;
 
     public StatusType StatusEffect;
     public Sprite StatusSprite;
