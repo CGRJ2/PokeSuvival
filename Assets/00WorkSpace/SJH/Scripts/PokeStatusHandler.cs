@@ -27,25 +27,33 @@ public class PokeStatusHandler
 	{
 		if (skill.StatusEffect == StatusType.None) return false;
 
-		if (!CanApply(skill.StatusEffect))
-		{
-			Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {skill.StatusEffect} 면역!");
-			return false;
-		}
-
-		// TODO : 확률 계산 0 ~ 1f
-		var rate = skill.StatusRate;
+		// 확률 판정
 		var ran = UnityEngine.Random.value;
-		if (ran > rate)
+		if (ran > skill.StatusRate)
 		{
-			Debug.Log($"{skill.SkillName} 의 상태이상은 실패! / {ran} > {rate}");
+			Debug.Log($"{skill.SkillName} 의 상태이상 실패! / {ran} > {skill.StatusRate}");
 			return false;
 		}
 
-		CurrentStatus.Add(skill.StatusEffect);
-		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {skill.StatusEffect} 상태! / {ran} <= {rate}");
+		// 최종 적용 상태 결정
+		var statusEffect = skill.StatusEffect;
+		if (skill.SkillName == "트라이어택")
+		{
+			StatusType[] status = { StatusType.Paralysis, StatusType.Burn, StatusType.Freeze };
+			statusEffect = status[UnityEngine.Random.Range(0, status.Length)];
+		}
 
-		_routineClass.StartCoroutine(StatusRoutine(skill.StatusEffect, skill.StatusDuration));
+		// 면역 체크
+		if (!CanApply(statusEffect))
+		{
+			Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {statusEffect} 면역!");
+			return false;
+		}
+
+		CurrentStatus.Add(statusEffect);
+		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {statusEffect} 상태! / {ran} <= {skill.StatusRate}");
+
+		_routineClass.StartCoroutine(StatusRoutine(statusEffect, skill.StatusDuration));
 		return true;
 	}
 
