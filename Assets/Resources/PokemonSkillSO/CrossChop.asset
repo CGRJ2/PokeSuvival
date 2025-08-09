@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
-  m_Name: VacuumWave
+  m_Name: CrossChop
   m_EditorClassIdentifier: 
-  SkillName: "\uC9C4\uACF5\uD30C"
+  SkillName: "\uD06C\uB85C\uC2A4\uCD19"
   Desc: 
-  Damage: 40
+  Damage: 100
   Cooldown: 0.5
-  Range: 10
+  Range: 3
   PokeType: 6
-  SkillType: 1
+  SkillType: 0
   SkillAnimType: 0
-  EffectPrefab: {fileID: 4889503356740862819, guid: 8307b8f72d24a9a43891af8fd1aceabf, type: 3}
+  EffectPrefab: {fileID: 1746952315823507809, guid: 7272b4c2b09f0084694d08f74b80ae49, type: 3}
   SFX: {fileID: 0}
   StatusEffect: 0
   StatusSprite: {fileID: 0}
