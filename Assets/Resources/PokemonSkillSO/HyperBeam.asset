@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: HyperBeam
+  m_EditorClassIdentifier: 
+  SkillName: "\uD30C\uAD34\uAD11\uC120"
+  Desc: 
+  Damage: 150
+  Cooldown: 0.5
+  Range: 0
+  PokeType: 1
+  SkillType: 1
+  SkillAnimType: 1
+  EffectPrefab: {fileID: 7154491434193201709, guid: e2ff0c3fbc6e06b4085faf591208f24f, type: 3}
+  SFX: {fileID: 0}
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

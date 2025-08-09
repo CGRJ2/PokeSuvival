@@ -24,6 +24,7 @@ public class SkillStrategyAttack : IAttack
 			case "몸통박치기": return new Tackle();
 			case "트라이어택": return new TriAttack();
 			case "연속뺨치기": return new DoubleSlap();
+			case "파괴광선": return new HyperBeam();
 
 			// 풀
 			case "잎날가르기": return new RazorLeaf();

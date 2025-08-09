@@ -239,6 +239,7 @@ MonoBehaviour:
     PC: {fileID: 0}
     HeldItem: {fileID: 0}
     CurrentStatus: 
+    CurrentBuffs: []
   _skill: {fileID: 0}
   _size: 0
   _enemies: []
