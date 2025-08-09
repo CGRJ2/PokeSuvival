@@ -72,12 +72,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
 
         // 테스트 용
-        if (Input.GetKeyDown(KeyCode.T))
+        /*if (Input.GetKeyDown(KeyCode.T))
         {
             //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
             //Debug.Log($"로비에 존재하는 인원 => {PhotonNetwork.CountOfPlayersOnMaster}명, 룸에 존재하는 인원 => {PhotonNetwork.CountOfPlayersInRooms}");
             CheckServerUserNumber_InRoomMasterClient();
-        }
+        }*/
     }
 
 

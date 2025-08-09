@@ -49,6 +49,11 @@ public class SkillStrategyAttack : IAttack
             // 땅
             case "진흙뿌리기": return new MudSlap();
 
+            // 바위
+            case "돌떨구기": return new RockThrow();
+            case "록블라스트": return new RockBlast();
+
+
             // 드래곤
             case "용의숨결": return new DragonBreath();
             // 고스트
