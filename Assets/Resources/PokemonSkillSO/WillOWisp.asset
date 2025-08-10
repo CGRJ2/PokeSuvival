@@ -15,7 +15,7 @@ MonoBehaviour:
   SkillName: "\uB3C4\uAE68\uBE44\uBD88"
   Desc: 
   Damage: 0
-  Cooldown: 0.5
+  Cooldown: 8
   Range: 5
   PokeType: 2
   SkillType: 1

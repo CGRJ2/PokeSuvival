@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8671361393614832859}
   - component: {fileID: 4030275349313521879}
   - component: {fileID: 6929086131116596189}
-  - component: {fileID: -3728823918968358231}
+  - component: {fileID: -2268313412204319066}
   m_Layer: 9
   m_Name: ThunderEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -3728823918968358231}
+  - {fileID: -2268313412204319066}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-3728823918968358231
+--- !u!114 &-2268313412204319066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

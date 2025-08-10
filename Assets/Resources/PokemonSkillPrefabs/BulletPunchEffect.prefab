@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7416025591908641894}
   - component: {fileID: 7398886702860515283}
   - component: {fileID: 7464315991836167120}
-  - component: {fileID: -2106701704027392095}
+  - component: {fileID: -1809443811981138839}
   m_Layer: 9
   m_Name: BulletPunchEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -2106701704027392095}
+  - {fileID: -1809443811981138839}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-2106701704027392095
+--- !u!114 &-1809443811981138839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

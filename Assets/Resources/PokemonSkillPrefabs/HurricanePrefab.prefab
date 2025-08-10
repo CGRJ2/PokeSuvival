@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1640005678000128733}
   - component: {fileID: -9111095247440966385}
   - component: {fileID: 923218902912491886}
-  - component: {fileID: 1450359799917601285}
+  - component: {fileID: -7095199249059409642}
   m_Layer: 9
   m_Name: HurricanePrefab
   m_TagString: Untagged
@@ -139,7 +139,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 8368308348147673557}
-  - {fileID: 1450359799917601285}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -157,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
 --- !u!95 &3784276069349295822
 Animator:
@@ -333,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1450359799917601285
+--- !u!114 &-7095199249059409642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,10 +341,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1095620674529007286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1

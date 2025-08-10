@@ -16,12 +16,12 @@ MonoBehaviour:
   Desc: "\uC0C1\uB300\uB97C \uD5A5\uD574\uC11C \uBAB8 \uC804\uCCB4\uB97C \uBD80\uB52A\uCCD0\uAC00\uBA70
     \uACF5\uACA9\uD55C\uB2E4."
   Damage: 40
-  Cooldown: 0.9
+  Cooldown: 3
   Range: 2
   PokeType: 1
   SkillType: 0
   SkillAnimType: 0
-  EffectPrefab: {fileID: 7125481200652831164, guid: 4089bee852127ea47bbfbeccb6ecd342, type: 3}
+  EffectPrefab: {fileID: 0}
   StatusEffect: 0
   StatusSprite: {fileID: 0}
   StatusRate: 0

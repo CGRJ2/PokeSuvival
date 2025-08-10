@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 202140390303038583}
   - component: {fileID: 5577305385203904135}
   - component: {fileID: 4836089660170118115}
+  - component: {fileID: -1034429909342335824}
   - component: {fileID: 4620987876505244578}
   - component: {fileID: 4109238673117079376}
   - component: {fileID: 5560541612216351404}
-  - component: {fileID: 3511841936543732281}
+  - component: {fileID: 3220420180602516064}
   m_Layer: 9
   m_Name: MoonblastPrefab
   m_TagString: Untagged
@@ -136,10 +137,26 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 3511841936543732281}
+  - {fileID: -1034429909342335824}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-1034429909342335824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8073694639771686605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!114 &4620987876505244578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +237,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1205305302832028535, guid: 6fb8485252828c34390022f46a4b922d, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4d610618ff6f98e48900b1c3cd002d75, type: 3}
+  m_audioClip: {fileID: 8300000, guid: beed1a2315646684d9f5bbc9689b93b1, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -306,7 +323,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3511841936543732281
+--- !u!114 &3220420180602516064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,10 +332,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8073694639771686605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1

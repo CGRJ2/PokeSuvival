@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3819590272518474588}
   - component: {fileID: 7227700603233449841}
   - component: {fileID: 3235956995262876116}
-  - component: {fileID: 4717720704861420049}
+  - component: {fileID: 4484270439856094147}
   m_Layer: 9
   m_Name: WillOWispEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 4717720704861420049}
+  - {fileID: 4484270439856094147}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4717720704861420049
+--- !u!114 &4484270439856094147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

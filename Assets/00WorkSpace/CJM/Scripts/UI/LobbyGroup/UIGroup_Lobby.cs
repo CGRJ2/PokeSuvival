@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIGroup_Lobby : MonoBehaviour
 {
+    public AudioClip LobbyDefaultBGM;
+
     public Panel_LobbyDefault panel_LobbyDefault;
     public Panel_MatchMaking panel_MatchMaking;
     public Panel_RoomInfo panel_RoomInfo;

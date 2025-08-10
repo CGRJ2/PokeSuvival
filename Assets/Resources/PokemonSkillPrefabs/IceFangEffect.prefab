@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1271389439526836579}
   - component: {fileID: 6173923147598585300}
   - component: {fileID: 7327696401338392025}
-  - component: {fileID: -3481720686181757869}
+  - component: {fileID: -4003792279661234492}
   m_Layer: 9
   m_Name: IceFangEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -3481720686181757869}
+  - {fileID: -4003792279661234492}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-3481720686181757869
+--- !u!114 &-4003792279661234492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

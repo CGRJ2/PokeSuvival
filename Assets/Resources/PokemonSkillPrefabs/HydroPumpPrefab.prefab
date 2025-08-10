@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 5894081227870548188}
   - component: {fileID: 603592774125036350}
   - component: {fileID: 1454659405550828556}
+  - component: {fileID: 4233943677389277154}
   - component: {fileID: 8277763499308203399}
   - component: {fileID: 4317758296332546371}
   - component: {fileID: 3477824866042326336}
   - component: {fileID: 8531309725569094872}
   - component: {fileID: 6708251563790156383}
-  - component: {fileID: -1364197114098214704}
+  - component: {fileID: 7709966741038139592}
   m_Layer: 9
   m_Name: HydroPumpPrefab
   m_TagString: Untagged
@@ -138,10 +139,26 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -1364197114098214704}
+  - {fileID: 4233943677389277154}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4233943677389277154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235439009499704965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!95 &8277763499308203399
 Animator:
   serializedVersion: 5
@@ -352,7 +369,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-1364197114098214704
+--- !u!114 &7709966741038139592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,10 +378,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1235439009499704965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1

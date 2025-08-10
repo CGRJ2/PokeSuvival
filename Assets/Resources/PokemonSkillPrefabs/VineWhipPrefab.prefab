@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 7667562215077404119}
   - component: {fileID: 331892270897186969}
   - component: {fileID: 2447732183403855230}
+  - component: {fileID: 4646029689840533023}
   - component: {fileID: 3964233785249177888}
   - component: {fileID: 8696427577307389997}
   - component: {fileID: 4191058671325065477}
-  - component: {fileID: -2919032834760792932}
+  - component: {fileID: 8054372010242696286}
   m_Layer: 9
   m_Name: VineWhipPrefab
   m_TagString: Untagged
@@ -136,10 +137,26 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -2919032834760792932}
+  - {fileID: 4646029689840533023}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4646029689840533023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428354002094551669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!95 &3964233785249177888
 Animator:
   serializedVersion: 5
@@ -269,7 +286,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-2919032834760792932
+--- !u!114 &8054372010242696286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,10 +295,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2428354002094551669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1213040732488253512}
   - component: {fileID: 5854871342191821093}
   - component: {fileID: 2318300215858486542}
-  - component: {fileID: 680375473004005445}
+  - component: {fileID: -1455962129089284354}
   m_Layer: 9
   m_Name: DragonClawEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 680375473004005445}
+  - {fileID: -1455962129089284354}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &680375473004005445
+--- !u!114 &-1455962129089284354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

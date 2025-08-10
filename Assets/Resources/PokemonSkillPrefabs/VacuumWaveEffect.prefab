@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3455301338896645216}
   - component: {fileID: 6192260744755962165}
   - component: {fileID: 7896421127818716739}
-  - component: {fileID: -266758156224526957}
+  - component: {fileID: -6489455389418619897}
   m_Layer: 9
   m_Name: VacuumWaveEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -266758156224526957}
+  - {fileID: -6489455389418619897}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-266758156224526957
+--- !u!114 &-6489455389418619897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

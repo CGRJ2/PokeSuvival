@@ -13,10 +13,11 @@ GameObject:
   - component: {fileID: 5577305385203904135}
   - component: {fileID: -2840064443353581969}
   - component: {fileID: 4836089660170118115}
+  - component: {fileID: -1034429909342335824}
   - component: {fileID: 4620987876505244578}
   - component: {fileID: 4109238673117079376}
   - component: {fileID: 5560541612216351404}
-  - component: {fileID: 5764854462851252542}
+  - component: {fileID: -7042883036224387341}
   m_Layer: 9
   m_Name: DragonBreathPrefab
   m_TagString: Untagged
@@ -158,10 +159,26 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5764854462851252542}
+  - {fileID: -1034429909342335824}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-1034429909342335824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8073694639771686605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!114 &4620987876505244578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +345,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5764854462851252542
+--- !u!114 &-7042883036224387341
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,10 +354,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8073694639771686605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1

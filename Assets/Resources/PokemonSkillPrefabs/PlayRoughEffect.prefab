@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6179038755778724252}
   - component: {fileID: 310132048036860818}
   - component: {fileID: 827759965799950175}
-  - component: {fileID: -3882861487546724921}
+  - component: {fileID: 3819748323916634428}
   m_Layer: 9
   m_Name: PlayRoughEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -3882861487546724921}
+  - {fileID: 3819748323916634428}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-3882861487546724921
+--- !u!114 &3819748323916634428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

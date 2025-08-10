@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7500997259512050453}
   - component: {fileID: 6752002600461806057}
   - component: {fileID: 4906648938774676730}
-  - component: {fileID: 2860894205605439872}
+  - component: {fileID: 8870259283218734855}
   m_Layer: 9
   m_Name: SunnyDayEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2860894205605439872}
+  - {fileID: 8870259283218734855}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2860894205605439872
+--- !u!114 &8870259283218734855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

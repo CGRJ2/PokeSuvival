@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5587533339886646023}
   - component: {fileID: 1693591135338117733}
   - component: {fileID: 4196181532321159380}
-  - component: {fileID: -5610287940693426917}
+  - component: {fileID: -5641746891527095623}
   m_Layer: 9
   m_Name: DoubleSlapEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: -5610287940693426917}
+  - {fileID: -5641746891527095623}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-5610287940693426917
+--- !u!114 &-5641746891527095623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

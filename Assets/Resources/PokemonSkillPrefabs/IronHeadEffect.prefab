@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2081998600106620527}
   - component: {fileID: 3904603623877543016}
   - component: {fileID: 5495699181796288224}
-  - component: {fileID: 8818985477856780007}
+  - component: {fileID: 8877543786894695579}
   m_Layer: 9
   m_Name: IronHeadEffect
   m_TagString: Untagged
@@ -140,11 +140,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 8818985477856780007}
+  - {fileID: 8877543786894695579}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8818985477856780007
+--- !u!114 &8877543786894695579
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
