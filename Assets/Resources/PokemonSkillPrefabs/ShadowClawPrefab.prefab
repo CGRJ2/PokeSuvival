@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 996503186391491191}
   - component: {fileID: 3948290067394909548}
   - component: {fileID: 7346004906357990352}
+  - component: {fileID: -452102900621157023}
   m_Layer: 9
   m_Name: ShadowClawPrefab
   m_TagString: Untagged
@@ -285,3 +286,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-452102900621157023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256495601338763533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

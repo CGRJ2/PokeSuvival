@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4620987876505244578}
   - component: {fileID: 4109238673117079376}
   - component: {fileID: 5560541612216351404}
+  - component: {fileID: 3220420180602516064}
   m_Layer: 9
   m_Name: MoonblastPrefab
   m_TagString: Untagged
@@ -322,3 +323,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3220420180602516064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8073694639771686605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

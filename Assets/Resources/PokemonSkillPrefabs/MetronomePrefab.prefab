@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2921921204248084230}
   - component: {fileID: 5493161397623523001}
   - component: {fileID: 5287458525990021515}
+  - component: {fileID: 3037609446472169062}
   m_Layer: 9
   m_Name: MetronomePrefab
   m_TagString: Untagged
@@ -321,3 +322,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3037609446472169062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9038159410454805734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

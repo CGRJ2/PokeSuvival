@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3163045745657632975}
   - component: {fileID: 2913962224833389122}
   - component: {fileID: -3553983347933828703}
+  - component: {fileID: -6371548827962240909}
   m_Layer: 9
   m_Name: HypnosisPrefab
   m_TagString: Untagged
@@ -344,3 +345,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6371548827962240909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820056704809384542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

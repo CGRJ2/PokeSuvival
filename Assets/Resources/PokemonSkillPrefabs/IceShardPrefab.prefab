@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4883677834032981291}
   - component: {fileID: 1024512239695711119}
   - component: {fileID: 2180828561837963342}
+  - component: {fileID: 5687139115308793348}
   m_Layer: 9
   m_Name: IceShardPrefab
   m_TagString: Untagged
@@ -344,3 +345,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5687139115308793348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353135289531608509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

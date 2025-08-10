@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5803141484783385324}
   - component: {fileID: 6013069506831934068}
   - component: {fileID: 1988135851084688747}
+  - component: {fileID: -3295495083309878611}
   m_Layer: 9
   m_Name: CrossChopPrefab
   m_TagString: Untagged
@@ -321,3 +322,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3295495083309878611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746952315823507809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

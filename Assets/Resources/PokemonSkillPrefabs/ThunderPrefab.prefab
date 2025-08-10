@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3250529022852666738}
   - component: {fileID: 2808592974377745952}
   - component: {fileID: -2388465444198503905}
+  - component: {fileID: -4868902285897605871}
   m_Layer: 9
   m_Name: ThunderPrefab
   m_TagString: Untagged
@@ -345,3 +346,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4868902285897605871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7293948015575711804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

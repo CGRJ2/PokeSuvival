@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3059955860988595340}
   - component: {fileID: 7407977830592946298}
   - component: {fileID: -8933535885662642563}
+  - component: {fileID: 6064262106074082064}
   m_Layer: 9
   m_Name: DragonClawPrefab
   m_TagString: Untagged
@@ -285,3 +286,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6064262106074082064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5816696259443140058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8669c2fa64781f642a632a8a76cd5cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
