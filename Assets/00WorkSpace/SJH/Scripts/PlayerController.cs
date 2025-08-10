@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		LastAttacker = null;
 
 		// 랜덤위치 스폰
-		//transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
+		transform.position = ExpOrbSpawner.Instance.GetRandomTilePosition();
 
 		PokemonData pokeData = null;
 
