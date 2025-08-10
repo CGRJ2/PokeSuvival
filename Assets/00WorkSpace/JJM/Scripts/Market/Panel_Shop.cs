@@ -5,8 +5,6 @@ using UnityEngine;
 using NTJ;
 using UnityEngine.UI;
 using Photon.Pun;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.SocialPlatforms.Impl;
 using System.Collections;
 using System;
 
