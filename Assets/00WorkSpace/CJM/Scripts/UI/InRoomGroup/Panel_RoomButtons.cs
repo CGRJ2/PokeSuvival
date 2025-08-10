@@ -24,9 +24,11 @@ public class Panel_RoomButtons : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             // 스타팅 포켓몬을 정하지 않은 상태라면 레디 못함
-            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon"))
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon") 
+                || string.IsNullOrEmpty((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"]))
             {
-                Debug.LogError("스타팅 포켓몬을 설정하지 않아 READY를 할 수 없습니다.");
+                //Debug.LogError("스타팅 포켓몬을 설정하지 않아 READY를 할 수 없습니다.");
+                UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_CautionNonePoke.gameObject);
                 return;
             }
 

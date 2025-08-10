@@ -15,6 +15,7 @@ public class UIGroup_Lobby : MonoBehaviour
     public Panel_RoomInside panel_RoomInside;
     public Panel_Shop panel_Shop;
     public Panel_Inventory panel_Inventory;
+    public Panel_CautionNonePoke panel_CautionNonePoke;
 
 
     public void Init()
@@ -28,6 +29,8 @@ public class UIGroup_Lobby : MonoBehaviour
 
         panel_Shop.Init();
         panel_Inventory.Init();
+
+        panel_CautionNonePoke.Init();
     }
 
     
