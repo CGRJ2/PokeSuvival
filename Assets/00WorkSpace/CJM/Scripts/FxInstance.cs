@@ -27,7 +27,6 @@ public class FxInstance : MonoBehaviourPun
         audioSource.Play();
     }
 
-    [PunRPC]
     public void UpdatePos()
     {
         // 타깃이 존재할 때만 위치/회전 추적
@@ -45,7 +44,9 @@ public class FxInstance : MonoBehaviourPun
 
     void LateUpdate()
     {
-        photonView.RPC(nameof(UpdatePos), RpcTarget.All);
+        //photonView.RPC(nameof(UpdatePos), RpcTarget.All);
+        if (target != null)
+            UpdatePos();
     }
 
     void Update()
