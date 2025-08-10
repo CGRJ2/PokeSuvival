@@ -9,9 +9,6 @@ public class SimplePlayerController : MonoBehaviourPunCallbacks
     private Rigidbody2D rb;
     private Vector2 moveInput;
 
-    [SerializeField] private int attackDamage = 1;
-    [SerializeField] private float attackRange = 2f;
-
 
     private void Awake()
     {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RockBlast
   m_EditorClassIdentifier: 
   SkillName: "\uB85D\uBE14\uB77C\uC2A4\uD2B8"
-  Desc: "2-5\uD68C \uB3D9\uC548 \uC5F0\uC18D\uC73C\uB85C \uC4F4\uB2E4."
+  Desc: 
   Damage: 25
   Cooldown: 12
   Range: 14
