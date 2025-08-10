@@ -15,13 +15,12 @@ MonoBehaviour:
   SkillName: "\uBD88\uB300\uBB38\uC790"
   Desc: 
   Damage: 110
-  Cooldown: 0.5
+  Cooldown: 14
   Range: 13
   PokeType: 2
   SkillType: 1
   SkillAnimType: 1
   EffectPrefab: {fileID: 861701361026005181, guid: fb3720664431d3046994ebced9846fb8, type: 3}
-  SFX: {fileID: 0}
   StatusEffect: 2
   StatusSprite: {fileID: 21300000, guid: 2805ca517dce734438618817703ee8dd, type: 3}
   StatusRate: 0.1

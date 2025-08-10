@@ -16,10 +16,13 @@ MonoBehaviour:
   Desc: "\uB2E8\uB2E8\uD558\uACE0 \uBFB0\uC871\uD55C \uB0A0\uCE74\uB85C\uC6B4 \uC190\uD1B1\uC73C\uB85C
     \uC0C1\uB300\uB97C \uD560\uD034\uC5B4\uC11C \uACF5\uACA9\uD55C\uB2E4."
   Damage: 40
-  Cooldown: 0.9
+  Cooldown: 3
   Range: 2
   PokeType: 1
   SkillType: 0
   SkillAnimType: 0
   EffectPrefab: {fileID: 0}
-  SFX: {fileID: 0}
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   SkillName: "\uBC29\uC804"
   Desc: 
   Damage: 80
-  Cooldown: 0.5
+  Cooldown: 12
   Range: 3
   PokeType: 7
   SkillType: 1

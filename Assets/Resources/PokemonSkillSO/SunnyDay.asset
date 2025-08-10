@@ -15,13 +15,12 @@ MonoBehaviour:
   SkillName: "\uCF8C\uCCAD"
   Desc: 
   Damage: 0
-  Cooldown: 0.5
+  Cooldown: 22
   Range: 0
   PokeType: 2
   SkillType: 1
   SkillAnimType: 1
   EffectPrefab: {fileID: 863934380810262599, guid: 4ee8822d63bafa84bb06f680fc6da673, type: 3}
-  SFX: {fileID: 0}
   StatusEffect: 0
   StatusSprite: {fileID: 21300000, guid: c5eeda84c97c5254b8735835b7c7361b, type: 3}
   StatusRate: 0
