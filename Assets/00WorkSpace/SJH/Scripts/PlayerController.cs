@@ -566,15 +566,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	#region Interact AddExp, ApplyStat, RemoveStat
 	public void AddExp(int value)
 	{
-		float adjustValue = 0.2f;
-		int level = Model.PokeLevel;
-		float up = (5f / 4f) * ((3 * (level * level)) + (3 * level) + 1);
-		float down = 2f + Mathf.Floor(adjustValue * (level - 1));
-		int exp = Mathf.FloorToInt(up / down);
-		exp = Mathf.Max(value, exp);
+		int uiExp = 0;
+		//exp = Mathf.Max(value, exp);
+		if (value < 0)
+		{
+            float adjustValue = 0.2f;
+            int level = Model.PokeLevel;
+            float up = (5f / 4f) * ((3 * (level * level)) + (3 * level) + 1);
+            float down = 2f + Mathf.Floor(adjustValue * (level - 1));
+            int exp = Mathf.FloorToInt(up / down);
+			uiExp = exp;
+            Model.AddExp(exp);
+        }
+		else
+		{
+			uiExp = value;
+            Model.AddExp(value);
+        }
 
-		Model.AddExp(exp);
-		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {exp}", Color.blue);
+        //Model.AddExp(exp);
+		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {uiExp}", Color.blue);
 
 		_audio_GetEXP.Play();
 	}

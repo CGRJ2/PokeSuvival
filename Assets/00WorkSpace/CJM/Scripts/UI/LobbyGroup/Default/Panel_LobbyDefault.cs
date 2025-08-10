@@ -56,7 +56,8 @@ public class Panel_LobbyDefault : MonoBehaviour
             if ((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"] == "" ||
                 string.IsNullOrEmpty((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"]))
             {
-                Debug.LogError("스타팅 포켓몬 커스텀 프로퍼티는 존재하지만, 내용물이 누락됨!");
+                //Debug.LogError("스타팅 포켓몬 커스텀 프로퍼티는 존재하지만, 내용물이 누락됨!");
+                UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_CautionNonePoke.gameObject);
             }
             // 잘 설정되어있으면 시작
             else
@@ -67,7 +68,8 @@ public class Panel_LobbyDefault : MonoBehaviour
         // 커스텀 프로퍼티 설정이 안되어 있다면 인게임 시작 못함
         else
         {
-            Debug.LogError("스타팅 포켓몬을 설정해주세요");
+            //Debug.LogError("스타팅 포켓몬을 설정해주세요");
+            UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_CautionNonePoke.gameObject);
             return;
         }
 

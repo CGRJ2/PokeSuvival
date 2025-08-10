@@ -33,4 +33,4 @@ MonoBehaviour:
   Desc: 
   EvoLevel: 0
   NextEvoData: {fileID: 0}
-  PokeSize: 2
+  PokeSize: 1.8

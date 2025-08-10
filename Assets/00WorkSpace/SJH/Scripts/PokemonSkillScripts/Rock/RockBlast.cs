@@ -18,7 +18,11 @@ public class RockBlast : IAttack
         this.skill = skill;
 
         int r = Random.Range(2, 5);
-        if (PhotonNetwork.IsMasterClient) attackerData.PC.StartCoroutine(MultiShot(r));
+
+        if (attackerData.PC != null)
+            attackerData.PC?.StartCoroutine(MultiShot(r));
+        else
+            attacker.GetComponent<Enemy>()?.StartCoroutine(MultiShot(r));
     }
 
     IEnumerator MultiShot(int r)
