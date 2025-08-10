@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3205208105605546492}
   - component: {fileID: 3564144526363659146}
   - component: {fileID: 6052686158074549212}
-  - component: {fileID: 438418376731691811}
   - component: {fileID: 8097548388710990712}
   - component: {fileID: 8503174119806503871}
+  - component: {fileID: 4744522401019691585}
   m_Layer: 9
   m_Name: PlayRoughPrefab
   m_TagString: Untagged
@@ -135,26 +135,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 438418376731691811}
+  - {fileID: 4744522401019691585}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &438418376731691811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581467252471642898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!95 &8097548388710990712
 Animator:
   serializedVersion: 5
@@ -188,3 +172,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4744522401019691585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581467252471642898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1

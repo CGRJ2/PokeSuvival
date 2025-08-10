@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4781148928738789518}
   - component: {fileID: 6631101578833152005}
   - component: {fileID: 3009834029663226580}
-  - component: {fileID: 370095807991810412}
+  - component: {fileID: -5082443888543578744}
   m_Layer: 9
   m_Name: BraveBirdPrefab
   m_TagString: Untagged
@@ -155,11 +155,12 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 370095807991810412}
+  - {fileID: 0}
+  - {fileID: -5082443888543578744}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &370095807991810412
+--- !u!114 &-5082443888543578744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,5 +174,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1

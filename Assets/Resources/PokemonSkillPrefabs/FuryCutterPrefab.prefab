@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8556461565101765874}
   - component: {fileID: 3684534128299918837}
   - component: {fileID: 3125548185583503353}
-  - component: {fileID: 8201483489111885669}
   - component: {fileID: 403330709822200289}
+  - component: {fileID: 2617614252324712347}
   m_Layer: 9
   m_Name: FuryCutterPrefab
   m_TagString: Untagged
@@ -156,11 +156,23 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 8201483489111885669}
+  - {fileID: 2617614252324712347}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8201483489111885669
+--- !u!114 &403330709822200289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126075215475508258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2617614252324712347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,17 +186,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
---- !u!114 &403330709822200289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3126075215475508258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 8055336562362864036}
   - component: {fileID: 4235601115905440621}
   - component: {fileID: 3373813865274573402}
-  - component: {fileID: 6070440477212627274}
+  - component: {fileID: 4432956775117233443}
   m_Layer: 9
   m_Name: FuryCutterEffect
   m_TagString: Untagged
@@ -487,7 +487,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6070440477212627274}
+  - {fileID: 4432956775117233443}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -553,7 +553,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &6070440477212627274
+--- !u!114 &4432956775117233443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

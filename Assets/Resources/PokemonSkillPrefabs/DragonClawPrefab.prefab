@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8937322114260764723}
   - component: {fileID: 1841716556743760499}
   - component: {fileID: 1482933898131272244}
-  - component: {fileID: 2173644498302697171}
   - component: {fileID: 3059955860988595340}
   - component: {fileID: 7407977830592946298}
+  - component: {fileID: -527032556272276414}
   m_Layer: 9
   m_Name: DragonClawPrefab
   m_TagString: Untagged
@@ -135,26 +135,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 2173644498302697171}
+  - {fileID: -527032556272276414}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2173644498302697171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5816696259443140058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!95 &3059955860988595340
 Animator:
   serializedVersion: 5
@@ -188,3 +172,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-527032556272276414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5816696259443140058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1

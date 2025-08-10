@@ -5,6 +5,10 @@ public class Scratch : IAttack
 {
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
+		Vector3 spawnPos = attacker.transform.position + (Vector3)attackDir * (skill.Range);
+		Quaternion rot = Quaternion.FromToRotation(Vector2.up, attackDir.normalized);
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, rot);
+
 		float size = attackerData.PokeData.PokeSize;
 		float radius = size > 1 ? skill.Range + size : skill.Range;
 		var enemies = Physics2D.OverlapCircleAll((Vector2)attacker.position, radius);
@@ -15,7 +19,7 @@ public class Scratch : IAttack
 			if (attacker == enemy.transform) continue;
 
 			Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-			if (Vector2.Dot(attackDir, dir) >= 0.7f) // 45
+			if (Vector2.Dot(attackDir, dir) >= 0.6f) // 45
 			{
 				var iD = enemy.GetComponent<IDamagable>();
 				if (iD == null) continue;

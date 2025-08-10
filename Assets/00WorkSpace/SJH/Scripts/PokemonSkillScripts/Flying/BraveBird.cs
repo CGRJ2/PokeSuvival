@@ -31,8 +31,7 @@ public class BraveBird : IAttack
 		}
 
 		Quaternion rot = Quaternion.FromToRotation(Vector2.up, attackDir.normalized);
-		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", Vector3.zero, rot);
-		go.transform.SetParent(attacker.transform, false);
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", attacker.transform.position, rot);
 
 		float radius = attackerData.PokeData.PokeSize * 2;
 		float size = attackerData.PokeData.PokeSize;
@@ -47,6 +46,8 @@ public class BraveBird : IAttack
 		{
 			time += Time.deltaTime;
 			float t = time / duration;
+
+			if (go) go.transform.position = attacker.position;
 			attacker.position = Vector2.Lerp(startPos, targetPos, t);
 
 			var enemies = Physics2D.OverlapCircleAll(attacker.position, radius);

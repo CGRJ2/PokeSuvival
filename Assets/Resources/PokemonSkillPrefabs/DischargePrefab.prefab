@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8634654260735216054}
   - component: {fileID: 3186964098376766348}
   - component: {fileID: 507204339058014406}
-  - component: {fileID: 4910555940364550247}
   - component: {fileID: 234519368671438457}
+  - component: {fileID: 1001606476497375365}
   m_Layer: 9
   m_Name: DischargePrefab
   m_TagString: Untagged
@@ -156,11 +156,23 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 4910555940364550247}
+  - {fileID: 1001606476497375365}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &4910555940364550247
+--- !u!114 &234519368671438457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4663830613098185837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1001606476497375365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,17 +186,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeScale: 1
   m_UseLocal: 1
---- !u!114 &234519368671438457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4663830613098185837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7112d9fa6ec7a1749a18de6b8c7ecf95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

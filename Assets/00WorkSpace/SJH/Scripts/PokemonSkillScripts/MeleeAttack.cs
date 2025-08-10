@@ -24,7 +24,7 @@ public class MeleeAttack : IAttack
 			if (attacker == enemy.transform) continue;
 
 			Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-			if (Vector2.Dot(attackDir, dir) >= 0.7f) // 45
+			if (Vector2.Dot(attackDir, dir) >= 0.6f) // 45
 			{
 				var iD = enemy.GetComponent<IDamagable>();
 				var pv = enemy.GetComponent<PhotonView>();
@@ -68,7 +68,7 @@ public class MeleeAttack : IAttack
 				if (attacker == enemy.transform || hitTargets.Contains(enemy.transform)) continue;
 
 				Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-				if (Vector2.Dot(attackDir, dir) >= 0.7f)
+				if (Vector2.Dot(attackDir, dir) >= 0.6f)
 				{
 					var iD = enemy.GetComponent<IDamagable>();
 					var pv = enemy.GetComponent<PhotonView>();

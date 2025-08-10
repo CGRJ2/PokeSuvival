@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1195205265924440553}
   - component: {fileID: 6095032710230553734}
   - component: {fileID: 2511887952112917619}
-  - component: {fileID: 6203686914029022113}
   - component: {fileID: 8811523720451517597}
   - component: {fileID: 1075640088772947945}
+  - component: {fileID: 4482418196047251921}
   m_Layer: 9
   m_Name: VacuumWavePrefab
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6203686914029022113}
+  - {fileID: 4482418196047251921}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -175,22 +175,6 @@ CircleCollider2D:
   m_Offset: {x: -0.8, y: 0}
   serializedVersion: 2
   m_Radius: 1.05
---- !u!114 &6203686914029022113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4889503356740862819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!95 &8811523720451517597
 Animator:
   serializedVersion: 5
@@ -247,3 +231,19 @@ MonoBehaviour:
   _startPos: {x: 0, y: 0}
   _speed: 13
   _endDistance: 0
+--- !u!114 &4482418196047251921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889503356740862819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1

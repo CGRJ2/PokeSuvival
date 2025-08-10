@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 9122314472618776440}
   - component: {fileID: 7182974421403878539}
   - component: {fileID: 6600603471810556670}
-  - component: {fileID: 4875088021191988442}
   - component: {fileID: 6672055189827060278}
   - component: {fileID: -6797217152861960272}
+  - component: {fileID: -3722961505722778552}
   m_Layer: 9
   m_Name: EnergyBallPrefab
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 4875088021191988442}
+  - {fileID: -3722961505722778552}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -211,22 +211,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.8
---- !u!114 &4875088021191988442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813501559018612470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!95 &6672055189827060278
 Animator:
   serializedVersion: 5
@@ -344,3 +328,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-3722961505722778552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813501559018612470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1

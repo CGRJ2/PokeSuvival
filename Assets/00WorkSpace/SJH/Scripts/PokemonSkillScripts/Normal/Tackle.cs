@@ -34,7 +34,7 @@ public class Tackle : IAttack
 				if (attacker == enemy.transform || hitTargets.Contains(enemy.transform)) continue;
 
 				Vector2 dir = (enemy.transform.position - attacker.position).normalized;
-				if (Vector2.Dot(attackDir, dir) >= 0.7f)
+				if (Vector2.Dot(attackDir, dir) >= 0.6f)
 				{
 					var iD = enemy.GetComponent<IDamagable>();
 					if (iD == null) continue;
