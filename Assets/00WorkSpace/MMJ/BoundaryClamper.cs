@@ -1,29 +1,30 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BoundaryClamper : MonoBehaviour
 {
-    // ¸ÊÀÇ °æ°è ÁÂÇ¥¸¦ ¼³Á¤ÇÕ´Ï´Ù. Inspector¿¡¼­ Á¶Á¤ÇØÁÖ¼¼¿ä.
+    // ë§µì˜ ê²½ê³„ ì¢Œí‘œë¥¼ ì„¤ì •í•©ë‹ˆë‹¤. Inspectorì—ì„œ ì¡°ì •í•´ì£¼ì„¸ìš”.
     public float minX;
     public float maxX;
     public float minY;
     public float maxY;
 
-    // ÀÌ Æ®¸®°Å¿¡ µé¾î¿Ã °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ ÅÂ±×¸¦ ¼³Á¤ÇÕ´Ï´Ù. (¿¹: "Player")
+    // ì´ íŠ¸ë¦¬ê±°ì— ë“¤ì–´ì˜¬ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì˜ íƒœê·¸ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤. (ì˜ˆ: "Player")
     public string targetTag = "Player";
 
-    private void OnTriggerStay2D(Collider2D other) // OnTriggerEnter2Dµµ °¡´ÉÇÏÁö¸¸, µ¹Áø ½Ã ¾ÈÀüÇÏ°Ô OnTriggerStay2D ÃßÃµ
+    private void OnTriggerExit2D(Collider2D other) // OnTriggerEnter2Dë„ ê°€ëŠ¥í•˜ì§€ë§Œ, ëŒì§„ ì‹œ ì•ˆì „í•˜ê²Œ OnTriggerStay2D ì¶”ì²œ
     {
-        // ´ë»ó ¿ÀºêÁ§Æ®°¡ ¼³Á¤µÈ ÅÂ±×¿Í ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎÇÕ´Ï´Ù.
+        // ëŒ€ìƒ ì˜¤ë¸Œì íŠ¸ê°€ ì„¤ì •ëœ íƒœê·¸ì™€ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
         if (other.CompareTag(targetTag))
         {
+            Debug.Log("í”Œë ˆì´ì–´ ìˆìŒ");
             Vector3 clampedPosition = other.transform.position;
 
-            // X ÁÂÇ¥¸¦ ¸Ê °æ°è ³»·Î Á¦ÇÑÇÕ´Ï´Ù.
+            // X ì¢Œí‘œë¥¼ ë§µ ê²½ê³„ ë‚´ë¡œ ì œí•œí•©ë‹ˆë‹¤.
             clampedPosition.x = Mathf.Clamp(clampedPosition.x, minX, maxX);
-            // Y ÁÂÇ¥¸¦ ¸Ê °æ°è ³»·Î Á¦ÇÑÇÕ´Ï´Ù.
+            // Y ì¢Œí‘œë¥¼ ë§µ ê²½ê³„ ë‚´ë¡œ ì œí•œí•©ë‹ˆë‹¤.
             clampedPosition.y = Mathf.Clamp(clampedPosition.y, minY, maxY);
 
-            // Å¬·¥ÇÁµÈ À§Ä¡¸¦ ´ë»ó ¿ÀºêÁ§Æ®¿¡ Àû¿ëÇÕ´Ï´Ù.
+            // í´ë¨í”„ëœ ìœ„ì¹˜ë¥¼ ëŒ€ìƒ ì˜¤ë¸Œì íŠ¸ì— ì ìš©í•©ë‹ˆë‹¤.
             other.transform.position = clampedPosition;
         }
     }
