@@ -2,6 +2,11 @@
 
 public class AOE_Explosion : AOE_Skill
 {
+	public override void Init(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
+	{
+		base.Init(attacker, attackDir, attackerData, skill);
+	}
+
 	public void Attack()
 	{
 		Collider2D[] enemies = Physics2D.OverlapCircleAll(_attacker.transform.position, _skill.Range);
