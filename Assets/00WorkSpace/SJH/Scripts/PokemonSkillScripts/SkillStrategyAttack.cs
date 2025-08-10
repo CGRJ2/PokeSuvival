@@ -126,6 +126,9 @@ public class SkillStrategyAttack : IAttack
 			case "불릿펀치": return new BulletPunch();
 			case "아이언헤드": return new IronHead();
 
+			// 벌레
+			case "연속자르기": return new FuryCutter();
+
 
 			default: return null;
 		}

@@ -434,7 +434,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		}
 	}
 	#endregion
-
+	[SerializeField] private bool isFuryAttack = false;	
 	#region Battle Attack, SkillCheck, TakeDamage, StatusCheck
 	public void Attack(SkillSlot slot)
 	{
@@ -442,7 +442,23 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (attack == null || skill == null) return;
 		if (skill.SkillAnimType == SkillAnimType.SpeAttack) View.SetIsSpeAttack();
 		else View.SetIsAttack();
-		Model.SetSkillCooldown(slot, skill.Cooldown);
+
+		if (skill.SkillName == "연속자르기")
+		{
+			// 첫 공격
+			if (!isFuryAttack)
+			{
+				Model.SetSkillCooldown(slot, 2f);
+				isFuryAttack = true;
+			}
+			else
+			{
+				Model.SetSkillCooldown(slot, skill.Cooldown);
+				isFuryAttack = false;
+			}
+		}
+		else Model.SetSkillCooldown(slot, skill.Cooldown);
+
 		attack.Attack(transform, _lastDir, BattleData, skill);
 	}
 	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)
@@ -504,8 +520,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	#region Interact AddExp, ApplyStat, RemoveStat
 	public void AddExp(int value)
 	{
-		Model.AddExp(value);
-		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {value}", Color.blue);
+		float adjustValue = 0.2f;
+		int level = Model.PokeLevel;
+		float up = (5f / 4f) * ((3 * (level * level)) + (3 * level) + 1);
+		float down = 2f + Mathf.Floor(adjustValue * (level - 1));
+		int exp = Mathf.FloorToInt(up / down);
+		exp = Mathf.Max(value, exp);
+
+		Model.AddExp(exp);
+		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {exp}", Color.blue);
 	}
 	public void ApplyStat(ItemData item)
 	{
