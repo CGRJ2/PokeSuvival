@@ -43,6 +43,15 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		}
 	}
 
+	// 오디오 클립
+	[SerializeField] private AudioClip[] _hitClips = new AudioClip[3];
+	[SerializeField] private AudioSource _audio;
+
+	void Awake()
+	{
+		_audio = GetComponent<AudioSource>();
+	}
+
 	void Update()
 	{
 		if (!IsInit || !PhotonNetwork.IsMasterClient || EnemyAI == null) return;
@@ -93,7 +102,13 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 
 		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
 
-		photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.AllBuffered, damage);
+		int soundIndex = 1;
+		float typeDamage = PokeUtils.GetTypeBonus(skill.PokeType, EnemyData.PokeData.PokeTypes);
+		if (typeDamage < 1) soundIndex = 0;
+		else if (typeDamage == 1) soundIndex = 1;
+		else if (typeDamage > 1) soundIndex = 2;
+
+		photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.AllBuffered, damage, soundIndex);
 
 		Debug.Log($"Lv.{attackerData.Level} {attackerData.PokeData.PokeName} 이/가 Lv.{defenderData.Level} {defenderData.PokeData.PokeName} 을/를 {skill.SkillName} 공격!");
 		
@@ -115,11 +130,12 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	}
 
 	[PunRPC]
-	public void RPC_TakeDamage(int value)
+	public void RPC_TakeDamage(int value, int hitIndex)
 	{
 		if (value > 0) SetIsHit();
 		Debug.Log($"{value} 대미지 입음");
 		EnemyData.SetCurrentHp(EnemyData.CurrentHp - value);
+		PlayHitSound(hitIndex);
 		PlayerManager.Instance.ShowDamageText(transform, value, Color.red);
 	}
 
@@ -140,6 +156,15 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 		yield return new WaitForSeconds(_deleteTime);
 		PhotonNetwork.Destroy(gameObject);
 		Debug.Log("몬스터 파괴");
+	}
+	public void PlayHitSound(int hitIndex)
+	{
+		if (hitIndex < 0) hitIndex = 1;
+		else if (hitIndex > _hitClips.Length) hitIndex = 1;
+
+		var hitClip = _hitClips[hitIndex];
+		_audio.clip = hitClip;
+		_audio.Play();
 	}
 
 	public void Move()
