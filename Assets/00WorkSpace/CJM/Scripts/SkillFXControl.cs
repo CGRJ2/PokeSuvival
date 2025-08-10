@@ -14,13 +14,13 @@ public class SkillFXControl : MonoBehaviourPun
 
         // 사운드 인스턴스에 "나(투사체)를 따라가라" 지시
         var sfxPv = soundPrefab.GetComponent<PhotonView>();
-        sfxPv.RPC(nameof(FxInstance.SetTarget), RpcTarget.AllBuffered, photonView.ViewID);
+        sfxPv.RPC(nameof(FxInstance.SetTarget), RpcTarget.All, photonView.ViewID);
 
         // 재생(로컬에서만 클립을 꽂아서 플레이)
         // 모든 클라에서 동일한 클립이 필요하면, 키를 RPC로 보내서 FxInstance에서 찾게 해줘.
-        var audioSourceInstance = soundPrefab.GetComponent<AudioSource>();
+        /*var audioSourceInstance = soundPrefab.GetComponent<AudioSource>();
         audioSourceInstance.clip = audioSource.clip;
-        audioSourceInstance.Play();
+        audioSourceInstance.Play();*/
     }
 
     

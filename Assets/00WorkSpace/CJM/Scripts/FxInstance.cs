@@ -21,9 +21,14 @@ public class FxInstance : MonoBehaviourPun
         var pv = PhotonView.Find(targetViewID);
         if (pv != null) target = pv.transform;
         else target = null;
+
+        AudioSource targetAudio = pv.transform.GetComponent<AudioSource>();
+        audioSource.clip = targetAudio.clip;
+        audioSource.Play();
     }
 
-    void LateUpdate()
+    [PunRPC]
+    public void UpdatePos()
     {
         // 타깃이 존재할 때만 위치/회전 추적
         if (following && target != null)
@@ -35,6 +40,12 @@ public class FxInstance : MonoBehaviourPun
         {
             following = false; // 타깃이 사라졌으면 그 자리에서 정지
         }
+    }
+
+
+    void LateUpdate()
+    {
+        photonView.RPC(nameof(UpdatePos), RpcTarget.All);
     }
 
     void Update()
