@@ -60,7 +60,7 @@ public class NetworkHandler: MonoBehaviour
 		}
 	}
 	[PunRPC]
-	public void RPC_TakeDamage(int value)
+	public void RPC_TakeDamage(int value, int soundIndex)
 	{
 		if (value > 0) PC.View.SetIsHit();
 		Debug.Log($"{value} 대미지 입음");
@@ -68,6 +68,7 @@ public class NetworkHandler: MonoBehaviour
 		{
 			PC.Model.SetCurrentHp(PC.Model.CurrentHp - value);
 		}
+		PC.PlayHitSound(soundIndex);
 		PlayerManager.Instance.ShowDamageText(PC.transform, value, Color.red);
 	}
 	[PunRPC]
@@ -154,7 +155,6 @@ public class NetworkHandler: MonoBehaviour
 		// 상태이상 UI를 업데이트할 클라이언트
 		if (PC.photonView.IsMine)
 		{
-			PC.Status.SetStatus(skillName, true);
 			// TODO : 상태이상에 따라 디버프 적용
 			var skill = Define.GetPokeSkillData(skillName);
 			if (skill == null) return;
@@ -167,6 +167,7 @@ public class NetworkHandler: MonoBehaviour
 				case StatusType.Paralysis: Debug.Log("마비 걸림"); PC.Status.SetParalysis(skill.StatusDuration); break;
 				case StatusType.Confusion: Debug.Log("혼란 걸림"); PC.Status.SetConfusion(skill.StatusDuration); break;
 			}
+			PC.Status.SetStatus(skillName, true);
 		}
 		else
 		{

@@ -89,6 +89,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 버프 획득용 이벤트 // 랭크업, 버프, 아이템버프, 디버프 등
 	public Action<Sprite, float> OnBuffUpdate;
 
+	// 오디오 클립
+	[SerializeField] private AudioClip[] _hitClips = new AudioClip[3];
+	[SerializeField] private AudioSource _audio;
 	#endregion
 
 	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
@@ -98,6 +101,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		View = GetComponent<PlayerView>();
 		_input = GetComponent<PlayerInput>();
 		RPC = GetComponent<NetworkHandler>();
+		_audio = GetComponent<AudioSource>();
 
 		_moveHistory = new(_maxLogCount);
 	}
@@ -493,8 +497,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (Status == null) Status = new PokeStatusHandler(this, Model);
 		if (Status.SetStatus(skill)) RPC.ActionRPC(nameof(RPC.RPC_SetStatus), RpcTarget.OthersBuffered, skill.SkillName);
 
+		int soundIndex = 1;
+		float typeDamage = PokeUtils.GetTypeBonus(skill.PokeType, Model.PokeData.PokeTypes);
+		if (typeDamage < 1) soundIndex = 0;
+		else if (typeDamage == 1) soundIndex = 1;
+		else if (typeDamage > 1) soundIndex = 2;
+
 		// 대미지 처리
-		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage);
+		RPC.ActionRPC(nameof(RPC.RPC_TakeDamage), RpcTarget.All, damage, soundIndex);
 		return true;
 	}
 	#endregion
@@ -515,6 +525,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	public void SetBuff(PokeBuffHandler buff) => Buff = buff;
 	public void SetLastAttacker(PlayerController lastAttacker) => LastAttacker = lastAttacker;
 	public void AddKillCount() => KillCount++;
+	public void PlayHitSound(int hitIndex)
+	{
+		if (hitIndex < 0) hitIndex = 1;
+		else if (hitIndex > _hitClips.Length) hitIndex = 1;
+
+		var hitClip = _hitClips[hitIndex];
+		_audio.clip = hitClip;
+		_audio.Play();
+	}
 	#endregion
 
 	#region Interact AddExp, ApplyStat, RemoveStat
