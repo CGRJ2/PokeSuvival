@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Pokemon/PokemonData")]
 public class PokemonData : ScriptableObject
@@ -16,5 +15,5 @@ public class PokemonData : ScriptableObject
 	public int EvoLevel;
 	public PokemonData NextEvoData;
 	public bool IsCanEvo => NextEvoData != null;
-	// TODO : 패시브
+	public float PokeSize;
 }

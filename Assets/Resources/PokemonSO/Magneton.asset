@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Magneton
+  m_EditorClassIdentifier: 
+  PokeNumber: 82
+  PokeName: "\uB808\uC5B4\uCF54\uC77C"
+  PokeTypes: 0700000011000000
+  BaseStat:
+    Hp: 50
+    Attak: 60
+    Defense: 95
+    SpecialAttack: 120
+    SpecialDefense: 70
+    Speed: 70
+  AnimController: {fileID: 9100000, guid: 6f28a9ae7946f8c47ac3b045729a5f21, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: f5cd2314faf99dd44b239f0a2c847bac, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: e84476a6aeccd5c448a62725803b9358, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: f0923dddce375ae47a30123c12bd76b5, type: 2}
+  - {fileID: 11400000, guid: b9dc5b8300a712d4eb671a34a687df1e, type: 2}
+  Desc: 
+  EvoLevel: 45
+  NextEvoData: {fileID: 11400000, guid: b5d635f9be3439a4880d5275ef2c9a18, type: 2}
+  PokeSize: 0.75

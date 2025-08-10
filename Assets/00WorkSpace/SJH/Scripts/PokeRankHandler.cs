@@ -1,0 +1,183 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+[Serializable]
+public class StatRank
+{
+	public StatType StatType;
+	public int Rank;
+	public StatRank(StatType statType, int rank)
+	{
+		StatType = statType;
+		Rank = rank;
+	}
+}
+
+[Serializable]
+public class PokeRankHandler
+{
+	[field: SerializeField] private MonoBehaviour _routineClass; // PlayerController, Enemy
+	[field: SerializeField] public PokeBaseData BaseData { get; private set; }
+
+	public Dictionary<StatType, int> RankUpdic { get; private set; } = new()
+	{
+		[StatType.Attack] = 0,
+		[StatType.Defense] = 0,
+		[StatType.SpAttack] = 0,
+		[StatType.SpDefense] = 0,
+		[StatType.Speed] = 0,
+	};
+	//public Dictionary<StatType, float> RankEndTimes { get; private set; }
+	//public Dictionary<StatType, Coroutine> RankRoutines { get; private set; }
+
+	public Action<StatType, int, int> OnRankChanged;	// 스탯종류, 이전값, 이후값
+	public Action<StatType, int> OnSyncToRank;			// 스탯종류, 최신값
+
+	[SerializeField] private List<StatRank> _rankDebug = new();
+
+	public PokeRankHandler(MonoBehaviour routineClass, PokeBaseData baseData)
+	{
+		if (routineClass == null || baseData == null)
+		{
+			Debug.LogWarning($"{routineClass} / {baseData} : Rank 생성자 실패");
+			return;
+		}
+		Debug.Log($"Rank 생성자 호출 baseData : {baseData}");
+		_routineClass = routineClass;
+		BaseData = baseData;
+		RankUpdic = new()
+		{
+			[StatType.Attack] = 0,
+			[StatType.Defense] = 0,
+			[StatType.SpAttack] = 0,
+			[StatType.SpDefense] = 0,
+			[StatType.Speed] = 0,
+		};
+		RankDebug();
+		//RankEndTimes = new();
+		//RankRoutines = new();
+	}
+
+	public void SetRank(StatType statType, int value, float duration)
+	{
+		if (!RankUpdic.ContainsKey(statType)) return;
+
+		int prevRank = RankUpdic[statType];
+		int nextRank = Mathf.Clamp(prevRank + value, -6, 6);
+
+		// 랭크 적용
+		if (prevRank != nextRank)
+		{
+			RankUpdic[statType] = nextRank;
+			OnRankChanged?.Invoke(statType, prevRank, nextRank);
+			OnSyncToRank?.Invoke(statType, nextRank);
+
+			string text = value > 0 ? "상승" : "하락";
+			Debug.Log($"{statType} 랭크 {text}: {prevRank} -> {nextRank}");
+		}
+		else if (value != 0)
+		{
+			string text = nextRank == 6 ? "올릴" : "내릴";
+			Debug.Log($"더는 {statType} 랭크를 {text} 수 없음");
+		}
+
+		// 독립적으로 코루틴 실행
+		// TODO : 사망시 모든 코루틴이 정지된다면 Dictionary<StatType, List<Coroutine>> 으로 관리
+		// TODO : 플레이어의 코루틴 중 정지되면 안될게 있으면 _routineClass를 플레이어컨트롤러가 아닌 다른 컴포넌트를 할당
+		_routineClass.StartCoroutine(RankDurationRoutine(statType, value, duration));
+
+		RankDebug();
+	}
+
+	IEnumerator RankDurationRoutine(StatType statType, int value, float duration)
+	{
+		yield return new WaitForSeconds(duration);
+
+		int prevRank = RankUpdic[statType];
+		int newRank = Mathf.Clamp(prevRank - value, -6, 6);
+
+		if (prevRank != newRank)
+		{
+			RankUpdic[statType] = newRank;
+			OnRankChanged?.Invoke(statType, prevRank, newRank);
+			OnSyncToRank?.Invoke(statType, newRank);
+			Debug.Log($"{statType} 랭크 종료 : {prevRank} -> {newRank}");
+		}
+
+		RankDebug();
+	}
+
+	public void RankAllClear()
+	{
+		_routineClass.StopAllCoroutines();
+
+		// 랭크업 초기화
+		foreach (var statType in RankUpdic.Keys.ToList())
+		{
+			int prev = RankUpdic[statType];
+			if (prev != 0)
+			{
+				RankUpdic[statType] = 0;
+				OnRankChanged?.Invoke(statType, prev, 0);
+				OnSyncToRank?.Invoke(statType, 0);
+				Debug.Log($"{statType} 랭크 초기화: {prev} > 0");
+			}
+		}
+
+		RankDebug();
+		Debug.Log("모든 랭크 초기화");
+	}
+
+	public PokemonStat GetRankedStat()
+	{
+		var baseStat = BaseData.AllStat;
+		return new PokemonStat
+		{
+			Hp = baseStat.Hp,
+			Attak = ApplyToRank(baseStat.Attak, RankUpdic[StatType.Attack]),
+			Defense = ApplyToRank(baseStat.Defense, RankUpdic[StatType.Defense]),
+			SpecialAttack = ApplyToRank(baseStat.SpecialAttack, RankUpdic[StatType.SpAttack]),
+			SpecialDefense = ApplyToRank(baseStat.SpecialDefense, RankUpdic[StatType.SpDefense]),
+			Speed = ApplyToRank(baseStat.Speed, RankUpdic[StatType.Speed]),
+		};
+	}
+
+	int ApplyToRank(int baseValue, int rank)
+	{
+		if (rank > 0) return (int)(baseValue * (2f + rank) / 2f);
+		if (rank < 0) return (int)(baseValue * 2f / (2f - rank));
+		return baseValue;
+	}
+
+	void RankDebug()
+	{
+		_rankDebug = new();
+		foreach (var kvp in RankUpdic)
+		{
+			StatRank statRank = new StatRank(kvp.Key, kvp.Value);
+			_rankDebug.Add(statRank);
+		}
+	}
+
+	public void RankSync(StatType statType, int rank)
+	{
+		if (RankUpdic == null)
+		{
+			RankUpdic = new()
+			{
+				[StatType.Attack] = 0,
+				[StatType.Defense] = 0,
+				[StatType.SpAttack] = 0,
+				[StatType.SpDefense] = 0,
+				[StatType.Speed] = 0,
+			};
+		}
+		if (!RankUpdic.ContainsKey(statType)) return;
+		RankUpdic[statType] = rank;
+		RankDebug();
+		Debug.Log($"{BaseData.PokeData.PokeName} : [{statType} : {rank}] 동기화 완료");
+	}
+}

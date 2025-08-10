@@ -20,7 +20,7 @@ public class Panel_PokemonList : MonoBehaviour
 
     void UpdateAllSlotView()
     {
-        PokemonData[] allStartingPokemons = Resources.LoadAll<PokemonData>("PokemonSO/StartingPokemons/");
+        PokemonData[] allStartingPokemons = Resources.LoadAll<PokemonData>("StartingPokemons");
 
         // 포켓몬 데이터 수가 리스트 패널의 슬롯 개수보다 많다면 디버깅
         if (allStartingPokemons.Length > slots.Length) 

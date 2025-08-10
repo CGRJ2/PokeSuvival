@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Gastly
+  m_EditorClassIdentifier: 
+  PokeNumber: 92
+  PokeName: "\uACE0\uC624\uC2A4"
+  PokeTypes: 0e00000005000000
+  BaseStat:
+    Hp: 30
+    Attak: 35
+    Defense: 30
+    SpecialAttack: 100
+    SpecialDefense: 35
+    Speed: 80
+  AnimController: {fileID: 9100000, guid: 43300e018355d224397e4add904b37cb, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 63dfb42c9a72dc049b2e4771434a2172, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 158eb8ca2564e1a41acc25391832d190, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 0bf1787623cd90d43bc2990309a43815, type: 2}
+  - {fileID: 11400000, guid: 17bbf9e02c76d2e468daf9eb1575b7ab, type: 2}
+  Desc: 
+  EvoLevel: 25
+  NextEvoData: {fileID: 11400000, guid: 705bacd2ce7d25a4fa3496f239e81c0d, type: 2}
+  PokeSize: 1

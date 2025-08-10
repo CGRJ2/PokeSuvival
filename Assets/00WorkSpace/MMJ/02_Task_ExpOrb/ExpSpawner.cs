@@ -1,4 +1,6 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -6,8 +8,8 @@ using UnityEngine.Tilemaps;
 public class ExpOrbSpawner : MonoBehaviourPunCallbacks
 {
     [SerializeField] private ExpOrbPool orbPool;
-    [SerializeField] private int maxOrbs = 50;
-    [SerializeField] private float spawnInterval = 1f;
+    [SerializeField] private int maxOrbs = 100;
+    [SerializeField] private float spawnInterval = 0.2f;
     [SerializeField] private int spawnAmountPerInterval = 5;
 
     [Header("타일맵 설정")]
@@ -16,11 +18,17 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
     private List<Vector3> validSpawnPositions = new List<Vector3>(); // 유효한 스폰 위치들을 저장할 리스트
     private List<ExpOrb> activeOrbs = new List<ExpOrb>();
 
-    [SerializeField] private int _orbMinExp;
-    [SerializeField] private int _orbMaxExp;
+    [SerializeField] private int _orbMinExp = -2;
+    [SerializeField] private int _orbMaxExp = -10;
+
+    public static ExpOrbSpawner Instance { get; private set; }
 
     private void Awake()
     {
+        _orbMinExp = -2;
+        _orbMaxExp = -10;
+
+        Instance = this;
         // 타일맵이 인스펙터에서 할당되었는지 확인
         if (targetTilemap == null)
         {
@@ -86,14 +94,42 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
         //InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
     }
 
-	public override void OnJoinedRoom()
-	{
+    public override void OnJoinedRoom()
+    {
         if (!PhotonNetwork.IsMasterClient) return;
         orbPool.NetworkInit();
 
-		SpawnOrbsImmediate(); // 처음에 한방에 뿌리게 하는 디버그용
-		InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
-	}
+        SpawnOrbsImmediate(); // 처음에 한방에 뿌리게 하는 용도
+                              //InvokeRepeating(nameof(SpawnOrbs), 1f, spawnInterval);
+
+        StartCoroutine(tests());
+
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        if (!PhotonNetwork.IsMasterClient) return;
+        StartCoroutine(tests());
+    }
+
+    IEnumerator tests()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while (true)
+        {
+            SpawnOrbs();
+            yield return new WaitForSeconds(spawnInterval);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
+
 
     private void SpawnOrbsImmediate()
     {
@@ -103,38 +139,73 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
         {
             ExpOrb orb = orbPool.GetOrb();
             orb.transform.position = GetRandomTilePosition();
-            orb.Init(Random.Range(_orbMinExp, _orbMaxExp));
+            orb.Init(GetRandomExp());
             orb.gameObject.SetActive(true);
             activeOrbs.Add(orb);
-
-            // 중복 구독 방지
-            orb.OnDespawned -= HandleOrbDespawned;
-            orb.OnDespawned += HandleOrbDespawned;
         }
     }
 
     private void SpawnOrbs()
     {
+        // 마스터 클라이언트만 실행
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Debug.Log($"풀 오브젝트 개수:{orbPool._networkPool.Count}");
+
+
+        List<ExpOrb> realActivedExpList = new();
+
+        foreach (ExpOrb expOrb in orbPool._networkPool)
+        {
+
+            if (expOrb.gameObject.activeSelf)
+                realActivedExpList.Add(expOrb);
+        }
+
+        Debug.Log($"풀 기준에서 활성화된 구슬 개수:{realActivedExpList.Count}");
+        Debug.Log($"활성화 구슬 개수:{activeOrbs.Count}");
+
+
+
         int currentCount = activeOrbs.Count;
+        if (currentCount >= maxOrbs) { Debug.Log("경험치 구슬이 전부 활성화된 상태"); return; }
 
-        if (currentCount >= maxOrbs)
-            return;
 
-        int spawnCount = Mathf.Min(spawnAmountPerInterval, maxOrbs - currentCount);
+        //int spawnCount = Mathf.Min(spawnAmountPerInterval, maxOrbs - currentCount);
 
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < spawnAmountPerInterval; i++)
         {
             ExpOrb orb = orbPool.GetOrb();
-            orb.transform.position = GetRandomTilePosition();
-			orb.Init(Random.Range(_orbMinExp, _orbMaxExp));
-			orb.gameObject.SetActive(true);
+            Vector3 spawnPosition = GetRandomTilePosition();
+
+            // 구슬 ID와 위치를 모든 클라이언트에 동기화
+            int orbViewID = orb.GetComponent<PhotonView>().ViewID;
+
+            // RPC로 모든 클라이언트에게 구슬 활성화 명령 전송
+            photonView.RPC(nameof(RPC_ActivateOrb), RpcTarget.AllBuffered, orbViewID, spawnPosition, GetRandomExp());
+
+            // 활성화 상태 추적 (마스터만)
             activeOrbs.Add(orb);
-            orb.OnDespawned += HandleOrbDespawned;
         }
     }
 
+    [PunRPC]
+    private void RPC_ActivateOrb(int viewID, Vector3 position, int expValue)
+    {
+        // ViewID로 해당 구슬 찾기
+        PhotonView orbView = PhotonView.Find(viewID);
+        if (orbView != null)
+        {
+            ExpOrb orb = orbView.GetComponent<ExpOrb>();
+            orb.transform.position = position;
+            orb.Init(expValue);
+            orb.gameObject.SetActive(true);
+        }
+    }
+
+
     // 타일맵의 유효한 위치 중 랜덤한 위치 반환
-    private Vector3 GetRandomTilePosition()
+    public Vector3 GetRandomTilePosition()
     {
         if (validSpawnPositions.Count == 0)
             return Vector3.zero;
@@ -143,13 +214,14 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
         return validSpawnPositions[randomIndex];
     }
 
-    private void HandleOrbDespawned(ExpOrb orb)
+    public void HandleOrbDespawned(ExpOrb orb)
     {
         if (activeOrbs.Contains(orb))
         {
             activeOrbs.Remove(orb);
-            orb.OnDespawned -= HandleOrbDespawned;
             orbPool.ReturnOrb(orb); // 추가로 반환까지
         }
     }
+
+    public int GetRandomExp() => Random.Range(_orbMinExp, _orbMaxExp);
 }

@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +14,28 @@ namespace NTJ
         private Dictionary<StatType, float> activeBuffs = new();
         private Dictionary<StatType, Coroutine> buffCoroutines = new();
         private Dictionary<StatType, float> buffEndTime = new();
+        private Dictionary<StatType, float> passiveBonuses = new();
 
         // 최종 스탯 계산용 (기본스탯 * 버프배율)
-        public float atk => playerModel.AllStat.Attak * GetBuffMultiplier(StatType.Atk);
-        public float def => playerModel.AllStat.Defense * GetBuffMultiplier(StatType.Def);
-        public float spA => playerModel.AllStat.SpecialAttack * GetBuffMultiplier(StatType.SpA);
-        public float spD => playerModel.AllStat.SpecialDefense * GetBuffMultiplier(StatType.SpD);
-        public float spe => playerModel.AllStat.Speed * GetBuffMultiplier(StatType.Spe);
+        public float atk => playerModel.AllStat.Attak
+                    * GetBuffMultiplier(StatType.Attack)
+                    * GetPassiveMultiplier(StatType.Attack);
+
+        public float def => playerModel.AllStat.Defense
+                            * GetBuffMultiplier(StatType.Defense)
+                            * GetPassiveMultiplier(StatType.Defense);
+
+        public float spA => playerModel.AllStat.SpecialAttack
+                            * GetBuffMultiplier(StatType.SpAttack)
+                            * GetPassiveMultiplier(StatType.SpAttack);
+
+        public float spD => playerModel.AllStat.SpecialDefense
+                            * GetBuffMultiplier(StatType.SpDefense)
+                            * GetPassiveMultiplier(StatType.SpDefense);
+
+        public float spe => playerModel.AllStat.Speed
+                            * GetBuffMultiplier(StatType.Speed)
+                            * GetPassiveMultiplier(StatType.Speed);
 
 
         public void ApplyStat(ItemData item)
@@ -137,6 +152,39 @@ namespace NTJ
                 return Mathf.Max(0, endTime - Time.time);
             }
             return 0;
+        }
+
+        //public void ApplyPassive(ItemPassive passive)
+        //{
+        //    foreach (var bonus in passive.statBonuses)
+        //    {
+        //        if (passiveBonuses.ContainsKey(bonus.statType))
+        //            passiveBonuses[bonus.statType] += bonus.value;
+        //        else
+        //            passiveBonuses[bonus.statType] = bonus.value;
+
+        //        Debug.Log($"[패시브 적용] {bonus.statType}: +{bonus.value}");
+        //    }
+        //}
+
+        //public void RemovePassive(ItemPassive passive)
+        //{
+        //    foreach (var bonus in passive.statBonuses)
+        //    {
+        //        if (passiveBonuses.ContainsKey(bonus.statType))
+        //        {
+        //            passiveBonuses[bonus.statType] -= bonus.value;
+        //            if (Mathf.Approximately(passiveBonuses[bonus.statType], 0))
+        //                passiveBonuses.Remove(bonus.statType);
+
+        //            Debug.Log($"[패시브 제거] {bonus.statType}: -{bonus.value}");
+        //        }
+        //    }
+
+        //}
+        private float GetPassiveMultiplier(StatType stat)
+        {
+            return passiveBonuses.TryGetValue(stat, out float bonus) ? 1f + bonus : 1f;
         }
     }
 }

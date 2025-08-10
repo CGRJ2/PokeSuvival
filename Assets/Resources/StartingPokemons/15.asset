@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: 15
+  m_EditorClassIdentifier: 
+  PokeNumber: 123
+  PokeName: "\uC2A4\uB77C\uD06C"
+  PokeTypes: 0c0000000a000000
+  BaseStat:
+    Hp: 70
+    Attak: 110
+    Defense: 80
+    SpecialAttack: 55
+    SpecialDefense: 80
+    Speed: 105
+  AnimController: {fileID: 9100000, guid: f19bd46d4187ddd48b0f65df3aa32579, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: c71ff98215c6e444a9ad88bbd69aa8f0, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 0c2a4739997afd54ca94cab90bab40f7, type: 3}
+  Skills: []
+  Desc: 
+  EvoLevel: 55
+  NextEvoData: {fileID: 11400000, guid: f79b45b26df1076499fb3c3dc2c8558b, type: 2}
+  PokeSize: 0

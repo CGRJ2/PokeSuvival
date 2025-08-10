@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: MudSlap
+  m_EditorClassIdentifier: 
+  SkillName: "\uC9C4\uD759\uBFCC\uB9AC\uAE30"
+  Desc: 
+  Damage: 20
+  Cooldown: 3
+  Range: 12
+  PokeType: 9
+  SkillType: 1
+  SkillAnimType: 1
+  EffectPrefab: {fileID: 8073694639771686605, guid: 3bc4ff69bc74786439fe845dfc0aa11e, type: 3}
+  StatusEffect: 8
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

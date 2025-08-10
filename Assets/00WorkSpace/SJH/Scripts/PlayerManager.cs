@@ -43,48 +43,22 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 			Destroy(gameObject);
 			return;
 		}
-
-		//PhotonNetwork.ConnectUsingSettings();
 	}
-
-    /*public override void OnConnectedToMaster()
-    {
-        base.OnConnectedToMaster();
-        Debug.Log("마스터 연결 후 로비 상태로 변경");
-
-		StartCoroutine(DelayedInit());
-    }
-
-	IEnumerator DelayedInit()
-	{
-		yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
-        if (!PhotonNetwork.InLobby)
-            PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
-        Debug.Log("로비 상태에서 룸 생성 or 입장 시도");
-        PhotonNetwork.JoinRandomOrCreateRoom();
-    }
-
-    public override void OnJoinedRoom()
-	{
-		Debug.Log("룸 입장");
-		PlayerInstaniate();
-	}*/
 
 	public void PlayerInstaniate()
 	{
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
+		int heldItem = (int)PhotonNetwork.LocalPlayer.CustomProperties["HeldItem"];
 		Debug.Log(pokemonName);
-
 		PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity, 0,
 				new object[]
 				{
-					pokemonName
+					pokemonName,	// 스타팅 포켓몬 이름
+					heldItem		// 아이템 아이디
 				});
+
+		// 필요 조건 : 생성위치, 도감번호, 레벨
+		if (PhotonNetwork.IsMasterClient) EnemySpawner.Instance.SpawnInit();
 	}
 
 	public void ShowDamageText(Transform spawnPos, int damage, Color color)
@@ -106,25 +80,30 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 	{
 		// TODO : 사망 UI 활성화
 		_playerDeleteRoutine = StartCoroutine(PlayerDeadRoutine(totalExp));
-        UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController.Model);
+        UIManager.Instance.InGameGroup.GameOverViewUpdate(LocalPlayerController);
     }
     IEnumerator PlayerDeadRoutine(int totalExp)
 	{
 		Debug.Log("플레이어 사망 > 로비로 이동");
 		_playerFollowCam.Follow = null;
 		yield return new WaitForSeconds(_objectDeleteTime);
-		LocalPlayerController.ActionRPC(nameof(LocalPlayerController.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
+		LocalPlayerController.RPC.ActionRPC(nameof(LocalPlayerController.RPC.RPC_PlayerSetActive), RpcTarget.AllBuffered, false);
 	}
 	public void PlayerToLobby()
 	{
+		StopPlayerRoutine();
 		LocalPlayerController.DisconnectSkillEvent();
 	}
 
 	public void PlayerRespawn()
 	{
-		StopCoroutine(_playerDeleteRoutine);
-		_playerDeleteRoutine = null;
-
+		StopPlayerRoutine();
 		LocalPlayerController.PlayerRespawn();
+	}
+
+	void StopPlayerRoutine()
+	{
+		if (_playerDeleteRoutine != null) StopCoroutine(_playerDeleteRoutine);
+		_playerDeleteRoutine = null;
 	}
 }

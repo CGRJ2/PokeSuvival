@@ -8,23 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00WorkSpace/CJM/Scene/LobbyScene(CJM).unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/00WorkSpace/CJM/Scene/Test_InGameScene(CJM).unity
-    guid: c8d9a78e46027da4698c4b7e2817f336
-  - enabled: 0
-    path: Assets/00WorkSpace/SJH/SJH_LobbyScene.unity
-    guid: c60cf0fc3a143ad47832052e3619b1ca
+  - enabled: 1
+    path: Assets/00WorkSpace/MMJ/MMJ_GameScene.unity
+    guid: 2826593b5aca94b408a714094d13af93
+  - enabled: 1
+    path: Assets/00WorkSpace/MMJ/MMJ_GameScene_New.unity
+    guid: 5c9b13abd5fe0fd42b02e65d6b2160ce
   - enabled: 1
     path: Assets/00WorkSpace/SJH/SJH_GameScene.unity
     guid: c5bdc38bc582b9b4c992d50b809ee2e9
-  - enabled: 0
-    path: Assets/00WorkSpace/SJH/SJH_Scene.unity
-    guid: d88a2bfdc7ed85b4a86ff2f799939f1b
-  - enabled: 0
-    path: Assets/00WorkSpace/MMJ/MMJ_ExpScene.unity
-    guid: 7f461046d9cf0da45bccdab559fdf9a3
-  - enabled: 0
-    path: Assets/00WorkSpace/MMJ/MMJ_LobbyScene.unity
-    guid: 01f55370544700845b5c5d170e395391
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 61ef2b17c67d4cf4fa150ae02e7c7606, type: 2}

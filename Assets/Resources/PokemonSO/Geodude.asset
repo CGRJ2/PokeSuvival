@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Geodude
+  m_EditorClassIdentifier: 
+  PokeNumber: 74
+  PokeName: "\uAF2C\uB9C8\uB3CC"
+  PokeTypes: 0d00000009000000
+  BaseStat:
+    Hp: 40
+    Attak: 80
+    Defense: 100
+    SpecialAttack: 30
+    SpecialDefense: 30
+    Speed: 20
+  AnimController: {fileID: 9100000, guid: ba3b178f309664e4496cd7dc6d57f3e8, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 669381299276f95439531bb69a52617d, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 3848a5e577bf5cd48a94185aabac563d, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 6c2df34eb0419b142975df3665d9c910, type: 2}
+  Desc: 
+  EvoLevel: 25
+  NextEvoData: {fileID: 11400000, guid: 69e090bde4cefbe479bb41858907124e, type: 2}
+  PokeSize: 0.75

@@ -7,13 +7,10 @@ public class ExpOrbPool : MonoBehaviourPun
     public static ExpOrbPool Instance { get; private set; }
 
     [SerializeField] private ExpOrb orbPrefab;
-    [SerializeField] private Transform parentTransform;
+
     [SerializeField] private int initialPoolSize = 50;
-
-    private Queue<ExpOrb> pool = new Queue<ExpOrb>();
-
     // SJH
-    private Queue<ExpOrb> _networkPool = new();
+    public Queue<ExpOrb> _networkPool = new();
 
     private void Awake()
     {
@@ -24,32 +21,7 @@ public class ExpOrbPool : MonoBehaviourPun
             Destroy(gameObject);
             return;
         }
-
-        //InitPool(initialPoolSize);
 	}
-
-    public void InitPool(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            ExpOrb orb = Instantiate(orbPrefab, parentTransform);
-            orb.gameObject.SetActive(false);
-            pool.Enqueue(orb);
-        }
-    }
-
-    //public ExpOrb GetOrb()
-    //{
-    //    if (pool.Count > 0)
-    //    {
-    //        return pool.Dequeue();
-    //    }
-
-    //    // 일단~ 부족하면 새로 생성
-    //    ExpOrb orb = Instantiate(orbPrefab, parentTransform);
-    //    orb.gameObject.SetActive(false);
-    //    return orb;
-    //}
 
     // SJH
 	public ExpOrb GetOrb()
@@ -61,7 +33,7 @@ public class ExpOrbPool : MonoBehaviourPun
 		}
 
         // 일단~ 부족하면 새로 생성
-        GameObject go = PhotonNetwork.InstantiateRoomObject("Candy", new Vector3(999999, 999999), Quaternion.identity);
+        GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity);
 		ExpOrb orb = go.GetComponent<ExpOrb>();
 		orb.gameObject.SetActive(false);
 		return orb;
@@ -71,7 +43,6 @@ public class ExpOrbPool : MonoBehaviourPun
     {
 		if (!PhotonNetwork.IsMasterClient) return;
 		orb.gameObject.SetActive(false);
-        //pool.Enqueue(orb);
         _networkPool.Enqueue(orb);
     }
 
@@ -80,7 +51,7 @@ public class ExpOrbPool : MonoBehaviourPun
 		if (!PhotonNetwork.IsMasterClient) return;
 		for (int i = 0; i < initialPoolSize; i++)
 		{
-			GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity);
+			GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity, 0, new object[] { });
             if (go == null)
             {
                 Debug.LogError("게임 오브젝트 null");
@@ -90,6 +61,10 @@ public class ExpOrbPool : MonoBehaviourPun
             {
                 Debug.LogError("ExpOrb null");
             }
+            
+            if (ExpOrbSpawner.Instance != null)
+                orb.spawner = ExpOrbSpawner.Instance;
+
 			go.gameObject.SetActive(false);
 			_networkPool.Enqueue(orb);
 		}

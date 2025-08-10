@@ -16,6 +16,13 @@ public class Panel_RoomInfo : MonoBehaviour
         btn_Enter.onClick.AddListener(EnterRoom);
     }
 
+    public void SetDefaultSetting()
+    {
+        tmp_RoomName.text = "";
+        tmp_PlayerCount.text = "";
+        gameObject.SetActive(false);
+    }
+
     public void UpdatePanelView(RoomInfo roomInfo)
     {
         tmp_RoomName.text = roomInfo.Name;

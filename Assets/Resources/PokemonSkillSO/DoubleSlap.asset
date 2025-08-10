@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: DoubleSlap
+  m_EditorClassIdentifier: 
+  SkillName: "\uC5F0\uC18D\uBEA8\uCE58\uAE30"
+  Desc: 
+  Damage: 15
+  Cooldown: 6.5
+  Range: 2
+  PokeType: 1
+  SkillType: 0
+  SkillAnimType: 0
+  EffectPrefab: {fileID: 4262397551271833854, guid: e5132af71d913ff4885ccd77f6f3cca4, type: 3}
+  StatusEffect: 8
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

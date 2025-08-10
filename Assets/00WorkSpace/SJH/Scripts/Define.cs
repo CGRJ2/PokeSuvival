@@ -1,18 +1,24 @@
-﻿using System;
+﻿using NTJ;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Define
 {
 	// TODO : 임시 데이터베이스
 	private static bool _isDataInit;
-	private static Dictionary<int, PokemonData> _numberToPokeData = new();
-	private static Dictionary<string, PokemonData> _nameToPokeData = new();
+	public static Dictionary<int, PokemonData> NumberToPokeData { get; private set; }
+	public static Dictionary<string, PokemonData> NameToPokeData { get; private set; }
 	private static bool _isTypeInit;
 	private const float Weak = 0.5f;
-	private const float Strong = 2f;
+	private const float Strong = 1.4f;
+	//private const float Strong = 2f;
 	private const float NoDamage = 0f;
+
 	private static Dictionary<PokemonType, Dictionary<PokemonType, float>> _pokeTypeChart = new();
+	private static bool _isSkillInit;
+	public  static Dictionary<string, PokemonSkill> PokeSkillDic { get; private set; }
 
 	static void PokeDataInit()
 	{
@@ -22,24 +28,25 @@ public static class Define
 
 		foreach (var data in all)
 		{
-			if (_numberToPokeData == null) _numberToPokeData = new();
-			if (!_numberToPokeData.ContainsKey(data.PokeNumber)) _numberToPokeData.Add(data.PokeNumber, data);
+			if (NumberToPokeData == null) NumberToPokeData = new();
+			if (!NumberToPokeData.ContainsKey(data.PokeNumber)) NumberToPokeData.Add(data.PokeNumber, data);
 
-			if (_nameToPokeData == null) _nameToPokeData = new();
-			if (!_nameToPokeData.ContainsKey(data.PokeName)) _nameToPokeData.Add(data.PokeName, data);
-		}
-		Debug.Log($"PokemonData 초기화 {_numberToPokeData.Count} / {_nameToPokeData.Count}");
+			if (NameToPokeData == null) NameToPokeData = new();
+			if (!NameToPokeData.ContainsKey(data.PokeName)) NameToPokeData.Add(data.PokeName, data);
+            //Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length} / {data.PokeName} /{data.name}");
+        }
+        //Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length}");
 		_isDataInit = true;
 	}
 	public static PokemonData GetPokeData(int pokeNumber)
 	{
 		PokeDataInit();
-		return _numberToPokeData.TryGetValue(pokeNumber, out var data) && data != null ? data : null;
+		return NumberToPokeData.TryGetValue(pokeNumber, out var data) && data != null ? data : null;
 	}
 	public static PokemonData GetPokeData(string pokeName)
 	{
 		PokeDataInit();
-		return _nameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
+		return NameToPokeData.TryGetValue(pokeName, out var data) && data != null ? data : null;
 	}
 
 	static void PokeTypeInit()
@@ -229,6 +236,51 @@ public static class Define
 		PokeTypeInit();
 		return _pokeTypeChart.TryGetValue(attackType, out var chart) && chart.TryGetValue(defenderType, out float result) ? result : 1f;
 	}
+
+	static void PokeSkillInit()
+	{
+		if (_isSkillInit) return;
+
+		PokemonSkill[] all = Resources.LoadAll<PokemonSkill>("PokemonSkillSO");
+
+		foreach (var data in all)
+		{
+			if (PokeSkillDic == null) PokeSkillDic = new();
+			if (!PokeSkillDic.ContainsKey(data.SkillName)) PokeSkillDic.Add(data.SkillName, data);
+		}
+		Debug.Log($"PokemonSkillData 초기화 {PokeSkillDic.Count}");
+		_isSkillInit = true;
+	}
+	public static PokemonSkill GetPokeSkillData(string skillName)
+	{
+		PokeSkillInit();
+		return PokeSkillDic.TryGetValue(skillName, out var data) ? data : null;
+	}
+    #region Item DB
+
+    public static ItemDatabase ItemDatabase { get; private set; }
+    [Header("아이템 DB")]
+    public static ItemData[] items;
+    private static Dictionary<int, ItemData> _itemDict;
+
+    public static void ItemDatabaseInit()
+    {
+        ItemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+        _itemDict = ItemDatabase.items.ToDictionary(i => i.id);
+        /*foreach (var kvp in _itemDict)
+        {
+            Debug.Log($"Key : {kvp.Key} / Value : {kvp.Value.itemName}");
+        }
+        Debug.Log($"아이템 데이터 {_itemDict.Count}개 초기화 완료");*/
+    }
+
+    public static ItemData GetItemById(int id)
+    {
+        if (ItemDatabase == null) ItemDatabaseInit();
+        return _itemDict != null && _itemDict.TryGetValue(id, out var data) ? data : null;
+    }
+
+    #endregion
 }
 #region SJH
 public enum PokemonType
@@ -263,7 +315,29 @@ public struct PokemonStat
 	public int SpecialDefense;
 	public int Speed;
 
-	public float GetMoveSpeed() => Speed / 10f;
+	public float GetMoveSpeed()
+	{
+		// 종족값 최대 + 개체값 최대 + 노력치 최대
+		// 100레벨 기준 최대 능력치 => 2B + IV + EV/4 + 5 = 510 + 31 + 63 + 5 = 609
+		float baseSpeed = 4.5f;
+        float bonusMax = 2.5f;    // 능력치 최대값일 때 추가될 수 있는 최대 속도 수치
+
+        float maxAdditionalSpeed = bonusMax * 3f; // 6단계 랭크업일 때 적용될 수 있는 최대 속도 수치
+        float normalizedValue = Mathf.Clamp01(Speed/(609f * 3f));
+        float finalSpeed = baseSpeed + normalizedValue * maxAdditionalSpeed;
+        return finalSpeed;
+	}
+	public int GetBaseStat() => Hp + Attak + Defense + SpecialAttack + SpecialDefense + Speed;
+	public bool IsEqual(PokemonStat stat)
+	{
+		return Hp == stat.Hp &&
+
+			   Attak == stat.Attak &&
+			   Defense == stat.Defense &&
+			   SpecialAttack == stat.SpecialAttack &&
+			   SpecialDefense == stat.SpecialDefense &&
+			   Speed == stat.Speed;
+	}
 }
 public enum SkillSlot
 {
@@ -278,6 +352,7 @@ public enum SkillType
 	Special,
 	Status,
 }
+[Serializable]
 public struct BattleDataTable
 {
 	public int Level;
@@ -286,21 +361,77 @@ public struct BattleDataTable
 	public int MaxHp;
 	public int CurrentHp;
 
-	// TODO : 상태이상
-	// TODO : 아이템 장착
+	public bool IsAI;
+	public PlayerController PC;
 
-	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp)
+	public ItemPassive HeldItem;
+	public List<StatusType> CurrentStatus;
+	public List<string> CurrentBuffs;
+
+	public BattleDataTable(int level, PokemonData pokeData, PokemonStat pokeStat, int maxHp, int currentHp,
+		bool isAI = false, PlayerController pc = null, ItemPassive heldItem = null, List<StatusType> currentStatus = null, List<string> currentBuffs = null)
 	{
 		Level = level;
 		PokeData = pokeData;
 		AllStat = pokeStat;
 		MaxHp = maxHp;
 		CurrentHp = currentHp;
+
+		IsAI = isAI;
+		PC = pc;
+		HeldItem = heldItem;
+		CurrentStatus = currentStatus == null ? new List<StatusType>() { StatusType.None } : currentStatus;
+		CurrentBuffs = currentBuffs == null ? new List<string>() : currentBuffs;
 	}
+
+	public bool IsVaild() => PokeData != null;
 }
 public enum SkillAnimType
 {
 	Attack,
 	SpeAttack,
+}
+public enum AIState
+{
+	None,
+	Idle,
+	Move,
+	Attack,
+	Die,
+}
+public enum ItemType
+{
+	Buff,		// 도구
+	Heal,		// 회복약
+	LevelUp,	// 이상한사탕
+	StatBuff,   // 스탯 상승 도구
+    Passive     // 패시브 장비
+}
+public enum StatType
+{
+	HP,			// 체력은 없음
+	Attack,		// 공격
+	Defense,	// 방어
+	SpAttack,	// 특공
+	SpDefense,	// 특방
+	Speed		// 스피드
+}
+public enum StatusType
+{
+	// 제자리 스탑
+	Stun,
+	// 상태이상
+	Poison,		// 독
+	Burn,		// 화상 : 물리 공격 반감
+	Paralysis,	// 마비 : 스피드 반감
+	Sleep,      // 수면 : 이동불가 회전불가
+	Freeze,		// 동상	: 이동불가 회전불가
+	// 상태변화
+	Confusion,	// 혼란	: 키입력 반대로
+	Binding,	// 속박 : 이동불가 회전가능 기술사용가능
+	None,		// 기본 상태
+	
+	// 미구현
+	Flinch,		// 풀죽음 : ?
 }
 #endregion

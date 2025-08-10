@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Dragonair
+  m_EditorClassIdentifier: 
+  PokeNumber: 148
+  PokeName: "\uC2E0\uB1FD"
+  PokeTypes: 0f00000000000000
+  BaseStat:
+    Hp: 61
+    Attak: 84
+    Defense: 65
+    SpecialAttack: 70
+    SpecialDefense: 70
+    Speed: 70
+  AnimController: {fileID: 9100000, guid: d0ffc680d9744164db5a3f364163de40, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: dc952e2ff39586c45a774472adf9c7f8, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: 8fcdf31d5a65d4f4795ff41b2c1fdab5, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: 11b27b8a00498b54f8cf88a8862e8867, type: 2}
+  - {fileID: 11400000, guid: 3f3c4c13668bf9a4a866c037e5386631, type: 2}
+  Desc: 
+  EvoLevel: 55
+  NextEvoData: {fileID: 11400000, guid: 651e8873a07fbc34e942334d386411dd, type: 2}
+  PokeSize: 1

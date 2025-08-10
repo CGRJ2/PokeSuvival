@@ -20,23 +20,33 @@ public class Panel_PlayerInit : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(inputField_Name.text))
         {
-            Debug.LogError("�г����� ����� �������ּ���");
+            Debug.LogError("닉네임을 제대로 설정해주세요");
             return;
         }
 
         // 로그인한 상태라면 => Auth 사용자 프로필에 업데이트
         if (BackendManager.Auth.CurrentUser != null)
         {
-            // Auth ���� ������ ������Ʈ
+            Debug.Log("로그인 사용자 닉네임 설정");
+
+            // Auth => 이거 DB에서 이름 바뀌었을 때 구독해놓는 식으로 하면 될듯?
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
             
-            // DB�� ����
-            BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text));
+            // DB
+            BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text, NetworkManager.Instance.GetUserId()));
+        }
+        else 
+        {
+            Debug.Log("게스트 사용자 닉네임 설정");
         }
 
-        // ���濡 �г��� ����
         PhotonNetwork.NickName = inputField_Name.text;
+
+        // 유저 데이터 필드 초기화
+        NetworkManager.Instance.UpdateUserDataToClient(new UserData(inputField_Name.text, NetworkManager.Instance.GetUserId()));
+
         PhotonNetwork.JoinLobby();
         gameObject.SetActive(false);
+        inputField_Name.text = "";
     }
 }

@@ -5,14 +5,33 @@ using UnityEngine;
 
 public class UIGroup_InGame : MonoBehaviour
 {
-    [SerializeField] private Panel_HUD panel_HUD;
-    [SerializeField] private Panel_GameOver panel_GameOver;
+    public Panel_HUD panel_HUD;
+    public Panel_GameOver panel_GameOver;
+    public Panel_GameOverAutoReturnLobby panel_GameOverAutoReturnLobby;
 
+    public List<PlayerController> activedPlayerList = new List<PlayerController>();
+
+
+    /*private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            foreach(PlayerController pc in activedPlayerList)
+            {
+                Debug.Log($"{pc.Model.PokeData.PokeName}의 딕셔너리: {pc.Rank.RankUpdic}");
+            }
+        }
+    }*/
 
     public void Init()
     {
         panel_HUD.Init();
         panel_GameOver.Init();
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     // 인게임 시작 시 호출
@@ -25,19 +44,25 @@ public class UIGroup_InGame : MonoBehaviour
     }
 
     // 플레이어 사망 시 호출
-    public void GameOverViewUpdate(PlayerModel playerModel)
+    public void GameOverViewUpdate(PlayerController pc)
     {
         panel_HUD.gameObject.SetActive(false);
-        panel_GameOver.gameObject.SetActive(true);
 
-        // 킬수는 잠시 임시로 넣어둠
-        panel_GameOver.UpdateResultView(playerModel.TotalExp, playerModel.PokeLevel, 99);
+        StartCoroutine(WaitAndOpen());
+        panel_GameOver.UpdateResultView(pc.Model.TotalExp, pc.Model.PokeLevel, pc.KillCount, pc.SurvivalTime);
+        panel_HUD.panel_BuffState.InitSlots();
+    }
+
+    IEnumerator WaitAndOpen()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.LogWarning("천천히 오픈");
+        panel_GameOver.gameObject.SetActive(true);
     }
 
     public void UpdateSkillSlots(PlayerModel playerModel)
-    { 
-        // 이렇게 사용하면 됩니다
-        // UIManager.Instance.InGameGroup.UpdateSkillSlots();
+    {
+        Debug.Log("스킬 슬롯 업데이트함!");
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             panel_HUD.panel_SkillSlots.UpdateSkillSlotsView(playerModel);

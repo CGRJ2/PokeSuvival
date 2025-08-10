@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25945c2d2c7ee594794cc788fcbfeaee, type: 3}
+  m_Name: RockBlast
+  m_EditorClassIdentifier: 
+  SkillName: "\uB85D\uBE14\uB77C\uC2A4\uD2B8"
+  Desc: 
+  Damage: 25
+  Cooldown: 12
+  Range: 14
+  PokeType: 13
+  SkillType: 0
+  SkillAnimType: 0
+  EffectPrefab: {fileID: 8073694639771686605, guid: d460eafa51b42754281376cd44f87e93, type: 3}
+  StatusEffect: 8
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

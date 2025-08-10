@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+﻿using NTJ;
 using Photon.Pun;
-using UnityEngine.UIElements;
-using System.Runtime.Serialization;
-using NTJ;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 
 public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
 {
     [Header("아이템 설정(드롭 확률 변수는 비율입니다.)")]
-    [SerializeField] private GameObject[] itemPrefabs; // 여러 아이템 프리팹 배열로 변경
-    [SerializeField] private float[] dropProbabilities; // 각 아이템의 드롭 확률
+
+    [SerializeField] private List<ItemDropEntry> dropTable;
 
     [Header("배틀 데이터")]
 
@@ -31,16 +33,9 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     // 데미지를 받는 메서드 구현
     public bool TakeDamage(BattleDataTable attackerData, PokemonSkill skill)
     {
-        //if (!photonView.IsMine && PhotonNetwork.IsConnected)
-        //{
-        //    Debug.Log("아이템박스 내꺼 아님");
-        //    return false;
-        //}
-
-        // 스킬과 공격 데이터를 기반으로 데미지 계산
         int damage = 4;
         currentHp -= damage; // TODO : 나중에는 랜덤으로
-		PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
+        PlayerManager.Instance?.ShowDamageText(transform, damage, Color.white);
 
         photonView.RPC(nameof(RPC_SyncHp), RpcTarget.OthersBuffered, currentHp);
 
@@ -49,8 +44,7 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
         {
             Debug.Log("아이템박스 부셔짐 방장 호출");
             photonView.RPC(nameof(RPC_OnHit), RpcTarget.MasterClient);
-            return false;
-		}
+        }
 
         return true;
     }
@@ -65,120 +59,85 @@ public class ItemBox : MonoBehaviourPun, IPunObservable, IDamagable
     [PunRPC]
     public void RPC_OnHit()
     {
-        Debug.Log("방장이 아이템박스가 부셔졌을 떄 아이템 랜덤 드롭");
+        Debug.Log("방장이 아이템박스가 부셔졌을 때 아이템 랜덤 드롭");
+
         if (PhotonNetwork.IsMasterClient)
         {
-            // 몬스터볼의 현재 위치 저장
             Vector3 spawnPosition = transform.position;
+            ItemDropEntry selectedEntry = GetRandomDropEntry();
 
-            // 랜덤 아이템 선택 후 드롭
-            int selectedItemIndex = GetRandomItemIndex();
+            if (selectedEntry != null)
+            {
+                int itemId = selectedEntry.itemData.id;
+                photonView.RPC(nameof(RPC_DropItem), RpcTarget.All, spawnPosition, itemId);
+            }
 
-            // 선택된 아이템 인덱스를 RPC로 전달
-            photonView.RPC(nameof(RPC_DropItem), RpcTarget.MasterClient, spawnPosition, selectedItemIndex);
+            // 스포너 알림
+            ItemBoxSpawner.Instance?.ItemBoxDestroyed();
 
-            // 풀로 반환
-            ItemBoxPoolManager.Instance.ReturnToPool(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 
-    // 확률에 따라 랜덤 아이템 인덱스 선택
-    private int GetRandomItemIndex()
+
+    private ItemDropEntry GetRandomDropEntry()
     {
-        // 아이템이나 확률 배열이 없거나 길이가 다르면 -1 반환
-        if (itemPrefabs == null || dropProbabilities == null ||
-            itemPrefabs.Length == 0 || itemPrefabs.Length != dropProbabilities.Length)
+        if (dropTable == null || dropTable.Count == 0)
         {
-            Debug.LogWarning("아이템 프리팹 또는 확률 설정이 올바르지 않습니다.");
-            return -1;
+            Debug.LogWarning("드롭 테이블이 비어 있습니다.");
+            return null;
         }
 
-        // 확률 합계 계산 (합이 1이 아닐 수 있으므로)
-        float totalProbability = 0f;
-        foreach (float prob in dropProbabilities)
+        float total = dropTable.Sum(e => e.dropProbability);
+        float rand = Random.value * total;
+        float cumulative = 0f;
+
+        foreach (var entry in dropTable)
         {
-            totalProbability += prob;
+            cumulative += entry.dropProbability;
+            if (rand <= cumulative)
+                return entry;
         }
 
-        // 0~1 사이의 랜덤 값 생성
-        float randomValue = Random.value * totalProbability;
-
-        // 확률에 따라 아이템 선택
-        float cumulativeProbability = 0f;
-
-        for (int i = 0; i < dropProbabilities.Length; i++)
-        {
-            cumulativeProbability += dropProbabilities[i];
-
-            if (randomValue <= cumulativeProbability)
-            {
-                return i;
-            }
-        }
-
-        // 기본값으로 첫 번째 아이템 반환
-        return 0;
+        // fallback
+        Debug.LogWarning("드롭 확률 계산 이상: fallback 반환");
+        return dropTable[dropTable.Count - 1]; // 마지막 항목을 fallback으로
     }
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //if (stream.IsWriting)
-        //{
-        //    // 내 데이터를 보냄
-        //    stream.SendNext(transform.position);
-        //    stream.SendNext(transform.rotation);
-        //    stream.SendNext(currentHp);
-        //}
-        //else
-        //{
-        //    // 상대방의 데이터를 받음
-        //    transform.position = (Vector3)stream.ReceiveNext();
-        //    transform.rotation = (Quaternion)stream.ReceiveNext();
-        //    currentHp = (int)stream.ReceiveNext();
-        //}
+
     }
-    //private void OnTriggerEnter2D(Collider2D collider) // 테스트용 코드
-    //{
-    //    // 플레이어에 닿으면 아이템이 먹힘
-    //    if (collider.CompareTag("Player"))
-    //    {
-    //        // 자기 자신(아이템)을 비활성화
-    //        ItemBoxPoolManager.Instance.DeactivateObject(this.gameObject);
-    //    }
-    //}
 
     [PunRPC]
-    public void RPC_DropItem(Vector3 position, int itemIndex)
+    public void RPC_DropItem(Vector3 position, int itemId)
     {
-        // 아이템 인덱스가 유효하지 않으면 리턴
-        if (itemIndex < 0 || itemIndex >= itemPrefabs.Length || itemPrefabs[itemIndex] == null)
+        try
         {
-            Debug.LogWarning("유효하지 않은 아이템 인덱스입니다: " + itemIndex);
-            return;
-        }
+            Debug.Log($"RPC_DropItem 호출: 위치={position}, 아이템ID={itemId}");
 
-        // itemIndex에 따라 ItemDatabase에서 받아옴
-        int realItemIndex = itemIndex + 1;
-        var io = ItemObjectPool.Instance;
-        if (io == null) return;
-        ItemData itemData = io.GetItemById(realItemIndex);
-        if (itemData == null)
+            ItemDropEntry entry = dropTable.FirstOrDefault(e => e.itemData.id == itemId);
+            if (entry == null)
+            {
+                Debug.LogError($"해당 ID의 아이템이 드롭 테이블에 없습니다: ID={itemId}");
+                return;
+            }
+
+            GameObject newItem = PhotonNetwork.InstantiateRoomObject("Item", position, Quaternion.identity);
+            if (newItem != null && newItem.TryGetComponent<ItemPickup>(out var itemPickup))
+            {
+                itemPickup.Initialize(itemId);
+                Debug.Log($"아이템 생성 성공: {itemId}");
+            }
+            else
+            {
+                // 왜 여기로 빠지는지는 모르겠음.. 주석처리하면 해결됨 Debug.LogError("아이템 생성 실패 또는 ItemPickup 컴포넌트 없음!");
+            }
+        }
+        catch (System.Exception ex)
         {
-            Debug.Log("아이템 데이터가 비어있습니다. 생성 실패");
-            return;
+            Debug.LogError($"RPC_DropItem 예외 발생: {ex.Message}\n{ex.StackTrace}");
         }
-
-        // 아이템 프리팹에 스프라이트나 데이터를 어디서 넣어줘야할지
-
-        // 선택된 아이템 프리팹 생성
-        Debug.Log($"{realItemIndex}번째 아이템[{itemPrefabs[itemIndex].name}] 생성 시도");
-        string prefabPath = "Items/ItemPrefab";
-        GameObject newItem = PhotonNetwork.InstantiateRoomObject(prefabPath, position, Quaternion.identity);
-        var itemPickup = newItem.GetComponent<ItemPickup>();
-        itemPickup.Initialize(itemData.id);
-
-		Debug.Log(itemPrefabs[itemIndex].name + " 아이템이 생성되었습니다!");
     }
 }
-

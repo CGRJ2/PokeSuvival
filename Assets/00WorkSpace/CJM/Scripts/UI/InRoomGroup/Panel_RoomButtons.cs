@@ -1,5 +1,4 @@
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,47 +14,22 @@ public class Panel_RoomButtons : MonoBehaviour
         btn_Ready.onClick.AddListener(Ready);
         btn_Start.onClick.AddListener(StartWithParty);
     }
-
-    /*public void InitButtons(bool isMaster)
-    {
-        // 방장 or Not 설정
-        if (isMaster)
-        {
-            btn_Ready.interactable = false;
-            btn_Ready.gameObject.SetActive(false);
-
-            btn_Start.interactable = true;
-            btn_Start.gameObject.SetActive(true);
-        }
-        else
-        {
-            btn_Ready.interactable = true;
-            btn_Ready.gameObject.SetActive(true);
-
-            btn_Start.interactable = false;
-            btn_Start.gameObject.SetActive(false);
-        }
-
-        // 이거 그냥 모든 인원이 Ready 상태일 때, 방장만 Start 버튼이 활성화 되도록 하자.
-    }*/
-
     public void ExitRoom()
     {
         PhotonNetwork.LeaveRoom();
-        UIManager um = UIManager.Instance;
-        um.ClosePanel(um.LobbyGroup.panel_RoomInside.gameObject);
     }
-
     public void Ready()
     {
         //// 룸 커스텀 프로퍼티 설정
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             // 스타팅 포켓몬을 정하지 않은 상태라면 레디 못함
-            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon")) 
-            { 
-                Debug.LogError("스타팅 포켓몬을 설정하지 않아 READY를 할 수 없습니다."); 
-                return; 
+            if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon") 
+                || string.IsNullOrEmpty((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"]))
+            {
+                //Debug.LogError("스타팅 포켓몬을 설정하지 않아 READY를 할 수 없습니다.");
+                UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_CautionNonePoke.gameObject);
+                return;
             }
 
             RoomMemberSlot localPlayerSlot = UIManager.Instance.LobbyGroup.panel_RoomInside.assignedSlots[PhotonNetwork.LocalPlayer];
@@ -92,10 +66,33 @@ public class Panel_RoomButtons : MonoBehaviour
     public void StartWithParty()
     {
         // 임시
-        // 인게임 서버 중 비어있는 곳을 찾아 접속해야함.
-        // 인게임 서버들의 인원 상태를 저장해두는 중계자 필요 => firebase DB 설계 진행하자
-        NetworkManager nm = NetworkManager.Instance;
-        string inGameSceneName = nm.temp_InGameSceneName;
-        nm.MoveToInGameScene(inGameSceneName);
+        string selectedMapKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
+        int memberCount = PhotonNetwork.CurrentRoom.PlayerCount;
+
+        List<string> memberIdList = new List<string>();
+
+        foreach (var kvp in PhotonNetwork.CurrentRoom.Players)
+        {
+            memberIdList.Add((string)kvp.Value.CustomProperties["Id"]);
+        }
+
+        BackendManager.Instance.GetServerData(selectedMapKey, ServerType.InGame, (targetServer) =>
+        {
+            BackendManager.Instance.CheckMultipleUsersSpaceAndReserve(targetServer, memberCount, (reserveComplete) =>
+            {
+                // 서버에 자리 예약 완료
+                if (reserveComplete)
+                {
+                    // 자리 예약 성공 시 => 룸 커스텀 프로퍼티에 시작가능 갱신
+                    ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+                    roomProperty["Start"] = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
+                }
+                else
+                {
+                    Debug.LogError("파티에 모든 멤버가 이동하기에 서버에 자리가 부족합니다.");
+                }
+            });
+        });
     }
 }

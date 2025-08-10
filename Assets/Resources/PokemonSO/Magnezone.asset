@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc962680b1409b48a1a69b90ab6b7fa, type: 3}
+  m_Name: Magnezone
+  m_EditorClassIdentifier: 
+  PokeNumber: 462
+  PokeName: "\uC790\uD3EC\uCF54\uC77C"
+  PokeTypes: 0700000011000000
+  BaseStat:
+    Hp: 70
+    Attak: 70
+    Defense: 115
+    SpecialAttack: 130
+    SpecialDefense: 90
+    Speed: 90
+  AnimController: {fileID: 9100000, guid: e185431928253124ab88c094271c0fde, type: 2}
+  PokemonIconSprite: {fileID: 21300000, guid: 784154dd2974a2d4ea8ea99767a8dd3e, type: 3}
+  PokemonInfoSprite: {fileID: 21300000, guid: ae0ae3ab18a71be46af5a70da9f56bc0, type: 3}
+  Skills:
+  - {fileID: 11400000, guid: 4cd01975b5bdda946a7c4909e30e97be, type: 2}
+  - {fileID: 11400000, guid: f0923dddce375ae47a30123c12bd76b5, type: 2}
+  - {fileID: 11400000, guid: b9dc5b8300a712d4eb671a34a687df1e, type: 2}
+  - {fileID: 11400000, guid: 23c3894af1385704c8102564e6905936, type: 2}
+  Desc: 
+  EvoLevel: 0
+  NextEvoData: {fileID: 0}
+  PokeSize: 1
