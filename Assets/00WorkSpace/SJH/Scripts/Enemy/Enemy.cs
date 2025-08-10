@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	public PokeRankHandler Rank;
 	public PokeStatusHandler Status;
 	public PokeBuffHandler Buff;
+	public StatusController SC;
 
 	[SerializeField] private Rigidbody2D _rigid;
 	[SerializeField] private SpriteRenderer _sprite;
@@ -50,6 +51,7 @@ public class Enemy : MonoBehaviourPun, IDamagable, IPunInstantiateMagicCallback,
 	void Awake()
 	{
 		_audio = GetComponent<AudioSource>();
+		SC = GetComponentInChildren<StatusController>();
 	}
 
 	void Update()

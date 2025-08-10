@@ -1,44 +1,44 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class DirectionalTeleporter : MonoBehaviour
 {
     public enum TeleportDirection { Left, Right, Top, Bottom }
 
     [SerializeField] private TeleportDirection direction;
-    [SerializeField] private float teleportCoordinate = 74f; // ÅÚ·¹Æ÷Æ®ÇÒ ÁÂÇ¥°ª (±âº»°ª 74)
+    [SerializeField] private float teleportCoordinate = 74f; // í…”ë ˆí¬íŠ¸í•  ì¢Œí‘œê°’ (ê¸°ë³¸ê°’ 74)
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        // Player ÅÂ±×¸¦ °¡Áø ¿ÀºêÁ§Æ®¸¸ Ã³¸®
+        // Player íƒœê·¸ë¥¼ ê°€ì§„ ì˜¤ë¸Œì íŠ¸ë§Œ ì²˜ë¦¬
         if (collision.CompareTag("Player"))
         {
             Vector3 playerPosition = collision.transform.position;
 
-            // ¹æÇâ¿¡ µû¶ó ÀûÀıÇÑ ÁÂÇ¥ ¼³Á¤
+            // ë°©í–¥ì— ë”°ë¼ ì ì ˆí•œ ì¢Œí‘œ ì„¤ì •
             switch (direction)
             {
                 case TeleportDirection.Left:
-                    playerPosition.x = -teleportCoordinate; // ¿ŞÂÊ ÅÚ·¹Æ÷ÅÍ: x = -74
+                    playerPosition.x = -teleportCoordinate; // ì™¼ìª½ í…”ë ˆí¬í„°: x = -74
                     break;
 
                 case TeleportDirection.Right:
-                    playerPosition.x = teleportCoordinate;  // ¿À¸¥ÂÊ ÅÚ·¹Æ÷ÅÍ: x = 74
+                    playerPosition.x = teleportCoordinate;  // ì˜¤ë¥¸ìª½ í…”ë ˆí¬í„°: x = 74
                     break;
 
                 case TeleportDirection.Top:
-                    playerPosition.y = teleportCoordinate;  // À§ÂÊ ÅÚ·¹Æ÷ÅÍ: y = 74
+                    playerPosition.y = teleportCoordinate;  // ìœ„ìª½ í…”ë ˆí¬í„°: y = 74
                     break;
 
                 case TeleportDirection.Bottom:
-                    playerPosition.y = -teleportCoordinate; // ¾Æ·¡ÂÊ ÅÚ·¹Æ÷ÅÍ: y = -74
+                    playerPosition.y = -teleportCoordinate; // ì•„ë˜ìª½ í…”ë ˆí¬í„°: y = -74
                     break;
             }
 
-            // ÇÃ·¹ÀÌ¾î À§Ä¡ º¯°æ
+            // í”Œë ˆì´ì–´ ìœ„ì¹˜ ë³€ê²½
             collision.transform.position = playerPosition;
 
-            // µğ¹ö±× ·Î±× (ÇÊ¿ä½Ã ÁÖ¼® ÇØÁ¦)
-            // Debug.Log($"ÇÃ·¹ÀÌ¾î¸¦ {direction} ¹æÇâ °æ°è·Î ÅÚ·¹Æ÷Æ®Çß½À´Ï´Ù: {playerPosition}");
+            // ë””ë²„ê·¸ ë¡œê·¸ (í•„ìš”ì‹œ ì£¼ì„ í•´ì œ)
+            // Debug.Log($"í”Œë ˆì´ì–´ë¥¼ {direction} ë°©í–¥ ê²½ê³„ë¡œ í…”ë ˆí¬íŠ¸í–ˆìŠµë‹ˆë‹¤: {playerPosition}");
         }
     }
 }

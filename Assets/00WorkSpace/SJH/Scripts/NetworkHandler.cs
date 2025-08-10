@@ -155,7 +155,8 @@ public class NetworkHandler: MonoBehaviour
 		// 상태이상 UI를 업데이트할 클라이언트
 		if (PC.photonView.IsMine)
 		{
-			// TODO : 상태이상에 따라 디버프 적용
+			PC.Status.SetStatus(skillName, true);
+
 			var skill = Define.GetPokeSkillData(skillName);
 			if (skill == null) return;
 			switch (skill.StatusEffect)
@@ -166,8 +167,8 @@ public class NetworkHandler: MonoBehaviour
 				case StatusType.Binding: Debug.Log("속박 걸림"); PC.Status.SetBinding(skill.StatusDuration); break;
 				case StatusType.Paralysis: Debug.Log("마비 걸림"); PC.Status.SetParalysis(skill.StatusDuration); break;
 				case StatusType.Confusion: Debug.Log("혼란 걸림"); PC.Status.SetConfusion(skill.StatusDuration); break;
+				case StatusType.Sleep: Debug.Log("수면 걸림"); PC.Status.SetSleep(skill.StatusDuration); break;
 			}
-			PC.Status.SetStatus(skillName, true);
 		}
 		else
 		{

@@ -416,7 +416,8 @@ public enum StatType
 }
 public enum StatusType
 {
-	None,		// 기본 상태
+	// 제자리 스탑
+	Stun,
 	// 상태이상
 	Poison,		// 독
 	Burn,		// 화상 : 물리 공격 반감
@@ -426,8 +427,9 @@ public enum StatusType
 	// 상태변화
 	Confusion,	// 혼란	: 키입력 반대로
 	Binding,	// 속박 : 이동불가 회전가능 기술사용가능
+	None,		// 기본 상태
+	
+	// 미구현
 	Flinch,		// 풀죽음 : ?
-	// 제자리 스탑
-	Stun,
 }
 #endregion
