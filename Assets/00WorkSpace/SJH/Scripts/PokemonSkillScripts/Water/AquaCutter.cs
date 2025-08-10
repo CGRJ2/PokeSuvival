@@ -5,9 +5,12 @@ public class AquaCutter : IAttack
 {
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
+		var pc = attackerData.PC;
+		if (pc != null) pc.Status.SetStun(0.3f);
+		else attacker.GetComponent<Enemy>()?.Status?.SetStun(0.3f);
+
 		Quaternion rot = Quaternion.FromToRotation(Vector2.down, attackDir.normalized);
-		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", Vector3.zero, rot);
-		go.transform.SetParent(attacker.transform, false);
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", attacker.transform.position, rot);
 
 		float size = attackerData.PokeData.PokeSize;
 		float radius = size > 1 ? skill.Range + size : skill.Range;

@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 7358045093455463118}
   - component: {fileID: 7470334015065272714}
   - component: {fileID: 527108751499097803}
-  - component: {fileID: 6602336154882877663}
   - component: {fileID: 938296767178996917}
+  - component: {fileID: -8999776875155708854}
   m_Layer: 9
   m_Name: DischargeEffect
   m_TagString: Untagged
@@ -144,7 +144,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6602336154882877663}
+  - {fileID: -8999776875155708854}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -210,22 +210,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &6602336154882877663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8955458457638585766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1
 --- !u!114 &938296767178996917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +243,22 @@ MonoBehaviour:
     CurrentBuffs: []
   _skill: {fileID: 0}
   _size: 0
+--- !u!114 &-8999776875155708854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8955458457638585766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!1001 &8058647467133587632
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,13 +5,15 @@ public class Synthesis : IAttack
 {
 	public void Attack(Transform attacker, Vector2 attackDir, BattleDataTable attackerData, PokemonSkill skill)
 	{
-		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", Vector3.zero, Quaternion.identity);
-		go.transform.SetParent(attacker, false);
+		var pc = attackerData.PC;
+		if (pc != null) pc.Status.SetStun(1.3f);
+		else attacker.GetComponent<Enemy>()?.Status?.SetStun(1.3f);
+
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", attacker.transform.position, Quaternion.identity);
 
 		// 플레이어
 		if (attackerData.PC != null)
 		{
-			var pc = attackerData.PC;
 			pc.Model.SetHeal(pc.Model.MaxHp / 2);
 		}
 		// 몬스터

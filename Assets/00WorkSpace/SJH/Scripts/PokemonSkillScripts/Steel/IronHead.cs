@@ -18,7 +18,6 @@ public class IronHead : IAttack
 		Vector3 spawnPos = attackDir * (attackerData.PokeData.PokeSize + 1f);
 		//Quaternion rot = Quaternion.FromToRotation(Vector2.up, attackDir.normalized);
 		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, Quaternion.identity);
-		go.transform.SetParent(attacker.transform, false);
 
 		float radius = attackerData.PokeData.PokeSize * 2;
 		float size = attackerData.PokeData.PokeSize;
@@ -33,7 +32,11 @@ public class IronHead : IAttack
 		{
 			time += Time.deltaTime;
 			float t = time / duration;
-			attacker.position = Vector2.Lerp(startPos, targetPos, t);
+
+			Vector2 newPos = Vector2.Lerp(startPos, targetPos, t);
+
+			go.transform.position = newPos + (attackDir * (attackerData.PokeData.PokeSize + 1f));
+			attacker.position = newPos;
 
 			var enemies = Physics2D.OverlapCircleAll(attacker.position, radius);
 			foreach (var enemy in enemies)
@@ -50,7 +53,6 @@ public class IronHead : IAttack
 					PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.name}Effect", enemy.transform.position, Quaternion.identity);
 				}
 			}
-
 			yield return null;
 		}
 		PhotonNetwork.Destroy(go);
