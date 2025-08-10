@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIGroup_InGame : MonoBehaviour
 {
     public Panel_HUD panel_HUD;
-    [SerializeField] private Panel_GameOver panel_GameOver;
+    public Panel_GameOver panel_GameOver;
     public Panel_GameOverAutoReturnLobby panel_GameOverAutoReturnLobby;
 
     public List<PlayerController> activedPlayerList = new List<PlayerController>();
@@ -62,6 +62,7 @@ public class UIGroup_InGame : MonoBehaviour
 
     public void UpdateSkillSlots(PlayerModel playerModel)
     {
+        Debug.Log("스킬 슬롯 업데이트함!");
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
             panel_HUD.panel_SkillSlots.UpdateSkillSlotsView(playerModel);

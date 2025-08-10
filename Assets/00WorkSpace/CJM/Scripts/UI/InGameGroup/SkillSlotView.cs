@@ -39,6 +39,7 @@ public class SkillSlotView : MonoBehaviour
     public void UpdateSlotView(PokemonSkill skill)
     {
         image_Blocked.gameObject.SetActive(false);
+        targetCoolTime = 0;
 
         tmp_Name.text = skill.SkillName;
 

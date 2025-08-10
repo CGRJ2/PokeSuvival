@@ -22,7 +22,8 @@ public class Panel_GameOverAutoReturnLobby : MonoBehaviour
     IEnumerator WaitAndMoveToLobby()
     {
         yield return new WaitForSeconds(lobbyMoveWaitTime);
-        NetworkManager.Instance.MoveToLobby();
+        UIManager.Instance.InGameGroup.panel_GameOver.gameObject.SetActive(false);
         gameObject.SetActive(false);
+        NetworkManager.Instance.MoveToLobby();
     }
 }

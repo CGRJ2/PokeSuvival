@@ -25,7 +25,7 @@ public class PlayerInstanceUI : MonoBehaviour
             // 본인이라면
             if (pc.Model.UserId == NetworkManager.Instance.GetUserId())
             {
-                image_MiniMapPoint.color = Color.green;
+                image_MiniMapPoint.color = Color.cyan;
                 canvasSelf.sortingOrder = 90;
             }
             // 적들이라면

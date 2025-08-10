@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +13,9 @@ public class Panel_ReturnToLobbyConfirm : MonoBehaviour
         btn_Confirm.onClick.AddListener(() =>
         {
             UIManager.Instance.ClosePanel(gameObject);
-            UIManager.Instance.InGameGroup.panel_GameOverAutoReturnLobby.gameObject.SetActive(true);
             UIManager.Instance.StaticGroup.panel_UpperMenu.SwitchToggleDropDownButton();
             UIManager.Instance.InGameGroup.panel_HUD.panel_BuffState.InitSlots();
+            UIManager.Instance.InGameGroup.panel_GameOverAutoReturnLobby.gameObject.SetActive(true);
         });
         btn_Cancel.onClick.AddListener(() => UIManager.Instance.ClosePanel(gameObject));
     }
