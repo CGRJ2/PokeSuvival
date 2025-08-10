@@ -21,5 +21,8 @@ MonoBehaviour:
   PokeType: 1
   SkillType: 0
   SkillAnimType: 0
-  EffectPrefab: {fileID: 0}
-  SFX: {fileID: 0}
+  EffectPrefab: {fileID: 7125481200652831164, guid: 4089bee852127ea47bbfbeccb6ecd342, type: 3}
+  StatusEffect: 0
+  StatusSprite: {fileID: 0}
+  StatusRate: 0
+  StatusDuration: 0

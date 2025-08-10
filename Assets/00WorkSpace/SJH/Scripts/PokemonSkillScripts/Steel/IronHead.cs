@@ -35,7 +35,7 @@ public class IronHead : IAttack
 
 			Vector2 newPos = Vector2.Lerp(startPos, targetPos, t);
 
-			go.transform.position = (Vector2)newPos + (attackDir * (attackerData.PokeData.PokeSize + 1f));
+			go.transform.position = newPos + (attackDir * (attackerData.PokeData.PokeSize + 1f));
 			attacker.position = newPos;
 
 			var enemies = Physics2D.OverlapCircleAll(attacker.position, radius);
@@ -53,7 +53,6 @@ public class IronHead : IAttack
 					PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.name}Effect", enemy.transform.position, Quaternion.identity);
 				}
 			}
-
 			yield return null;
 		}
 		PhotonNetwork.Destroy(go);

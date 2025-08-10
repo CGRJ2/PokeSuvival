@@ -14,6 +14,10 @@ public class Tackle : IAttack
 	{
 		float duration = 0.2f;
 		float time = 0f;
+
+		Vector3 spawnPos = attackDir * (attackerData.PokeData.PokeSize + 1f);
+		GameObject go = PhotonNetwork.Instantiate($"PokemonSkillPrefabs/{skill.EffectPrefab.name}", spawnPos, Quaternion.identity);
+
 		float radius = skill.Range / 2;
 		float size = attackerData.PokeData.PokeSize;
 		float range = size > 1 ? skill.Range + size : skill.Range;
@@ -26,7 +30,10 @@ public class Tackle : IAttack
 		{
 			time += Time.deltaTime;
 			float t = time / duration;
-			attacker.position = Vector2.Lerp(startPos, targetPos, t);
+			Vector2 newPos = Vector2.Lerp(startPos, targetPos, t);
+
+			go.transform.position = newPos + (attackDir * (attackerData.PokeData.PokeSize + 1f));
+			attacker.position = newPos;
 
 			var enemies = Physics2D.OverlapCircleAll(attacker.position, radius);
 			foreach (var enemy in enemies)
@@ -42,9 +49,9 @@ public class Tackle : IAttack
 					hitTargets.Add(enemy.transform);
 				}
 			}
-
 			yield return null;
 		}
+		PhotonNetwork.Destroy(go);
 		Debug.Log($"{skill.SkillName} 공격 완료!");
 	}
 }
