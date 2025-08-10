@@ -39,11 +39,11 @@ public class EnemyData : PokeBaseData
 		}
 	}
 	public override void SetLevel(int level) => PokeLevel = level;
-	public int GetDeathExp()
+
+    // 사망 경험치
+    public int GetDeathExp()
 	{
-		// 사망 경험치
-		// 기본 밸류
-		float baseValue = 10f;
+		int totalExp = 5 / 4 * PokeLevel * PokeLevel * PokeLevel;
 
 		// 종족값
 		int totalBaseStat = PokeData.BaseStat.GetBaseStat();
@@ -51,7 +51,7 @@ public class EnemyData : PokeBaseData
 		// 가중치
 		float modifyValue = totalBaseStat / 600f; // 600족기준
 
-		return Mathf.RoundToInt(PokeLevel * baseValue * (1f + modifyValue));
+		return Mathf.RoundToInt(totalExp * modifyValue / 3);
 	}
 	public void SetHeal(int value)
 	{
