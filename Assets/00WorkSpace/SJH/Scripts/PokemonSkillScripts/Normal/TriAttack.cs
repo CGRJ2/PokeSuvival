@@ -14,7 +14,11 @@ public class TriAttack : IAttack
         if (projectile != null) projectile.Init(attacker, attackDir, attackerData, skill);
         else
         {
-            if (PhotonNetwork.IsMasterClient) attackerData.PC.StartCoroutine(DestroyPrefab(go));
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PlayerManager.Instance?.StartCoroutine(DestroyPrefab(go));
+            }
+                
         }
     }
 

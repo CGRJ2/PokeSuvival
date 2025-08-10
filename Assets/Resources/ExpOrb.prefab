@@ -212,6 +212,7 @@ MonoBehaviour:
   isAttracted: 0
   playerTransform: {fileID: 0}
   currentSpeed: 0
+  spawner: {fileID: 0}
   _playerLayer:
     serializedVersion: 2
     m_Bits: 64

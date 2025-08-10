@@ -14,7 +14,7 @@ public class Thundershock : IAttack
         if (projectile != null) projectile.Init(attacker, attackDir, attackerData, skill);
         else
         {
-            if (PhotonNetwork.IsMasterClient) attackerData.PC.StartCoroutine(DestroyPrefab(go));
+            PlayerManager.Instance?.StartCoroutine(DestroyPrefab(go));
         }
     }
 
