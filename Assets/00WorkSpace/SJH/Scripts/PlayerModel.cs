@@ -98,6 +98,7 @@ public class PlayerModel : PokeBaseData
 				_pokeExp -= requiredExp;
 				PokeLevel++;
 				Debug.Log($"레벨업! 현재 레벨: {PokeLevel}");
+				PlayerManager.Instance?.LocalPlayerController._audio_LevelUp.Play();
 			}
 			else break;
 		}
