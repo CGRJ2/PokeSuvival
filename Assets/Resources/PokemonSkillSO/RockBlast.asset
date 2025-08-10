@@ -16,7 +16,7 @@ MonoBehaviour:
   Desc: "2-5\uD68C \uB3D9\uC548 \uC5F0\uC18D\uC73C\uB85C \uC4F4\uB2E4."
   Damage: 25
   Cooldown: 12
-  Range: 10
+  Range: 14
   PokeType: 13
   SkillType: 0
   SkillAnimType: 0

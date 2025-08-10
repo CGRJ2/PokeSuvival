@@ -31,9 +31,9 @@ public static class Define
 
 			if (NameToPokeData == null) NameToPokeData = new();
 			if (!NameToPokeData.ContainsKey(data.PokeName)) NameToPokeData.Add(data.PokeName, data);
-            Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length} / {data.PokeName} /{data.name}");
+            //Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length} / {data.PokeName} /{data.name}");
         }
-        Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length}");
+        //Debug.Log($"PokemonData 초기화 {NumberToPokeData.Count} / {all.Length}");
 		_isDataInit = true;
 	}
 	public static PokemonData GetPokeData(int pokeNumber)
@@ -315,13 +315,21 @@ public struct PokemonStat
 
 	public float GetMoveSpeed()
 	{
-		// TODO : 이속 보정줘야하나 종족값 너무 낮으면 최소치, 너무빠르면 제한걸던가
-		return Speed / 10f;
+		// 종족값 최대 + 개체값 최대 + 노력치 최대
+		// 100레벨 기준 최대 능력치 => 2B + IV + EV/4 + 5 = 510 + 31 + 63 + 5 = 609
+		float baseSpeed = 4.5f;
+        float bonusMax = 2.5f;    // 능력치 최대값일 때 추가될 수 있는 최대 속도 수치
+
+        float maxAdditionalSpeed = bonusMax * 3f; // 6단계 랭크업일 때 적용될 수 있는 최대 속도 수치
+        float normalizedValue = Mathf.Clamp01(Speed/(609f * 3f));
+        float finalSpeed = baseSpeed + normalizedValue * maxAdditionalSpeed;
+        return finalSpeed;
 	}
 	public int GetBaseStat() => Hp + Attak + Defense + SpecialAttack + SpecialDefense + Speed;
 	public bool IsEqual(PokemonStat stat)
 	{
 		return Hp == stat.Hp &&
+
 			   Attak == stat.Attak &&
 			   Defense == stat.Defense &&
 			   SpecialAttack == stat.SpecialAttack &&

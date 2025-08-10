@@ -16,7 +16,7 @@ MonoBehaviour:
   Desc: 
   Damage: 80
   Cooldown: 10
-  Range: 10
+  Range: 12
   PokeType: 1
   SkillType: 1
   SkillAnimType: 1

@@ -47,7 +47,7 @@ public class Panel_CustomBGM : MonoBehaviour
 
     public bool IsBGMNullOrInitial()
     {
-        if (audioSource == null || audioSource == UIManager.Instance.InitializeGroup.InitializeDefaultBGM)
+        if (audioSource == null || audioSource.clip == UIManager.Instance.InitializeGroup.InitializeDefaultBGM)
             return true;
         else return false;
     }
