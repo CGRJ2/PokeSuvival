@@ -24,7 +24,7 @@ public static class PokeUtils
 		// Mod2 : 생구, 메트로놈
 		// Mod3 : 달인의띠,	위력 반감 열매
 		#endregion
-
+		
 		int attackStat = 0;
 		int defendStat = 0;
 		switch (skill.SkillType)
