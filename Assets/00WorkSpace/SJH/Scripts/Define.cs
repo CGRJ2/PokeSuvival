@@ -12,8 +12,10 @@ public static class Define
 	public static Dictionary<string, PokemonData> NameToPokeData { get; private set; }
 	private static bool _isTypeInit;
 	private const float Weak = 0.5f;
-	private const float Strong = 2f;
+	private const float Strong = 1.4f;
+	//private const float Strong = 2f;
 	private const float NoDamage = 0f;
+
 	private static Dictionary<PokemonType, Dictionary<PokemonType, float>> _pokeTypeChart = new();
 	private static bool _isSkillInit;
 	public  static Dictionary<string, PokemonSkill> PokeSkillDic { get; private set; }

@@ -9,100 +9,130 @@ public class EnemySpawner : MonoBehaviourPunCallbacks
 {
     public static EnemySpawner Instance { get; private set; }
 
-	[SerializeField] private int _minLevel = 1;
-	[SerializeField] private int _maxLevel = 2;
+    [SerializeField] private int _minLevel = 1;
+    [SerializeField] private int _maxLevel = 2;
 
-	[SerializeField] private float _spawnDelay = 5f;
-	[SerializeField] private int _spawnCount = 30;
+    [SerializeField] private float _spawnDelay = 5f;
+    [SerializeField] private int _spawnCount = 30;
 
-	private Coroutine _spawnRoutine;
-	private WaitForSeconds _spawnTime;
-	[SerializeField] private List<Enemy> _enemiesPool;
+    private Coroutine _spawnRoutine;
+    private WaitForSeconds _spawnTime;
+    [SerializeField] private List<Enemy> _enemiesPool;
 
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-			return;
-		}
-		_enemiesPool = new(_spawnCount);
-		_spawnTime = new WaitForSeconds(_spawnDelay);
-	}
+    [SerializeField]
 
-	public void SpawnInit()
-	{
-		if (PhotonNetwork.IsMasterClient) StartSpawning();
-	}
 
-	void StartSpawning()
-	{
-		if (_spawnRoutine != null) StopCoroutine(_spawnRoutine);
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _enemiesPool = new(_spawnCount);
+        _spawnTime = new WaitForSeconds(_spawnDelay);
+    }
 
-		_spawnRoutine = StartCoroutine(SpawnRoutine());
-	}
+    public void SpawnInit()
+    {
+        if (PhotonNetwork.IsMasterClient) StartSpawning();
+    }
 
-	void StopSpawning()
-	{
-		if (_spawnRoutine != null)
-		{
-			StopCoroutine(_spawnRoutine);
-			_spawnRoutine = null;
-		}
-	}
+    void StartSpawning()
+    {
+        if (_spawnRoutine != null) StopCoroutine(_spawnRoutine);
 
-	public override void OnMasterClientSwitched(Player newMasterClient)
-	{
-		Debug.Log("마스터 변경 스포너 재작동");
-		if (PhotonNetwork.IsMasterClient) StartSpawning();
-		else StopSpawning();
-	}
+        _spawnRoutine = StartCoroutine(SpawnRoutine());
+    }
 
-	IEnumerator SpawnRoutine()
-	{
-		while (true)
-		{
-			yield return _spawnTime;
+    void StopSpawning()
+    {
+        if (_spawnRoutine != null)
+        {
+            StopCoroutine(_spawnRoutine);
+            _spawnRoutine = null;
+        }
+    }
 
-			if (!PhotonNetwork.IsMasterClient) yield break;
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        Debug.Log("마스터 변경 스포너 재작동");
+        if (PhotonNetwork.IsMasterClient) StartSpawning();
+        else StopSpawning();
+    }
 
-			if (_enemiesPool.Count < _spawnCount) EnemySpawn();
-		}
-	}
+    IEnumerator SpawnRoutine()
+    {
+        while (true)
+        {
+            yield return _spawnTime;
 
-	public void EnemySpawn()
-	{
-		if (!PhotonNetwork.IsMasterClient) return;
+            if (!PhotonNetwork.IsMasterClient) yield break;
 
-		// 생성 위치
-		Vector3 spawnPos = ExpOrbSpawner.Instance.GetRandomTilePosition();
+            if (_enemiesPool.Count < _spawnCount) EnemySpawn();
+        }
+    }
 
-		// 레벨 선택
-		int level = Random.Range(_minLevel, _maxLevel);
+    public void EnemySpawn()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
 
-		// 도감 선택
-		// 딕셔너리에서 n번째 포켓몬 데이터 반환
-		PokemonData pokeData = Define.NumberToPokeData.ElementAt(Random.Range(0, Define.NumberToPokeData.Count)).Value;
+        // 생성 위치
+        Vector3 spawnPos = ExpOrbSpawner.Instance.GetRandomTilePosition();
 
-		PhotonNetwork.InstantiateRoomObject("Enemy", spawnPos, Quaternion.identity, 0,
-			new object[]
-			{
-				pokeData.PokeNumber,	// 도감 번호
+
+        int r = Random.Range(0, 100);
+        int level = 0;
+        BackendManager bm = BackendManager.Instance;
+        PokemonData selectedPokemon = null;
+        if (r <= 85)
+        {
+            level = Random.Range(_minLevel, _maxLevel);
+
+            // [하] 몬스터 리스트 중 랜덤 선택
+            int rand = Random.Range(0, bm.pokemonDatas_LowGroup.Length);
+            selectedPokemon = Define.GetPokeData(bm.pokemonDatas_LowGroup[rand]);
+        }
+        else if (r <= 95)
+        {
+            level = Random.Range(_maxLevel + 1, _maxLevel * 2);       // 13~24
+                                                                      
+            // [중] 몬스터 리스트 중 랜덤 선택
+            int rand = Random.Range(0, bm.pokemonDatas_MidGroup.Length);
+            selectedPokemon = Define.GetPokeData(bm.pokemonDatas_MidGroup[rand]);
+        }
+        else
+        {
+            level = Random.Range(_minLevel * 2 + 1, _maxLevel * 3);   // 25~36
+                                                                      
+            // [상] 몬스터 리스트 중 랜덤 선택
+            int rand = Random.Range(0, bm.pokemonDatas_HighGroup.Length);
+            selectedPokemon = Define.GetPokeData(bm.pokemonDatas_HighGroup[rand]);
+        }
+
+        if (selectedPokemon == null) return;
+
+        // 도감 선택
+        // 딕셔너리에서 n번째 포켓몬 데이터 반환
+        PhotonNetwork.InstantiateRoomObject("Enemy", spawnPos, Quaternion.identity, 0,
+            new object[]
+            {
+                selectedPokemon.PokeNumber,	// 도감 번호
 				level					// 레벨
 			});
-	}
+    }
 
-	public void AddPool(Enemy enemy)
-	{
-		if (!_enemiesPool.Contains(enemy)) _enemiesPool.Add(enemy);
-	}
+    public void AddPool(Enemy enemy)
+    {
+        if (!_enemiesPool.Contains(enemy)) _enemiesPool.Add(enemy);
+    }
 
-	public void RemovePool(Enemy enemy)
-	{
-		if (_enemiesPool.Contains(enemy)) _enemiesPool.Remove(enemy);
-	}
+    public void RemovePool(Enemy enemy)
+    {
+        if (_enemiesPool.Contains(enemy)) _enemiesPool.Remove(enemy);
+    }
 }

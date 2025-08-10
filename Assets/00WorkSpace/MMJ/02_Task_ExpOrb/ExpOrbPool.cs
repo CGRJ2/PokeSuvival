@@ -10,7 +10,7 @@ public class ExpOrbPool : MonoBehaviourPun
 
     [SerializeField] private int initialPoolSize = 50;
     // SJH
-    private Queue<ExpOrb> _networkPool = new();
+    public Queue<ExpOrb> _networkPool = new();
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class ExpOrbPool : MonoBehaviourPun
 		}
 
         // 일단~ 부족하면 새로 생성
-        GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrbParents", new Vector3(999999, 999999), Quaternion.identity);
+        GameObject go = PhotonNetwork.InstantiateRoomObject("ExpOrb", new Vector3(999999, 999999), Quaternion.identity);
 		ExpOrb orb = go.GetComponent<ExpOrb>();
 		orb.gameObject.SetActive(false);
 		return orb;
@@ -61,6 +61,10 @@ public class ExpOrbPool : MonoBehaviourPun
             {
                 Debug.LogError("ExpOrb null");
             }
+            
+            if (ExpOrbSpawner.Instance != null)
+                orb.spawner = ExpOrbSpawner.Instance;
+
 			go.gameObject.SetActive(false);
 			_networkPool.Enqueue(orb);
 		}

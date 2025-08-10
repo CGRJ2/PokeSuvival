@@ -16,7 +16,8 @@ public class ExpOrb : MonoBehaviourPun, IPunInstantiateMagicCallback
     public Transform playerTransform;
     public float currentSpeed;
 
-    public event Action<ExpOrb> OnDespawned;
+    public ExpOrbSpawner spawner;
+    //public event Action<ExpOrb> OnDespawned;
 
     private Collider2D[] overlapResults = new Collider2D[20]; // 최대 인원이 20명이니까 20개까지 감지
 
@@ -122,7 +123,7 @@ public class ExpOrb : MonoBehaviourPun, IPunInstantiateMagicCallback
         if (PhotonNetwork.IsMasterClient)
         {
             if (_isEntityOrb) PhotonNetwork.Destroy(gameObject);
-            else OnDespawned?.Invoke(this);
+            else spawner.HandleOrbDespawned(this);
         }
 
         gameObject.SetActive(false);
@@ -137,7 +138,8 @@ public class ExpOrb : MonoBehaviourPun, IPunInstantiateMagicCallback
 	public void OnPhotonInstantiate(PhotonMessageInfo info)
 	{
         var data = photonView.InstantiationData;
-        if (data.Length == 0) return;
+        if (data == null) return;
+        if (data?.Length == 0) return;
         int exp = (int)data[0];
         amount = exp;
         isActive = true;

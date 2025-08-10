@@ -16,6 +16,11 @@ public class BackendManager : Singleton<BackendManager>
     public static FirebaseAuth Auth { get; private set; }
     public static FirebaseDatabase Database { get; private set; }
 
+
+    public string[] pokemonDatas_LowGroup;
+    public string[] pokemonDatas_MidGroup;
+    public string[] pokemonDatas_HighGroup;
+
     // 테스트용
     /*private void Update()
     {

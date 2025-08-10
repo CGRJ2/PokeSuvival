@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minLevel: 1
-  _maxLevel: 2
+  _maxLevel: 15
   _spawnDelay: 5
   _spawnCount: 30
   _enemiesPool: []

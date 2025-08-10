@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbPool: {fileID: 3282571642335152340}
-  maxOrbs: 100
-  spawnInterval: 0.2
-  spawnAmountPerInterval: 5
+  maxOrbs: 900
+  spawnInterval: 0.1
+  spawnAmountPerInterval: 10
   targetTilemap: {fileID: 0}
   _orbMinExp: 10
   _orbMaxExp: 20
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbPrefab: {fileID: 6781790628706291217, guid: c3ca4ef3a69816a4e9fc377ac4c439ec, type: 3}
-  initialPoolSize: 100
+  initialPoolSize: 900
 --- !u!114 &1419154465765597636
 MonoBehaviour:
   m_ObjectHideFlags: 0

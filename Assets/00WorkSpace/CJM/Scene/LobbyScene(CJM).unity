@@ -1144,6 +1144,418 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e3c3d226d7143e94d922a0ca2c535cff, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5542d46a49df94144925ad9415c91cf9, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6222c2db2be91f5499be6c49b5c5ae81, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: aee1c1ec787f0c244a9a9868542230c6, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e870f16b8e0e93d4cb342abea2992d39, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4753d4719fbf25446a8ce2481c24ff55, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea032df30ac82b6478258b05994b605b, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ba312ac338acd84582142784af98c26, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: 706323ef1f20dd341ba5984965f7bda9, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 651e8873a07fbc34e942334d386411dd, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[0]
+      value: "\uC774\uC0C1\uD574\uC528"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[1]
+      value: "\uD30C\uC774\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[2]
+      value: "\uAF2C\uBD80\uAE30"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[3]
+      value: "\uAD6C\uAD6C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[4]
+      value: "\uB514\uADF8\uB2E4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[5]
+      value: "\uCE90\uC774\uC2DC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[6]
+      value: "\uC54C\uD1B5\uBAAC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[7]
+      value: "\uAF2C\uB9C8\uB3CC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[8]
+      value: "\uCF54\uC77C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[9]
+      value: "\uACE0\uC624\uC2A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[0]
+      value: "\uC774\uC0C1\uD574\uD480"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[1]
+      value: "\uB9AC\uC790\uB4DC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[2]
+      value: "\uC5B4\uB2C8\uBD80\uAE30"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[3]
+      value: "\uD53C\uC8E4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[4]
+      value: "\uD53C\uCE74\uCE04"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[5]
+      value: "\uB514\uADF8\uB2E4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[6]
+      value: "\uC724\uAC94\uB77C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[7]
+      value: "\uADFC\uC721\uBAAC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[8]
+      value: "\uB370\uAD6C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[9]
+      value: "\uB808\uC5B4\uCF54\uC77C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: e0c0d5e63bd69184b8f6b20314166b4e, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 907c77839cd0705449a2591d95a7a798, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7205e9caf67e38042971ab08b5168eef, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[13]
+      value: 
+      objectReference: {fileID: 11400000, guid: 65c2fc0f659ed3a4b816c9dba8d102d0, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[14]
+      value: 
+      objectReference: {fileID: 11400000, guid: d539e511817f54d4ab15d77ed2dc953f, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[15]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e3c3c607cb687048b894a3e5e408a49, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[16]
+      value: 
+      objectReference: {fileID: 11400000, guid: 69e090bde4cefbe479bb41858907124e, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[17]
+      value: 
+      objectReference: {fileID: 11400000, guid: 705bacd2ce7d25a4fa3496f239e81c0d, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[18]
+      value: 
+      objectReference: {fileID: 11400000, guid: b8641fd4e1ca115498fcb017a5339549, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[19]
+      value: 
+      objectReference: {fileID: 11400000, guid: d77dfd2e03c8a78418ab9c2a880b3e46, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[20]
+      value: 
+      objectReference: {fileID: 11400000, guid: d6bf954266d64c64f96fde0803954130, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[21]
+      value: 
+      objectReference: {fileID: 11400000, guid: dcacdecf2460e8543aed0dcd07ac737b, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[22]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1cedbae2c52b49d429904294afeece42, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[23]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5bf2a622ec8eaf040ba0d10bbb4e6b50, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[24]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c43e3994a1b021489cd1485b77ff5b6, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[25]
+      value: 
+      objectReference: {fileID: 11400000, guid: 901ae94dfab686743921d94c11416fae, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[26]
+      value: 
+      objectReference: {fileID: 11400000, guid: f5911422a0c58814c823649604588412, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[27]
+      value: 
+      objectReference: {fileID: 11400000, guid: d6f08b2e13c06a74db9a821698bd8853, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[28]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dfc11776b2720e4c82839fbd7a4e2d3, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[29]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b4574fc3af99ad43aa5742e9cb06b55, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[30]
+      value: 
+      objectReference: {fileID: 11400000, guid: 412c31a48a70bf34da04758941365001, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[31]
+      value: 
+      objectReference: {fileID: 11400000, guid: 418d3d05646cd4e4fa2e909686a4b1fa, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[32]
+      value: 
+      objectReference: {fileID: 11400000, guid: b5d635f9be3439a4880d5275ef2c9a18, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[33]
+      value: 
+      objectReference: {fileID: 11400000, guid: 60c50173e0f6e5c4f97758139d8240cd, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[34]
+      value: 
+      objectReference: {fileID: 11400000, guid: e34522042aa31744fa74428115a4cdf7, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[35]
+      value: 
+      objectReference: {fileID: 11400000, guid: 06f443d6809ad214584ac8dcdc69038a, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[36]
+      value: 
+      objectReference: {fileID: 11400000, guid: bd7e892461d3f17419b39d46be520c9e, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[37]
+      value: 
+      objectReference: {fileID: 11400000, guid: 843dc4a1cde4d8e479334c96ac740783, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[38]
+      value: 
+      objectReference: {fileID: 11400000, guid: fce4b3aa4baffdf4ab2ad04e52e299be, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[39]
+      value: 
+      objectReference: {fileID: 11400000, guid: f79b45b26df1076499fb3c3dc2c8558b, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[40]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2bd8dd693d2638b488c47db721437f21, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[41]
+      value: 
+      objectReference: {fileID: 11400000, guid: 655a7017d3db5fc42ad29979c8ec6d09, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[42]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a49ae5539419fd4e84f9daa2fe54b8e, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[43]
+      value: 
+      objectReference: {fileID: 11400000, guid: a3e956fdfd326574c903bdebf84e10f1, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[44]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6490272985821b04686c0440499915bb, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[45]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3031da245e00caa4a8907b693209152f, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[46]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b57870d605736b408e21520f346b693, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[47]
+      value: 
+      objectReference: {fileID: 11400000, guid: 09f8c4aac11a5b74286eb7212bb61b87, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokmonDatas_LowGroup.Array.data[48]
+      value: 
+      objectReference: {fileID: 11400000, guid: ac1d9d4576caae74aa14099a95d935bf, type: 2}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[0]
+      value: "\uC774\uC0C1\uD574\uAF43"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[1]
+      value: "\uB9AC\uC790\uBABD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[2]
+      value: "\uAC70\uBD81\uC655"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[3]
+      value: "\uD53C\uC8E4\uD22C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[4]
+      value: "\uB77C\uC774\uCE04"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[5]
+      value: "\uB2E5\uD2B8\uB9AC\uC624"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[6]
+      value: "\uD6C4\uB518"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[7]
+      value: "\uAD34\uB825\uBAAC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[8]
+      value: "\uB531\uAD6C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[9]
+      value: "\uC790\uD3EC\uCF54\uC77C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[10]
+      value: "\uBBF8\uB1FD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_LowGroup.Array.data[11]
+      value: "\uD1A0\uAC8C\uD53C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[10]
+      value: "\uACE0\uC6B0\uC2A4\uD2B8"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[11]
+      value: "\uB871\uC2A4\uD1A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[12]
+      value: "\uB610\uAC00\uC2A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[13]
+      value: "\uCEA5\uCE74"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[14]
+      value: "\uC2A4\uB77C\uD06C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[15]
+      value: "\uB77C\uD504\uB77C\uC2A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[16]
+      value: "\uC2E0\uB1FD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[17]
+      value: "\uD1A0\uAC8C\uD2F1"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_MidGroup.Array.data[18]
+      value: "\uB378\uBE4C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[10]
+      value: "\uD32C\uD140"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[11]
+      value: "\uAC15\uCCA0\uD1A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[12]
+      value: "\uB610\uB3C4\uAC00\uC2A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[13]
+      value: "\uD56B\uC0BC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[14]
+      value: "\uB9DD\uB098\uB1FD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[15]
+      value: "\uD1A0\uAC8C\uD0A4\uC2A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[16]
+      value: "\uD5EC\uAC00"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[17]
+      value: "\uB77C\uD504\uB77C\uC2A4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 400366769537663036, guid: 102d8565160da5549844bc715985ff86, type: 3}
+      propertyPath: pokemonDatas_HighGroup.Array.data[18]
+      value: "\uCEA5\uCE74"
+      objectReference: {fileID: 0}
     - target: {fileID: 3848045326574205255, guid: 102d8565160da5549844bc715985ff86, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
