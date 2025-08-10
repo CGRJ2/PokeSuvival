@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04a13c7873eecd448164323e6394791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LobbyDefaultBGM: {fileID: 8300000, guid: 8b62db398e662974284673398d0645f2, type: 3}
   tmp_State: {fileID: 3219345820266472805}
   isTestServer: 0
   testServerIndex: 1

@@ -11,7 +11,7 @@ public class UIGroup_Static : MonoBehaviour
     public Panel_RankingBoard panel_RankingBoard;
     public Panel_UpperMenu panel_UpperMenu;
     public Panel_QuitConfirm panel_QuitConfirm;
-
+    public Panel_CustomBGM panel_CustomBGM;
     //public LoadingPanel serverPanel;
 
     public void Init()
@@ -22,6 +22,7 @@ public class UIGroup_Static : MonoBehaviour
         panel_RankingBoard.Init();
         panel_UpperMenu.Init();
         panel_QuitConfirm.Init();
+        panel_CustomBGM.Init();
     }
 
 

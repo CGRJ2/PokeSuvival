@@ -1,9 +1,6 @@
 ﻿using DG.Tweening;
-using Photon.Pun;
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Panel_UpperMenu : MonoBehaviour
@@ -15,7 +12,9 @@ public class Panel_UpperMenu : MonoBehaviour
     [SerializeField] Button btn_Option;
     [SerializeField] Button btn_Quit;
     [SerializeField] Button btn_DropDown;
+    [SerializeField] Button btn_SetBGM;
     [SerializeField] TMP_Text tmp_State;
+    [SerializeField] TMP_Text tmp_BGMState;
 
     RectTransform rect;
     [SerializeField] Vector2 closePos;
@@ -24,6 +23,11 @@ public class Panel_UpperMenu : MonoBehaviour
 
 
     bool isOpened = false;
+
+    private void Update()
+    {
+        tmp_BGMState.text = $"BGM: {UIManager.Instance.StaticGroup.panel_CustomBGM.audioSource.clip?.name}";
+    }
 
     public void Init()
     {
@@ -34,6 +38,7 @@ public class Panel_UpperMenu : MonoBehaviour
         btn_Option.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_Option.gameObject));
         btn_Quit.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_QuitConfirm.gameObject));
         btn_Lobby.onClick.AddListener(() => UIManager.Instance.OpenPanel(panel_ReturnToLobbyConfirm.gameObject));
+        btn_SetBGM.onClick.AddListener(() => UIManager.Instance.OpenPanel(UIManager.Instance.StaticGroup.panel_CustomBGM.gameObject));
         btn_DropDown.onClick.AddListener(SwitchToggleDropDownButton);
     }
 
@@ -54,16 +59,16 @@ public class Panel_UpperMenu : MonoBehaviour
             {
                 btn_Lobby.gameObject.SetActive(true);
 
-                
+
             }
 
-            tmp_State.text = $"{NetworkManager.Instance.CurServer.name}";
+            tmp_State.text = $"현재 서버: {NetworkManager.Instance.CurServer.name}";
 
             rect.DOAnchorPos(openPos, duration).SetEase(Ease.OutCubic);
             isOpened = true;
         }
     }
 
-    
+
 
 }

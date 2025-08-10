@@ -12,6 +12,7 @@ using WebSocketSharp;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
+
     [Header("디버깅 용도")]
     [SerializeField] TMP_Text tmp_State;
 
@@ -182,6 +183,9 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
         else if (CurServer.type == (int)ServerType.Lobby || CurServer.type == (int)ServerType.TestServer)
         {
+            if (UIManager.Instance.StaticGroup.panel_CustomBGM.IsBGMNullOrInitial())
+                UIManager.Instance.StaticGroup.panel_CustomBGM.SetNewAudioClipAndPlay(UIManager.Instance.LobbyGroup.LobbyDefaultBGM);
+
             if (um != null)
             {
                 um.LobbyGroup.gameObject.SetActive(true);
@@ -236,6 +240,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
         if (CurServer.type == (int)ServerType.InGame)
         {
+            UIManager.Instance.StaticGroup.panel_CustomBGM.RandomAudioClipPlay();
+
             CheckServerUserNumber_InRoomMasterClient();
 
             if (um != null)
