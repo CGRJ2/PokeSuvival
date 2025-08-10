@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	[field: SerializeField] public NetworkHandler RPC { get; private set; }
 	[field: SerializeField] public PokeStatusHandler Status { get; private set; }
 	[field: SerializeField] public PokeBuffHandler Buff { get; private set; }
+	[field: SerializeField] public StatusController SC { get; private set; }
 
 	[SerializeField] private PlayerInput _input;
 	[SerializeField] private bool _flipX;
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		_input = GetComponent<PlayerInput>();
 		RPC = GetComponent<NetworkHandler>();
 		_audio = GetComponent<AudioSource>();
+		SC = GetComponentInChildren<StatusController>();
 
 		_moveHistory = new(_maxLogCount);
 	}

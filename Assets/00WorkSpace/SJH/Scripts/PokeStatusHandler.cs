@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -50,9 +51,16 @@ public class PokeStatusHandler
 			return false;
 		}
 
+		// 상태이상 추가
 		CurrentStatus.Add(statusEffect);
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+
+		if (pc != null) pc.SC.OnStatus(skill.StatusEffect);
+		if (enemy != null) enemy.SC.OnStatus(skill.StatusEffect);
 		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {statusEffect} 상태! / {ran} <= {skill.StatusRate}");
 
+		// 상태이상 종료 코루틴
 		_routineClass.StartCoroutine(StatusRoutine(statusEffect, skill.StatusDuration));
 		return true;
 	}
@@ -73,12 +81,23 @@ public class PokeStatusHandler
 			return;
 		}
 
+		// 상태이상 추가
 		CurrentStatus.Add(skill.StatusEffect);
-		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {skill.StatusEffect} 상태!");
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
 
+		if (pc != null) pc.SC.OnStatus(skill.StatusEffect);
+		if (enemy != null) enemy.SC.OnStatus(skill.StatusEffect);
+
+		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {skill.StatusEffect} 상태!");
+		// 상태이상 종료 코루틴
 		_routineClass.StartCoroutine(StatusRoutine(skill.StatusEffect, skill.StatusDuration));
 
-		if (isBuffUpdate && _routineClass is PlayerController pc) pc.OnBuffUpdate?.Invoke(skill.StatusSprite, skill.StatusDuration);
+		if (isBuffUpdate && pc != null)
+		{
+			Debug.Log($"{skill.SkillName} 상태이상 적용 및 UI 업데이트");
+			pc.OnBuffUpdate?.Invoke(skill.StatusSprite, skill.StatusDuration);
+		}
 	}
 
 	public bool CanApply(StatusType status)
@@ -97,9 +116,8 @@ public class PokeStatusHandler
 		}
 		return true;
 	}
-
+	#region 상태이상 제거, 상태이상 체크용
 	public void RemoveStatus(StatusType status) => CurrentStatus.Remove(status);
-
 	public bool IsBurn() => CurrentStatus.Contains(StatusType.Burn);
 	public bool IsPoison() => CurrentStatus.Contains(StatusType.Poison);
 	public bool IsFreeze() => CurrentStatus.Contains(StatusType.Freeze);
@@ -108,12 +126,20 @@ public class PokeStatusHandler
 	public bool IsParalysis() => CurrentStatus.Contains(StatusType.Paralysis);
 	public bool IsSleep() => CurrentStatus.Contains(StatusType.Sleep);
 	public bool IsStun() => CurrentStatus.Contains(StatusType.Stun);
+	#endregion
 
 	IEnumerator StatusRoutine(StatusType status, float duration)
 	{
 		yield return new WaitForSeconds(duration);
 
 		CurrentStatus.Remove(status);
+
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+
+		if (pc != null) pc.SC.OffStatus(status);
+		if (enemy != null) enemy.SC.OffStatus(status);
+
 		Debug.Log($"{BaseData.PokeData.PokeName} 은/는 {status} 상태 해제");
 	}
 
@@ -122,13 +148,32 @@ public class PokeStatusHandler
 		_routineClass.StopAllCoroutines();
 		CurrentStatus.Clear();
 		CurrentStatus = new List<StatusType>() { StatusType.None };
+
+		PlayerController pc = _routineClass as PlayerController;
+		Enemy enemy = _routineClass as Enemy;
+
+		if (pc != null) pc.SC.StatusEffectClear();
+		if (enemy != null) enemy.SC.StatusEffectClear();
+
 		Debug.Log("모든 상태 해제");
 	}
 
-	// 상태이상 적용
+	// 각 상태이상의 특수 효과를 적용 코루틴
+	// ex
+	// 화상, 독 : 도트딜
+	// 마비 : 이동속도 반감
+	// 동상, 수면 : 이동 불가, 회전 불가
+	// 바인드 : 이동 불가, 회전 가능
+	// 혼란 : 이동 반전
 	public void SetBurnDamage(float duration) => _routineClass?.StartCoroutine(BurnRoutine(duration));
 	IEnumerator BurnRoutine(float duration)
 	{
+		if (!CurrentStatus.Contains(StatusType.Burn))
+		{
+			Debug.Log("화상 상태가 아닙니다.");
+			yield break;
+		}
+
 		float dur = duration;
 		int hitCount = 0;
 
@@ -159,6 +204,12 @@ public class PokeStatusHandler
 	public void SetPoisonDamage(float duration) => _routineClass?.StartCoroutine(PoisonRoutine(duration));
 	IEnumerator PoisonRoutine(float duration)
 	{
+		if (!CurrentStatus.Contains(StatusType.Poison))
+		{
+			Debug.Log("독 상태가 아닙니다.");
+			yield break;
+		}
+
 		float dur = duration;
 		int hitCount = 0;
 
@@ -190,65 +241,85 @@ public class PokeStatusHandler
 
 	IEnumerator BindingRoutine(float duration)
 	{
-		CurrentStatus.Add(StatusType.Binding);
+		if (!CurrentStatus.Contains(StatusType.Binding))
+		{
+			Debug.Log("속박 상태가 아닙니다.");
+			yield break;
+		}
+
 		PlayerController pc = _routineClass as PlayerController;
 		Enemy enemy = _routineClass as Enemy;
+
 		if (pc != null) pc.View.SetStop();
 		if (enemy != null) enemy.StopMove();
-		yield return new WaitForSeconds(duration);
-		CurrentStatus.Remove(StatusType.Binding);
+		yield return null;
 	}
 
 	public void SetFreeze(float duration) => _routineClass?.StartCoroutine(FreezeRoutine(duration));
 
 	IEnumerator FreezeRoutine(float duration)
 	{
-		CurrentStatus.Add(StatusType.Freeze);
+		if (!CurrentStatus.Contains(StatusType.Freeze))
+		{
+			Debug.Log("동상 상태가 아닙니다.");
+			yield break;
+		}
+
 		PlayerController pc = _routineClass as PlayerController;
 		Enemy enemy = _routineClass as Enemy;
+
 		if (pc != null) pc.View.SetStop();
 		if (enemy != null) enemy.StopMove();
-		yield return new WaitForSeconds(duration);
-		CurrentStatus.Remove(StatusType.Freeze);
+		yield return null;
 	}
 
 	public void SetParalysis(float duration) => _routineClass?.StartCoroutine(ParalysisRoutine(duration));
 
 	IEnumerator ParalysisRoutine(float duration)
 	{
-		CurrentStatus.Add(StatusType.Paralysis);
-		yield return new WaitForSeconds(duration);
-		CurrentStatus.Remove(StatusType.Paralysis);
+		if (!CurrentStatus.Contains(StatusType.Paralysis))
+		{
+			Debug.Log("마비 상태가 아닙니다.");
+			yield break;
+		}
 	}
 
 	public void SetConfusion(float duration) => _routineClass?.StartCoroutine(ConfusionRoutine(duration));
 	IEnumerator ConfusionRoutine(float duration)
 	{
-		CurrentStatus.Add(StatusType.Confusion);
-		yield return new WaitForSeconds(duration);
-		CurrentStatus.Remove(StatusType.Confusion);
+		if (!CurrentStatus.Contains(StatusType.Confusion))
+		{
+			Debug.Log("혼란 상태가 아닙니다.");
+			yield break;
+		}
 	}
 
 	public void SetStun(float duration) => _routineClass?.StartCoroutine(StunRoutine(duration));
 	IEnumerator StunRoutine(float duration)
 	{
-		CurrentStatus.Add(StatusType.Stun);
+		if (!CurrentStatus.Contains(StatusType.Stun))
+		{
+			Debug.Log("기절 상태가 아닙니다.");
+			yield break;
+		}
 		PlayerController pc = _routineClass as PlayerController;
 		Enemy enemy = _routineClass as Enemy;
+
 		if (pc != null) pc.View.SetStop();
 		if (enemy != null) enemy.StopMove();
-		yield return new WaitForSeconds(duration);
-		CurrentStatus.Remove(StatusType.Stun);
 	}
 	public void SetSleep(float duration) => _routineClass?.StartCoroutine(SleepRoutine(duration));
 	IEnumerator SleepRoutine(float duration)
 	{
-		CurrentStatus.Add(StatusType.Sleep);
+		if (!CurrentStatus.Contains(StatusType.Sleep))
+		{
+			Debug.Log("기절 상태가 아닙니다.");
+			yield break;
+		}
 		PlayerController pc = _routineClass as PlayerController;
 		Enemy enemy = _routineClass as Enemy;
+
 		if (pc != null) pc.View.SetStop();
 		if (enemy != null) enemy.StopMove();
-		yield return new WaitForSeconds(duration);
-		CurrentStatus.Remove(StatusType.Sleep);
 	}
 }
