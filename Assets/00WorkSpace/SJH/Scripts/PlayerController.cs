@@ -434,7 +434,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		}
 	}
 	#endregion
-
+	[SerializeField] private bool isFuryAttack = false;	
 	#region Battle Attack, SkillCheck, TakeDamage, StatusCheck
 	public void Attack(SkillSlot slot)
 	{
@@ -442,7 +442,23 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (attack == null || skill == null) return;
 		if (skill.SkillAnimType == SkillAnimType.SpeAttack) View.SetIsSpeAttack();
 		else View.SetIsAttack();
-		Model.SetSkillCooldown(slot, skill.Cooldown);
+
+		if (skill.SkillName == "연속자르기")
+		{
+			// 첫 공격
+			if (!isFuryAttack)
+			{
+				Model.SetSkillCooldown(slot, 2f);
+				isFuryAttack = true;
+			}
+			else
+			{
+				Model.SetSkillCooldown(slot, skill.Cooldown);
+				isFuryAttack = false;
+			}
+		}
+		else Model.SetSkillCooldown(slot, skill.Cooldown);
+
 		attack.Attack(transform, _lastDir, BattleData, skill);
 	}
 	IAttack SkillCheck(SkillSlot slot, out PokemonSkill skill)

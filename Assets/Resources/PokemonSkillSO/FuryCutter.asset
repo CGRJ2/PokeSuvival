@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillName: "\uC5F0\uC18D\uC790\uB974\uAE30"
   Desc: 
-  Damage: 80
+  Damage: 40
   Cooldown: 0.5
   Range: 2
   PokeType: 12

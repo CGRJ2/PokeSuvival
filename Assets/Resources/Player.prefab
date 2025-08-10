@@ -567,6 +567,7 @@ MonoBehaviour:
   <LastAttacker>k__BackingField: {fileID: 0}
   _heldItem: {fileID: 0}
   Test_Level: 0
+  isFuryAttack: 0
 --- !u!114 &3518850844711382646
 MonoBehaviour:
   m_ObjectHideFlags: 0
