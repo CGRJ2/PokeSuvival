@@ -92,9 +92,29 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 	// 오디오 클립
 	[SerializeField] private AudioClip[] _hitClips = new AudioClip[3];
 	[SerializeField] private AudioSource _audio;
-	#endregion
 
-	public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
+	// 경험치 구슬 획득 SFX
+	[SerializeField] private AudioSource _audio_GetEXP;
+	
+	// 레벨업 SFX
+	public AudioSource _audio_LevelUp;
+
+    // 스탯 상승 하락 SFX
+    [SerializeField] private AudioSource _audio_StatRise;
+    [SerializeField] private AudioSource _audio_StatFall;
+
+    // 회복 SFX
+    [SerializeField] private AudioSource _audio_GetHeal;
+
+	// 도구 사용 SFX
+    [SerializeField] private AudioSource _audio_ItemActive;
+
+	// 기절 SFX
+    [SerializeField] private AudioSource _audio_Faint;
+
+    #endregion
+
+    public int Test_Level; // TODO : 변화할 레벨 스페이스바로 레벨 변경 나중에 삭제 
 
 	void Awake()
 	{
@@ -288,6 +308,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 			_input.actions.Disable();
 			View.SetIsDead(true);
 			PlayerManager.Instance.PlayerDead(Model.TotalExp);
+			_audio_Faint.Play();
 			Debug.LogWarning("플레이어 사망");
 		};
 		Model.OnPokeLevelChanged += (level) => { RPC.ActionRPC(nameof(RPC.RPC_LevelChanged), RpcTarget.All, level); };
@@ -548,35 +569,42 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 
 		Model.AddExp(exp);
 		PlayerManager.Instance.ShowDamageText(transform, $"+EXP {exp}", Color.blue);
+
+		_audio_GetEXP.Play();
 	}
 	public void ApplyStat(ItemData item)
 	{
-		Debug.Log($"{item.itemName} 획득!");
+        Debug.Log($"{item.itemName} 획득!");
 		switch (item.itemType)
 		{
 			case ItemType.Heal:
 				Debug.Log($"{item.value} 회복");
 				Model.SetHeal((int)item.value);
-				break;
+                _audio_GetHeal.Play();
+                break;
 			case ItemType.LevelUp:
 				Debug.Log($"플레이어 레벨 상승 {Model.PokeLevel} -> {Model.PokeLevel + 1}");
 				Model.SetLevel(Model.PokeLevel + 1);
-				break;
+                _audio_LevelUp.Play();
+                break;
 			case ItemType.Buff:
 				Debug.Log($"TODO : 도구, 열매 등 스탯을 제외한 버프 획득");
 				// 랭크 아이템 획득시 이벤트 실행
 				OnBuffUpdate?.Invoke(item.sprite, item.duration);
-				break;
+                _audio_ItemActive.Play();
+                break;
 			case ItemType.StatBuff:
 				Debug.Log($"{item.affectedStat} 랭크 상승");
 				// 랭크 아이템 획득시 이벤트 실행
 				OnBuffUpdate?.Invoke(item.sprite, item.duration);
 				Rank?.SetRank(item.affectedStat, (int)item.value, item.duration);
-				break;
+                _audio_StatRise.Play();
+                break;
 		}
-	}
 
-	public void RemoveStat(ItemData item)
+    }
+
+    public void RemoveStat(ItemData item)
 	{
 		// TODO : ApplyStat 적용 구조에 따라 수정하기
 	}

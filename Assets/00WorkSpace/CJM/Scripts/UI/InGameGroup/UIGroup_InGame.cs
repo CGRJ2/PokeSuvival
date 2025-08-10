@@ -29,6 +29,11 @@ public class UIGroup_InGame : MonoBehaviour
         panel_GameOver.Init();
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
     // 인게임 시작 시 호출
     public void GameStartViewUpdate()
     {
@@ -42,10 +47,17 @@ public class UIGroup_InGame : MonoBehaviour
     public void GameOverViewUpdate(PlayerController pc)
     {
         panel_HUD.gameObject.SetActive(false);
-        panel_GameOver.gameObject.SetActive(true);
 
+        StartCoroutine(WaitAndOpen());
         panel_GameOver.UpdateResultView(pc.Model.TotalExp, pc.Model.PokeLevel, pc.KillCount, pc.SurvivalTime);
         panel_HUD.panel_BuffState.InitSlots();
+    }
+
+    IEnumerator WaitAndOpen()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.LogWarning("천천히 오픈");
+        panel_GameOver.gameObject.SetActive(true);
     }
 
     public void UpdateSkillSlots(PlayerModel playerModel)
