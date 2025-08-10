@@ -147,7 +147,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable, IPunI
 		if (Status == null) Status = new PokeStatusHandler(this, Model);
 
 		// 동상 : 이동 불가
-		if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun()) return;
+		if (Status.IsFreeze() || Status.IsSleep() || Status.IsStun())
+		{
+			View.SetStop();
+			return;
+		}
 
 		if (MoveDir.x != 0) _flipX = MoveDir.x > 0.1f;
 
