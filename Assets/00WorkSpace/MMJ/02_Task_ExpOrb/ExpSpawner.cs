@@ -16,14 +16,17 @@ public class ExpOrbSpawner : MonoBehaviourPunCallbacks
     private List<Vector3> validSpawnPositions = new List<Vector3>(); // 유효한 스폰 위치들을 저장할 리스트
     private List<ExpOrb> activeOrbs = new List<ExpOrb>();
 
-    [SerializeField] private int _orbMinExp;
-    [SerializeField] private int _orbMaxExp;
+    [SerializeField] private int _orbMinExp = -2;
+    [SerializeField] private int _orbMaxExp = -10;
 
     public static ExpOrbSpawner Instance { get; private set; }
 
     private void Awake()
     {
-        Instance = this;
+        _orbMinExp = -2;
+        _orbMaxExp = -10;
+
+		Instance = this;
         // 타일맵이 인스펙터에서 할당되었는지 확인
         if (targetTilemap == null)
         {
