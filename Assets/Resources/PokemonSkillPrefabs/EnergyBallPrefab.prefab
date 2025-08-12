@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 1259533303640091935}
   - component: {fileID: 1168508147990637406}
   - component: {fileID: 8145581730854249798}
-  - component: {fileID: 9122314472618776440}
-  - component: {fileID: 7182974421403878539}
-  - component: {fileID: 6600603471810556670}
-  - component: {fileID: 4875088021191988442}
   - component: {fileID: 6672055189827060278}
+  - component: {fileID: 9122314472618776440}
+  - component: {fileID: 4875088021191988442}
+  - component: {fileID: -3150241730736035425}
+  - component: {fileID: 6600603471810556670}
   - component: {fileID: -6797217152861960272}
   - component: {fileID: 2625851945691387716}
   m_Layer: 9
@@ -119,6 +119,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &6672055189827060278
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813501559018612470}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 315c907a44bac984f82081a12ea5cd2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9122314472618776440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +163,7 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &7182974421403878539
+--- !u!114 &4875088021191988442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,7 +172,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 813501559018612470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5e9e62b75be72418b2c5daf8ae836f, type: 3}
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
+--- !u!114 &-3150241730736035425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813501559018612470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcebc580bc49d9c47b1f5c3f97fd8b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigid: {fileID: 8145581730854249798}
@@ -175,8 +212,9 @@ MonoBehaviour:
     CurrentBuffs: []
   _skill: {fileID: 0}
   _startPos: {x: 0, y: 0}
-  _speed: 10
+  _speed: 7
   _endDistance: 0
+  _hitTargets: []
 --- !u!58 &6600603471810556670
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -212,43 +250,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.8
---- !u!114 &4875088021191988442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813501559018612470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 1
-  m_UseLocal: 1
---- !u!95 &6672055189827060278
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813501559018612470}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 315c907a44bac984f82081a12ea5cd2d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &-6797217152861960272
 AudioSource:
   m_ObjectHideFlags: 0
