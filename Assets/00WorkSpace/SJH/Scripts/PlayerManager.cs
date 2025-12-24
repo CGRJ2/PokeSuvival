@@ -45,7 +45,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 		}
 	}
 
-	public void PlayerInstaniate()
+    private void Start()
+    {
+		NetworkManager.Instance.InGameEnterEvent.AddListener(PlayerInstaniate);
+    }
+
+    public void PlayerInstaniate()
 	{
 		string pokemonName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"];
 		int heldItem = (int)PhotonNetwork.LocalPlayer.CustomProperties["HeldItem"];

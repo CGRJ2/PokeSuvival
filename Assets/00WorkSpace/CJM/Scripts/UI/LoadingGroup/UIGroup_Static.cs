@@ -25,7 +25,6 @@ public class UIGroup_Static : MonoBehaviour
         panel_CustomBGM.Init();
     }
 
-
     public void SetDefaultSettings()
     {
         panel_InGameServerList.SetDefaultSettings();

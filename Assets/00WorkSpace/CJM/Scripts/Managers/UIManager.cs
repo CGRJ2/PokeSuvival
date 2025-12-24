@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -12,9 +11,6 @@ public class UIManager : Singleton<UIManager>
 
     Stack<GameObject> activedPanelStack = new Stack<GameObject>();
 
-    [SerializeField] List<GameObject> DebugStackView = new List<GameObject>();
-
-
     public void Init()
     {
         base.SingletonInit();
@@ -23,7 +19,11 @@ public class UIManager : Singleton<UIManager>
         StaticGroup.Init();
         LobbyGroup.Init();
         InGameGroup.Init();
+    }
 
+    private void Start()
+    {
+        EventBind();
     }
 
     private void Update()
@@ -40,6 +40,7 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
     private void OnDestroy()
     {
         //pauseAction.performed -= OnEsc;
@@ -50,17 +51,11 @@ public class UIManager : Singleton<UIManager>
     {
         gameObject.SetActive(true);
         activedPanelStack.Push(gameObject);
-
-        // 디버그용
-        DebugStackView = activedPanelStack.ToList();
     }
 
     public void ClosePanel()
     {
         activedPanelStack.Pop().SetActive(false);
-
-        // 디버그용
-        DebugStackView = activedPanelStack.ToList();
     }
 
     public void ClosePanel(GameObject gameObject)
@@ -78,9 +73,6 @@ public class UIManager : Singleton<UIManager>
             tempList.Reverse();
             activedPanelStack = new Stack<GameObject>(tempList);
         }
-
-        // 디버그용
-        DebugStackView = activedPanelStack.ToList();
     }
 
     public void CloseAllActivedPanels()
@@ -96,9 +88,6 @@ public class UIManager : Singleton<UIManager>
     public void ClearPanelStack()
     {
         activedPanelStack.Clear();
-
-        // 디버그용
-        DebugStackView = activedPanelStack.ToList();
     }
 
     public void OnEsc()
@@ -107,4 +96,68 @@ public class UIManager : Singleton<UIManager>
             ClosePanel();
     }
 
+
+    public void EventBind()
+    {
+        NetworkManager netManager = NetworkManager.Instance;
+
+        netManager.LoadingEvent.AddListener( (flag) => StaticGroup.panel_Loading.gameObject.SetActive(flag));
+
+        netManager.PlayerFirstEnterEvent.AddListener(InitializeGroup.InitView);
+
+        netManager.InGameEnterEvent.AddListener(() =>
+        {
+            CloseAllActivedPanels();
+            StaticGroup.SetDefaultSettings();
+            LobbyGroup.gameObject.SetActive(false);
+            InGameGroup.gameObject.SetActive(true);
+            InGameGroup.GameStartViewUpdate();
+        });
+
+        netManager.LobbyEnterEvent.AddListener(() =>
+        {
+            if (StaticGroup.panel_CustomBGM.IsBGMNullOrInitial())
+                StaticGroup.panel_CustomBGM.SetNewAudioClipAndPlay(LobbyGroup.LobbyDefaultBGM);
+
+            LobbyGroup.gameObject.SetActive(true);
+            LobbyGroup.panel_RoomInside.gameObject.SetActive(false);
+
+            LobbyGroup.OnJoinedLobbyDefaultSetting();
+            CloseAllActivedPanels();
+            LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
+
+            InitializeGroup.gameObject.SetActive(false);
+            InGameGroup.gameObject.SetActive(false);
+            
+            // 플레이어 정보 업데이트
+            if (BackendManager.Auth.CurrentUser != null)
+            {
+                //Debug.Log("로비씬 플레이어 정보 갱신");
+                LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
+                LobbyGroup.panel_LobbyDefault.panel_PlayerRecords.UpdateView();
+            }
+            else
+            {
+                //Debug.Log("로비씬 플레이어 정보 없으니 게스트 버전 업데이트");
+                LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.ClearView();
+                LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateGuestInfoView();
+                LobbyGroup.panel_LobbyDefault.panel_PlayerRecords.UpdateView();
+            }
+        });
+
+
+        netManager.RoomEnterEvent.AddListener(() =>
+        {
+            LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
+            CloseAllActivedPanels();
+            LobbyGroup.panel_RoomInside.InitRoomView();
+            LobbyGroup.panel_RoomInside.UpdatePlayerList();
+        });
+
+        netManager.RoomUpdateEvent.AddListener(() =>
+        {
+            LobbyGroup.panel_RoomInside.UpdatePlayerList();
+            LobbyGroup.panel_RoomInside.panel_MapSettings.UpdateRoomProperty();
+        });
+    }
 }

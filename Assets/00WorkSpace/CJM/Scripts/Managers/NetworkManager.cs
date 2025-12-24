@@ -5,14 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
 
 public class NetworkManager : SingletonPUN<NetworkManager>
 {
-
     [Header("디버깅 용도")]
     [SerializeField] TMP_Text tmp_State;
 
@@ -20,32 +21,30 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     [SerializeField] bool isTestServer;
     [SerializeField] int testServerIndex;
 
-    /*[Header("씬 전환을 위한 이름(string) 저장")]
-    public string inGameSceneName; // 맵이 여러개라면 서버 데이터에 저장
-    public string lobbySceneName;*/
-
     public ServerData CurServer { get; private set; }
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
 
-    UIManager um;
+    //UIManager um;
 
     Action<string> ForcedQuitEvent;
+
+    public UnityEvent<bool> LoadingEvent;
+    public UnityEvent PlayerFirstEnterEvent;
+    public UnityEvent InGameEnterEvent;
+    public UnityEvent LobbyEnterEvent;
+    public UnityEvent RoomEnterEvent;
+    public UnityEvent RoomUpdateEvent;
 
     public void Init()
     {
         base.SingletonInit();
-        um = UIManager.Instance;
 
         Debug.Log("초기화 진행. 로비 서버로 연결 시작");
         StartCoroutine(InitLobbyServerAfterBackendInitComplete());
 
-
         // 연결 시도와 동시에 로딩창으로 가리기
-        if (um != null)
-        {
-            um.StaticGroup.panel_Loading.gameObject.SetActive(true);
-        }
+        LoadingEvent?.Invoke(true);
     }
     System.Collections.IEnumerator InitLobbyServerAfterBackendInitComplete()
     {
@@ -71,14 +70,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             else
                 tmp_State.text = "현재 접속된 서버 없음";
         }
-
-        // 테스트 용
-        /*if (Input.GetKeyDown(KeyCode.T))
-        {
-            //Debug.Log($"Auth CurrentUser => {BackendManager.Auth.CurrentUser.UserId}");
-            //Debug.Log($"로비에 존재하는 인원 => {PhotonNetwork.CountOfPlayersOnMaster}명, 룸에 존재하는 인원 => {PhotonNetwork.CountOfPlayersInRooms}");
-            CheckServerUserNumber_InRoomMasterClient();
-        }*/
     }
 
 
@@ -119,11 +110,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             // 플레이어 정보가 없으면(= 처음 시작한 상태라면) => InitializeGroup(UI) 활성화
             if (PhotonNetwork.LocalPlayer.NickName.IsNullOrEmpty())
             {
-                um.InitializeGroup.InitView();
+                PlayerFirstEnterEvent?.Invoke();
 
                 // 로딩창 비활성화
-                if (um.StaticGroup != null)
-                    um.StaticGroup.panel_Loading.gameObject.SetActive(false);
+                LoadingEvent?.Invoke(false);
             }
             else
             {
@@ -135,39 +125,21 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         {
             StartCoroutine(JoinLobbyAfterConnectedMaster());
         }
-
-        // 테스트용 서버 예외처리 
-        else if (CurServer.type == (int)ServerType.FunctionTestServer)
-        {
-            StartCoroutine(JoinLobbyAfterConnectedMaster());
-        }
-        else if (CurServer.type == (int)ServerType.TestServer)
-        {
-            Debug.Log("연결됐으니 초기화 화면 활성화");
-            um.InitializeGroup.InitView();
-        }
-
-
-
     }
 
     System.Collections.IEnumerator JoinLobbyAfterConnectedMaster()
     {
-        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
         yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
     }
-
-
 
     // 로비 입장시 호출됨
     public override void OnJoinedLobby()
     {
         if (CurServer.type == (int)ServerType.InGame)
         {
-            Debug.Log("인게임 서버 단일 룸 사용");
-
+            // 인게임 서버 단일 룸 사용
             string roomName = "UniversalRoom";
             RoomOptions options = new RoomOptions
             {
@@ -176,53 +148,16 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 IsOpen = true
             };
             PhotonNetwork.JoinOrCreateRoom(roomName, options, TypedLobby.Default);
-
-            um.StaticGroup.SetDefaultSettings();
-            um.CloseAllActivedPanels();
         }
 
-        else if (CurServer.type == (int)ServerType.Lobby || CurServer.type == (int)ServerType.TestServer)
+        else if (CurServer.type == (int)ServerType.Lobby)
         {
-            if (UIManager.Instance.StaticGroup.panel_CustomBGM.IsBGMNullOrInitial())
-                UIManager.Instance.StaticGroup.panel_CustomBGM.SetNewAudioClipAndPlay(UIManager.Instance.LobbyGroup.LobbyDefaultBGM);
-
-            if (um != null)
-            {
-                um.LobbyGroup.gameObject.SetActive(true);
-                um.LobbyGroup.OnJoinedLobbyDefaultSetting();
-                um.CloseAllActivedPanels();
-                um.LobbyGroup.panel_LobbyDefault.panel_PokemonView.UpdateView();
-
-                um.InitializeGroup.gameObject.SetActive(false);
-                um.InGameGroup.gameObject.SetActive(false);
-
-                // 플레이어 정보 업데이트
-                if (BackendManager.Auth.CurrentUser != null)
-                {
-                    //Debug.Log("로비씬 플레이어 정보 갱신");
-                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdatePlayerInfoView();
-                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerRecords.UpdateView();
-                }
-                else
-                {
-                    //Debug.Log("로비씬 플레이어 정보 없으니 게스트 버전 업데이트");
-                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.ClearView();
-                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerInfo.UpdateGuestInfoView();
-                    um.LobbyGroup.panel_LobbyDefault.panel_PlayerRecords.UpdateView();
-                }
-            }
+            LobbyEnterEvent?.Invoke();
 
             // 로딩창 비활성화
-            if (um.StaticGroup != null)
-                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
+            LoadingEvent?.Invoke(false);
         }
-
-
     }
-
-
-    #region 매치 메이킹 관련
-
 
     public override void OnCreatedRoom()
     {
@@ -244,32 +179,13 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
             CheckServerUserNumber_InRoomMasterClient();
 
-            if (um != null)
-            {
-                um.LobbyGroup.gameObject.SetActive(false);
-                um.InGameGroup.gameObject.SetActive(true);
-                um.InGameGroup.GameStartViewUpdate();
+            InGameEnterEvent?.Invoke();
 
-                PlayerManager pm = PlayerManager.Instance;
-                if (pm != null)
-                {
-                    pm.PlayerInstaniate();
-                }
-            }
-
-            // 로딩창 비활성화
-            if (um.StaticGroup != null)
-                um.StaticGroup.panel_Loading.gameObject.SetActive(false);
+            LoadingEvent?.Invoke(false);
         }
         else if (CurServer.type == (int)ServerType.Lobby)
         {
-            if (um != null)
-            {
-                um.LobbyGroup.panel_RoomInside.gameObject.SetActive(true);
-                um.CloseAllActivedPanels();
-                um.LobbyGroup.panel_RoomInside.InitRoomView();
-                um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
-            }
+            RoomEnterEvent?.Invoke();
         }
     }
 
@@ -278,16 +194,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     {
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
         if (CurServer.type == (int)ServerType.InGame) { return; }
-
-        if (um != null)
-        {
-            // 로딩창 활성화
-            if (um.StaticGroup != null)
-                um.StaticGroup.panel_Loading.gameObject.SetActive(true);
-
-            // 방 패널 끄기
-            um.LobbyGroup.panel_RoomInside.gameObject.SetActive(false);
-        }
+        
+        LoadingEvent?.Invoke(true);
     }
 
     // 새로운 플레이어가 방 입장시 호출됨
@@ -296,9 +204,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
         if (CurServer.type == (int)ServerType.InGame) { Debug.LogWarning("인원 업데이트: 새로운 유저 진입"); CheckServerUserNumber_InRoomMasterClient(); return; }
 
-
-        if (um != null)
-            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
+        RoomUpdateEvent?.Invoke();
     }
 
     // 다른 플레이어가 방 퇴장시 호출됨
@@ -307,37 +213,26 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
         if (CurServer.type == (int)ServerType.InGame) { Debug.LogWarning("인원 업데이트: 유저 이탈"); CheckServerUserNumber_InRoomMasterClient(); return; }
 
-
-        if (um != null)
-            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
+        RoomUpdateEvent?.Invoke();
     }
 
 
     // 로비에 있을 때 방을 추가 or 삭제할 때 업데이트 됨
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        base.OnRoomListUpdate(roomList);
+
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
         if (CurServer.type == (int)ServerType.InGame) { return; }
-
-
-        base.OnRoomListUpdate(roomList);
-        //Debug.Log($"정보가 갱신된 방 개수{roomList.Count}");
 
         // 변화한 애들 현재 방 해시테이블에 갱신
         foreach (RoomInfo info in roomList)
         {
             if (info.RemovedFromList)
-            {
-                //Debug.Log($"방 삭제 {info.Name}");
                 cachedRoomList.Remove(info.Name);
-            }
             else
-            {
                 cachedRoomList[info.Name] = info;
-            }
         }
-
-        //Debug.Log($"현재 존재하는 방 개수{cachedRoomList.Count}");
 
         // 해시테이블을 리스트로 변환
         List<RoomInfo> activedRoomList = cachedRoomList.Values.ToList();
@@ -352,10 +247,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
         if (CurServer.type == (int)ServerType.InGame) { return; }
 
-
-        if (um != null)
-            um.LobbyGroup.panel_RoomInside.panel_MapSettings.UpdateRoomProperty();
-
+        RoomUpdateEvent?.Invoke();
 
         // 아직 안정성이 검증 안됨 : TODO (동시 접속 방해 테스트 필요)
         if (PhotonNetwork.CurrentRoom.CustomProperties["Start"] != null)
@@ -383,8 +275,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         if (CurServer.type == (int)ServerType.FunctionTestServer) { return; }
         if (CurServer.type == (int)ServerType.InGame) { return; }
 
-        if (um != null)
-            um.LobbyGroup.panel_RoomInside.UpdatePlayerList();
+        RoomUpdateEvent?.Invoke();
     }
 
     // 방안의 마스터 클라이언트 변경시 호출됨
@@ -398,7 +289,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             UIManager.Instance.LobbyGroup.panel_RoomInside.panel_MapSettings.MasterClientViewUpdate(true);
         }
     }
-    #endregion
 
     public void UpdateUserDataToClient(UserData userData)
     {
@@ -453,12 +343,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                         customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
 
                     // 연결 해제 이전에 서버 퇴장 처리
-                    //Debug.LogWarning("퇴장처리 진행 해주니?");
                     //BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
 
                     // 로딩창 활성화
-                    if (um.StaticGroup != null)
-                        um.StaticGroup.panel_Loading.gameObject.SetActive(true);
+                    LoadingEvent?.Invoke(true);
 
                     // 현재 접속 중인 서버 연결 해제
                     PhotonNetwork.Disconnect();
@@ -502,8 +390,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             //BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
 
             // 로딩창 활성화
-            if (um.StaticGroup != null)
-                um.StaticGroup.panel_Loading.gameObject.SetActive(true);
+            LoadingEvent?.Invoke(true);
 
             // 현재 접속 중인 서버 연결 해제
             PhotonNetwork.Disconnect();
@@ -604,7 +491,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         });
     }
 
-
     public string GetUserId()
     {
         if (BackendManager.Auth.CurrentUser != null)
@@ -633,6 +519,15 @@ public class NetworkManager : SingletonPUN<NetworkManager>
             pc.Model.SetCurrentHp(-1);
     }
 
+    public override void OnDisable()
+    {
+        LoadingEvent.RemoveAllListeners();
+        PlayerFirstEnterEvent.RemoveAllListeners();
+        InGameEnterEvent.RemoveAllListeners();
+        LobbyEnterEvent.RemoveAllListeners();
+        RoomEnterEvent.RemoveAllListeners();
+        RoomUpdateEvent.RemoveAllListeners();
+    }
 
     public void GameQuit()
     {
