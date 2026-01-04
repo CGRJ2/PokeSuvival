@@ -142,7 +142,7 @@ public class Panel_Shop : MonoBehaviour // 상점 UI 및 로직 관리 클래스
                     object preValue = PhotonNetwork.LocalPlayer.CustomProperties["Money"];
 
                     // 서버에 유저 데이터를 갱신
-                    BackendManager.Instance.InitUserDataToDB(updatedUserData, () =>
+                    BackendManager.Instance.CreateUserData(updatedUserData, () =>
                     {
                         // 갱신 완료 시 서버의 유저데이터를 클라이언트에 동기화(커스텀 프로퍼티에도 이 함수에서 적용 됨)
                         NetworkManager.Instance.UpdateUserDataToClient(userData);

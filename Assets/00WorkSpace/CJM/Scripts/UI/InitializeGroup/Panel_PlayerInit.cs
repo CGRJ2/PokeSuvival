@@ -33,7 +33,7 @@ public class Panel_PlayerInit : MonoBehaviour
             BackendManager.Instance.UpdateUserProfile(inputField_Name.text);
             
             // DB
-            BackendManager.Instance.InitUserDataToDB(new UserData(inputField_Name.text, NetworkManager.Instance.GetUserId()));
+            BackendManager.Instance.CreateUserData(new UserData(inputField_Name.text, NetworkManager.Instance.GetUserId()));
         }
         else 
         {

@@ -1,11 +1,9 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,17 +15,11 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     [Header("디버깅 용도")]
     [SerializeField] TMP_Text tmp_State;
 
-    [Header("테스터 서버 연결 여부")]
-    [SerializeField] bool isTestServer;
-    [SerializeField] int testServerIndex;
+    [SerializeField] private float backendInitTimeoutSec = 10f;
 
     public ServerData CurServer { get; private set; }
 
     private Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
-
-    //UIManager um;
-
-    Action<string> ForcedQuitEvent;
 
     public UnityEvent<bool> LoadingEvent;
     public UnityEvent PlayerFirstEnterEvent;
@@ -35,6 +27,8 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     public UnityEvent LobbyEnterEvent;
     public UnityEvent RoomEnterEvent;
     public UnityEvent RoomUpdateEvent;
+
+    private Hashtable _pendingCustomProps = null;
 
     public void Init()
     {
@@ -48,11 +42,31 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     }
     System.Collections.IEnumerator InitLobbyServerAfterBackendInitComplete()
     {
-        // 이런 WaitUntil로 무한 대기하는 구조들을 콜백 기반으로 리팩토링해주는 작업 필요 (TODO)
-        yield return new WaitUntil(() => BackendManager.Auth != null);
-        yield return new WaitUntil(() => BackendManager.Database != null);
-        //yield return new WaitUntil(() => PhotonNetwork.LocalPlayer != null);
-        // 로비 서버로 연결
+        float start = Time.realtimeSinceStartup;
+
+        // 1) 초기화 완료까지 대기(Timeout 포함)
+        while (!BackendManager.IsInitDone)
+        {
+            if (Time.realtimeSinceStartup - start > backendInitTimeoutSec)
+            {
+                Debug.LogError($"Firebase Init Timeout ({backendInitTimeoutSec}s)");
+                LoadingEvent?.Invoke(false); // 로딩 해제 (또는 에러 UI로 전환)
+                yield break;
+            }
+            yield return null;
+        }
+
+        // 2) 초기화 실패 처리
+        if (!BackendManager.IsInitSuccess || BackendManager.Auth == null || BackendManager.Database == null)
+        {
+            // TODO: 타이틀 씬으로 다시 이동
+
+            Debug.LogError($"Firebase Init Failed: {BackendManager.InitFailReason}");
+            LoadingEvent?.Invoke(false); // 로딩 해제
+            yield break;
+        }
+
+        // 3) 로비 서버로 연결
         Debug.Log("서버 최초 연결 시도");
         ConnectToBestServer(ServerType.Lobby);
     }
@@ -72,13 +86,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         }
     }
 
-
     public void CheckServerUserNumber_InRoomMasterClient()
     {
-
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.LogWarning("인원 업데이트 실행");
             BackendManager.Instance.UpdateServerUserCount(CurServer);
         }
     }
@@ -99,8 +110,12 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         base.OnConnectedToMaster();
         Debug.Log("마스터 연결");
 
-        // 연결 후 서버 입장 처리
-        //BackendManager.Instance.OnEnterServerCapacityUpdate(CurServer, new List<string>() { GetUserId() });
+        // 커스텀 프로퍼티 복원
+        if (_pendingCustomProps != null)
+        {
+            PhotonNetwork.LocalPlayer.SetCustomProperties(_pendingCustomProps);
+            _pendingCustomProps = null;
+        }
 
         // 현재 접속한 서버가 로비라면
         if (CurServer.type == (int)ServerType.Lobby)
@@ -292,9 +307,10 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     public void UpdateUserDataToClient(UserData userData)
     {
-        PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 설정
+        PhotonNetwork.NickName = userData.name;  // 포톤 닉네임에 기존에 생성했던 firebase 닉네임 할당
 
-        ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+        Hashtable playerProperty = new Hashtable();
+        
         // 로그인 유저라면
         if (BackendManager.Auth.CurrentUser != null)
         {
@@ -302,112 +318,83 @@ public class NetworkManager : SingletonPUN<NetworkManager>
                 BackendManager.Instance.UpdateUserProfile(userData.name);
         }
         // 게스트 유저라면
-        else
-        {
+        else { }
 
-        }
-
-        // TODO: 보유 아이템 & 장착 아이템 저장 및 동기화 필요
         // 유저 데이터 동기화 해주기 
         playerProperty["Id"] = userData.userId;
         playerProperty["StartingPokemon"] = userData.startingPokemonName;
         playerProperty["Money"] = userData.money;
         playerProperty["Kills"] = userData.kills;
         playerProperty["Level"] = userData.level;
-        playerProperty["SuvivalTime"] = userData.suvivalTime;
+        playerProperty["SuvivalTime"] = userData.survivalTime;
         playerProperty["HighScore"] = userData.highScore;
-        int[] ownedItemIds = userData.owndItemList.ToArray();
+        int[] ownedItemIds = userData.ownedItemList.ToArray();
         playerProperty["OwnedItems"] = ownedItemIds;
         playerProperty["HeldItem"] = userData.heldItem;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
     }
 
+    private void ChangeServerInternal(ServerData serverData, bool skipCapacityCheck)
+    {
+        if (serverData == null)
+        {
+            Debug.LogError("이동할 서버가 설정되지 않음!");
+            return;
+        }
+
+        void DoSwitch()
+        {
+            // 플레이어 커스텀 프로퍼티 백업
+            var props = PhotonNetwork.LocalPlayer?.CustomProperties;
+            if (props != null)
+            {
+                _pendingCustomProps = new Hashtable();
+                foreach (var kv in props)
+                    _pendingCustomProps[kv.Key] = kv.Value;
+            }
+
+            // 로딩 UI
+            LoadingEvent?.Invoke(true);
+
+            // 기존 연결 종료 (연결 중/미연결 상태여도 호출은 안전)
+            if (PhotonNetwork.IsConnected)
+                PhotonNetwork.Disconnect();
+
+            // AppId 교체
+            PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = serverData.id;
+
+            // 현재 서버 갱신 (문서에서도 "전환 목표 서버"로 사용 가능)
+            CurServer = serverData;
+
+            // 재연결
+            PhotonNetwork.ConnectUsingSettings();
+        }
+
+        if (skipCapacityCheck)
+        {
+            DoSwitch();
+            return;
+        }
+
+        // 일반 전환: 접속 가능 여부 확인
+        BackendManager.Instance.IsAbleToConnectServer(serverData, accessable =>
+        {
+            if (accessable) DoSwitch();
+            else Debug.LogError("해당 서버 접속 불가능. 사유: 인원 초과");
+        });
+    }
+
+
     // 서버 이동 처리
     public void ChangeServer(ServerData serverData)
     {
-        if (serverData == null) { Debug.LogError("이동할 서버가 설정되지 않음!"); return; }
-
-        // 해당 서버 접속 가능여부 판단
-        BackendManager.Instance.IsAbleToConnectServer(serverData, (accessable) =>
-        {
-            //Debug.Log($"접근 가능은 한가?{accessable}");
-            if (accessable)
-            {
-                Hashtable customPropsDB_Player = null;
-
-                // 현재 접속 중인 서버가 없다면 실행 안함
-                if (CurServer != null)
-                {
-                    // 플레이어 커스텀 프로퍼티 백업
-                    if (PhotonNetwork.LocalPlayer.CustomProperties != null)
-                        customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
-
-                    // 연결 해제 이전에 서버 퇴장 처리
-                    //BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
-
-                    // 로딩창 활성화
-                    LoadingEvent?.Invoke(true);
-
-                    // 현재 접속 중인 서버 연결 해제
-                    PhotonNetwork.Disconnect();
-                }
-
-                // 이동할 서버 AppID 갱신
-                PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = serverData.id;
-                // 갱신된 ID의 서버 연결
-
-                // 접속에 성공하면 현재 서버 갱신
-                CurServer = serverData;
-
-                PhotonNetwork.ConnectUsingSettings();
-
-                // 연결 후 커스텀 프로퍼티 복원
-                if (customPropsDB_Player != null)
-                    PhotonNetwork.LocalPlayer.CustomProperties = customPropsDB_Player;
-            }
-            else
-            {
-                Debug.LogError("해당 서버 접속 불가능. 사유: 인원 초과");
-            }
-        });
+        ChangeServerInternal(serverData, skipCapacityCheck: false);
     }
 
     // 예약된 이동 처리 (반드시 성공)
     public void ReservedChangeServer(ServerData serverData)
     {
-        if (serverData == null) { Debug.LogError("이동할 서버가 설정되지 않음!"); return; }
-
-        Hashtable customPropsDB_Player = null;
-
-        // 현재 접속 중인 서버가 없다면 실행 안함
-        if (CurServer != null)
-        {
-            // 플레이어 커스텀 프로퍼티 백업
-            if (PhotonNetwork.LocalPlayer.CustomProperties != null)
-                customPropsDB_Player = PhotonNetwork.LocalPlayer.CustomProperties;
-
-            // 연결 해제 이전에 서버 퇴장 처리
-            //BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId());
-
-            // 로딩창 활성화
-            LoadingEvent?.Invoke(true);
-
-            // 현재 접속 중인 서버 연결 해제
-            PhotonNetwork.Disconnect();
-        }
-
-        // 이동할 서버 AppID 갱신
-        PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = serverData.id;
-        // 갱신된 ID의 서버 연결
-
-        // 접속에 성공하면 현재 서버 갱신
-        CurServer = serverData;
-
-        PhotonNetwork.ConnectUsingSettings();
-
-        // 연결 후 커스텀 프로퍼티 복원
-        if (customPropsDB_Player != null)
-            PhotonNetwork.LocalPlayer.CustomProperties = customPropsDB_Player;
+        ChangeServerInternal(serverData, skipCapacityCheck: true);
     }
 
     // 해당 타입 서버들 중 최적 서버를 찾아 서버 이동(& 씬 이동)
@@ -458,13 +445,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
     // 인게임 서버 중 최적의 서버로 이동(퀵매치 전용)
     public void MoveToInGameScene()
     {
-        // 테스트 체크 시, 테스트 서버로
-        if (isTestServer)
-        {
-            ConnectToBestServer(ServerType.TestServer);
-            return;
-        }
-
         ConnectToBestServer(ServerType.InGame);
     }
 
@@ -509,7 +489,7 @@ public class NetworkManager : SingletonPUN<NetworkManager>
         BackendManager.Auth.SignOut();
 
 
-        // 접속 종료 시 죽이긴 해야함
+        // 접속 종료 시 해당 플레이어 킬
         PlayerController pc = PlayerManager.Instance?.LocalPlayerController;
 
         if (pc == null) return;
@@ -531,17 +511,6 @@ public class NetworkManager : SingletonPUN<NetworkManager>
 
     public void GameQuit()
     {
-        /*BackendManager.Instance.OnExitServerCapacityUpdate(CurServer, GetUserId(), () =>
-        {
-            Debug.Log("게임 종료 시도");
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false; // 에디터 모드 종료
-#else
-    Application.Quit(); // 빌드 시 실제 종료
-#endif
-        });*/
-
-        Debug.Log("게임 종료 시도");
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false; // 에디터 모드 종료
 #else

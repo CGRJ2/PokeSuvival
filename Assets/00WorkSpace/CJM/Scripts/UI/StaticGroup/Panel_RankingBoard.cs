@@ -1,4 +1,5 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,50 +26,55 @@ public class Panel_RankingBoard : MonoBehaviour
 
     private void UpdateView()
     {
-        // ·©Å· º¸µå 1~10À§ ¾÷µ¥ÀÌÆ®
-        BackendManager.Instance.UpdateRankingBoard_SortedByScore((kvpList) =>
+        string userId = NetworkManager.Instance.GetUserId();
+
+        // ëª¨ë“  ë­í¬ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸°
+        BackendManager.Instance.LoadAllRankData(dic =>
         {
+            // 1) ì •ë ¬
+            var sorted = dic
+                .OrderByDescending(kvp => kvp.Value.highScore)
+                .ToList();
+
+            // 2) 1 ~ 10ìœ„ ì •ë ¬
+            var top10 = sorted.Take(10).ToList();
+
+            // 3) Top10 UI ì—…ë°ì´íŠ¸
             for (int i = 0; i < slot_RankDatas.Length; i++)
             {
-                if (i < kvpList.Count)
+                if (i < top10.Count)
                 {
-                    string rankAndName = $"{i + 1}. {kvpList[i].Value.userName}";
-                    string score = $"{kvpList[i].Value.highScore}";
+                    string rankAndName = $"{i + 1}. {top10[i].Value.userName}";
+                    string score = $"{top10[i].Value.highScore}";
                     slot_RankDatas[i].UpdateView(rankAndName, score);
                 }
                 else
                 {
-                    slot_RankDatas[i].UpdateView($"{i + 1}. ¼øÀ§ µ¥ÀÌÅÍ ¾øÀ½", "-");
+                    slot_RankDatas[i].UpdateView($"{i + 1}. ìˆœìœ„ ë°ì´í„° ì—†ìŒ", "-");
                 }
             }
+
+            // 4) ë‚´ ë­í‚¹ ì°¾ê¸°
+            int myIndex = sorted.FindIndex(x => x.Value.userId == userId);
+            if (myIndex >= 0)
+            {
+                var myData = sorted[myIndex].Value;
+                slot_RankMine.UpdateView($"{myIndex + 1}. {myData.userName}", $"{myData.highScore}");
+            }
+            else
+            {
+                slot_RankMine.UpdateView("ìˆœìœ„ ë°ì´í„° ì—†ìŒ", "-");
+            }
+
+        },
+        failMsg =>
+        {
+            Debug.Log(failMsg);
+            // ì‹¤íŒ¨ ì‹œ UI ì²˜ë¦¬
+            for (int i = 0; i < slot_RankDatas.Length; i++)
+                slot_RankDatas[i].UpdateView($"{i + 1}. ìˆœìœ„ ë°ì´í„° ì—†ìŒ", "-");
+
+            slot_RankMine.UpdateView("ìˆœìœ„ ë°ì´í„° ì—†ìŒ", "-");
         });
-
-
-        // ³» ·©Å· Ç¥½Ã
-        string userId = "";
-        if (BackendManager.Auth.CurrentUser != null)
-            userId = $"{BackendManager.Auth.CurrentUser.UserId}";
-        else
-            userId = $"Guest({PhotonNetwork.LocalPlayer.UserId})";
-
-        BackendManager.Instance.GetRankNumb(userId, (rankNumb) =>
-            {
-                BackendManager.Instance.LoadLocalPlayerRankData(userId, (rankData) =>
-                {
-                    string rankAndName = $"{rankNumb + 1}. {rankData.userName}";
-                    string score = $"{rankData.highScore}";
-                    slot_RankMine.UpdateView(rankAndName, score);
-                },
-                (failMsg) =>
-                {
-                    Debug.Log(failMsg);
-                    slot_RankMine.UpdateView("¼øÀ§ µ¥ÀÌÅÍ ¾øÀ½", "-");
-                });
-            },
-            (failMsg) =>
-            {
-                Debug.Log(failMsg);
-                slot_RankMine.UpdateView("¼øÀ§ µ¥ÀÌÅÍ ¾øÀ½", "-");
-            });
     }
 }

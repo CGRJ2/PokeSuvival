@@ -74,14 +74,14 @@ public class Panel_GameOver : MonoBehaviour
                 if (score > updatedUserData.highScore)
                     updatedUserData.highScore = score;
 
-                if (suvivalTime > updatedUserData.suvivalTime)
-                    updatedUserData.suvivalTime = suvivalTime;
+                if (suvivalTime > updatedUserData.survivalTime)
+                    updatedUserData.survivalTime = suvivalTime;
 
                 if (kills > updatedUserData.kills)
                     updatedUserData.kills = kills;
 
                 // 서버에 유저 데이터를 갱신
-                BackendManager.Instance.InitUserDataToDB(updatedUserData, () =>
+                BackendManager.Instance.CreateUserData(updatedUserData, () =>
                 {
                     // 갱신 완료 시 서버의 유저데이터를 클라이언트에 동기화
                     NetworkManager.Instance.UpdateUserDataToClient(userData);

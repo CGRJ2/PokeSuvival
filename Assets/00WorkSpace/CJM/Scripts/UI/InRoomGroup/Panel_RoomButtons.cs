@@ -1,4 +1,4 @@
-using Photon.Pun;
+ï»¿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,20 +20,20 @@ public class Panel_RoomButtons : MonoBehaviour
     }
     public void Ready()
     {
-        //// ·ë Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ ¼³Á¤
+        //// ë£¸ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° ì„¤ì •
         if (PhotonNetwork.LocalPlayer.IsLocal)
         {
-            // ½ºÅ¸ÆÃ Æ÷ÄÏ¸óÀ» Á¤ÇÏÁö ¾ÊÀº »óÅÂ¶ó¸é ·¹µğ ¸øÇÔ
+            // ìŠ¤íƒ€íŒ… í¬ì¼“ëª¬ì„ ì •í•˜ì§€ ì•Šì€ ìƒíƒœë¼ë©´ ë ˆë”” ëª»í•¨
             if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StartingPokemon") 
                 || string.IsNullOrEmpty((string)PhotonNetwork.LocalPlayer.CustomProperties["StartingPokemon"]))
             {
-                //Debug.LogError("½ºÅ¸ÆÃ Æ÷ÄÏ¸óÀ» ¼³Á¤ÇÏÁö ¾Ê¾Æ READY¸¦ ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                //Debug.LogError("ìŠ¤íƒ€íŒ… í¬ì¼“ëª¬ì„ ì„¤ì •í•˜ì§€ ì•Šì•„ READYë¥¼ í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 UIManager.Instance.OpenPanel(UIManager.Instance.LobbyGroup.panel_CautionNonePoke.gameObject);
                 return;
             }
 
             RoomMemberSlot localPlayerSlot = UIManager.Instance.LobbyGroup.panel_RoomInside.assignedSlots[PhotonNetwork.LocalPlayer];
-            // ÀÌ¹Ì ·¹µğ »óÅÂ¶ó¸é ·¹µğ false
+            // ì´ë¯¸ ë ˆë”” ìƒíƒœë¼ë©´ ë ˆë”” false
             if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["Ready"])
             {
                 btn_Ready.GetComponent<Image>().color = Color.white;
@@ -44,7 +44,7 @@ public class Panel_RoomButtons : MonoBehaviour
 
                 localPlayerSlot.UpdateReadyStateView(false);
             }
-            // ·¹µğ »óÅÂ°¡ ¾Æ´Ï¶ó¸é ·¹µğ true
+            // ë ˆë”” ìƒíƒœê°€ ì•„ë‹ˆë¼ë©´ ë ˆë”” true
             else
             {
                 btn_Ready.GetComponent<Image>().color = Color.green;
@@ -65,7 +65,7 @@ public class Panel_RoomButtons : MonoBehaviour
 
     public void StartWithParty()
     {
-        // ÀÓ½Ã
+        // ì„ì‹œ
         string selectedMapKey = (string)PhotonNetwork.CurrentRoom.CustomProperties["Map"];
         int memberCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
@@ -78,19 +78,19 @@ public class Panel_RoomButtons : MonoBehaviour
 
         BackendManager.Instance.GetServerData(selectedMapKey, ServerType.InGame, (targetServer) =>
         {
-            BackendManager.Instance.CheckMultipleUsersSpaceAndReserve(targetServer, memberCount, (reserveComplete) =>
+            BackendManager.Instance.CheckAndReserve(targetServer, memberCount, (reserveComplete) =>
             {
-                // ¼­¹ö¿¡ ÀÚ¸® ¿¹¾à ¿Ï·á
+                // ì„œë²„ì— ìë¦¬ ì˜ˆì•½ ì™„ë£Œ
                 if (reserveComplete)
                 {
-                    // ÀÚ¸® ¿¹¾à ¼º°ø ½Ã => ·ë Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼¿¡ ½ÃÀÛ°¡´É °»½Å
+                    // ìë¦¬ ì˜ˆì•½ ì„±ê³µ ì‹œ => ë£¸ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ì— ì‹œì‘ê°€ëŠ¥ ê°±ì‹ 
                     ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
                     roomProperty["Start"] = true;
                     PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
                 }
                 else
                 {
-                    Debug.LogError("ÆÄÆ¼¿¡ ¸ğµç ¸â¹ö°¡ ÀÌµ¿ÇÏ±â¿¡ ¼­¹ö¿¡ ÀÚ¸®°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+                    Debug.LogError("íŒŒí‹°ì— ëª¨ë“  ë©¤ë²„ê°€ ì´ë™í•˜ê¸°ì— ì„œë²„ì— ìë¦¬ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
                 }
             });
         });

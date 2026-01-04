@@ -1,4 +1,4 @@
-using Firebase;
+ï»¿using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -15,75 +15,74 @@ public class BackendManager : Singleton<BackendManager>
     public static FirebaseApp App { get; private set; }
     public static FirebaseAuth Auth { get; private set; }
     public static FirebaseDatabase Database { get; private set; }
+    public static bool IsInitDone { get; private set; }
+    public static bool IsInitSuccess { get; private set; }
+    public static string InitFailReason { get; private set; }
 
 
     public string[] pokemonDatas_LowGroup;
     public string[] pokemonDatas_MidGroup;
     public string[] pokemonDatas_HighGroup;
 
-    // Å×½ºÆ®¿ë
-    /*private void Update()
-    {
-        *//*if (Input.GetKeyDown(KeyCode.X))
-        {
-            //LoadUserDataFromDB((data) => Debug.Log(data.name));
-            Debug.Log(NetworkManager.Instance.CurServer.sceneName);
-        }*/
-
-        /*if (Input.GetKeyDown(KeyCode.Z))
-        {
-            //InitServerDataToServerInfoDB(new ServerData("Lobby Server 01 (KR)", "LobbyScene(CJM)", "·Îºñ 01", 0, "e4d01a07-2d0c-41bb-bc2d-59723abc27fc", 20));
-            //InitServerDataToServerInfoDB(new ServerData("Lobby Server 02 (KR)", "LobbyScene(CJM)", "·Îºñ 02", 0, "4b17f092-1646-4668-9356-580cdb2e8529", 20));
-        }*//*
-    }*/
-
     public void Init()
     {
         base.SingletonInit();
+
+        // ì´ˆê¸°ê°’
+        IsInitDone = false;
+        IsInitSuccess = false;
+        InitFailReason = "";
 
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             DependencyStatus dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                Debug.Log("ÆÄÀÌ¾î º£ÀÌ½º ¼³Á¤ÀÌ ¸ğµÎ ÃæÁ·µÇ¾î »ç¿ëÇÒ ¼ö ÀÖ´Â »óÈ²");
+                Debug.Log("Firebase ì„¤ì •ì´ ëª¨ë‘ ì¶©ì¡±");
                 App = FirebaseApp.DefaultInstance;
                 Auth = FirebaseAuth.DefaultInstance;
                 Database = FirebaseDatabase.DefaultInstance;
+
+                IsInitSuccess = true;
             }
             else
             {
-                Debug.LogError($"ÆÄÀÌ¾î º£ÀÌ½º ¼³Á¤ÀÌ ÃæÁ·µÇÁö ¾Ê¾Æ ½ÇÆĞÇß½À´Ï´Ù. ÀÌÀ¯: {dependencyStatus}");
+                Debug.LogError($"Firebase ì„¤ì •ì´ ì¶©ì¡±ë˜ì§€ ì•Šì•„ ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ì´ìœ : {dependencyStatus}");
                 App = null;
                 Auth = null;
                 Database = null;
+
+                IsInitSuccess = false;
+                InitFailReason = dependencyStatus.ToString();
             }
+
+            IsInitDone = true;
         });
     }
 
-    // DB¿¡ µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ ÆÇ´Ü
+    // DBì— ë°ì´í„° ì¡´ì¬ ì—¬ë¶€ íŒë‹¨
     public void CheckData(DatabaseReference dbRef, Action<bool> onChecked = null)
     {
         dbRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.LogError("µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ È®ÀÎ ½ÇÆĞ");
-                onChecked?.Invoke(false); // ¿¡·¯µµ false Ã³¸®
+                Debug.LogError("ë°ì´í„° ì¡´ì¬ ì—¬ë¶€ í™•ì¸ ì‹¤íŒ¨");
+                onChecked?.Invoke(false); // ì—ëŸ¬ë„ false ì²˜ë¦¬
                 return;
             }
 
             DataSnapshot snapshot = task.Result;
             bool exists = snapshot.Exists;
 
-            Debug.Log($"µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ: {exists}");
+            Debug.Log($"ë°ì´í„° ì¡´ì¬ ì—¬ë¶€: {exists}");
             onChecked?.Invoke(exists);
         });
     }
 
-    #region User Data °ü¸®
+    #region User Data ê´€ë¦¬
 
-    // Auth - ·Î±×ÀÎ À¯Àú ÇÁ·ÎÇÊ ¾÷µ¥ÀÌÆ®
+    // Auth - ë¡œê·¸ì¸ ìœ ì € í”„ë¡œí•„ ì—…ë°ì´íŠ¸
     public void UpdateUserProfile(string name)
     {
         FirebaseUser user = Auth.CurrentUser;
@@ -98,25 +97,25 @@ public class BackendManager : Singleton<BackendManager>
             {
                 if (task.IsCanceled)
                 {
-                    Debug.LogError("À¯Àú ´Ğ³×ÀÓ ¼³Á¤ Ãë¼ÒµÊ.");
+                    Debug.LogError("ìœ ì € ë‹‰ë„¤ì„ ì„¤ì • ì·¨ì†Œë¨.");
                     return;
                 }
                 if (task.IsFaulted)
                 {
-                    Debug.LogError($"À¯Àú ´Ğ³×ÀÓ ¼³Á¤ ½ÇÆĞÇÔ. ½ÇÆĞ»çÀ¯: {task.Exception}, ErrorCode: {((FirebaseException)task.Exception.InnerException).ErrorCode}");
+                    Debug.LogError($"ìœ ì € ë‹‰ë„¤ì„ ì„¤ì • ì‹¤íŒ¨í•¨. ì‹¤íŒ¨ì‚¬ìœ : {task.Exception}, ErrorCode: {((FirebaseException)task.Exception.InnerException).ErrorCode}");
 
                     return;
                 }
 
-                Debug.Log("À¯Àú ÇÁ·ÎÇÊÀÌ ¼º°øÀûÀ¸·Î ¾÷µ¥ÀÌÆ® µÊ");
+                Debug.Log("ìœ ì € í”„ë¡œí•„ì´ ì„±ê³µì ìœ¼ë¡œ ì—…ë°ì´íŠ¸ ë¨");
             });
         }
     }
 
-    // DB - UserData »ı¼º(SetRawJsonValueAsync)
-    public void InitUserDataToDB(UserData data, Action onSuccess = null, Action<string> onFail = null)
+    // DB - UserData ìƒì„±(SetRawJsonValueAsync)
+    public void CreateUserData(UserData data, Action onSuccess = null, Action<string> onFail = null)
     {
-        Debug.Log("DB¿¡ UserData Ã¹ »ı¼º");
+        Debug.Log("DBì— UserData ì²« ìƒì„±");
 
         string userId = Auth.CurrentUser.UserId;
         string json = JsonUtility.ToJson(data);
@@ -128,27 +127,27 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("UserData ÀúÀå ÀÛ¾÷ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
-                onFail?.Invoke("ÀÛ¾÷ Ãë¼ÒµÊ");
+                Debug.LogError("UserData ì €ì¥ ì‘ì—…ì´ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+                onFail?.Invoke("ì‘ì—… ì·¨ì†Œë¨");
                 return;
             }
 
             if (task.IsFaulted)
             {
-                Debug.LogError($"UserData ÀúÀå ½ÇÆĞ: {task.Exception}");
-                onFail?.Invoke("ÀúÀå ½ÇÆĞ");
+                Debug.LogError($"UserData ì €ì¥ ì‹¤íŒ¨: {task.Exception}");
+                onFail?.Invoke("ì €ì¥ ì‹¤íŒ¨");
                 return;
             }
 
-            Debug.Log("UserData ÀúÀå ¼º°ø");
+            Debug.Log("UserData ì €ì¥ ì„±ê³µ");
             onSuccess?.Invoke();
         });
     }
 
-    // DB - UserData ³»ºÎ °ª º¯°æ(UpdateChildrenAsync)
+    // DB - UserData ë‚´ë¶€ ê°’ ë³€ê²½(UpdateChildrenAsync)
     public void UpdateUserDataValue(string key, object value)
     {
-        Debug.Log($"UserDataÀÇ {key} µ¥ÀÌÅÍ º¯°æ");
+        Debug.Log($"UserDataì˜ {key} ë°ì´í„° ë³€ê²½");
 
         string userId = Auth.CurrentUser.UserId;
 
@@ -162,7 +161,7 @@ public class BackendManager : Singleton<BackendManager>
     }
 
 
-    // DB - Auth.CurrentUser.UserId¸¦ Å°°ªÀ¸·Î À¯Àú µ¥ÀÌÅÍ ºÒ·¯¿À±â(GetValueAsync)
+    // DB - Auth.CurrentUser.UserIdë¥¼ í‚¤ê°’ìœ¼ë¡œ ìœ ì € ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸°(GetValueAsync)
     public void LoadUserDataFromDB(Action<UserData> onSuccess = null, Action<string> onFail = null)
     {
         string userId = Auth.CurrentUser.UserId;
@@ -172,14 +171,14 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("À¯Àú µ¥ÀÌÅÍ ºÒ·¯¿À±â Ãë¼ÒµÊ.");
-                onFail?.Invoke("Ãë¼Ò ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError("ìœ ì € ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì·¨ì†Œë¨.");
+                onFail?.Invoke("ì·¨ì†Œ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError($"À¯Àú µ¥ÀÌÅÍ ºÒ·¯¿À±â ½ÇÆĞ: {task.Exception}");
-                onFail?.Invoke("½ÇÆĞ ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError($"ìœ ì € ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨: {task.Exception}");
+                onFail?.Invoke("ì‹¤íŒ¨ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
 
@@ -189,13 +188,13 @@ public class BackendManager : Singleton<BackendManager>
             {
                 string json = snapshot.GetRawJsonValue();
                 UserData data = JsonUtility.FromJson<UserData>(json);
-                Debug.Log($"À¯Àú µ¥ÀÌÅÍ ºÒ·¯¿À±â ¼º°ø: {json}");
+                Debug.Log($"ìœ ì € ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì„±ê³µ: {json}");
                 onSuccess?.Invoke(data);
             }
             else
             {
-                Debug.LogWarning("À¯Àú µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ½.");
-                onFail?.Invoke("À¯Àú µ¥ÀÌÅÍ°¡ ¾ø´Ù´Â ¸Ş½ÃÁö Àü¼Û");
+                Debug.LogWarning("ìœ ì € ë°ì´í„°ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ.");
+                onFail?.Invoke("ìœ ì € ë°ì´í„°ê°€ ì—†ë‹¤ëŠ” ë©”ì‹œì§€ ì „ì†¡");
             }
         });
 
@@ -203,9 +202,9 @@ public class BackendManager : Singleton<BackendManager>
 
     #endregion
 
-    #region Server Data °ü¸®
+    #region Server Data ê´€ë¦¬
 
-    // ¼­¹ö Á¾·ùº° DatabaseReference Root ÁöÁ¤
+    // ì„œë²„ ì¢…ë¥˜ë³„ DatabaseReference Root ì§€ì •
     public DatabaseReference GetServerBaseRef(ServerType serverType)
     {
         DatabaseReference root = Database.RootReference;
@@ -229,10 +228,10 @@ public class BackendManager : Singleton<BackendManager>
         return reference;
     }
 
-    // DB - Server Data »ı¼º(SetRawJsonValueAsync)
+    // DB - Server Data ìƒì„±(SetRawJsonValueAsync)
     public void InitServerDataToServerInfoDB(ServerData data)
     {
-        Debug.Log("DB¿¡ ÇØ´ç Server DataÀÇ Server Info Ã¹ »ı¼º");
+        Debug.Log("DBì— í•´ë‹¹ Server Dataì˜ Server Info ì²« ìƒì„±");
 
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)data.type).Child(data.key);
@@ -242,110 +241,7 @@ public class BackendManager : Singleton<BackendManager>
         reference.SetRawJsonValueAsync(json);
     }
 
-    // ¼­¹ö ÀÔÀå ½Ã, ¼­¹ö ÀÎ¿ø¿¡ º»ÀÎ Ãß°¡
-    /*public void OnEnterServerCapacityUpdate(ServerData curServerData, List<string> memberIdList, Action onSuccess = null, Action<string> onFail = null)
-    {
-        DatabaseReference root = Database.RootReference;
-        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
-
-        reference.Child("curPlayerList").RunTransaction(mutableData =>
-        {
-            //Debug.LogWarning($"¿Ö ÀÌ°Å ÀÚ²Ù null¸¸ ¶ßÁö? ¼­¹ö¿¡ µ¥ÀÌÅÍ ÀÖ´Âµ¥? {mutableData.Value}");
-            if (mutableData.Value == null)
-            {
-                Debug.Log("curPlayerList°¡ ¾ø¾î¼­ »õ·Î »ı¼ºÇÔ");
-                mutableData.Value = memberIdList.Cast<object>().ToList();
-                return TransactionResult.Success(mutableData);
-            }
-            else
-            {
-                try
-                {
-                    // Firebase¿¡¼­´Â object ¸®½ºÆ®·Î ¹İÈ¯µÊ
-                    var existingList = new List<string>();
-                    foreach (var item in (IEnumerable)mutableData.Value)
-                    {
-                        if (item != null)
-                            existingList.Add(item.ToString());
-                    }
-
-                    List<string> curUserList = existingList.Select(o => o.ToString()).ToList();
-
-                    Debug.Log("ÇöÀç À¯Àú ¸®½ºÆ®¿¡ Ãß°¡ÇÔ");
-                    foreach (string id in memberIdList)
-                    {
-                        if (!curUserList.Contains(id))
-                            curUserList.Add(id);
-                        else Debug.LogError($"ÀÌ¹Ì ¼­¹ö¿¡ Á¸ÀçÇÏ´Â Id¸¦ ¶Ç Ãß°¡ÇÏ·Á°íÇÔ: {id}");
-                    }
-                    
-                    mutableData.Value = curUserList.Cast<object>().ToList(); // Firebase´Â object ¸®½ºÆ®·Î ÀúÀåµÊ
-                    return TransactionResult.Success(mutableData);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError($"¼­¹ö ÀÎ¿ø Ãß°¡ ½ÇÆĞ - Çüº¯È¯ ¿À·ù: {e.Message}");
-                    return TransactionResult.Abort();
-                }
-            }
-        });
-    }*/
-
-    // ¼­¹ö ÅğÀå ½Ã, ¼­¹ö ÀÎ¿ø¿¡ º»ÀÎ Á¦°Å
-    /*public void OnExitServerCapacityUpdate(ServerData curServerData, string userId, Action onSucess = null, Action<string> onFail = null)
-    {
-        DatabaseReference root = Database.RootReference;
-        DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
-
-        reference.Child("curPlayerList").RunTransaction(mutableData =>
-        {
-            try
-            {
-                if (mutableData.Value == null)
-                {
-                    // ¾Æ¹« ¸®½ºÆ®µµ ¾ø´Ù¸é ºó ¸®½ºÆ®·Î ÃÊ±âÈ­
-                    mutableData.Value = new List<object>();
-                    onSucess?.Invoke();
-                    return TransactionResult.Success(mutableData);
-                }
-
-                // Firebase¿¡¼­´Â object ¸®½ºÆ®·Î ¹İÈ¯µÊ
-                var existingList = new List<string>();
-                foreach (var item in (IEnumerable)mutableData.Value)
-                {
-                    if (item != null)
-                        existingList.Add(item.ToString());
-                }
-                List<string> curUserList = existingList.Select(o => o.ToString()).ToList();
-
-
-                // ÇöÀç À¯Àú ID Á¦°Å
-                if (curUserList.Contains(userId))
-                    curUserList.Remove(userId);
-                else Debug.LogError($"¼­¹ö¿¡ Á¦°ÅÇÏ·Á´Â Id°¡ Á¸ÀçÇÏÁö ¾ÊÀ½: {userId}");
-
-                Debug.Log($"ÇöÀç À¯Àú ¸®½ºÆ®¿¡¼­ Á¦°Å ÈÄ »õ ¸®½ºÆ® Count: {curUserList.Count}");
-
-
-                // ´Ù½Ã object ¸®½ºÆ®·Î ÀúÀå
-                if (curUserList.Count < 1)
-                    mutableData.Value = null;
-                else
-                    mutableData.Value = curUserList.Cast<object>().ToList();
-
-                onSucess?.Invoke();
-                return TransactionResult.Success(mutableData);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"¼­¹ö ÀÎ¿ø Á¦°Å ½ÇÆĞ - Çüº¯È¯ ¿À·ù: {e.Message}");
-                onFail?.Invoke("ÀÎ¿ø Á¦°Å Áß ¿À·ù ¹ß»ı");
-                return TransactionResult.Abort();
-            }
-        });
-    }*/
-
-    // ¼­¹ö µ¥ÀÌÅÍ·Î, ÇöÀç Á¢¼Ó °¡´ÉÇÑÁö ¿©ºÎ ÆÇ´Ü
+    // ì„œë²„ ë°ì´í„°ë¡œ, í˜„ì¬ ì ‘ì† ê°€ëŠ¥í•œì§€ ì—¬ë¶€ íŒë‹¨
     public void IsAbleToConnectServer(ServerData curServerData, Action<bool> onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
@@ -355,14 +251,14 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â Ãë¼ÒµÊ.");
-                onFail?.Invoke("Ãë¼Ò ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError("ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì·¨ì†Œë¨.");
+                onFail?.Invoke("ì·¨ì†Œ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError($"¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â ½ÇÆĞ: {task.Exception}");
-                onFail?.Invoke("½ÇÆĞ ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError($"ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨: {task.Exception}");
+                onFail?.Invoke("ì‹¤íŒ¨ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
 
@@ -373,7 +269,7 @@ public class BackendManager : Singleton<BackendManager>
                 long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
-                Debug.Log($"¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â ¼º°ø. ÇöÀç ÀÎ¿ø / ÃÖ´ë ÀÎ¿ø: {curPlayerCount}/{maxPlayerCount}");
+                Debug.Log($"ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì„±ê³µ. í˜„ì¬ ì¸ì› / ìµœëŒ€ ì¸ì›: {curPlayerCount}/{maxPlayerCount}");
 
                 if (curPlayerCount < maxPlayerCount)
                     onSuccess?.Invoke(true);
@@ -382,13 +278,13 @@ public class BackendManager : Singleton<BackendManager>
             }
             else
             {
-                Debug.LogWarning("ÇØ´ç ¼­¹ö°¡ µ¥ÀÌÅÍº£ÀÌ½º¿¡ Á¸ÀçÇÏÁö ¾ÊÀ½.");
-                onFail?.Invoke("ÇØ´ç ¼­¹ö°¡ µ¥ÀÌÅÍº£ÀÌ½º¿¡ ¾ø´Ù´Â ¸Ş½ÃÁö Àü¼Û");
+                Debug.LogWarning("í•´ë‹¹ ì„œë²„ê°€ ë°ì´í„°ë² ì´ìŠ¤ì— ì¡´ì¬í•˜ì§€ ì•ŠìŒ.");
+                onFail?.Invoke("í•´ë‹¹ ì„œë²„ê°€ ë°ì´í„°ë² ì´ìŠ¤ì— ì—†ë‹¤ëŠ” ë©”ì‹œì§€ ì „ì†¡");
             }
         });
     }
 
-    public void CheckMultipleUsersSpaceAndReserve(ServerData curServerData, int multiUserCount, Action<bool> onSuccess = null, Action<string> onFail = null)
+    public void CheckAndReserve(ServerData curServerData, int userCount = 1, Action<bool> onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = GetServerBaseRef((ServerType)curServerData.type).Child(curServerData.key);
@@ -399,14 +295,14 @@ public class BackendManager : Singleton<BackendManager>
 
             if (task.IsCanceled)
             {
-                Debug.LogError("¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â Ãë¼ÒµÊ.");
-                onFail?.Invoke("Ãë¼Ò ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError("ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì·¨ì†Œë¨.");
+                onFail?.Invoke("ì·¨ì†Œ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError($"¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â ½ÇÆĞ: {task.Exception}");
-                onFail?.Invoke("½ÇÆĞ ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError($"ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨: {task.Exception}");
+                onFail?.Invoke("ì‹¤íŒ¨ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
 
@@ -418,16 +314,16 @@ public class BackendManager : Singleton<BackendManager>
                 long curPlayerCount = (long)snapshot.Child("curPlayerCount").Value;
                 long maxPlayerCount = (long)snapshot.Child("maxPlayerCount").Value;
 
-                Debug.Log($"¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â ¼º°ø. ÇöÀç ÀÎ¿ø / ÃÖ´ë ÀÎ¿ø: {curPlayerCount}/{maxPlayerCount}");
+                Debug.Log($"ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì„±ê³µ. í˜„ì¬ ì¸ì› / ìµœëŒ€ ì¸ì›: {curPlayerCount}/{maxPlayerCount}");
 
-                // ÀÚ¸®°¡ ÀÖÀ¸¸é ¿¹¾àÇØÁÖ±â
-                if (curPlayerCount < maxPlayerCount - multiUserCount + 1)
+                // ìë¦¬ê°€ ìˆìœ¼ë©´ ì˜ˆì•½í•´ì£¼ê¸°
+                if (curPlayerCount < maxPlayerCount - userCount + 1)
                 {
                     reference.Child("reservedPlayerCount").RunTransaction(mutableData =>
                     {
                         if (mutableData.Value == null)
                         {
-                            mutableData.Value = (long)multiUserCount;
+                            mutableData.Value = (long)userCount;
                             return TransactionResult.Success(mutableData);
                         }
                         else
@@ -435,12 +331,12 @@ public class BackendManager : Singleton<BackendManager>
                             try
                             {
                                 long currentReservedUserCount = (long)mutableData.Value;
-                                mutableData.Value = currentReservedUserCount + (long)multiUserCount;
+                                mutableData.Value = currentReservedUserCount + (long)userCount;
                                 return TransactionResult.Success(mutableData);
                             }
                             catch (Exception e)
                             {
-                                Debug.LogError($"¼­¹ö ÀÎ¿ø °»½Å ½ÇÆĞ - Çüº¯È¯ ¿À·ù: {e.Message}");
+                                Debug.LogError($"ì„œë²„ ì¸ì› ê°±ì‹  ì‹¤íŒ¨ - í˜•ë³€í™˜ ì˜¤ë¥˜: {e.Message}");
                                 return TransactionResult.Abort();
                             }
                         }
@@ -448,26 +344,26 @@ public class BackendManager : Singleton<BackendManager>
                     {
                         if (task.IsCanceled || task.IsFaulted)
                         {
-                            Debug.LogError("Á¢±ÙÇÏ·Á´Â ¼­¹ö¿¡ ÀÚ¸®´Â ÀÖ´Âµ¥ ÀÚ¸® ¿¹¾à¿¡ ½ÇÆĞÇÔ!");
+                            Debug.LogError("ì ‘ê·¼í•˜ë ¤ëŠ” ì„œë²„ì— ìë¦¬ëŠ” ìˆëŠ”ë° ìë¦¬ ì˜ˆì•½ì— ì‹¤íŒ¨í•¨!");
                             onSuccess?.Invoke(false);
                         }
-                        // ÀÚ¸® ¿¹¾à ¿Ï·áµÇ¸é ½ÇÇà
+                        // ìë¦¬ ì˜ˆì•½ ì™„ë£Œë˜ë©´ ì‹¤í–‰
                         onSuccess?.Invoke(true);
                     });
                 }
-                // ¾øÀ¸¸é false ¹İÈ¯
+                // ì—†ìœ¼ë©´ false ë°˜í™˜
                 else
                     onSuccess?.Invoke(false);
             }
             else
             {
-                Debug.LogWarning("ÇØ´ç ¼­¹ö°¡ µ¥ÀÌÅÍº£ÀÌ½º¿¡ Á¸ÀçÇÏÁö ¾ÊÀ½.");
-                onFail?.Invoke("ÇØ´ç ¼­¹ö°¡ µ¥ÀÌÅÍº£ÀÌ½º¿¡ ¾ø´Ù´Â ¸Ş½ÃÁö Àü¼Û");
+                Debug.LogWarning("í•´ë‹¹ ì„œë²„ê°€ ë°ì´í„°ë² ì´ìŠ¤ì— ì¡´ì¬í•˜ì§€ ì•ŠìŒ.");
+                onFail?.Invoke("í•´ë‹¹ ì„œë²„ê°€ ë°ì´í„°ë² ì´ìŠ¤ì— ì—†ë‹¤ëŠ” ë©”ì‹œì§€ ì „ì†¡");
             }
         });
     }
 
-    // ¼­¹ö Å¸ÀÔ+ÀÌ¸§À¸·Î ÇØ´ç ¼­¹ö µ¥ÀÌÅÍ ¹İÈ¯ÇÏ±â
+    // ì„œë²„ íƒ€ì…+ì´ë¦„ìœ¼ë¡œ í•´ë‹¹ ì„œë²„ ë°ì´í„° ë°˜í™˜í•˜ê¸°
     public void GetServerData(string key, ServerType type, Action<ServerData> onSuccess = null, Action<string> onFail = null)
     {
         DatabaseReference serverRoot = GetServerBaseRef(type);
@@ -477,8 +373,8 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.LogError("¼­¹ö ºÒ·¯¿À±â ½ÇÆĞ");
-                onFail?.Invoke("ºÒ·¯¿À±â ½ÇÆĞ");
+                Debug.LogError("ì„œë²„ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
+                onFail?.Invoke("ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
                 return;
             }
 
@@ -488,31 +384,31 @@ public class BackendManager : Singleton<BackendManager>
             {
                 string json = snapshot.GetRawJsonValue();
                 ServerData data = JsonUtility.FromJson<ServerData>(json);
-                Debug.Log($"¼­¹ö µ¥ÀÌÅÍ ºÒ·¯¿À±â ¼º°ø: {json}");
+                Debug.Log($"ì„œë²„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì„±ê³µ: {json}");
 
                 onSuccess?.Invoke(data);
             }
             else
             {
-                Debug.LogWarning("¼­¹ö µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ½.");
-                onFail?.Invoke("¼­¹ö µ¥ÀÌÅÍ°¡ ¾ø´Ù´Â ¸Ş½ÃÁö Àü¼Û");
+                Debug.LogWarning("ì„œë²„ ë°ì´í„°ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ.");
+                onFail?.Invoke("ì„œë²„ ë°ì´í„°ê°€ ì—†ë‹¤ëŠ” ë©”ì‹œì§€ ì „ì†¡");
             }
 
         });
     }
 
-    // ÇØ´ç Á¾·ùÀÇ ¸ğµç ¼­¹ö ¹İÈ¯ (ex. type = InGameServer ¶ó¸é ¸ğµç ÀÎ°ÔÀÓ ¼­¹ö¸¦ µñ¼Å³Ê¸®·Î °¡Á®¿È)
+    // í•´ë‹¹ ì¢…ë¥˜ì˜ ëª¨ë“  ì„œë²„ ë°˜í™˜ (ex. type = InGameServer ë¼ë©´ ëª¨ë“  ì¸ê²Œì„ ì„œë²„ë¥¼ ë”•ì…”ë„ˆë¦¬ë¡œ ê°€ì ¸ì˜´)
     public void LoadAllTargetTypeServers(ServerType type, Action<Dictionary<string, ServerData>> onSuccess = null, Action<string> onFail = null)
     {
-        // ÇØ´ç Å¸ÀÔÀÇ ÀúÀå¼Ò Á¢±Ù
+        // í•´ë‹¹ íƒ€ì…ì˜ ì €ì¥ì†Œ ì ‘ê·¼
         DatabaseReference serverRoot = GetServerBaseRef(type);
-        Debug.Log($"¼­¹öµé ºÒ·¯¿À±â... Å¸ÀÔ:{type}");
+        Debug.Log($"ì„œë²„ë“¤ ë¶ˆëŸ¬ì˜¤ê¸°... íƒ€ì…:{type}");
         serverRoot.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.LogError("¼­¹ö ¸®½ºÆ® ºÒ·¯¿À±â ½ÇÆĞ");
-                onFail?.Invoke("ºÒ·¯¿À±â ½ÇÆĞ");
+                Debug.LogError("ì„œë²„ ë¦¬ìŠ¤íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
+                onFail?.Invoke("ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
                 return;
             }
 
@@ -523,7 +419,7 @@ public class BackendManager : Singleton<BackendManager>
             {
                 string key = child.Key; // ex) "In Game Server 01 (KR)"
                 string json = child.GetRawJsonValue();
-                //Debug.Log($"¼­¹ö JSON: {json}");
+                //Debug.Log($"ì„œë²„ JSON: {json}");
                 ServerData data = JsonUtility.FromJson<ServerData>(json);
 
                 serverDict[key] = data;
@@ -533,15 +429,15 @@ public class BackendManager : Singleton<BackendManager>
         });
     }
 
-    // ¼­¹ö ¸®½ºÆ® Áß¿¡ 1. °¡Àå ÀÎ¿øÀÌ ¸¹°í, 2. Á¢¼Ó °¡´ÉÇÑ ¼­¹ö¸¦ ¹İÈ¯
+    // ì„œë²„ ë¦¬ìŠ¤íŠ¸ ì¤‘ì— 1. ê°€ì¥ ì¸ì›ì´ ë§ê³ , 2. ì ‘ì† ê°€ëŠ¥í•œ ì„œë²„ë¥¼ ë°˜í™˜
     public void QuickSearchAccessableServer(Dictionary<string, ServerData> serverDic, Action<ServerData> onSuccess, Action<string> onFail = null)
     {
-        Debug.Log("º£½ºÆ® ¼­¹ö Ã£±â");
+        Debug.Log("ë² ìŠ¤íŠ¸ ì„œë²„ ì°¾ê¸°");
 
 
         if (serverDic == null || serverDic.Count == 0)
         {
-            onFail?.Invoke("¼­¹ö µñ¼Å³Ê¸®°¡ ºñ¾î ÀÖÀ½");
+            onFail?.Invoke("ì„œë²„ ë”•ì…”ë„ˆë¦¬ê°€ ë¹„ì–´ ìˆìŒ");
             return;
         }
 
@@ -564,13 +460,13 @@ public class BackendManager : Singleton<BackendManager>
 
         if (bestServer != null)
         {
-            Debug.Log($"QuickSearch °á°ú: {bestServer.name} (Á¢¼Ó °¡´É ÀÎ¿ø: {bestServer.curPlayerCount}/{bestServer.maxPlayerCount})");
+            Debug.Log($"QuickSearch ê²°ê³¼: {bestServer.name} (ì ‘ì† ê°€ëŠ¥ ì¸ì›: {bestServer.curPlayerCount}/{bestServer.maxPlayerCount})");
             onSuccess?.Invoke(bestServer);
         }
         else
         {
-            Debug.LogWarning("Á¢¼Ó °¡´ÉÇÑ ¼­¹ö°¡ ¾øÀ½");
-            onFail?.Invoke("Á¢¼Ó °¡´ÉÇÑ ¼­¹ö ¾øÀ½");
+            Debug.LogWarning("ì ‘ì† ê°€ëŠ¥í•œ ì„œë²„ê°€ ì—†ìŒ");
+            onFail?.Invoke("ì ‘ì† ê°€ëŠ¥í•œ ì„œë²„ ì—†ìŒ");
         }
     }
 
@@ -581,7 +477,7 @@ public class BackendManager : Singleton<BackendManager>
 
         reference.Child("curPlayerCount").RunTransaction(mutableData =>
         {
-            //Debug.LogWarning($"¿Ö ÀÌ°Å ÀÚ²Ù null¸¸ ¶ßÁö? ¼­¹ö¿¡ µ¥ÀÌÅÍ ÀÖ´Âµ¥? {mutableData.Value}");
+            //Debug.LogWarning($"ì™œ ì´ê±° ìê¾¸ nullë§Œ ëœ¨ì§€? ì„œë²„ì— ë°ì´í„° ìˆëŠ”ë°? {mutableData.Value}");
             if (mutableData.Value == null)
             {
                 long serverUserCount = PhotonNetwork.CountOfPlayersOnMaster + PhotonNetwork.CountOfPlayersInRooms;
@@ -598,7 +494,7 @@ public class BackendManager : Singleton<BackendManager>
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"¼­¹ö ÀÎ¿ø °»½Å ½ÇÆĞ - Çüº¯È¯ ¿À·ù: {e.Message}");
+                    Debug.LogError($"ì„œë²„ ì¸ì› ê°±ì‹  ì‹¤íŒ¨ - í˜•ë³€í™˜ ì˜¤ë¥˜: {e.Message}");
                     return TransactionResult.Abort();
                 }
             }
@@ -609,9 +505,9 @@ public class BackendManager : Singleton<BackendManager>
 
     #endregion
 
-    #region ·©Å· ½Ã½ºÅÛ
+    #region ë­í‚¹ ì‹œìŠ¤í…œ
 
-    // À¯Àú ·©Å· µ¥ÀÌÅÍ »ı¼º (·Î±×ÀÎ or °Ô½ºÆ® ¹«°ü => ±×³É Á¡¼ö¶û À¯Àú ¾ÆÀÌµğ, ´Ğ³×ÀÓ¸¸ ÀÖÀ¸¸é µÊ)
+    // ìœ ì € ë­í‚¹ ë°ì´í„° ìƒì„± (ë¡œê·¸ì¸ or ê²ŒìŠ¤íŠ¸ ë¬´ê´€ => ê·¸ëƒ¥ ì ìˆ˜ë‘ ìœ ì € ì•„ì´ë””, ë‹‰ë„¤ì„ë§Œ ìˆìœ¼ë©´ ë¨)
     public void InitLocalPlayerRankingData(RankData rankData)
     {
         DatabaseReference root = Database.RootReference;
@@ -621,10 +517,10 @@ public class BackendManager : Singleton<BackendManager>
         reference.SetRawJsonValueAsync(json);
     }
 
-    // À¯Àú ·©Å· µ¥ÀÌÅÍ ºÒ·¯¿À±â (Á¡¼ö ºñ±³¿ë)
+    // ìœ ì € ë­í‚¹ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° (ì ìˆ˜ ë¹„êµìš©)
     public void LoadLocalPlayerRankData(string userId, Action<RankData> onSuccess = null, Action<string> onFail = null)
     {
-        //Debug.LogWarning("·©Å· µ¥ÀÌÅÍ ¹Ş¾Æ¿À±â");
+        //Debug.LogWarning("ë­í‚¹ ë°ì´í„° ë°›ì•„ì˜¤ê¸°");
 
         DatabaseReference root = Database.RootReference;
         DatabaseReference reference = root.Child("RankingBoardData").Child(userId);
@@ -633,14 +529,14 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("·©Å· µ¥ÀÌÅÍ ºÒ·¯¿À±â Ãë¼ÒµÊ.");
-                onFail?.Invoke("Ãë¼Ò ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError("ë­í‚¹ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì·¨ì†Œë¨.");
+                onFail?.Invoke("ì·¨ì†Œ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError($"·©Å· µ¥ÀÌÅÍ ºÒ·¯¿À±â ½ÇÆĞ: {task.Exception}");
-                onFail?.Invoke("½ÇÆĞ ¸Ş½ÃÁö Àü´Ş¿ë");
+                Debug.LogError($"ë­í‚¹ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨: {task.Exception}");
+                onFail?.Invoke("ì‹¤íŒ¨ ë©”ì‹œì§€ ì „ë‹¬ìš©");
                 return;
             }
 
@@ -650,19 +546,19 @@ public class BackendManager : Singleton<BackendManager>
             {
                 string json = snapshot.GetRawJsonValue();
                 RankData data = JsonUtility.FromJson<RankData>(json);
-                Debug.Log($"·©Å· µ¥ÀÌÅÍ ºÒ·¯¿À±â ¼º°ø: {json}");
+                Debug.Log($"ë­í‚¹ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì„±ê³µ: {json}");
                 onSuccess?.Invoke(data);
             }
             else
             {
-                Debug.LogWarning("·©Å· µ¥ÀÌÅÍ°¡ Á¸ÀçÇÏÁö ¾ÊÀ½.");
-                onFail?.Invoke("·©Å· µ¥ÀÌÅÍ°¡ ¾ø´Ù´Â ¸Ş½ÃÁö Àü¼Û");
+                Debug.LogWarning("ë­í‚¹ ë°ì´í„°ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ.");
+                onFail?.Invoke("ë­í‚¹ ë°ì´í„°ê°€ ì—†ë‹¤ëŠ” ë©”ì‹œì§€ ì „ì†¡");
             }
         });
 
     }
 
-    // À¯Àú ½Å±â·ÏÀ» ÇØ´ç À¯ÀúÀÇ ·©Å· µ¥ÀÌÅÍ¿¡ ¾÷µ¥ÀÌÆ®
+    // ìœ ì € ì‹ ê¸°ë¡ì„ í•´ë‹¹ ìœ ì €ì˜ ë­í‚¹ ë°ì´í„°ì— ì—…ë°ì´íŠ¸
     public void UpdateHighScore(int newScore, string UserId)
     {
         DatabaseReference root = Database.RootReference;
@@ -670,57 +566,11 @@ public class BackendManager : Singleton<BackendManager>
 
         Dictionary<string, object> dic = new Dictionary<string, object>();
         
-        dic["name"] = PhotonNetwork.NickName; //´Ğ³×ÀÓÀ» º¯°æÇßÀ» ¶§ Àû¿ëÇÏ´Â °É ´ëºñ
+        dic["userName"] = PhotonNetwork.NickName; //ë‹‰ë„¤ì„ì„ ë³€ê²½í–ˆì„ ë•Œ ì ìš©í•˜ëŠ” ê±¸ ëŒ€ë¹„
         dic["highScore"] = newScore;
 
         reference.UpdateChildrenAsync(dic);
     }
-
-    // ·©Å· µ¥ÀÌÅÍ¸¦ Á¤·ÄÇØ¼­ 1 ~ 10À§±îÁö ¹İÈ¯
-    public void UpdateRankingBoard_SortedByScore(Action<List<KeyValuePair<string, RankData>>> onSuccess = null)
-    {
-        LoadAllRankData((dic) =>
-        {
-            // highScore ±âÁØ ³»¸²Â÷¼ø Á¤·Ä
-            var top10List = dic
-                .OrderByDescending(kvp => kvp.Value.highScore)
-                .Take(10)
-                .ToList();
-
-            //Debug.Log("·©Å· Top 10:");
-            for (int i = 0; i < top10List.Count; i++)
-            {
-                var entry = top10List[i];
-                //Debug.Log($"{i + 1}À§ - {entry.Value.userName} / Á¡¼ö: {entry.Value.highScore}");
-            }
-
-            onSuccess?.Invoke(top10List);
-        });
-    }
-
-    // º»ÀÎÀÇ ¼øÀ§ ¹Ş¾Æ¿À±â
-    public void GetRankNumb(string userId,Action<int> onSuccess = null, Action<string> onFail = null)
-    {
-        //Debug.LogWarning("·©Å© ¼øÀ§ ¹Ş¾Æ¿À±â");
-        LoadAllRankData((dic) =>
-        {
-            // highScore ±âÁØ ³»¸²Â÷¼ø Á¤·Ä
-            var sortedList = dic.OrderByDescending(kvp => kvp.Value.highScore).ToList();
-
-            for (int i = 0; i < sortedList.Count; i++)
-            {
-                if (sortedList[i].Value.userId == userId)
-                {
-                    //Debug.LogWarning("³» µ¥ÀÌÅÍ ¹ß°ß, ¼øÀ§ ¹İÈ¯");
-                    onSuccess?.Invoke(i);
-                    return;
-                }
-            }
-            Debug.LogWarning("³» µ¥ÀÌÅÍ ¹ß°ß ¸øÇÔ");
-            onFail?.Invoke("·©Å·¿¡ ³» Á¤º¸ ¾øÀ½");
-        });
-    }
-
 
     public void LoadAllRankData(Action<Dictionary<string, RankData>> onSuccess = null, Action<string> onFail = null)
     {
@@ -730,8 +580,8 @@ public class BackendManager : Singleton<BackendManager>
         {
             if (task.IsCanceled || task.IsFaulted)
             {
-                Debug.LogError("·©Å© µ¥ÀÌÅÍµé ºÒ·¯¿À±â ½ÇÆĞ");
-                onFail?.Invoke("ºÒ·¯¿À±â ½ÇÆĞ");
+                Debug.LogError("ë­í¬ ë°ì´í„°ë“¤ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
+                onFail?.Invoke("ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
                 return;
             }
 
@@ -761,10 +611,10 @@ public class UserData
     public int level;
     public int money;
     public int kills;
-    public float suvivalTime;
+    public float survivalTime;
     public float highScore;
     public string startingPokemonName;
-    public List<int> owndItemList;
+    public List<int> ownedItemList;
     public int heldItem;
 
 
@@ -775,11 +625,11 @@ public class UserData
         this.level = 1;
         this.money = 0;
         this.kills = 0;
-        this.suvivalTime = 0;
+        this.survivalTime = 0;
         this.highScore = 0;
         this.startingPokemonName = "";
         this.userId = userId;
-        owndItemList = new List<int>();
+        ownedItemList = new List<int>();
     }
 }
 
